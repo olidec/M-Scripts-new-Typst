@@ -1,6 +1,6 @@
 // ============================================================
 //  preamble.typ — shared engine
-//  Import with:  #import "../../common/preamble.typ": *
+//  Import with:  #import "preamble.typ": *
 //
 //  Originally built for the Sequences & Series unit; now shared
 //  across all units. Entry points per unit look like:
@@ -88,11 +88,54 @@
 
 // ── Chapter registry ─────────────────────────────────────────
 // register_chapters takes entries of two shapes:
-//   ("Title", "filename")            — unit-scoped document (unchanged)
-//   ("Title", "filename", "Part")    — multi-unit document; a divider
-//                                       page is inserted automatically
-//                                       whenever "Part" changes from
-//                                       the previous entry.
+//   ("Title", "/path/from/root/filename")            — unit-scoped document
+//   ("Title", "/path/from/root/filename", "Part")     — multi-unit document;
+//                                       a divider page is inserted
+//                                       automatically whenever "Part"
+//                                       changes from the previous entry.
+//
+// IMPORTANT — the filename MUST be a root-absolute path (starting with
+// "/", resolved against whatever --root the compiler was given), NOT a
+// bare filename like "ch-basics". This is not a style preference — it's
+// required for correctness. Typst resolves a file path relative to the
+// file the path-taking call is textually written in, not relative to
+// whichever file called that code. include_chapters()'s `include`
+// statement (and read-chapter-files()'s `read()` below) are written
+// inside THIS file (preamble.typ, living in src/common/), so a bare
+// relative filename would resolve against src/common/ and fail with
+// "file not found" — regardless of which main-*.typ registered it.
+// Root-absolute paths sidestep this entirely, since Typst resolves
+// them against the project root itself, independent of which file's
+// source contains the include/read call.
+//
+// TWO DIFFERENT CONVENTIONS DEPENDING ON WHO READS THE FILE BACK:
+//
+// (a) A unit's OWN main-basic.typ / main-high.typ — these get read
+//     back by read-chapter-files() (from that unit's exercises.typ
+//     and solutions-*.typ), and that function reads the file as
+//     PLAIN TEXT and pattern-matches literal quoted strings — it
+//     does not evaluate Typst expressions. So each entry's path
+//     must be a full literal string, written out in full, e.g.
+//     (from src/units/sequences-series/main-high.typ):
+//       #register_chapters(
+//         ("Basics", "/src/units/sequences-series/ch-basics"),
+//         ("Arithmetic", "/src/units/sequences-series/ch-arithmetic"),
+//       )
+//     A `#let unit = "/src/..."` shortcut would break silently here:
+//     read-chapter-files() would only recover the bare suffix after
+//     the "+" (e.g. "ch-basics"), losing the root-absolute prefix,
+//     and whichever file called read-chapter-files() would then hit
+//     this exact same access-denied/file-not-found problem itself.
+//
+// (b) Anything NOT read back by read-chapter-files() — currently
+//     that's only the multi-unit years/*.typ binders — CAN use a
+//     `#let` shortcut safely, since nothing re-parses these files as
+//     text; Typst evaluates the concatenation normally:
+//       #let af = "/src/units/algebra-functions/"
+//       #register_chapters(
+//         ("Algebra Foundations", af + "ch-algebra-foundations", "Algebra & Functions"),
+//       )
+//
 // include_chapters then includes each file in order with a pagebreak
 // (or a part-divider, when the part changes) between them. Heading
 // numbering is handled automatically by Typst's heading counter —
@@ -143,10 +186,20 @@
 // register_chapters(...) block of a main file, so that derived
 // documents (exercise sheet, solutions booklets) always follow the
 // same chapter list and order as the lecture notes.
-//   #for f in read-chapter-files(from: "main-high.typ") { ... }
-// Reads only the filename (2nd element) of each entry; part labels
-// (3rd element, if present) are irrelevant here since exercise
-// sheets and solutions booklets stay unit-scoped by design.
+//   #for f in read-chapter-files(from: "/src/units/sequences-series/main-high.typ") { ... }
+// IMPORTANT: `from` must also be root-absolute, same reasoning as
+// register_chapters above — this function's `read()` call lives in
+// preamble.typ, so a bare "main-high.typ" would resolve against
+// src/common/ and fail. Reads only the filename (2nd element) of
+// each entry; part labels (3rd element, if present) are irrelevant
+// here since exercise sheets and solutions booklets stay unit-scoped
+// by design.
+// NOTE: this reads the main file as plain text and pattern-matches
+// quoted strings — it does NOT evaluate Typst expressions. Each
+// register_chapters entry's filename must therefore still appear as
+// a literal quoted string on its own line (e.g. unit + "ch-basics"
+// written out, or the full literal path) for this parser to see it;
+// see the register_chapters comment above for the exact convention.
 #let read-chapter-files(from: "main-high.typ") = {
   let src = read(from)
   let files = ()
@@ -853,14 +906,24 @@
 //  IMAGES — external image files (photos, scans, screenshots,
 //  complex GeoGebra/Desmos exports not worth hand-coding). Per
 //  STYLE_GUIDE.md §7, every unit keeps these in an `images/`
-//  folder next to its chapter files. fig() hardcodes that prefix
-//  in one place, so a filename in a chapter file can never
-//  accidentally point at a differently-named folder ("figures/",
-//  "img/", ...) by a typo — the folder name lives here, once.
+//  folder next to its chapter files.
+//
+//  fig() does NOT load the image itself — it only centers whatever
+//  content you give it and adds an optional caption below. This is
+//  a change from an earlier version that took a bare filename and
+//  hardcoded the "images/" prefix internally: that doesn't actually
+//  work, because Typst resolves a file path relative to wherever the
+//  #image(...) call is textually written, not relative to whichever
+//  chapter called the function containing it. Since fig() lives in
+//  preamble.typ (in src/common/), an #image("images/" + filename)
+//  call written inside fig() would always look in src/common/images/
+//  — never the calling chapter's own images/ folder. The #image(...)
+//  call has to be written directly in the chapter file itself for
+//  its relative path to resolve against that chapter's own location.
 //
 //  Usage:
-//    #fig("linear-transformation-example.png")
-//    #fig("quadratic-vertex-sketch.svg", width: 60%, caption: [
+//    #fig(image("images/linear-transformation-example.png", width: 80%))
+//    #fig(image("images/quadratic-vertex-sketch.svg", width: 60%), caption: [
 //      Shifting the parabola 2 units left and 1 unit up.
 //    ])
 //
@@ -871,8 +934,8 @@
 //  Wrap a specific call in #only-theory[...] yourself if you want
 //  that occurrence suppressed on the exercise sheet.
 // ════════════════════════════════════════════════════════════
-#let fig(filename, width: 80%, caption: none) = align(center, block(width: 100%, {
-  image("images/" + filename, width: width)
+#let fig(body, caption: none) = align(center, block(width: 100%, {
+  body
   if caption != none {
     v(4pt)
     text(size: 9pt, fill: luma(110), style: "italic", caption)
@@ -901,7 +964,7 @@
 //  label-pos / label-side, per-function domains, scatter/line-plot,
 //  Riemann sums, volumes of revolution, ...), call `plot` (or the
 //  relevant function) directly — both are imported below and
-//  available anywhere #import "../../common/preamble.typ": * is used.
+//  available anywhere #import "preamble.typ": * is used.
 //
 //  Usage (same call shape as before):
 //    #plot-graph(
