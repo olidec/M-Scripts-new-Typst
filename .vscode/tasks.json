@@ -33,7 +33,7 @@
         "${file}",
         "${fileDirname}/${fileBasenameNoExtension}.pdf"
       ],
-      "group": { "kind": "build", "isDefault": true },
+      "group": "build",
       "presentation": { "reveal": "silent", "panel": "shared", "clear": true },
       "problemMatcher": {
         "owner": "typst",
