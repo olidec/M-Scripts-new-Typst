@@ -59,7 +59,16 @@ DIST_DIR="dist"
 UNITS_DIR="$SRC_DIR/units"
 YEARS_DIR="$SRC_DIR/years"
 
-TYPST_FLAGS=(--diagnostic-format short)
+# Resolve the project root as the directory this script itself lives in,
+# rather than assuming the caller's cwd — this is what gets passed to
+# `typst --root`. Without an explicit --root, Typst defaults the project
+# root to the directory of whichever file is being compiled, which then
+# rejects any "../" import that climbs above that file's own folder with
+# "failed to load file (access denied)" — not a real permissions issue,
+# just Typst's sandbox refusing to resolve outside the assumed root.
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+TYPST_FLAGS=(--root "$PROJECT_ROOT" --diagnostic-format short)
 
 # ---- small helpers ------------------------------------------------
 

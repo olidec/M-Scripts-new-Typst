@@ -26,6 +26,8 @@
       "command": "typst",
       "args": [
         "compile",
+        "--root",
+        "${workspaceFolder}",
         "--diagnostic-format",
         "short",
         "${file}",
@@ -53,6 +55,8 @@
       "command": "typst",
       "args": [
         "watch",
+        "--root",
+        "${workspaceFolder}",
         "--diagnostic-format",
         "short",
         "${file}",
