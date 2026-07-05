@@ -23,16 +23,16 @@
 #let trig = "/src/units/trigonometry/"
 
 #register_chapters(
-  ("Algebra Foundations",       af + "ch-algebra-foundations", "Algebra & Functions"),
-  ("Introduction to Functions", af + "ch-functions-intro",     "Algebra & Functions"),
-  ("Linear Functions",         af + "ch-linear",               "Algebra & Functions"),
-  ("Systems of Equations",     af + "ch-systems",              "Algebra & Functions"),
-  ("Quadratic Functions",      af + "ch-quadratic",            "Algebra & Functions"),
-  ("Power Functions",          af + "ch-powers",               "Algebra & Functions"),
-  ("Exponential Functions",    af + "ch-exponential",          "Algebra & Functions"),
-  ("Logarithms",               af + "ch-logarithms",           "Algebra & Functions"),
+  ("Algebra Foundations",       af + "/src/units/algebra-functions/ch-algebra-foundations", "Algebra & Functions"),
+  ("Introduction to Functions", af + "/src/units/algebra-functions/ch-functions-intro",     "Algebra & Functions"),
+  ("Linear Functions",         af + "/src/units/algebra-functions/ch-linear",               "Algebra & Functions"),
+  ("Systems of Equations",     af + "/src/units/algebra-functions/ch-systems",              "Algebra & Functions"),
+  ("Quadratic Functions",      af + "/src/units/algebra-functions/ch-quadratic",            "Algebra & Functions"),
+  ("Power Functions",          af + "/src/units/algebra-functions/ch-powers",               "Algebra & Functions"),
+  ("Exponential Functions",    af + "/src/units/algebra-functions/ch-exponential",          "Algebra & Functions"),
+  ("Logarithms",               af + "/src/units/algebra-functions/ch-logarithms",           "Algebra & Functions"),
 
-  ("Trigonometry",             trig + "ch-basics",             "Trigonometry"),
+  ("Trigonometry",             trig + "/src/units/trigonometry/ch-basics",             "Trigonometry"),
 )
 
 #include_chapters()
