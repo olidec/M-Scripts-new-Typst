@@ -24,7 +24,7 @@
 #pagebreak()
 
 // Include chapters in the order defined in main-high.typ
-#for fname in read-chapter-files(from: "main-high.typ") {
+#for fname in read-chapter-files(from: "/src/units/sequences-series/main-high.typ") {
   pagebreak(weak: true)
   include fname + ".typ"
 }

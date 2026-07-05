@@ -26,7 +26,7 @@
 #pagebreak()
 
 // Include chapters in the order defined in main-basic.typ
-#for fname in read-chapter-files(from: "main-basic.typ") {
+#for fname in read-chapter-files(from: "/src/units/sequences-series/main-basic.typ") {
   pagebreak(weak: true)
   include fname + ".typ"
 }

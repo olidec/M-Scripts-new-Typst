@@ -12,7 +12,7 @@
 // Extracts the filename from each ("Title", "filename") entry in
 // the register_chapters(...) block.
 #let chapter-files = {
-  let src = read("main-high.typ")
+  let src = read("/src/units/sequences-series/main-high.typ")
   let files = ()
   for line in src.split("\n") {
     let t = line.trim()
