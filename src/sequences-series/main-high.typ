@@ -1,0 +1,58 @@
+// ============================================================
+//  main-high.typ — Sequences & Series, ADVANCED level
+//  Compile with:  typst compile main-high.typ
+//
+//  This is the superset document: it registers every chapter,
+//  so exercises.typ reads its chapter list to build the full
+//  exercise sheet. To add/reorder, edit the list only.
+//  Format: ("Chapter Title", "filename")
+// ============================================================
+
+#import "preamble.typ": *
+
+// ── Level switch: Advanced ───────────────────────────────────
+#set-level("high")
+
+// ── Chapter list (single source of truth) ────────────────────
+#register_chapters(
+  ("Basics of Sequences and Series",         "ch-basics"),
+  ("Arithmetic Sequences and Series",        "ch-arithmetic"),
+  ("Higher-Order Arithmetic Sequences",      "ch-higher-order"),
+  ("Geometric Sequences and Series",         "ch-geometric"),
+  ("Mathematical Proofs and Induction",      "ch-proofs"),
+)
+
+// ── Base typography ──────────────────────────────────────────
+#set text(font: "New Computer Modern", size: 11pt, lang: "en")
+#set par(justify: true, leading: 0.7em)
+#set heading(numbering: "1.1")
+
+// ── Title page ───────────────────────────────────────────────
+#set page(..chapter-page-setup, header: none, footer: none, numbering: none)
+
+#align(center)[
+  #v(4cm)
+  #text(size: 28pt, weight: "bold")[Sequences & Series]
+  #v(0.5em)
+  #text(size: 16pt, fill: accent)[Advanced]
+  #v(0.5em)
+  #text(size: 13pt, fill: luma(80))[Lecture Notes]
+  #v(3cm)
+  #line(length: 60%, stroke: 1pt + accent)
+  #v(1cm)
+  #text(size: 11pt, fill: luma(80))[#datetime.today().display("[year]")]
+]
+
+#pagebreak()
+
+// ── Table of contents ────────────────────────────────────────
+#set page(numbering: "i", ..chapter-page-setup)
+#counter(page).update(1)
+#outline(depth: 2, indent: 1.5em)
+#pagebreak()
+
+// ── Chapters ─────────────────────────────────────────────────
+#set page(numbering: "1")
+#counter(page).update(1)
+
+#include_chapters()
