@@ -1,0 +1,151 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "unitName",
+      "type": "promptString",
+      "description": "Unit folder name under src/units/ (e.g. algebra-functions, sequences-series)"
+    },
+    {
+      "id": "unitMode",
+      "type": "pickString",
+      "description": "What to build for this unit",
+      "options": ["all", "full", "chapters", "exercises", "solutions"],
+      "default": "all"
+    },
+    {
+      "id": "yearName",
+      "type": "promptString",
+      "description": "Year file name under src/years/ (e.g. glf-y1), or 'all'"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Typst: Compile Current File",
+      "type": "shell",
+      "command": "typst",
+      "args": [
+        "compile",
+        "--diagnostic-format",
+        "short",
+        "${file}",
+        "${fileDirname}/${fileBasenameNoExtension}.pdf"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "silent", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "typst",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+):\\s*(error|warning):\\s*(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "detail": "Quick standalone compile of whatever .typ file is open — a fast proofreading loop. Chapter-heading numbering will NOT reflect its real position in a main file; use 'Build Unit...' (chapters) for that."
+    },
+    {
+      "label": "Typst: Watch Current File",
+      "type": "shell",
+      "command": "typst",
+      "args": [
+        "watch",
+        "--diagnostic-format",
+        "short",
+        "${file}",
+        "${fileDirname}/${fileBasenameNoExtension}.pdf"
+      ],
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": {
+        "owner": "typst",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\s*$",
+          "endsPattern": "^(compiled successfully|.*watching.*)$"
+        },
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+):\\s*(error|warning):\\s*(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "detail": "Live-recompiles the open file on every save. Stop it with the trash-can icon in the terminal panel."
+    },
+    {
+      "label": "Build Unit...",
+      "type": "shell",
+      "command": "./build.sh",
+      "args": ["unit", "${input:unitName}", "${input:unitMode}"],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "typst",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+):\\s*(error|warning):\\s*(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "detail": "Builds one unit: full lecture notes, standalone chapters, exercise sheet, and/or solutions booklets, depending on the mode chosen."
+    },
+    {
+      "label": "Build Year...",
+      "type": "shell",
+      "command": "./build.sh",
+      "args": ["year", "${input:yearName}"],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "typst",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+):\\s*(error|warning):\\s*(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "detail": "Builds one full-year binder (e.g. glf-y1) or 'all' year files. Opt-in only — never triggered by 'Build All Units'."
+    },
+    {
+      "label": "Build All Units",
+      "type": "shell",
+      "command": "./build.sh",
+      "args": ["all"],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": {
+        "owner": "typst",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+):\\s*(error|warning):\\s*(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "detail": "Runs 'all' for every unit under src/units/. Does NOT build year binders — those stay opt-in."
+    },
+    {
+      "label": "List Units and Years",
+      "type": "shell",
+      "command": "./build.sh",
+      "args": ["list"],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+# ============================================================
+#  .gitignore — Typst course materials (GLF/SPF, multi-unit)
+# ============================================================
+
+# ---- Build outputs --------------------------------------------
+# Everything build.sh produces is regenerable from src/, so none
+# of it belongs in version control.
+dist/
+
+# Throwaway wrapper files build.sh generates for standalone
+# chapter compiles (it deletes these itself, but ignore them too
+# in case a build gets interrupted mid-run).
+**/_wrapper-*.typ
+
+# ---- Typst tooling ----------------------------------------------
+# Local package cache some Typst setups create; safe to ignore,
+# regenerated automatically on next compile.
+.typst-cache/
+
+# ---- LaTeX legacy artifacts ---------------------------------------
+# You're mid-migration from LaTeX — old .tex files may still get
+# compiled locally for reference/comparison. Ignore the transient
+# build junk that produces, but NOT the .tex sources themselves
+# (those stay tracked until you've finished porting them).
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+
+# ---- OS clutter ----------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Editor clutter --------------------------------------------------
+# NOTE: .vscode/settings.json and .vscode/tasks.json are tracked on
+# purpose — they're shared project config (build tasks, problem
+# matcher, etc.), not personal preferences. Only ignore genuinely
+# personal/local overrides if you add them later, e.g.:
+# .vscode/*.local.json
+*.swp
+*.swo
+*~
