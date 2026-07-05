@@ -7,16 +7,16 @@
 //  Format: ("Chapter Title", "filename")
 // ============================================================
 
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 
 // ── Level switch: Foundations ────────────────────────────────
 #set-level("basic")
 
 // ── Chapter list (single source of truth) ────────────────────
 #register_chapters(
-  ("Basics of Sequences and Series",      "ch-basics"),
-  ("Arithmetic Sequences and Series",     "ch-arithmetic"),
-  ("Geometric Sequences and Series",      "ch-geometric"),
+  ("Basics of Sequences and Series",      "/src/units/sequences-series/ch-basics"),
+  ("Arithmetic Sequences and Series",     "/src/units/sequences-series/ch-arithmetic"),
+  ("Geometric Sequences and Series",      "/src/units/sequences-series/ch-geometric"),
 )
 
 // ── Base typography ──────────────────────────────────────────

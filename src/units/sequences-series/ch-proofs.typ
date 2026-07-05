@@ -2,7 +2,7 @@
 //  ch-proofs.typ — Mathematical Proofs and Induction
 //  (Advanced document only — registered solely in main-high.typ)
 // ============================================================
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 #show: chapter-template.with(title: "Mathematical Proofs and Induction")
 
 #let ex = exercise.with(chapter: "Proofs")

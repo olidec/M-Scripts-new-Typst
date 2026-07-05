@@ -1,6 +1,6 @@
 // ============================================================
 //  preamble.typ — shared engine
-//  Import with:  #import "preamble.typ": *
+//  Import with:  #import "../../common/preamble.typ": *
 //
 //  Originally built for the Sequences & Series unit; now shared
 //  across all units. Entry points per unit look like:
@@ -901,7 +901,7 @@
 //  label-pos / label-side, per-function domains, scatter/line-plot,
 //  Riemann sums, volumes of revolution, ...), call `plot` (or the
 //  relevant function) directly — both are imported below and
-//  available anywhere #import "preamble.typ": * is used.
+//  available anywhere #import "../../common/preamble.typ": * is used.
 //
 //  Usage (same call shape as before):
 //    #plot-graph(

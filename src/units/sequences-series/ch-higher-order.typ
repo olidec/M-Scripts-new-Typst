@@ -2,7 +2,7 @@
 //  ch-higher-order.typ — Higher-Order Arithmetic Sequences
 //  (Advanced document only — registered solely in main-high.typ)
 // ============================================================
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 #show: chapter-template.with(title: "Higher-Order Arithmetic Sequences")
 
 #let ex = exercise.with(chapter: "Higher-Order")

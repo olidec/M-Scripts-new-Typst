@@ -1,7 +1,7 @@
 // ============================================================
 //  ch-geometric.typ — Geometric Sequences and Series
 // ============================================================
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 #show: chapter-template.with(title: "Geometric Sequences and Series")
 
 #let ex = exercise.with(chapter: "Geometric")

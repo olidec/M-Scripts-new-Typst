@@ -1,7 +1,7 @@
 // ============================================================
 //  ch-arithmetic.typ — Arithmetic Sequences and Series
 // ============================================================
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 #show: chapter-template.with(title: "Arithmetic Sequences and Series")
 
 #let ex = exercise.with(chapter: "Arithmetic")

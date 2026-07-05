@@ -4,7 +4,7 @@
 //  Everything here also works inside a normal chapter file and
 //  behaves correctly in both levels and in exercise-sheet mode.
 // ============================================================
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 
 #show: chapter-template.with(title: "New environments — demo")
 #let ex = exercise.with(chapter: "Demo")

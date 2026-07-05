@@ -8,7 +8,7 @@
 //  show-questions: false below.
 // ============================================================
 
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 
 #show: solutions-template.with(level: "high", show-questions: true)
 

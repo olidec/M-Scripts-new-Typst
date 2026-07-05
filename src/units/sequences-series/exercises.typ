@@ -6,7 +6,7 @@
 //  Compile with:  typst compile exercises.typ
 // ============================================================
 
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 
 // ── Parse chapter filenames from main-high.typ ───────────────
 // Extracts the filename from each ("Title", "filename") entry in

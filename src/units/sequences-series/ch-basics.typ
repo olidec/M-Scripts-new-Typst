@@ -1,7 +1,7 @@
 // ============================================================
 //  ch-basics.typ — Basics of Sequences and Series
 // ============================================================
-#import "preamble.typ": *
+#import "../../common/preamble.typ": *
 #show: chapter-template.with(title: "Basics of Sequences and Series")
 
 #let ex = exercise.with(chapter: "Basics")
@@ -23,9 +23,9 @@ purely aesthetic appeal.
   columns: (1fr, 1fr, 1fr),
   gutter: 1em,
   align: center,
-  image("figures/Fractal_Broccoli.jpg"),
-  image("figures/nautilus.jpg"),
-  image("figures/wave.png"),
+  image("images/Fractal_Broccoli.jpg"),
+  image("images/nautilus.jpg"),
+  image("images/wave.png"),
 )
 
 In this chapter we make the idea of a "number pattern" precise. We introduce
