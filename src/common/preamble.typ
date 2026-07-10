@@ -253,6 +253,14 @@
   set text(font: "New Computer Modern", size: 11pt, lang: "en")
   set par(justify: true, leading: 0.7em)
   set heading(numbering: "1.1")
+  // Headings must never be the last thing on a page with their content
+  // starting fresh on the next one — sticky: true pushes a heading (and
+  // whatever follows) to the next page together if it would otherwise
+  // land alone at the bottom. This is the systematic fix for the
+  // "orphaned heading" layout problem; #pagebreak() (Typst's direct
+  // equivalent of LaTeX's \newpage) remains the right tool for any
+  // other one-off spot that needs a manual, unconditional page break.
+  show heading: set block(sticky: true)
   // On the exercise sheet, chapter/section headings carry no exercise
   // content, so suppress them; in the lecture notes they render normally.
   // Sheet mode: no headings (they carry no exercise content).
@@ -547,10 +555,24 @@
 //    #let ex = exercise.with(chapter: "Arithmetic")
 //    #ex[ <question> ][ <solution> ]
 //    #ex(level: "high")[ <question> ][ <solution> ]   // advanced only
+//    #ex(keep-together: true)[ <question with a table> ][ <solution> ]
 //
 //  level: "all"  (default) → appears in both documents + sheet
 //         "high"           → Advanced document + sheet only
 //         "basic"          → Foundations document only
+//
+//  keep-together: false (default) → exercise box may split across a
+//         page break, same as before this parameter existed
+//         true  → the whole exercise box (chapter/main mode AND
+//         solutions-booklet mode) is kept on one page — use this for
+//         anything containing a data-table() or other content that
+//         looks broken if split mid-table. Not the default everywhere
+//         because forcing every exercise to stay whole can leave
+//         awkward gaps at the bottom of a page for longer exercises;
+//         opt in per exercise instead. If a keep-together: true
+//         exercise is taller than a full page, it will overflow
+//         rather than fit — that's a sign to reconsider the exercise
+//         itself (split it into two), not a bug in this setting.
 // ────────────────────────────────────────────────────────────
 #let exercise(
   chapter: "Unknown",
@@ -558,6 +580,7 @@
   difficulty: 0,
   time: none,
   hints: (),
+  keep-together: false,
   body,
   solution,
 ) = context {
@@ -611,7 +634,7 @@
     v(0.9em)
     block(
       width: 100%,
-      breakable: true,
+      breakable: not keep-together,
       fill: luma(250),
       radius: 3pt,
       inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
@@ -635,7 +658,7 @@
     v(0.6em)
     block(
       width: 100%,
-      breakable: true,
+      breakable: not keep-together,
       fill: accent-bg,
       radius: 3pt,
       inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
@@ -1044,3 +1067,42 @@
     ..entries,
   )
 })
+
+
+// ════════════════════════════════════════════════════════════
+//  IMAGE-GRID — arrange images, plots, or any other visual content
+//  in an evenly-spaced N-column grid (2×2, 3×1, whatever the column
+//  count and item count work out to — extra items automatically
+//  wrap onto a new row, same as CSS/HTML grid auto-flow). This is
+//  the native replacement for reaching at a LaTeX multicols-style
+//  workaround: multicols was built for flowing paragraph text across
+//  columns, not laying out discrete images — grid() is a real grid.
+//
+//  Usage:
+//    #image-grid(2,
+//      fig(image("images/before.png", width: 100%)),
+//      fig(image("images/after.png", width: 100%)),
+//    )                                                     // 2×1
+//
+//    #image-grid(2,
+//      image("images/a.png", width: 100%), image("images/b.png", width: 100%),
+//      image("images/c.png", width: 100%), image("images/d.png", width: 100%),
+//    )                                                     // 2×2 (4 items ÷ 2 cols = 2 rows)
+//
+//  Give each image an explicit width: 100% (or similar) on its own
+//  #image(...) call so it fills its grid cell consistently — Typst
+//  does not auto-scale images to fit a grid column, so differently
+//  sized source files will otherwise produce an uneven-looking grid.
+//
+//  plot-graph() outputs work here too, but remember its size:/width:/
+//  height: are absolute centimeters (see the plot-graph comment
+//  above), not relative to the grid cell — pick a smaller size: for
+//  each plot when placing several side by side so they actually fit
+//  the page width together with the gutter, e.g. size: 6 rather than
+//  the 7cm default for a 2-column grid.
+#let image-grid(cols, ..items, gutter: 12pt, column-gutter: none, row-gutter: none) = grid(
+  columns: (1fr,) * cols,
+  column-gutter: if column-gutter != none { column-gutter } else { gutter },
+  row-gutter: if row-gutter != none { row-gutter } else { gutter },
+  ..items.pos(),
+)
