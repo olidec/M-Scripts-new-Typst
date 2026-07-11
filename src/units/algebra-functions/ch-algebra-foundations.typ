@@ -129,13 +129,19 @@ For example:
   where $a$, $b$, $c$, and $d$ are arbitrary algebraic expressions.
 ]
 
-#pagebreak()
-You can think of an equation as a balance:
-#image-grid(1,image("images/equation-balance.png", width: 75%),image("images/equation-balance-2.png", width: 75%))
 
-#ex(difficulty: 1, time: "15 min")[
+#pagebreak()
+You can think of an equation as a balance. If both sides are changed in the same fashion, the equation will still be true (_balanced_).
+
+#fig(image("images/equation-balance-2.png", width: 65%))
+
+If two equations are added - left side to left side and right side to right side - then the resulting equation will still be true (_balanced_).
+
+#fig(image("images/equation-balance.png", width: 65%))
+
+#ex(difficulty: 1, time: "10 min")[
   Solve the equations for each variable.
-  #parts(3,
+  #parts(2, row-gutter: 1.4em,
     [(a) $p dot V = 10$],
     [(b) $4x + 3y = 10$],
     [(c) $5 dot (x - 2y) = y - (x + 3)$],
@@ -231,7 +237,7 @@ A light year (the distance light travels in one year) is
 9,460,730,472,581 kilometers, and the mass of a single water molecule is
 0.0000000000000000000000056 grams. Without scientific notation, these
 numbers seem meaningless -- it's hard to process very large or very
-small numbers this way. If we instead write $9.46 dot 10^12$ km or
+small numbers this way. If we instead write $9.46 dot 10^(12)$ km or
 $5.6 dot 10^(-24)$ g, they immediately become clearer.
 
 #definition(title: "Scientific Notation")[
@@ -249,7 +255,7 @@ larger.
   everyone here." -- now that's an order of magnitude!
 ]
 
-#ex(difficulty: 1, time: "15 min")[
+#ex(difficulty: 1, time: "10 min")[
   Write each number in scientific notation, rounding to 3 significant
   figures.
   #parts(2,
@@ -299,7 +305,7 @@ read aloud as "the absolute value of $n$."
     ) $
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "5 min")[
   Evaluate each absolute value expression.
   #parts(3,
     [(a) $abs(-13)$],
@@ -316,7 +322,7 @@ read aloud as "the absolute value of $n$."
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "10 min")[
   Find all values of $x$ that make the equation true.
   #parts(2,
     [(a) $abs(x) = 5$],
@@ -333,6 +339,69 @@ read aloud as "the absolute value of $n$."
   )
 ]
 
+=== Natural Number Powers
+
+#look-ahead(preview: [power functions])[
+  You already know how to compute things like $2^3 = 8$ or $5^2 = 25$ —
+  here we give this idea a proper name and notation, since it comes back
+  in a much bigger way once we study functions of the form $y = x^n$.
+]
+
+#definition[
+  For a real number $a$ and a natural number $n >= 1$, the *$n$-th power*
+  of $a$ is
+  $ a^n = underbrace(a dot a dot dots.h.c dot a, n med "times") . $
+  We call $a$ the *base* and $n$ the *exponent*.
+]
+
+#example[
+  $ 2^3 = 2 dot 2 dot 2 = 8 quad quad (-3)^2 = (-3) dot (-3) = 9 quad quad 1^(100) = 1 $
+]
+
+By convention, we also define $a^0 = 1$ (for $a != 0$) and $a^1 = a$.
+
+The *$n$-th root* undoes the $n$-th power: for $a >= 0$ and a natural
+number $n$, $root(n, a)$ is the non-negative number $b$ such that
+$b^n = a$. Powers and roots are *inverse operations* of each other --
+one builds up a repeated product, the other asks "what number, raised to
+this power, gives me this result?"
+
+#keybox(title: "Powers and Roots as Inverse Operations")[
+  $ b^n = a quad <=> quad b = root(n, a), quad a >= 0, med b >= 0 $
+]
+
+#ex(difficulty: 1, time: "10 min")[
+  Evaluate.
+  #parts(4,
+    [(a) $2^5$],
+    [(b) $(-2)^4$],
+    [(c) $10^3$],
+    [(d) $0.1^2$],
+  )
+][
+  #parts(4,
+    [(a) $32$], [(b) $16$], [(c) $1000$], [(d) $0.01$],
+  )
+]
+
+#ex(difficulty: 1, time: "10 min")[
+  For each power, write the corresponding root statement, and for each
+  root, write the corresponding power statement.
+  #parts(2,
+    [(a) $3^4 = 81$],
+    [(b) $root(3, 27) = 3$],
+    [(c) $5^2 = 25$],
+    [(d) $root(4, 16) = 2$],
+  )
+][
+  #parts(2,
+    [(a) $root(4, 81) = 3$],
+    [(b) $3^3 = 27$],
+    [(c) $root(2, 25) = 5$],
+    [(d) $2^4 = 16$],
+  )
+]
+
 === Roots and Radicals
 
 The square root $sqrt(x)$ of a positive real number $x$ is a positive
@@ -344,12 +413,13 @@ The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$, $n in NN$:
 
 #keybox[
   Product: $quad root(n, a) dot root(n, b) = root(n, a dot b)$ \
+  #v(.1cm)
   Quotient: $quad root(n, a) / root(n, b) = root(n, a/b), quad b != 0$
 ]
 
-#ex(difficulty: 1, time: "15 min")[
+#ex(difficulty: 1, time: "10 min")[
   Express each in terms of the simplest possible radical.
-  #parts(3,
+  #parts(3, row-gutter: 1.4em,
     [(a) $sqrt(8)$],
     [(b) $sqrt(28)/sqrt(7)$],
     [(c) $sqrt(3) dot sqrt(12)$],
@@ -390,9 +460,9 @@ can be remembered using the mnemonic *PEMDAS*.
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following expressions.
-  #parts(2,
+  #parts(2, row-gutter: 1.4em,
     [(a) $10 - 5 dot (2-5)^2 + 6/3 + sqrt(16-7)$],
-    [(b) $abs((-3)^3 + (5^2-3)) / (-15/(-3) dot 2)$],
+    [(b) $abs((-3)^3 + (5^2-3)) / (-(15)/(-3) dot 2)$],
     [(c) $36/2^2 dot 3 - (18-5) dot 2 + 6$],
     [(d) $(-abs(5-7) + 11)/(-1-2)^2$],
   )
@@ -401,3 +471,519 @@ can be remembered using the mnemonic *PEMDAS*.
     [(a) $-30$], [(b) $1/2$], [(c) $7$], [(d) $1$],
   )
 ]
+
+== Solving Equations
+
+#ex(difficulty: 1, time: "10 min")[
+  Solve the following equations.
+  #parts(2,
+    [(a) $4x - 2 = 3x + 6$],
+    [(b) $34 - x = 4x + 12$],
+    [(c) $4.2 - 2x = 3x + 4.2$],
+    [(d) $3x + 6 = 3x - 6$],
+  )
+][
+  #parts(2,
+    [(a) $x = 8$],
+    [(b) $x = 22/5$],
+    [(c) $x = 0$],
+    [(d) false -- no solution],
+  )
+]
+
+#pagebreak()
+#ex(difficulty: 2, time: "10 min")[
+  Fill in the blanks so that both sides are equal.
+  #parts(1, row-gutter: 2em,
+  [(a) $(x + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med)^2 = x^2 + 16 + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med$],
+  [(b) $(a - med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med) dot (a + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med) = med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med - 81 b^2$],
+  [(c) $(0.5x - med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med)^2 = med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med - 1.2 x y + 1.44 y^2$],
+  [(d) $(med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med - 5t)^2 = 49 s^2 - med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med$]
+  )
+  
+][
+  + $(x + 4)^2 = x^2 + 16 + 8x$
+  + $(a - 9b) dot (a + 9b) = a^2 - 81 b^2$
+  + $(0.5x - 1.2y)^2 = 0.25 x^2 - 1.2 x y + 1.44 y^2$
+  + $(7s - 5t)^2 = 49 s^2 - 70 s t + 25 t^2$
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Solve the equations. Do a substitution check.
+  #parts(2,
+    [(a) $2x - (4 - 5x) = 10$],
+    [(b) $(x-12)^2 = (x+12)^2$],
+    [(c) $(x+3)^2 = x^2 + 18$],
+    [(d) $2x^2 - (1.5+x)^2 = (x-0.5)^2$],
+    [(e) $(10+5a) dot (3a-2) = 15a^2$],
+    [(f) $(x - 1/3)^2 = (1/3 - x)^2$],
+  )
+][
+  #parts(2,
+    [(a) $x = 2$],
+    [(b) $x = 0$],
+    [(c) $x = 3/2$],
+    [(d) $x = -1.25$],
+    [(e) $a = 1$],
+    [(f) true -- holds for all $x$],
+  )
+]
+
+== Multiplying and Factoring Algebraic Expressions
+
+=== Multiplying Algebraic Expressions
+
+#definition[
+  The *distributive law* for real numbers states that
+  $ a dot (b plus.minus c) &= a b plus.minus a c \
+    (a plus.minus b) dot c &= a c plus.minus b c $
+]
+
+#example[
+  + $2 dot (x-3) = 2x - 6$
+  + $(x-4) dot x^2 = x^3 - 4x^2$
+  + $(x+2) dot (x+3) = x^2 + 5x + 6$
+]
+
+In special cases the following formulas are particularly important:
+
+#keybox(title: "Special Products")[
+  $ (a+b) dot (a-b) &= a^2 - b^2 \
+    (a plus.minus b)^2 &= a^2 plus.minus 2 a b + b^2 $
+]
+
+#example[
+  + $(2-x) dot (2+x) = 4 - x^2$
+  + $(x+3)^2 = x^2 + 6x + 9$
+  + $(4-x)^2 = 16 - 8x + x^2$
+]
+
+=== Factoring Algebraic Expressions
+
+*Method 1: Common Factor*
+
+#example[
+  $ 2x^2 y + x y^2 - x^2 y^2 = x dot y dot (2x + y - x y) $
+]
+
+*Method 2: Trial and Error*
+
+#example[
+  $ x^2 - 4x - 12 = (x-6) dot (x+2) $
+]
+
+*Application: Solving Equations*
+
+#example[
+  $ 3x^2 + 4x - 4 &= 0 \
+    (3x - 2) dot (x + 2) &= 0 $
+  Thus $x_1 = 2/3$ and $x_2 = -2$.
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Expand and simplify.
+  #parts(3,
+    [(a) $(n+4) dot (n-5)$],
+    [(b) $(x+7) dot (x-7)$],
+    [(c) $(5m+2)^2$],
+    [(d) $(x-1)^3$],
+    [(e) $(a+b) dot (a-b+1)$],
+    [(f) $(1+sqrt(5)) dot (1-sqrt(5))$],
+  )
+][
+  #parts(3,
+    [(a) $n^2 - n - 20$],
+    [(b) $x^2 - 49$],
+    [(c) $25m^2 + 20m + 4$],
+    [(d) $x^3 - 3x^2 + 3x - 1$],
+    [(e) $a^2 + a - b^2 + b$],
+    [(f) $-4$],
+  )
+]
+
+#ex(difficulty: 2, time: "20 min")[
+  Factor each expression.
+  #parts(2,
+    [(a) $12x^2 - 48$],
+    [(b) $x^3 - 6x^2$],
+    [(c) $x^2 + x - 12$],
+    [(d) $7 - 6m - m^2$],
+    [(e) $x^2 - 10x + 16$],
+    [(f) $3n^2 - 21n + 30$],
+    [(g) $a^2 - 16$],
+    [(h) $x^4 - 1$],
+    [(i) $9 - (y-3)^2$],
+    [(j) $4z^4 - 8z^3 - 96z^2$],
+  )
+][
+  #parts(2,
+    [(a) $12 dot (x-2) dot (x+2)$],
+    [(b) $x^2 dot (x-6)$],
+    [(c) $(x-3) dot (x+4)$],
+    [(d) $-(m-1) dot (7+m)$],
+    [(e) $(x-2) dot (x-8)$],
+    [(f) $3 dot (n-2) dot (n-5)$],
+    [(g) $(a+4) dot (a-4)$],
+    [(h) $(x^2+1) dot (x+1) dot (x-1)$],
+    [(i) $-y dot (y-6)$],
+    [(j) $4z^2 dot (z-6) dot (z+4)$],
+  )
+]
+
+#ex(difficulty: 2, time: "20 min")[
+  Solve the following equations.
+  #parts(2,
+    [(a) $x dot (x-3) = 0$],
+    [(b) $4x^2 - 12x = 0$],
+    [(c) $x^2 - 16 = 0$],
+    [(d) $(1-x)^2 = 4$],
+    [(e) $(x-2) dot (2-3x) dot (x+7) = 0$],
+    [(f) $x^2 - x - 12 = 0$],
+    [(g) $x^2 = -1$],
+    [(h) $x^2 + 9x + 20 = 0$],
+    [(i) $(x-2)^2 + 4 = 0$],
+    [(j) $x^2 - 7x + 12 = 0$],
+  )
+][
+  #parts(2,
+    [(a) $x_1 = 0$, $x_2 = 3$],
+    [(b) $x_1 = 0$, $x_2 = 3$],
+    [(c) $x_(1,2) = plus.minus 4$],
+    [(d) $x_1 = -1$, $x_2 = 3$],
+    [(e) $x_1 = 2$, $x_2 = 2/3$, $x_3 = -7$],
+    [(f) $x_1 = -3$, $x_2 = 4$],
+    [(g) no solution],
+    [(h) $x_1 = -4$, $x_2 = -5$],
+    [(i) no solution],
+    [(j) $x_1 = 3$, $x_2 = 4$],
+  )
+]
+
+== Working with Fractions
+
+A fraction $a/b$ is simply an alternative way of writing the division
+$a : b$. If you remember the following, you should be set:
+- In a fraction, the upper number (or expression) is called the
+  *numerator*, and the lower one is called the *denominator*.
+- A fraction can be *simplified* if and only if the numerator and
+  denominator share a common *factor* (e.g. $4/12 = (4 dot 1)/(4 dot 3) = 1/3$).
+- The minus sign of a negative fraction can be in many different places:
+  $ -a/b = (-a)/b = a/(-b) = (-1) dot a/b\. $
+- Fractions can be added and subtracted only if they have a common
+  denominator:
+  $ (a+c)/(2b^2) + (a-c)/(2b^2) = (2a)/(2b^2) = a/b^2\. $
+- Sometimes it's useful to split a fraction into multiple summands:
+  $ (a+b)/c = a/c + b/c\. $
+
+#example[
+  $ (1-x^2)/(x^2+x-2) = ((1-x)(1+x))/((x-1)(x+2)) = (-(1+x))/(x+2) = -(x+1)/(x+2) $
+]
+#example[
+  $ x - 1/x = x^2/x - 1/x = (x^2-1)/x $
+]
+#example[
+  $ (a/b + 1)/(1 - a/b) = (a/b + b/b)/(b/b - a/b) = ((a+b)/b)/((b-a)/b) = (a+b)/b dot b/(b-a) = (a+b)/(b-a) $
+]
+
+#ex(difficulty: 1, time: "15 min")[
+  Simplify the following fractions.
+  #parts(3,
+    [(a) $(8a dot b)/(64a^2b^2)$],
+    [(b) $(24a^2)/(24a dot b)$],
+    [(c) $(-27a^5)/(9a^4)$],
+    [(d) $(12a^3 dot x dot y)/(10x^2)$],
+    [(e) $(-45a dot b dot m^3 dot n)/(-10m dot n^2)$],
+    [(f) $(15x^2 dot y)/(35x dot y^2)$],
+  )
+][
+  #parts(3,
+    [(a) $1/(8a dot b)$],
+    [(b) $a/b$],
+    [(c) $-3a$],
+    [(d) $(6a^3y)/(5x)$],
+    [(e) $(9a dot b dot m^2)/(2n)$],
+    [(f) $(3x)/(7y)$],
+  )
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Simplify the following fractions.
+  #parts(3,
+    [(a) $(28a-35b)/21$],
+    [(b) $(5x+5y)/(25x+25y)$],
+    [(c) $(8a+16b)/(24a-8b)$],
+    [(d) $25/(5x+10)$],
+    [(e) $(18a^2 dot b dot c)/(18a^2 dot b^2 dot c+54a^2 dot b dot c^2)$],
+    [(f) $(r dot s+r dot t)/(s dot x+t dot x)$],
+  )
+][
+  #parts(3,
+    [(a) $(4a-5b)/3$],
+    [(b) $1/5$],
+    [(c) $(a+2b)/(3a-b)$],
+    [(d) $5/(x+2)$],
+    [(e) $1/(b+3c)$],
+    [(f) $r/x$],
+  )
+]
+
+#ex(difficulty: 2, time: "20 min")[
+  Simplify the following fractions.
+  #parts(3,
+    [(a) $(x^2-25)/(x^2+10x+25)$],
+    [(b) $(a^4-1)/(a^2-1)$],
+    [(c) $(9x^2-16y^2)/(8y-6x)$],
+    [(d) $(x^4-2x^2+1)/(x^3-x)$],
+    [(e) $(4x-4a dot x)/(4a^2-4)$],
+    [(f) $(x^4-16)/(x+2)$],
+  )
+][
+  #parts(3,
+    [(a) $(x-5)/(x+5)$],
+    [(b) $a^2+1$],
+    [(c) $-(3x+4y)/2$],
+    [(d) $(x^2-1)/x$],
+    [(e) $-x/(a+1)$],
+    [(f) $(x^2+4) dot (x-2)$],
+  )
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Multiply and simplify.
+  #parts(3,
+    [(a) $(8a)/(27b) dot (9b dot c)/(16a)$],
+    [(b) $3a dot 4/(5a)$],
+    [(c) $44x^2y^2 dot (-2x^3)/(11y^3)$],
+    [(d) $p/q dot p q$],
+    [(e) $(-x^2y)/(28z^3) dot (7z^2)/(x^2y^2)$],
+    [(f) $(9a)/(4b) dot 6a dot b$],
+  )
+][
+  #parts(3,
+    [(a) $c/6$],
+    [(b) $12/5$],
+    [(c) $-(8x^5)/y$],
+    [(d) $p^2$],
+    [(e) $-1/(4y dot z)$],
+    [(f) $(27a^2)/2$],
+  )
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Divide and simplify.
+  #parts(2,
+    [(a) $(5k dot m)/6 : (3k)/(2m)$],
+    [(b) $19r^2s^2 : (19r^2s^2)/(23t)$],
+    [(c) $(x dot y)/(w dot z) : y dot z$],
+    [(d) $(-(72f)/(85h^3)) : (-(48f^2)/(85h^3))$],
+    [(e) $(-14x dot y)/(9z^3) : (21x^2)/(99z^2)$],
+    [(f) $(9c^2 dot d)/(a dot b) : 9c^2 dot d$],
+  )
+][
+  #parts(2,
+    [(a) $(5m^2)/9$],
+    [(b) $23t$],
+    [(c) $x/(w dot z^2)$],
+    [(d) $3/(2f)$],
+    [(e) $-(22y)/(3x dot z)$],
+    [(f) $1/(a dot b)$],
+  )
+]
+
+#ex(difficulty: 2, time: "20 min")[
+  Add/subtract and simplify.
+  #parts(3,
+    [(a) $4a - (4a^2+5)/(a-1)$],
+    [(b) $(17a-15)/39 - (8a+9)/26$],
+    [(c) $(5c)/(6a^3) + c/(3a^2)$],
+    [(d) $1/a + 1/a^2 + 1/a^3$],
+    [(e) $1 - (c-d)/(c+d)$],
+    [(f) $5/(2a dot c) + 3/(5c dot d)$],
+  )
+][
+  #parts(3,
+    [(a) $-(4a+5)/(a-1)$],
+    [(b) $(10a-57)/78$],
+    [(c) $(5c+2a dot c)/(6a^3)$],
+    [(d) $(a^2+a+1)/a^3$],
+    [(e) $(2d)/(c+d)$],
+    [(f) $(25d+6a)/(10a dot c dot d)$],
+  )
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Simplify the following fractions.
+  #parts(2,
+    [(a) $(x+4)/(x^2+5x+4)$],
+    [(b) $(3n-2)/(6n^2-6n)$],
+    [(c) $(a^2-b^2)/(5a-5b)$],
+    [(d) $((2x+h)^2-4x^2)/h$],
+  )
+][
+  #parts(2,
+    [(a) $1/(x+1)$],
+    [(b) $(3n-2)/(6n^2-6n)$],
+    [(c) $(a+b)/5$],
+    [(d) $4x+h$],
+  )
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Perform the indicated operation and simplify.
+  #parts(2,
+    [(a) $x/5 - (x-1)/3$],
+    [(b) $2/(2x-1) - 4$],
+    [(c) $1/(x+y) + 1/(x-y)$],
+    [(d) $(3x^2-3)/(6x) dot (5x^2)/(1-x)$],
+  )
+][
+  #parts(2,
+    [(a) $(5-2x)/15$],
+    [(b) $(6-8x)/(2x-1)$],
+    [(c) $(2x)/(x^2-y^2)$],
+    [(d) $-(5x^2+5x)/2$],
+  )
+]
+
+#ex(difficulty: 1, time: "10 min")[
+  Calculate the sum.
+  $ 3/13 + 8/19 + 3/22 + 1/33 + 3/38 + 4/39 = med ? $
+][
+  $1$
+]
+
+#ex(difficulty: 1, time: "5 min")[
+  Calculate.
+  $ sqrt(1/25 + 1/144) = med ? $
+][
+  $13/60$
+]
+
+== Techniques You Know So Far
+
+Before we start applying these to real-world problems, let's take stock
+of the equation-solving methods now in your toolkit.
+
+#known-techniques(
+  "Simple transformations (do the same thing to both sides)",
+  "Factoring (common factor, trial and error)",
+)
+
+Here is a quick mixed workout using both techniques together.
+
+#ex(difficulty: 2, time: "15 min", keep-together: true)[
+  Solve each equation, using whichever technique fits best.
+  #parts(2,
+    [(a) $5x - 8 = 2x + 7$],
+    [(b) $x^2 - 5x + 6 = 0$],
+    [(c) $3 dot (2x - 1) = x + 9$],
+    [(d) $x^2 - 9x = 0$],
+  )
+][
+  #parts(2,
+    [(a) $x = 5$],
+    [(b) $x_1 = 2$, $x_2 = 3$],
+    [(c) $x = 12/5$],
+    [(d) $x_1 = 0$, $x_2 = 9$],
+  )
+]
+
+== Solving Word Problems
+
+A classic math word problem consists of two steps:
+- *Translate* the problem into an equation.
+- *Solve* the equation.
+
+As we gather more experience, we'll see that it's often necessary to add
+a third step to this process:
+- *Assess* the solution: do the numbers make sense? What consequences
+  does this result have?
+
+Even further along, we'll add an additional step at the very beginning:
+- Create a *model* that describes a given situation.
+
+The middle step -- solving the equation -- is often the least
+interesting one. As a result, the other steps will become more and more
+prominent as we progress.
+
+#ex(difficulty: 1, time: "10 min")[
+  Translate the following into an equation and solve.
+  + Four times a number is 48.
+  + A number doubled and reduced by 12 equals 10.
+  + The sum of a number and its half equals 33.
+][
+  + $4x = 48 => x = 12$
+  + $2x - 12 = 10 => x = 11$
+  + $x + x/2 = 33 => x = 22$
+]
+
+#ex(difficulty: 2, time: "10 min")[
+  To do a rope trick, a magician needs to cut a piece of rope so that one
+  piece is one-third the length of the other. If she begins with an
+  $8/3$ ft rope, what lengths will the two pieces be?
+][
+  $2/3$ ft and $2$ ft.
+]
+
+#ex(difficulty: 2, time: "10 min")[
+  Of three consecutive even integers, the sum of the smallest two is
+  equal to 6 less than the largest. Find the integers.
+][
+  $-4$, $-2$, and $0$.
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Pat averages a rate of 11 mph on his bike. One day he rode for 45 min
+  ($3/4$ hr) and then got a flat tire and had to walk back home. He
+  walked the same path he rode, and it took him 2 hr. What was his
+  average rate walking?
+][
+  4.125 mph.
+]
+
+#ex(difficulty: 2, time: "15 min")[
+  Sharyn invests \$2000 more in an account that earns 9% simple interest
+  than she invests in an account that earns 6% simple interest. How much
+  did she invest in each account if her total interest is \$405 after
+  1 year?
+][
+  9% account: \$3500. 6% account: \$1500.
+]
+
+#ex(difficulty: 2, time: "10 min")[
+  In 2003, approximately 7.2 million men were in college in the United
+  States. This represents an 8% increase over the number of men in
+  college in 2000. Approximately how many men were in college in 2000?
+  (Round to the nearest tenth of a million.)
+][
+  6.7 million.
+]
+
+#ex(difficulty: 2, time: "10 min")[
+  In 2002, there were 17,430 deaths due to alcohol-related accidents in
+  the United States. This was a 5% increase over the number of
+  alcohol-related deaths in 1999. How many such deaths were there in
+  1999?
+][
+  16,600 deaths.
+]
+
+#exploration(title: "A Better Fit")[
+  Which is a better fit: a square peg in a round hole, or a round peg in
+  a square hole?
+]
+
+#ai-box(role: "Checker")[
+  Take any two-digit number, reverse its digits, and subtract the
+  smaller number from the larger. Do you ever end up with a prime
+  number? Prove your answer on paper first, then ask an AI to check --
+  and explain -- your reasoning.
+]
+
+#exploration(title: "Make 100")[
+  How many numbers from 1 to 100 can you make using the digits 2, 0, 2,
+  and 3, each exactly once? You may use any operations you like
+  (addition, multiplication, powers, roots, etc.).
+]
+
+#print-hints()
