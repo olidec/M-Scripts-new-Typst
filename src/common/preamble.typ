@@ -36,7 +36,16 @@
 //    abstraction-ladder(l0:, l1:, l2:, l3:) — formalization figure
 // ============================================================
 
-#let subject-name = "Sequences & Series"
+// subject-name is per-document, not a global constant — every unit's
+// main-basic.typ / main-high.typ / exercises.typ / solutions-*.typ must
+// call set-subject-name("...") near the top (right after importing this
+// file) to identify itself in the header. The fallback below is
+// deliberately an obvious placeholder rather than a plausible-looking
+// unit name — if you ever see "Untitled Unit" in a header, that's the
+// signal a set-subject-name(...) call is missing from that file, not a
+// silent mislabel like defaulting to some other unit's name would be.
+#let _subject-name = state("subject-name", "Untitled Unit")
+#let set-subject-name(name) = _subject-name.update(_ => name)
 
 // ── Accent colors ────────────────────────────────────────────
 #let accent    = rgb("#0097a7")   // teal
@@ -51,6 +60,8 @@
 #let ai-bg     = rgb("#f3e5f5")   // light lilac fill
 #let expl-col  = rgb("#b26a00")   // dark amber (explorations)
 #let expl-bg   = rgb("#fff8e1")   // light amber fill
+#let ahead-col = rgb("#455a64")   // slate blue-grey (look-aheads)
+#let ahead-bg  = rgb("#eceff1")   // light blue-grey fill
 
 
 // ── Rendering switches ───────────────────────────────────────
@@ -80,9 +91,8 @@
 // several units back-to-back, e.g. Algebra & Functions, then
 // Trigonometry, then Descriptive Statistics). Unit-scoped documents
 // (main-basic.typ, main-high.typ, exercises.typ, solutions-*.typ)
-// never touch this, and the header falls back to the fixed
-// `subject-name` constant exactly as before — fully backward
-// compatible with every existing chapter/unit file.
+// never touch this, and the header falls back to whatever that
+// document's own set-subject-name(...) call declared (see above).
 #let _current-part = state("current-part", none)
 
 
@@ -282,11 +292,11 @@
     header: context {
       let lvl = if _level.get() == "basic" { "Foundations" } else { "Advanced" }
       // Multi-unit documents show whichever part is currently active;
-      // unit-scoped documents (part never set) fall back to the fixed
-      // subject-name constant exactly as before.
+      // unit-scoped documents (part never set) fall back to whatever
+      // this document's own set-subject-name(...) call declared.
       let label = {
         let p = _current-part.get()
-        if p != none { p } else { subject-name }
+        if p != none { p } else { _subject-name.get() }
       }
       let tag = if _sol-mode.get() { "Solutions — " + lvl } else { lvl }
       set text(size: 9pt, fill: luma(120))
@@ -406,6 +416,7 @@
   _bar-box(bar-color: accent, fill-color: accent-bg, [
     #if title != none [#text(weight: "bold", fill: accent)[#title] \ ]
     #body
+    #v(.1cm)
   ])
 }
 
@@ -464,8 +475,38 @@
       body
       v(4pt)
       text(size: 8.5pt, fill: luma(110), style: "italic")[
-        Not graded — but one exam problem will grow out of this exploration.
+        Not graded — but one exam problem may grow out of this exploration.
       ]
+    },
+  )
+}
+
+// look-ahead — spiral-curriculum callout, distinct in purpose from
+// exploration() above: exploration() is guided discovery of something
+// NEW; look-ahead() names something students ALREADY know (often
+// intuitively, from a special case) as an instance of a bigger idea
+// they'll meet formally later. Two flavors, one box:
+//   "you already secretly know this — let's name it properly"
+//     e.g. natural-number powers before formal power functions
+//   "here's a taste of something bigger, coming later"
+//     e.g. estimating a parabola's slope by eye, before derivatives
+// preview: names the DESTINATION TOPIC (not a chapter number — chapter
+// numbers shift with include order, see register_chapters) that this
+// foreshadows, rendered as a small forward-reference line. Omit it if
+// the look-ahead doesn't point at one specific future topic.
+#let look-ahead(title: none, preview: none, body) = context {
+  if _hide-aux() { return }
+  _bar-box(
+    bar-color: ahead-col, fill-color: ahead-bg,
+    label: "Look Ahead", title: title,
+    {
+      body
+      if preview != none {
+        v(4pt)
+        text(size: 8.5pt, fill: luma(110), style: "italic")[
+          ↗ This previews an idea we'll study formally in #preview.
+        ]
+      }
     },
   )
 }
@@ -504,6 +545,43 @@
   text(size: 9pt, fill: def-col, style: "italic", name),
 )
 
+// known-techniques — a running "here's what's in your toolkit so far"
+// recap, distinct from toolbox() above: toolbox() lists general Pólya-
+// style problem-solving MOVES (try small cases, draw a picture, ...)
+// once, early, for the whole course. known-techniques() lists SPECIFIC
+// algebraic methods for a specific kind of task (here: solving
+// equations), and is meant to be called again and again across
+// chapters with a growing list as new methods get taught — e.g. just
+// "simple transformations" and "factoring" early on, later "simple
+// transformations, factoring, the quadratic formula", and so on. Pass
+// the full current list explicitly every time (no automatic tracking
+// across chapters — chapters can be compiled standalone or reordered,
+// so there's no reliable notion of "what's been taught so far" to
+// infer automatically; the explicit list is what stays correct
+// regardless of compilation context).
+//
+// Usage — give it its own subsection heading (e.g. "== Techniques You
+// Know So Far"), not just an inline box at the end of something else —
+// it's a genuine checkpoint moment, not an aside, and a heading makes
+// it a place students can navigate back to later. Pair with a short
+// recap/refresher exercise mixing the listed techniques, right before
+// students need all of them together (e.g. right before a word-problems
+// section):
+//   == Techniques You Know So Far
+//   #known-techniques(
+//     "Simple transformations (do the same thing to both sides)",
+//     "Factoring (common factor, trial and error)",
+//   )
+//   #ex(...)[ mixed recap problem ][ ... ]
+#let known-techniques(title: "Techniques you know so far", ..items) = context {
+  if _hide-aux() { return }
+  _bar-box(bar-color: def-col, fill-color: def-bg, {
+    text(weight: "bold", fill: def-col)[#title]
+    v(2pt)
+    list(indent: 6pt, ..items.pos())
+  })
+}
+
 
 // ────────────────────────────────────────────────────────────
 //  PARTS — lettered sub-parts in a multi-column grid
@@ -511,13 +589,23 @@
 //  original multi-column layout helper for (a)/(b)/(c) exercise
 //  sub-items, kept under its original name so existing chapter
 //  files keep working unmodified.)
+//
+//  row-gutter defaults to 1em rather than a tighter value because
+//  most math-course content is fraction-heavy, and a fraction is
+//  visually much taller than a line of plain text (numerator,
+//  fraction bar, denominator all stacked) — a gutter tuned for
+//  short plain-text items reads as cramped once fractions show up,
+//  which in practice is most of the time here. Override per call
+//  for anything that wants tighter or looser spacing:
+//    #parts(3, row-gutter: 1.6em, ...)   // extra room, tall content
+//    #parts(4, row-gutter: 0.5em, ...)   // compact, short plain text
 // ────────────────────────────────────────────────────────────
-#let parts(cols, ..items) = {
+#let parts(cols, ..items, row-gutter: 1em, column-gutter: 1.2em) = {
   let col-spec = range(cols).map(_ => 1fr)
   grid(
     columns: col-spec,
-    row-gutter: 0.55em,
-    column-gutter: 1.2em,
+    row-gutter: row-gutter,
+    column-gutter: column-gutter,
     ..items.pos(),
   )
 }
@@ -969,25 +1057,39 @@
 // ════════════════════════════════════════════════════════════
 //  PLOT-GRAPH — thin house-style wrapper around the simple-plot
 //  package (https://typst.app/universe/package/simple-plot/),
-//  pinned at 0.9.1. simple-plot does the actual rendering (axes,
-//  stealth arrows, grid, Liang-Barsky clipping at the boundary,
-//  discontinuity gaps) — all of it more completely and more
-//  robustly than the hand-rolled version this replaced. Its
-//  defaults already match what we built by hand: axis-x-extend /
-//  axis-y-extend default to (0, 0.5) — positive-direction-only,
-//  half-a-unit overshoot — and unit-label-only is its name for the
-//  "show only the 1 tick" behavior. Also pulls in riemann-sum and
-//  volume-of-revolution, both relevant once the calculus unit
-//  starts, and scatter / line-plot for real-data plots (useful for
-//  the future statistics units).
+//  pinned at 1.0.0 (its first release explicitly declared API-stable
+//  — see the package changelog). simple-plot does the actual
+//  rendering (axes, stealth arrows, grid, Liang-Barsky clipping at
+//  the boundary, discontinuity gaps) — all of it more completely and
+//  more robustly than the hand-rolled version this replaced.
+//  unit-label-only is its name for our "show only the 1 tick"
+//  behavior. Also pulls in riemann-sum and volume-of-revolution,
+//  both relevant once the calculus unit starts, and scatter /
+//  line-plot for real-data plots (useful for the future statistics
+//  units). Two more pedagogical helpers ship with the package itself
+//  and are worth knowing about for later: plot-rational() (a
+//  rational-function wrapper with asymptote support) and
+//  limit-schema() (schematic one-sided-limit diagrams) — both
+//  re-exported below, neither wrapped here since they're already
+//  purpose-built for exactly the units that will need them.
+//
+//  VERSION POLICY: don't bump this pin reflexively on every release.
+//  Pre-1.0 point releases in particular can change rendering
+//  *behavior*, not just add features — e.g. axis-x-extend /
+//  axis-y-extend's default changed between 0.9.1 and 1.0.0 from
+//  (0, 0.5) (half a data unit, scales with plot range) to
+//  (0pt, 0.3cm) (a fixed absolute length). Before bumping the pin,
+//  read the changelog for behavior changes, not just new features,
+//  and re-check a handful of existing figures afterward.
 //
 //  plot-graph below is a convenience layer for the common "plot a
 //  few functions with our house colors" case — NOT full coverage
 //  of simple-plot's API. For anything it doesn't expose (markers,
 //  label-pos / label-side, per-function domains, scatter/line-plot,
-//  Riemann sums, volumes of revolution, ...), call `plot` (or the
-//  relevant function) directly — both are imported below and
-//  available anywhere #import "preamble.typ": * is used.
+//  Riemann sums, volumes of revolution, parametric curves, ...),
+//  call `plot` (or the relevant function) directly — both are
+//  imported below and available anywhere #import "preamble.typ": *
+//  is used.
 //
 //  Usage (same call shape as before):
 //    #plot-graph(
@@ -996,12 +1098,11 @@
 //      xmin: -3, xmax: 3, ymin: -3, ymax: 6,
 //    )
 //
-//  GOTCHA — sizing is bare numbers, not Typst lengths: simple-plot's
-//  width:/height: (and this wrapper's size:/width:/height:) are
-//  plain numbers meaning centimeters, e.g. size: 7, NOT 7cm. That's
-//  simple-plot's own convention; kept as-is rather than translated,
-//  to avoid a fragile unit-conversion layer. It's the one place in
-//  this preamble that doesn't take a Typst length.
+//  Sizing: as of 1.0.0, simple-plot's width:/height: accept EITHER a
+//  real Typst length (7cm) OR a bare number (7, meaning centimeters,
+//  kept for backward compatibility with older simple-plot versions).
+//  This wrapper's size:/width:/height: pass straight through either
+//  way — no conversion layer needed anymore.
 //
 //  Undefined points: same convention as before — return `none` from
 //  a function at any x where it's genuinely undefined, e.g.
@@ -1016,7 +1117,7 @@
 //  yourself if you want that occurrence suppressed on the exercise
 //  sheet.
 // ════════════════════════════════════════════════════════════
-#import "@preview/simple-plot:0.9.1": plot, scatter, line-plot, riemann-sum, volume-of-revolution, set-plot-defaults, reset-plot-defaults
+#import "@preview/simple-plot:1.0.0": plot, scatter, line-plot, riemann-sum, volume-of-revolution, plot-rational, limit-schema, set-plot-defaults, reset-plot-defaults
 
 #let _plot-colors = (accent, warn-col, def-col, ex-col, ai-col, expl-col)
 
