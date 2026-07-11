@@ -7,6 +7,16 @@
 # of it belongs in version control.
 dist/
 
+# Stray PDFs from ad hoc single-file compiles — the "Typst: Compile
+# Current File" / "Watch Current File" VS Code tasks write their
+# output right next to the source .typ file (not into dist/), so a
+# quick proofread anywhere under src/ leaves a PDF behind. Catches
+# any depth of subfolder (src/units/<unit>/, src/years/, etc.) via
+# the ** glob. Deliberately scoped to src/ only, NOT a blanket
+# *.pdf rule — reference PDFs kept at the project root (e.g. the
+# Lehrplan documents) should stay tracked.
+src/**/*.pdf
+
 # Throwaway wrapper files build.sh generates for standalone
 # chapter compiles (it deletes these itself, but ignore them too
 # in case a build gets interrupted mid-run).
@@ -51,6 +61,4 @@ desktop.ini
 *.swp
 *.swo
 *~
-
-test.typ
-test.pdf
+src/common/test.typ
