@@ -48,20 +48,20 @@
 #let set-subject-name(name) = _subject-name.update(_ => name)
 
 // ── Accent colors ────────────────────────────────────────────
-#let accent    = rgb("#0097a7")   // teal
+#let accent = rgb("#0097a7")   // teal
 #let accent-bg = rgb("#e0f7fa")   // light teal fill
-#let warn-col  = rgb("#e65100")   // deep orange
-#let warn-bg   = rgb("#fff3e0")   // light orange fill
-#let def-col   = rgb("#00695c")   // dark teal (definitions)
-#let def-bg    = rgb("#e8f5e9")   // light green fill
-#let ex-col    = rgb("#5c6bc0")   // indigo (examples)
-#let ex-bg     = rgb("#ede7f6")   // light purple fill
-#let ai-col    = rgb("#8e24aa")   // purple (AI tasks)
-#let ai-bg     = rgb("#f3e5f5")   // light lilac fill
-#let expl-col  = rgb("#b26a00")   // dark amber (explorations)
-#let expl-bg   = rgb("#fff8e1")   // light amber fill
+#let warn-col = rgb("#e65100")   // deep orange
+#let warn-bg = rgb("#fff3e0")   // light orange fill
+#let def-col = rgb("#00695c")   // dark teal (definitions)
+#let def-bg = rgb("#e8f5e9")   // light green fill
+#let ex-col = rgb("#5c6bc0")   // indigo (examples)
+#let ex-bg = rgb("#ede7f6")   // light purple fill
+#let ai-col = rgb("#8e24aa")   // purple (AI tasks)
+#let ai-bg = rgb("#f3e5f5")   // light lilac fill
+#let expl-col = rgb("#b26a00")   // dark amber (explorations)
+#let expl-bg = rgb("#fff8e1")   // light amber fill
 #let ahead-col = rgb("#455a64")   // slate blue-grey (look-aheads)
-#let ahead-bg  = rgb("#eceff1")   // light blue-grey fill
+#let ahead-bg = rgb("#eceff1")   // light blue-grey fill
 
 
 // ── Rendering switches ───────────────────────────────────────
@@ -237,10 +237,10 @@
 // ── Counters & solution store ────────────────────────────────
 #let thm-counter = counter("theorem")
 #let def-counter = counter("definition")
-#let ex-counter  = counter("exercise")   // global to whatever gets compiled —
-                                          // see numbering-scope note re:
-                                          // unit booklets vs. year binders
-#let hint-store  = state("hints", ())
+#let ex-counter = counter("exercise")   // global to whatever gets compiled —
+// see numbering-scope note re:
+// unit booklets vs. year binders
+#let hint-store = state("hints", ())
 
 
 // ── Page layouts ─────────────────────────────────────────────
@@ -277,9 +277,9 @@
   // Solutions mode: keep only chapter titles to structure the booklet.
   // Lecture notes: render normally.
   show heading: it => context {
-    if _ex-mode.get() { none }
-    else if _sol-mode.get() { if it.level == 1 { it } else { none } }
-    else { it }
+    if _ex-mode.get() { none } else if _sol-mode.get() {
+      if it.level == 1 { it } else { none }
+    } else { it }
   }
   body
 }
@@ -302,8 +302,7 @@
       set text(size: 9pt, fill: luma(120))
       grid(
         columns: (1fr, 1fr),
-        align(left)[#label — #tag],
-        align(right)[#chapter-title],
+        align(left)[#label — #tag], align(right)[#chapter-title],
       )
       v(-4pt)
       line(length: 100%, stroke: 0.5pt + accent)
@@ -322,10 +321,18 @@
 // ────────────────────────────────────────────────────────────
 //  INTERNAL: left-bar box
 // ────────────────────────────────────────────────────────────
-#let _bar-box(bar-color: accent, fill-color: accent-bg,
-              label: none, number: none, title: none, body) = {
+#let _bar-box(
+  bar-color: accent,
+  fill-color: accent-bg,
+  label: none,
+  number: none,
+  title: none,
+  body,
+) = {
   let hdr = if label != none {
-    [#text(weight: "bold", fill: bar-color)[#label#if number != none [ #number]]#if title != none [. _#title _]]
+    [#text(weight: "bold", fill: bar-color)[#label#if (
+          number != none
+        ) [ #number]]#if title != none [. _#title _]]
   } else { none }
 
   block(
@@ -353,16 +360,19 @@
     if _hide-aux() { return }
     let n = thm-counter.display()
     _bar-box(
-      bar-color: accent, fill-color: accent-bg,
-      label: "Theorem", number: n, title: title, body,
+      bar-color: accent,
+      fill-color: accent-bg,
+      label: "Theorem",
+      number: n,
+      title: title,
+      body,
     )
   }
 }
 
 #let proof(body) = context {
   if _hide-aux() { return }
-  block(width: 100%,
-        inset: (left: 14pt, right: 4pt, top: 4pt, bottom: 4pt))[
+  block(width: 100%, inset: (left: 14pt, right: 4pt, top: 4pt, bottom: 4pt))[
     _Proof._ #body #h(1fr) $square$
   ]
 }
@@ -373,8 +383,12 @@
     if _hide-aux() { return }
     let n = def-counter.display()
     _bar-box(
-      bar-color: def-col, fill-color: def-bg,
-      label: "Definition", number: n, title: title, body,
+      bar-color: def-col,
+      fill-color: def-bg,
+      label: "Definition",
+      number: n,
+      title: title,
+      body,
     )
   }
 }
@@ -382,15 +396,17 @@
 #let example(title: none, body) = context {
   if _hide-aux() { return }
   _bar-box(
-    bar-color: ex-col, fill-color: ex-bg,
-    label: "Example", title: title, body,
+    bar-color: ex-col,
+    fill-color: ex-bg,
+    label: "Example",
+    title: title,
+    body,
   )
 }
 
 #let remark(body) = context {
   if _hide-aux() { return }
-  block(width: 100%,
-        inset: (left: 14pt, right: 4pt, top: 2pt, bottom: 2pt))[
+  block(width: 100%, inset: (left: 14pt, right: 4pt, top: 2pt, bottom: 2pt))[
     #text(fill: luma(80), style: "italic")[_Remark._ #body]
   ]
 }
@@ -451,8 +467,10 @@
   if _sol-mode.get() { return }
   if _ex-mode.get() and not on-sheet { return }
   _bar-box(
-    bar-color: ai-col, fill-color: ai-bg,
-    label: "AI task", title: "role: " + role,
+    bar-color: ai-col,
+    fill-color: ai-bg,
+    label: "AI task",
+    title: "role: " + role,
     {
       body
       v(4pt)
@@ -469,8 +487,10 @@
 #let exploration(title: none, body) = context {
   if _hide-aux() { return }
   _bar-box(
-    bar-color: expl-col, fill-color: expl-bg,
-    label: "Exploration", title: title,
+    bar-color: expl-col,
+    fill-color: expl-bg,
+    label: "Exploration",
+    title: title,
     {
       body
       v(4pt)
@@ -497,8 +517,10 @@
 #let look-ahead(title: none, preview: none, body) = context {
   if _hide-aux() { return }
   _bar-box(
-    bar-color: ahead-col, fill-color: ahead-bg,
-    label: "Look Ahead", title: title,
+    bar-color: ahead-col,
+    fill-color: ahead-bg,
+    label: "Look Ahead",
+    title: title,
     {
       body
       if preview != none {
@@ -608,6 +630,44 @@
     column-gutter: column-gutter,
     ..items.pos(),
   )
+}
+
+// auto-parts — same layout as parts() above, but generates the
+// (a)/(b)/(c)... label for each item automatically instead of you
+// typing it by hand. Pass bare content, no manual label:
+//   #auto-parts(3,
+//     [$5x - 8 = 2x + 7$],
+//     [$x^2 - 5x + 6 = 0$],
+//   )
+//
+// IMPORTANT — this only stays correct if the matching solution's
+// auto-parts() call has the SAME NUMBER of items IN THE SAME ORDER
+// as the question's. If a solution ever consolidates two answers
+// into one entry, skips one, or reorders them, the generated letters
+// will silently drift out of sync between question and solution —
+// with no error, just a wrong label. Use plain parts() with manual
+// labels instead for any exercise like that; auto-parts() is for the
+// common one-to-one case, not a blanket replacement.
+//
+// start: lets the lettering continue from a later point (e.g.
+// start: 4 begins at "(e)") if a single exercise splits its items
+// across more than one auto-parts() call.
+#let _letters = "abcdefghijklmnopqrstuvwxyz".clusters()
+
+#let auto-parts(
+  cols,
+  ..items,
+  row-gutter: 1em,
+  column-gutter: 1.2em,
+  start: 0,
+) = {
+  let labeled = items
+    .pos()
+    .enumerate()
+    .map(((i, item)) => {
+      [(#_letters.at(i + start)) #item]
+    })
+  parts(cols, ..labeled, row-gutter: row-gutter, column-gutter: column-gutter)
 }
 
 
@@ -856,7 +916,7 @@
 #let QQ = $bb(Q)$
 #let RR = $bb(R)$
 #let CC = $bb(C)$
-#let abs(x)  = $lr(|#x|)$
+#let abs(x) = $lr(|#x|)$
 #let limn = $lim_(n -> oo)$    // limit as n → ∞
 
 
@@ -864,70 +924,95 @@
 //  NATIVE FIGURE HELPERS  (unchanged)
 // ════════════════════════════════════════════════════════════
 
-#let dot-triangle(rows: 4, r: 4pt, gap: 18pt, col: accent) = only-theory(align(center, {
-  let w = (rows - 1) * gap + 2 * r
-  let h = (rows - 1) * gap + 2 * r
-  box(width: w, height: h, {
-    for row in range(rows) {
-      let count = row + 1
-      let cy = r + row * gap
-      let rowwidth = (count - 1) * gap
-      let startx = (w - rowwidth) / 2
-      for c in range(count) {
-        let cx = startx + c * gap
-        place(dx: cx - r, dy: cy - r, circle(radius: r, fill: col, stroke: none))
+#let dot-triangle(rows: 4, r: 4pt, gap: 18pt, col: accent) = only-theory(align(
+  center,
+  {
+    let w = (rows - 1) * gap + 2 * r
+    let h = (rows - 1) * gap + 2 * r
+    box(width: w, height: h, {
+      for row in range(rows) {
+        let count = row + 1
+        let cy = r + row * gap
+        let rowwidth = (count - 1) * gap
+        let startx = (w - rowwidth) / 2
+        for c in range(count) {
+          let cx = startx + c * gap
+          place(dx: cx - r, dy: cy - r, circle(
+            radius: r,
+            fill: col,
+            stroke: none,
+          ))
+        }
       }
-    }
-  })
-}))
-
-#let domino-row(n: 7, col: accent) = only-theory(align(center,
-  stack(
-    dir: ltr,
-    spacing: 9pt,
-    ..range(n).map(_ => rect(width: 6pt, height: 28pt, radius: 1pt,
-                             fill: col, stroke: none)),
-  )
+    })
+  },
 ))
 
-#let koch-star(R: 1.7cm, col: accent, fillc: accent-bg) = only-theory(align(center, {
-  let r = R / calc.sqrt(3)
-  let cx = R
-  let cy = R
-  let pts = ()
-  for k in range(12) {
-    let rad = if calc.even(k) { R } else { r }
-    let ang = 90deg - k * 30deg
-    pts.push((cx + rad * calc.cos(ang), cy - rad * calc.sin(ang)))
-  }
-  box(width: 2 * R, height: 2 * R,
-      polygon(fill: fillc, stroke: 0.9pt + col, ..pts))
-}))
+#let domino-row(n: 7, col: accent) = only-theory(align(center, stack(
+  dir: ltr,
+  spacing: 9pt,
+  ..range(n).map(_ => rect(
+    width: 6pt,
+    height: 28pt,
+    radius: 1pt,
+    fill: col,
+    stroke: none,
+  )),
+)))
 
-#let nested-squares(side: 3cm, levels: 5, col: accent) = only-theory(align(center, {
-  box(width: side, height: side, {
-    let corners = ((0pt, 0pt), (side, 0pt), (side, side), (0pt, side))
-    for lvl in range(levels) {
-      let shade = if calc.even(lvl) { none } else { accent-bg }
-      place(dx: 0pt, dy: 0pt,
-            polygon(fill: shade, stroke: 0.8pt + col, ..corners))
-      let nc = ()
-      let m = corners.len()
-      for i in range(m) {
-        let a = corners.at(i)
-        let b = corners.at(calc.rem(i + 1, m))
-        nc.push(((a.at(0) + b.at(0)) / 2, (a.at(1) + b.at(1)) / 2))
-      }
-      corners = nc
+#let koch-star(R: 1.7cm, col: accent, fillc: accent-bg) = only-theory(align(
+  center,
+  {
+    let r = R / calc.sqrt(3)
+    let cx = R
+    let cy = R
+    let pts = ()
+    for k in range(12) {
+      let rad = if calc.even(k) { R } else { r }
+      let ang = 90deg - k * 30deg
+      pts.push((cx + rad * calc.cos(ang), cy - rad * calc.sin(ang)))
     }
-  })
-}))
+    box(width: 2 * R, height: 2 * R, polygon(
+      fill: fillc,
+      stroke: 0.9pt + col,
+      ..pts,
+    ))
+  },
+))
+
+#let nested-squares(side: 3cm, levels: 5, col: accent) = only-theory(align(
+  center,
+  {
+    box(width: side, height: side, {
+      let corners = ((0pt, 0pt), (side, 0pt), (side, side), (0pt, side))
+      for lvl in range(levels) {
+        let shade = if calc.even(lvl) { none } else { accent-bg }
+        place(dx: 0pt, dy: 0pt, polygon(
+          fill: shade,
+          stroke: 0.8pt + col,
+          ..corners,
+        ))
+        let nc = ()
+        let m = corners.len()
+        for i in range(m) {
+          let a = corners.at(i)
+          let b = corners.at(calc.rem(i + 1, m))
+          nc.push(((a.at(0) + b.at(0)) / 2, (a.at(1) + b.at(1)) / 2))
+        }
+        corners = nc
+      }
+    })
+  },
+))
 
 // abstraction-ladder — the recurring 4-rung "levels of abstraction"
 // figure. Use it every time a situation is formalized so the jump to
 // a formula becomes a named, practiced move instead of magic.
 #let abstraction-ladder(
-  l0: [—], l1: [—], l2: [—], l3: [—],
+  l0: [—],
+  l1: [—],
+  l2: [—],
+  l3: [—],
   labels: ("Situation", "Data", "Pattern", "Formula"),
 ) = only-theory(block(width: 100%, breakable: false, {
   let rungs = (
@@ -952,7 +1037,10 @@
     )))
     if i < rungs.len() - 1 {
       v(1pt)
-      align(center, text(size: 9pt, fill: accent)[#sym.arrow.t #emph[formalize]])
+      align(center, text(
+        size: 9pt,
+        fill: accent,
+      )[#sym.arrow.t #emph[formalize]])
       v(1pt)
     }
   }
@@ -962,7 +1050,7 @@
 // ── Table style ──────────────────────────────────────────────
 #let data-table(columns: (), row-height: 1.8cm, ..cells) = {
   let n-cols = if type(columns) == array { columns.len() } else { columns }
-  let items  = cells.pos()
+  let items = cells.pos()
   let n-rows = int(items.len() / n-cols)
 
   let row-sizes = if row-height == auto {
@@ -972,43 +1060,42 @@
   }
 
   let cell-stroke(col, row) = (
-    left:   if col == 0           { 0.9pt + luma(110) }
-            else                  { 0.5pt + luma(190) },
-    right:  if col == n-cols - 1  { 0.9pt + luma(110) }
-            else                  { none },
-    top:    if row == 0           { 0.9pt + luma(110) }
-            else                  { none },
-    bottom: if row == 0           { 1.5pt + accent }
-            else if row == n-rows - 1 { 0.9pt + luma(110) }
-            else                  { 0.5pt + luma(190) },
+    left: if col == 0 { 0.9pt + luma(110) } else { 0.5pt + luma(190) },
+    right: if col == n-cols - 1 { 0.9pt + luma(110) } else { none },
+    top: if row == 0 { 0.9pt + luma(110) } else { none },
+    bottom: if row == 0 { 1.5pt + accent } else if row == n-rows - 1 {
+      0.9pt + luma(110)
+    } else { 0.5pt + luma(190) },
   )
 
   table(
     columns: columns,
-    rows:    row-sizes,
-    stroke:  none,
-    inset:   (x: 0.65em, y: 0.45em),
-    align:   center + horizon,
-    ..items.enumerate().map(((idx, c)) => {
-      let row = int(idx / n-cols)
-      let col = calc.rem(idx, n-cols)
-      let s   = cell-stroke(col, row)
-      if row == 0 {
-        table.cell(
-          text(weight: "bold", fill: accent, c),
-          fill:   luma(244),
-          stroke: s,
-        )
-      } else if col == 0 {
-        table.cell(
-          text(fill: luma(40), c),
-          fill:   luma(248),
-          stroke: s,
-        )
-      } else {
-        table.cell(c, fill: white, stroke: s)
-      }
-    }),
+    rows: row-sizes,
+    stroke: none,
+    inset: (x: 0.65em, y: 0.45em),
+    align: center + horizon,
+    ..items
+      .enumerate()
+      .map(((idx, c)) => {
+        let row = int(idx / n-cols)
+        let col = calc.rem(idx, n-cols)
+        let s = cell-stroke(col, row)
+        if row == 0 {
+          table.cell(
+            text(weight: "bold", fill: accent, c),
+            fill: luma(244),
+            stroke: s,
+          )
+        } else if col == 0 {
+          table.cell(
+            text(fill: luma(40), c),
+            fill: luma(248),
+            stroke: s,
+          )
+        } else {
+          table.cell(c, fill: white, stroke: s)
+        }
+      }),
   )
 }
 
@@ -1128,7 +1215,11 @@
 //  yourself if you want that occurrence suppressed on the exercise
 //  sheet.
 // ════════════════════════════════════════════════════════════
-#import "@preview/simple-plot:1.0.0": plot, scatter, line-plot, riemann-sum, volume-of-revolution, plot-rational, limit-schema, vline, hline, set-plot-defaults, reset-plot-defaults, parametric, data
+#import "@preview/simple-plot:1.0.0": (
+  data, hline, limit-schema, line-plot, parametric, plot, plot-rational,
+  reset-plot-defaults, riemann-sum, scatter, set-plot-defaults, vline,
+  volume-of-revolution,
+)
 
 #let _plot-colors = (accent, warn-col, def-col, ex-col, ai-col, expl-col)
 
@@ -1148,7 +1239,7 @@
   x-label: $x$,
   y-label: $y$,
 ) = align(center, {
-  let w = if width  != none { width }  else { size }
+  let w = if width != none { width } else { size }
   let h = if height != none { height } else { size }
 
   // normalize each argument to a simple-plot function-spec dict,
@@ -1156,26 +1247,35 @@
   // `stroke:`, and cycling default colors from the house palette
   // (same normalization pattern used throughout this file, e.g. in
   // data-table's cell styling)
-  let entries = functions.pos().enumerate().map(((i, f)) => {
-    let default-color = _plot-colors.at(calc.rem(i, _plot-colors.len()))
-    if type(f) == dictionary {
-      (
-        fn: f.fn,
-        stroke: f.at("color", default: default-color) + 1.3pt,
-        samples: f.at("samples", default: samples),
-      )
-    } else {
-      (fn: f, stroke: default-color + 1.3pt, samples: samples)
-    }
-  })
+  let entries = functions
+    .pos()
+    .enumerate()
+    .map(((i, f)) => {
+      let default-color = _plot-colors.at(calc.rem(i, _plot-colors.len()))
+      if type(f) == dictionary {
+        (
+          fn: f.fn,
+          stroke: f.at("color", default: default-color) + 1.3pt,
+          samples: f.at("samples", default: samples),
+        )
+      } else {
+        (fn: f, stroke: default-color + 1.3pt, samples: samples)
+      }
+    })
 
   plot(
-    xmin: xmin, xmax: xmax, ymin: ymin, ymax: ymax,
-    width: w, height: h,
+    xmin: xmin,
+    xmax: xmax,
+    ymin: ymin,
+    ymax: ymax,
+    width: w,
+    height: h,
     show-grid: if show-grid { "major" } else { false },
-    xtick-step: grid-step, ytick-step: grid-step,
+    xtick-step: grid-step,
+    ytick-step: grid-step,
     unit-label-only: show-unit-ticks,
-    xlabel: x-label, ylabel: y-label,
+    xlabel: x-label,
+    ylabel: y-label,
     ..entries,
   )
 })
@@ -1212,7 +1312,13 @@
 //  each plot when placing several side by side so they actually fit
 //  the page width together with the gutter, e.g. size: 6 rather than
 //  the 7cm default for a 2-column grid.
-#let image-grid(cols, ..items, gutter: 12pt, column-gutter: none, row-gutter: none) = grid(
+#let image-grid(
+  cols,
+  ..items,
+  gutter: 12pt,
+  column-gutter: none,
+  row-gutter: none,
+) = grid(
   columns: (1fr,) * cols,
   column-gutter: if column-gutter != none { column-gutter } else { gutter },
   row-gutter: if row-gutter != none { row-gutter } else { gutter },
