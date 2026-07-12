@@ -204,6 +204,124 @@ If two equations are added - left side to left side and right side to right side
   )
 ]
 
+#remark[
+  $NN$, $ZZ$, $QQ$, $RR$, and $CC$ above are all *sets* of numbers.
+  Often we want to describe just a *piece* of $RR$ -- for example, "all
+  numbers between $1$ and $4$." Such a piece is called a *subset* of
+  $RR$, and the most common kind we'll work with is an *interval*.
+]
+
+Intervals are special subsets of the real numbers -- they can be
+pictured as a section of the number line. Formally, they can be written
+in set notation, e.g.
+$ I = {x in RR med | med 1 <= x < 4}. $
+Here the square bracket would indicate that $1$ is included in the
+interval, and the round bracket that $4$ is not.
+
+As intervals come up constantly, they have their own shorthand notation:
+
+#keybox(title: "Interval Notation")[
+  #data-table(
+    columns: (auto, 1fr),
+    row-height: auto,
+    [Notation], [Set Notation],
+    [$[a,b]$], [${x in RR med | med a <= x <= b}$],
+    [$[a,b)$], [${x in RR med | med a <= x < b}$],
+    [$(a,b]$], [${x in RR med | med a < x <= b}$],
+    [$(a,b)$], [${x in RR med | med a < x < b}$],
+  )
+]
+
+There are also *unbounded* intervals, where one boundary is $plus.minus infinity$.
+These are written the same way, with $infinity$ standing in for the
+missing boundary. For example $I = {x in RR med | med x >= 4}$ is written
+$[4, infinity)$. Remember that infinity is a concept, not a number -- so
+that side of the interval always gets a *round* bracket, since infinity
+itself can never actually be included.
+
+Since intervals are sets, we can combine them the same way we'd combine
+any two sets.
+
+#definition[
+  Given two sets $A$ and $B$:
+  - The *intersection* $A inter B$ is the set of elements belonging to
+    *both* $A$ and $B$.
+  - The *union* $A union B$ is the set of elements belonging to *at
+    least one* of $A$ and $B$.
+  - The *set difference* $A without B$ is the set of elements belonging
+    to $A$ but *not* to $B$.
+]
+
+#example[
+  Let $A = [1, 5)$ and $B = (3, 8]$.
+  - $A inter B = (3, 5)$ -- only the numbers in *both* intervals.
+  - $A union B = [1, 8]$ -- every number in *either* interval.
+  - $A without B = [1, 3]$ -- numbers in $A$ that are *not* in $B$: $3$
+    stays, since $(3,8]$ doesn't include it; everything from $3$ up to
+    $5$ gets removed, since that's exactly $A inter B$.
+]
+
+#example[
+  Let $A = (-infinity, 2]$ and $B = [0, infinity)$.
+  - $A inter B = [0, 2]$
+  - $A union B = RR$ -- together they cover the whole number line.
+  - $A without B = (-infinity, 0)$ -- everything in $A$ that isn't
+    also $>= 0$.
+]
+
+#remark[
+  Set difference is exactly how we describe a domain with a single
+  point removed, e.g. the domain of $y = 1/x$ is $RR without {0}$ --
+  "all real numbers, except $0$."
+]
+
+#ex(difficulty: 1, time: "10 min")[
+  Write each inequality as an interval.
+  #parts(3,
+    [(a) $x > 6$],
+    [(b) $x <= -8$],
+    [(c) $2 < x < 9$],
+    [(d) $0 <= x < 12$],
+    [(e) $x > -5$],
+    [(f) $-3 <= x <= 3$],
+  )
+][
+  #parts(3,
+    [(a) $(6, infinity)$],
+    [(b) $(-infinity, -8]$],
+    [(c) $(2, 9)$],
+    [(d) $[0, 12)$],
+    [(e) $(-5, infinity)$],
+    [(f) $[-3, 3]$],
+  )
+]
+
+#ex(difficulty: 2, time: "20 min")[
+  Write each of the following as an interval -- or a union of two
+  intervals, if it can't be written as one.
+  #parts(2,
+    [(a) $[1,3) inter (2,7)$],
+    [(b) $(-infinity,0) inter (-2,5)$],
+    [(c) $[-7,-2] union (-infinity,-1)$],
+    [(d) $(2,5) union (4,infinity)$],
+    [(e) $[1,3) without (2,7)$],
+    [(f) $[-7,-2] without (-infinity,-4)$],
+    [(g) $RR without [0,5)$],
+    [(h) $(-3,3) without {0}$],
+  )
+][
+  #parts(2,
+    [(a) $(2,3)$],
+    [(b) $(-2,0)$],
+    [(c) $(-infinity,-1)$],
+    [(d) $(2,infinity)$],
+    [(e) $[1,2]$],
+    [(f) $[-4,-2]$],
+    [(g) $(-infinity,0) union [5,infinity)$],
+    [(h) $(-3,0) union (0,3)$],
+  )
+]
+
 == Numbers and Expressions
 
 The most fundamental building blocks in mathematics are numbers and the
