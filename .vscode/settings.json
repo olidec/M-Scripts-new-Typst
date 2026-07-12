@@ -13,8 +13,11 @@
     "**/dist/**": true
   },
   "editor.rulers": [80],
+  "tinymist.formatterMode": "typstyle",
+  "tinymist.formatterPrintWidth": 80,
   "[typst]": {
     "editor.tabSize": 2,
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true
   }
 }
