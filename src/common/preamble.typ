@@ -1082,6 +1082,17 @@
 //  read the changelog for behavior changes, not just new features,
 //  and re-check a handful of existing figures afterward.
 //
+//  MARKER FILL DEPENDS ON SHAPE, NOT A BUG: mark-fill only has a
+//  visible effect on fillable marker shapes like "*" — "o" renders as
+//  an outline-only glyph, so mark-fill silently has nothing to apply
+//  to (no error, just no visible change). This is genuinely useful:
+//  it gives a reliable way to draw OPEN vs. CLOSED circles for
+//  piecewise-function endpoints, e.g. for a jump discontinuity:
+//    // open (excluded) endpoint — hollow, since "o" ignores fill
+//    data(((x0, y0),), mark: "o", mark-stroke: accent, mark-size: 0.12)
+//    // closed (included) endpoint — filled
+//    data(((x0, y0),), mark: "*", mark-fill: accent, mark-stroke: accent, mark-size: 0.12)
+//
 //  plot-graph below is a convenience layer for the common "plot a
 //  few functions with our house colors" case — NOT full coverage
 //  of simple-plot's API. For anything it doesn't expose (markers,
@@ -1117,7 +1128,7 @@
 //  yourself if you want that occurrence suppressed on the exercise
 //  sheet.
 // ════════════════════════════════════════════════════════════
-#import "@preview/simple-plot:1.0.0": plot, scatter, line-plot, riemann-sum, volume-of-revolution, plot-rational, limit-schema, set-plot-defaults, reset-plot-defaults
+#import "@preview/simple-plot:1.0.0": plot, scatter, line-plot, riemann-sum, volume-of-revolution, plot-rational, limit-schema, vline, hline, set-plot-defaults, reset-plot-defaults, parametric, data
 
 #let _plot-colors = (accent, warn-col, def-col, ex-col, ai-col, expl-col)
 
