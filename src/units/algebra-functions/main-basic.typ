@@ -25,7 +25,7 @@
   ("Systems", "/src/units/algebra-functions/ch-systems"),
   // Uncomment as chapters are finished (commented lines are safely
   // invisible to both text parsers — they don't start with `("` ):
-  // ("Quadratics", "/src/units/algebra-functions/ch-quadratic"),
+  ("Quadratics", "/src/units/algebra-functions/ch-quadratic"),
   //
   // ch-powers, ch-exponential, ch-logarithms are deliberately ABSENT
   // here — SPF-only in year 1 (see main-high.typ); GLF meets them in

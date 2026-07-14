@@ -18,7 +18,7 @@
   ("Linear", "/src/units/algebra-functions/ch-linear"),
   ("Systems", "/src/units/algebra-functions/ch-systems"),
   // Uncomment as chapters are finished:
-  // ("Quadratics", "/src/units/algebra-functions/ch-quadratic"),
+  ("Quadratics", "/src/units/algebra-functions/ch-quadratic"),
   //
   // SPF-only in year 1 — registered here, deliberately absent from
   // main-basic.typ (chapter-level exclusion; GLF reads these in
