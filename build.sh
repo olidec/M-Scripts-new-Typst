@@ -7,13 +7,13 @@
 #    src/units/<unit>/
 #        ch-*.typ
 #        main-basic.typ        main-high.typ
-#        exercises.typ
+#        exercises-basic.typ   exercises-high.typ
 #        solutions-basic.typ   solutions-high.typ
 #    src/years/<name>.typ       (e.g. glf-y1.typ, spf-y1.typ)
 #
 #  Outputs:
 #    dist/<unit>/main-basic.pdf, main-high.pdf
-#    dist/<unit>/exercises.pdf
+#    dist/<unit>/exercises-basic.pdf, exercises-high.pdf
 #    dist/<unit>/solutions-basic.pdf, solutions-high.pdf
 #    dist/<unit>/<chapter>-basic.pdf, <chapter>-high.pdf  (standalone)
 #    dist/years/<name>.pdf
@@ -48,7 +48,7 @@
 #    * Year-file builds are always opt-in (`./build.sh year ...`) and
 #      are never included in `./build.sh all`, since a full-year
 #      binder's exercise numbering will not match the numbering in
-#      that unit's own exercises.typ / solutions-*.typ — the two are
+#      that unit's own exercises-*.typ / solutions-*.typ — the two are
 #      intentionally independent compilations. See STYLE_GUIDE.md.
 # ============================================================
 
@@ -136,14 +136,28 @@ build_full() {
 }
 
 build_exercises() {
+  # Per-level sheets, mirroring build_solutions below — the old single
+  # exercises.typ is gone (sheet mode now respects level, so each
+  # sheet's numbering matches its level's solutions booklet; see
+  # STYLE_GUIDE.md §5). If a legacy exercises.typ is still present,
+  # warn rather than silently build it — with the new preamble it
+  # would compile as an Advanced-only sheet, which is never what a
+  # file with that name was meant to be.
   local unit="$1"
   local dir="$UNITS_DIR/$unit"
-  local src="$dir/exercises.typ"
-  if [[ ! -f "$src" ]]; then
-    echo "  (skip: $src not found)"
-    return 0
+  local level src
+  if [[ -f "$dir/exercises.typ" ]]; then
+    echo "  (warning: legacy $dir/exercises.typ found — rename to" \
+      "exercises-high.typ and add exercises-basic.typ; skipping it)"
   fi
-  compile "$src" "$DIST_DIR/$unit/exercises.pdf"
+  for level in basic high; do
+    src="$dir/exercises-$level.typ"
+    if [[ ! -f "$src" ]]; then
+      echo "  (skip: $src not found)"
+      continue
+    fi
+    compile "$src" "$DIST_DIR/$unit/exercises-$level.pdf"
+  done
 }
 
 build_solutions() {
