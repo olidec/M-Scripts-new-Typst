@@ -4,11 +4,20 @@
 //
 //  Originally built for the Sequences & Series unit; now shared
 //  across all units. Entry points per unit look like:
-//    main-basic.typ      — Foundations level  (#set-level("basic"))
-//    main-high.typ       — Advanced  level    (#set-level("high"))
-//    exercises.typ       — landscape sheet    (#show: exercise-sheet-template)
-//    solutions-basic.typ — solutions booklet  (#show: solutions-template...)
-//    solutions-high.typ  — solutions booklet  (#show: solutions-template...)
+//    main-basic.typ       — Foundations level  (#set-level("basic"))
+//    main-high.typ        — Advanced  level    (#set-level("high"))
+//    exercises-basic.typ  — landscape sheet, Foundations
+//                           (#show: exercise-sheet-template.with(level: "basic"))
+//    exercises-high.typ   — landscape sheet, Advanced
+//                           (#show: exercise-sheet-template.with(level: "high"))
+//    solutions-basic.typ  — solutions booklet  (#show: solutions-template...)
+//    solutions-high.typ   — solutions booklet  (#show: solutions-template...)
+//
+//  Sheets are split per level for the same reason the solutions
+//  booklets are: GLF and SPF number exercises differently, so a
+//  single mixed sheet could not match either booklet's numbering.
+//  Each sheet reads its chapter list from the MATCHING main file
+//  via read-chapter-files(from:).
 //
 //  Above that, YEAR-LEVEL entry points (years/glf-y1.typ, etc.)
 //  span multiple units in one document — see the "part" system
@@ -34,6 +43,12 @@
 //    exploration(...)     — ungraded discovery task
 //    toolbox() / heuristic("...") — Pólya heuristics + inline badges
 //    abstraction-ladder(l0:, l1:, l2:, l3:) — formalization figure
+//    objectives(..items)  — chapter-opening learning objectives box;
+//                           items via obj(...) / bfkm(...) constructors
+//    vocab(en, de) / print-vocab() — immersion glossary: mark terms
+//                           inline, print an EN–DE table at chapter end
+//    num(x)               — Swiss number formatting (12'345.5), safe
+//                           in math mode (never type ' in math — prime!)
 // ============================================================
 
 // subject-name is per-document, not a global constant — every unit's
@@ -62,6 +77,8 @@
 #let expl-bg = rgb("#fff8e1")   // light amber fill
 #let ahead-col = rgb("#455a64")   // slate blue-grey (look-aheads)
 #let ahead-bg = rgb("#eceff1")   // light blue-grey fill
+#let goal-col = rgb("#33691e")   // dark olive (learning objectives)
+#let goal-bg = rgb("#f9fbe7")   // light lime fill
 
 
 // ── Rendering switches ───────────────────────────────────────
@@ -241,6 +258,11 @@
 // see numbering-scope note re:
 // unit booklets vs. year binders
 #let hint-store = state("hints", ())
+#let vocab-store = state("vocab", ())   // (en:, de:) pairs collected by
+// vocab(), printed by print-vocab()
+// at the chapter's end — same
+// collect-then-print pattern as
+// hint-store above
 
 
 // ── Page layouts ─────────────────────────────────────────────
@@ -604,6 +626,161 @@
   })
 }
 
+// ────────────────────────────────────────────────────────────
+//  OBJECTIVES — chapter-opening learning-objectives box, tied to
+//  the Lehrplan's competency list. Serves two purposes at once:
+//  orientation for students ("this is what you're building toward")
+//  and a coverage audit trail for the teacher — each chapter's
+//  objectives() call is the explicit record of which Lehrplan
+//  competencies that chapter implements.
+//
+//  Items are built with two small constructors (they return plain
+//  dictionaries, so they only make sense INSIDE objectives(...) —
+//  never write #bfkm[...] bare in prose):
+//    obj(bfkm: false, level: "all")[ ... ]   — general constructor
+//    bfkm(level: "all")[ ... ]               — sugar for obj(bfkm: true)
+//  Bare content is also accepted and treated as obj()[...].
+//
+//  bfkm: true appends a small "BfKM" badge — the Lehrplan's marker
+//  for basale fachliche Kompetenzen (competencies deemed essential
+//  for general university readiness). A one-line legend explaining
+//  the abbreviation is added automatically whenever at least one
+//  visible item carries the badge.
+//
+//  level: works like exercise()'s level:, not like only-high[...] —
+//  an item marked level: "high" simply doesn't appear in the
+//  Foundations document, so one objectives() call serves both
+//  levels without duplicating the shared items:
+//    #objectives(
+//      bfkm[solve quadratic equations with the quadratic formula],
+//      obj(level: "high")[derive the formula by completing the square],
+//    )
+//
+//  Place it right after the chapter's opening prose, before the
+//  first section heading. Suppressed on sheets and in solutions
+//  like all other theory boxes.
+// ────────────────────────────────────────────────────────────
+#let obj(bfkm: false, level: "all", body) = (
+  body: body,
+  bfkm: bfkm,
+  level: level,
+)
+#let bfkm(level: "all", body) = obj(bfkm: true, level: level, body)
+
+#let _bfkm-badge = box(
+  fill: luma(240),
+  radius: 2pt,
+  inset: (x: 3.5pt, y: 1pt),
+  text(size: 8pt, fill: luma(90), weight: "bold")[BfKM],
+)
+
+#let objectives(title: "After this chapter, you can", ..items) = context {
+  if _hide-aux() { return }
+  let lvl = _level.get()
+  let norm = items
+    .pos()
+    .map(it => if type(it) == dictionary { it } else {
+      (body: it, bfkm: false, level: "all")
+    })
+  let vis = norm.filter(it => it.level == "all" or it.level == lvl)
+  if vis.len() == 0 { return }
+  let any-bfkm = vis.any(it => it.bfkm)
+  _bar-box(bar-color: goal-col, fill-color: goal-bg, {
+    text(weight: "bold", fill: goal-col)[#title …]
+    v(2pt)
+    list(indent: 6pt, ..vis.map(it => {
+      if it.bfkm { it.body + h(4pt) + _bfkm-badge } else { it.body }
+    }))
+    if any-bfkm {
+      v(4pt)
+      text(size: 8.5pt, fill: luma(110), style: "italic")[
+        BfKM = _basale fachliche Kompetenzen_ — competencies the Lehrplan
+        marks as essential for general university readiness.
+      ]
+    }
+  })
+}
+
+// ────────────────────────────────────────────────────────────
+//  VOCAB — immersion-teaching vocabulary support. Students learn
+//  "slope" and "root" in English here, but will meet "Steigung"
+//  and "Nullstelle" in other subjects, in German textbooks, and
+//  in German-language references — the glossary bridges that gap.
+//
+//  vocab(en, de) is used INLINE at the point where a term is first
+//  introduced. It renders the English term in bold, followed by the
+//  German equivalent in small gray — and records the pair for the
+//  chapter-end glossary:
+//    The #vocab("slope", "Steigung") of a line measures ...
+//  For later mentions of the same term (where repeating the German
+//  would be noise), either just write the word plainly, or use
+//  show-de: false to still get the bold styling without the gloss:
+//    ... so the #vocab("slope", "Steigung", show-de: false) doubles.
+//  (Repeat calls are harmless — print-vocab() deduplicates by
+//  English term, first occurrence wins.)
+//
+//  In sheet/solutions mode the inline rendering still appears (a
+//  term can be part of an exercise's question text), but nothing is
+//  recorded — the glossary is lecture-notes-only.
+//
+//  print-vocab() — call ONCE per chapter, at the chapter's end
+//  (after print-hints() reads nicely: hints belong to the exercises,
+//  the glossary closes the chapter). Prints an alphabetized two-
+//  column EN–DE table and clears the store. Like print-hints(), a
+//  forgotten call would leak entries into the next chapter — but
+//  chapter-template resets both stores at chapter start as a guard
+//  (see there), so a missing call costs you that chapter's glossary,
+//  never a corrupted one in the chapter after it.
+// ────────────────────────────────────────────────────────────
+#let vocab(en, de, show-de: true) = context {
+  if not _hide-aux() {
+    vocab-store.update(vs => vs + ((en: en, de: de),))
+  }
+  strong(en)
+  if show-de {
+    h(0.3em)
+    text(size: 9pt, fill: luma(110))[(dt. #emph(de))]
+  }
+}
+
+#let print-vocab(title: "Vocabulary — English–German") = context {
+  if _hide-aux() { return }
+  let entries = vocab-store.get()
+  if entries.len() == 0 { return }
+
+  // deduplicate by English term (first occurrence wins), then sort
+  let seen = ()
+  let unique = ()
+  for e in entries {
+    let key = lower(e.en)
+    if not seen.contains(key) {
+      seen.push(key)
+      unique.push(e)
+    }
+  }
+  let sorted = unique.sorted(key: e => lower(e.en))
+
+  v(1.5em)
+  line(length: 100%, stroke: 0.5pt + luma(180))
+  v(0.3em)
+  text(weight: "bold", size: 12pt)[#title]
+  linebreak()
+  text(size: 9pt, fill: luma(110), style: "italic")[
+    Terms introduced in this chapter. You will meet the German
+    equivalents in other subjects and in German-language references.
+  ]
+  v(0.6em)
+
+  grid(
+    columns: (1fr, 1fr),
+    column-gutter: 1.6em,
+    row-gutter: 0.45em,
+    ..sorted.map(e => [#strong(e.en) — #emph(e.de)]),
+  )
+
+  vocab-store.update(_ => ())
+}
+
 
 // ────────────────────────────────────────────────────────────
 //  PARTS — lettered sub-parts in a multi-column grid
@@ -670,6 +847,34 @@
   parts(cols, ..labeled, row-gutter: row-gutter, column-gutter: column-gutter)
 }
 
+// system — displays a system of equations, one per row, aligned at
+// "=" and bounded by vertical bars on both sides (house style for
+// displayed systems of equations — see STYLE_GUIDE.md §6). Works for
+// any number of equations (2, 3, or more), not just square systems.
+//
+// IMPORTANT — call this with the # sigil, even when writing it inside
+// a $ ... $ block. Per Typst's own math documentation, a #-prefixed
+// call is a normal CODE-mode function call and its arguments follow
+// normal code-mode parsing rules (genuine tuples), rather than math
+// mode's special comma/semicolon merging rules — which is exactly
+// what's needed here, since each argument is a real 2-element tuple
+// (left-hand side, right-hand side), not just juxtaposed math content.
+//
+// Usage:
+//   $ #system(($x + 3y$, $8$), ($x - 2y$, $3$)) $
+// works for 2, 3, or more equations the same way:
+//   $ #system(($x+y+z$, $33$), ($3x-8y+7z$, $26$), ($5y-3z$, $19$)) $
+//
+// Internally this is math.mat(delim: "|", ..rows) where rows is built
+// by mapping each (lhs, rhs) tuple to a 3-cell row (lhs, "=", rhs) —
+// confirmed via Typst's documented ..array-spread pattern for
+// programmatic matrix construction (mat(..#range(1,5).chunks(2))),
+// not guessed at.
+#let system(..eqs) = math.mat(
+  delim: "|",
+  ..eqs.pos().map(pair => (pair.at(0), $=$, pair.at(1))),
+)
+
 
 // ────────────────────────────────────────────────────────────
 //  VISIBILITY WRAPPERS
@@ -705,9 +910,15 @@
 //    #ex(level: "high")[ <question> ][ <solution> ]   // advanced only
 //    #ex(keep-together: true)[ <question with a table> ][ <solution> ]
 //
-//  level: "all"  (default) → appears in both documents + sheet
-//         "high"           → Advanced document + sheet only
-//         "basic"          → Foundations document only
+//  level: "all"  (default) → appears in both documents + both sheets
+//         "high"           → Advanced document + Advanced sheet only
+//         "basic"          → Foundations document + Foundations sheet only
+//
+//  Sheets respect level exactly like the lecture notes and the
+//  solutions booklets do (the sheet-mode override that used to show
+//  every exercise on the single sheet is gone). This is what keeps a
+//  sheet's exercise numbering identical to its matching solutions
+//  booklet — the whole reason the sheet is split per level.
 //
 //  keep-together: false (default) → exercise box may split across a
 //         page break, same as before this parameter existed
@@ -732,7 +943,7 @@
   body,
   solution,
 ) = context {
-  let visible = _ex-mode.get() or level == "all" or level == _level.get()
+  let visible = level == "all" or level == _level.get()
   if not visible { return }
 
   ex-counter.step()
@@ -760,13 +971,19 @@
 
   if _ex-mode.get() {
     // ── EXERCISE-SHEET MODE ──────────────────────────────────
+    // The level tag next to the exercise number keeps the two
+    // printed sheet stacks (Foundations / Advanced) tellable apart
+    // at a glance — sheet pages have no page header to carry it.
+    let lvl-name = if _level.get() == "basic" { "Foundations" } else {
+      "Advanced"
+    }
     pagebreak(weak: true)
     grid(
       columns: (1fr, 1fr),
       align(left)[#text(weight: "bold", fill: accent)[#chapter]],
       align(right)[
         #if dots != none [#dots #h(0.6em)]
-        #text(fill: luma(100))[Exercise #n]
+        #text(fill: luma(100))[Exercise #n · #lvl-name]
       ],
     )
     line(length: 100%, stroke: 0.5pt + accent)
@@ -880,6 +1097,15 @@
 #let chapter-template(title: "Untitled", body) = context {
   thm-counter.update(0)
   def-counter.update(0)
+  // Leak guard: hint-store and vocab-store are collect-then-print
+  // stores that only clear when their print-*() call runs. If a
+  // chapter forgets that call, its entries would otherwise silently
+  // attach to the NEXT chapter's printout. Resetting both at chapter
+  // start bounds the damage: a forgotten call costs that chapter its
+  // own hints/glossary (visible, easy to notice) instead of
+  // corrupting the following chapter's (subtle, easy to miss).
+  hint-store.update(_ => ())
+  vocab-store.update(_ => ())
   if _ex-mode.get() {
     body
   } else {
@@ -890,8 +1116,18 @@
 
 // ────────────────────────────────────────────────────────────
 //  EXERCISE-SHEET TEMPLATE
+//  Apply with an explicit level, one sheet file per level:
+//    exercises-basic.typ:
+//      #show: exercise-sheet-template.with(level: "basic")
+//    exercises-high.typ:
+//      #show: exercise-sheet-template.with(level: "high")
+//  Each sheet must read its chapter list from the MATCHING main
+//  file (read-chapter-files(from: ".../main-basic.typ") for the
+//  basic sheet, etc.) — that is what keeps chapter selection AND
+//  exercise numbering in sync with the matching solutions booklet.
 // ────────────────────────────────────────────────────────────
-#let exercise-sheet-template(body) = {
+#let exercise-sheet-template(level: "high", body) = {
+  set-level(level)
   _ex-mode.update(true)
   set page(..exercise-page-setup)
   apply-base-style(body)
@@ -907,6 +1143,52 @@
   _sol-show-questions.update(_ => show-questions)
   set page(..chapter-page-setup)
   apply-base-style(body)
+}
+
+
+// ── Swiss number formatting ──────────────────────────────────
+// House convention: Swiss format — apostrophe as thousands
+// separator, period as decimal separator (1'000, 12'345.5).
+//
+// NEVER type the apostrophe by hand inside math mode: $12'000$
+// parses the ' as a PRIME and renders 12′000 (a 12-prime followed
+// by 000). num() sidesteps this because it builds the grouped
+// number as a plain string in code mode — string content
+// interpolated into math is inserted as literal text, so the
+// apostrophe arrives as a character, not as math syntax. It works
+// identically in text and math mode:
+//   text:  The population reached #num(86402) by 1950.
+//   math:  $ s_(100) = #num(338350) $
+//   float: #num(12345.5)   →  12'345.5
+//
+// Grouping starts at 4 digits (1000 → 1'000), matching common
+// Swiss usage; the decimal part is never grouped. Negative input
+// gets a proper minus sign (U+2212), though in math it reads more
+// naturally to keep the sign in the formula: $-#num(1234)$.
+//
+// Don't pass years or other "label" numbers (2026, ZIP codes)
+// through num() — grouping is for quantities, not names.
+#let num(x) = {
+  let s = if type(x) == str { x } else { str(x) }
+  let neg = s.starts-with("-")
+  let body = if neg { s.slice(1) } else { s }
+  let parts = body.split(".")
+  let ip = parts.at(0)
+  let dp = if parts.len() > 1 { parts.at(1) } else { none }
+
+  let ds = ip.clusters()
+  let n = ds.len()
+  let grouped = ""
+  for (i, d) in ds.enumerate() {
+    grouped += d
+    let remaining = n - 1 - i
+    if remaining > 0 and calc.rem(remaining, 3) == 0 {
+      grouped += "\u{2019}"   // ’ typographic apostrophe (Swiss separator)
+    }
+  }
+
+  let out = grouped + (if dp != none { "." + dp } else { "" })
+  if neg { "\u{2212}" + out } else { out }
 }
 
 
@@ -1193,8 +1475,15 @@
 //    #plot-graph(
 //      x => x * x - 2,
 //      (fn: x => 2 * x - 1, color: warn-col),
-//      xmin: -3, xmax: 3, ymin: -3, ymax: 6,
+//      xmin: -3.5, xmax: 3.5, ymin: -3.5, ymax: 6.5,
 //    )
+//
+//  STYLE TIP — bounds ending in .5: at the default grid-step: 1,
+//  prefer xmin:/xmax:/ymin:/ymax: values ending in .5 rather than
+//  whole integers. With integer bounds the outermost gridline lands
+//  exactly on the plot box's border and visually merges with it; a
+//  half-unit margin keeps the grid and the border distinct and gives
+//  the curve room to breathe. See STYLE_GUIDE.md §6.
 //
 //  Sizing: as of 1.0.0, simple-plot's width:/height: accept EITHER a
 //  real Typst length (7cm) OR a bare number (7, meaning centimeters,
