@@ -8,9 +8,20 @@
   Given two linear equations in two variables (usually $x$ and $y$), we
   can look for a common solution -- a pair of values that satisfies both
   equations at once. This combination of two equations is called a
-  *system of linear equations*. There are several different methods for
-  solving such a system.
+  #vocab("system of linear equations", "lineares Gleichungssystem").
+  There are several different methods for solving such a system.
 ]
+
+#objectives(
+  bfkm[explain methods for solving a system of linear equations, and
+    apply them to systems of up to three equations and three unknowns],
+  bfkm[solve $2 times 2$ linear systems, and represent and analyze their
+    solution sets geometrically],
+  [recognize whether a system has one solution, no solution, or
+    infinitely many solutions],
+  [set up and solve a system of equations to model a real-world
+    problem],
+)
 
 == The Graphical Method
 
@@ -66,32 +77,18 @@
     *infinitely many solutions*.
 ]
 
-#image-grid(
-  2,
-  gutter: 10pt,
+#image-grid(2, gutter: 10pt,
   [
     #plot-graph(
-      x => 0.5 * x + 1,
-      (fn: x => -x + 4, color: warn-col),
-      xmin: -4.5,
-      xmax: 4.5,
-      ymin: -1.5,
-      ymax: 5.5,
-      size: 4.5,
-      grid-step: 1,
+      x => 0.5 * x + 1, (fn: x => -x + 4, color: warn-col),
+      xmin: -4.5, xmax: 4.5, ymin: -1.5, ymax: 5.5, size: 4.5, grid-step: 1,
     )
     One solution -- the lines cross once.
   ],
   [
     #plot-graph(
-      x => 0.5 * x + 1,
-      (fn: x => 0.5 * x - 1.5, color: warn-col),
-      xmin: -4.5,
-      xmax: 4.5,
-      ymin: -3.5,
-      ymax: 3.5,
-      size: 4.5,
-      grid-step: 1,
+      x => 0.5 * x + 1, (fn: x => 0.5 * x - 1.5, color: warn-col),
+      xmin: -4.5, xmax: 4.5, ymin: -3.5, ymax: 3.5, size: 4.5, grid-step: 1,
     )
     No solution -- the lines are parallel (same slope) and never meet.
   ],
@@ -111,8 +108,10 @@
   create a third true equation by adding their left-hand sides and their
   right-hand sides:
   $ A = B "and" C = D quad => quad A + C = B + D. $
-  Doing this skillfully lets us *eliminate* one of the unknowns, leaving
-  an equation in a single variable that we can solve directly.
+  Doing this skillfully lets us use the
+  #vocab("elimination method", "Eliminationsverfahren") to eliminate one
+  of the unknowns, leaving an equation in a single variable that we can
+  solve directly.
 ]
 
 #example[
@@ -172,8 +171,9 @@
 == The Substitution Method
 
 #only-theory[
-  In this method, we solve one of the equations for one of the unknowns,
-  then plug that expression into the other equation.
+  In this #vocab("substitution method", "Einsetzungsverfahren"), we
+  solve one of the equations for one of the unknowns, then plug that
+  expression into the other equation.
 ]
 
 #example[
@@ -277,8 +277,9 @@
   made. Each candle sells for CHF 9.50.
   + Write a cost function $C(n)$ and a revenue function $R(n)$ for $n$
     candles sold in a month.
-  + Find the *break-even point* -- the number of candles at which cost
-    equals revenue -- and the revenue at that point.
+  + Find the #vocab("break-even point", "Gewinnschwelle") -- the number
+    of candles at which cost equals revenue -- and the revenue at that
+    point.
 ][
   + $C(n) = 4.5n + 320$ and $R(n) = 9.5n$.
   + Setting $C(n) = R(n)$: $4.5n + 320 = 9.5n => 320 = 5n => n = 64$.
@@ -450,3 +451,4 @@
 ]
 
 #print-hints()
+#print-vocab()

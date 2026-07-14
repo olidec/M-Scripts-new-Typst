@@ -4,6 +4,21 @@
 
 = Linear Functions
 
+#objectives(
+  bfkm[recognize and apply linear functions as one of the standard
+    types of function],
+  bfkm[explain the connection between a linear function's equation and
+    its graph -- the effect of the slope $m$ and the
+    $y$\u{2011}intercept $q$],
+  bfkm[graph functions and use these representations to solve
+    problems],
+  [write the equation of a line given two points, or a point and a
+    slope, in slope-intercept, point-slope, or standard form],
+  [apply transformations -- shifts and reflections -- to linear
+    functions],
+  [model a real-world situation with a linear function],
+)
+
 #exploration(title: "Investigation -- Linear Functions")[
   + Sketch the graphs of the following functions in the same Cartesian
     coordinate system. Compare and contrast your functions. What effect
@@ -20,29 +35,26 @@
   The equation of a straight line (also called a *linear function*) is
   given by
   $ y = m x + q, $
-  where $m$ is the *slope* and $q$ is the *$y$\u{2011}intercept* (the
-  intersection with the $y$\u{2011}axis).
+  where $m$ is the #vocab("slope", "Steigung") and $q$ is the
+  #vocab("y-intercept", "y-Achsenabschnitt") (the intersection with the
+  $y$\u{2011}axis).
 ]
 
-#only-theory[
 This equation gives a relationship between the $x$- and $y$\u{2011}coordinates
 in a Cartesian coordinate system. If we draw all the points that satisfy
 this relation in a coordinate system, we get the graph of a straight
 line.
-]
 
 #keybox[
   The slope $m$ is defined by $m = (Delta y)/(Delta x)$.
 ]
 
-#only-theory[
 There are some shortcuts when drawing these graphs.
 - First mark the $y$\u{2011}intercept -- the point with coordinates $(0, q)$.
 - From there, mark the slope by moving one unit in the $x$\u{2011}direction and
   $m$ units in the $y$\u{2011}direction. If the slope is given as a fraction,
   it's sometimes easier to move $Delta x$ units in the $x$\u{2011}direction and
   $Delta y$ units in the $y$\u{2011}direction.
-]
 
 #remark[
   Two special cases are easy to mix up. A *horizontal* line, $y = c$,
@@ -55,11 +67,9 @@ There are some shortcuts when drawing these graphs.
   slope-intercept form, it can still describe one.
 ]
 
-#only-theory[
 Just as the $y$\u{2011}intercept is where a line crosses the $y$\u{2011}axis, the
 *$x$\u{2011}intercept* is where it crosses the $x$\u{2011}axis -- the point where
 $y = 0$.
-]
 
 #example[
   For $y = 2x - 6$: the $y$\u{2011}intercept is $(0, -6)$. Setting $y = 0$ gives
@@ -167,12 +177,10 @@ $y = 0$.
 
 == Alternative Forms for Linear Functions
 
-#only-theory[
 The most common way of writing a linear function uses the so-called
 *slope-intercept form*, since it directly contains the slope and the
 $y$\u{2011}intercept. There are two other commonly used forms: the *standard
 form* and the *point-slope form*.
-]
 
 #definition(title: "Standard Form")[
   The standard form of a line is written as
@@ -183,9 +191,10 @@ form* and the *point-slope form*.
 ]
 
 #definition(title: "Point-Slope Form")[
-  The point-slope form is useful when we know the slope of a line and a
-  point on it that isn't the $y$\u{2011}intercept. Given the slope $m$ and a
-  point $P = (x_P, y_P)$, the line has the equation
+  The #vocab("point-slope form", "Punkt-Steigungs-Form") is useful when
+  we know the slope of a line and a point on it that isn't the
+  $y$\u{2011}intercept. Given the slope $m$ and a point $P = (x_P, y_P)$,
+  the line has the equation
   $ y - y_P = m dot (x - x_P). $
   Solving for $y$ writes this directly as a function:
   $ y = m dot (x - x_P) + y_P. $
@@ -247,11 +256,9 @@ form* and the *point-slope form*.
 
 == Transforming Lines
 
-#only-theory[
 Just like other graphs, a line can be shifted and reflected. The order
 of transformations matters -- doing the same two transformations in a
 different order can give a different result.
-]
 
 #ex(difficulty: 2, time: "10 min")[
   The line $y = 2x - 1$ is shifted three units to the left and then
@@ -285,14 +292,14 @@ different order can give a different result.
 ]
 
 #exploration(title: "Perpendicular Lines")[
-  Draw three pairs of straight lines that are perpendicular to each
-  other. Determine their equations. Can you spot a regularity between
-  each pair of slopes?
+  Draw three pairs of straight lines that are
+  #vocab("perpendicular", "senkrecht") to each other. Determine their
+  equations. Can you spot a regularity between each pair of slopes?
 ]
 
 #keybox(title: "Perpendicular Lines")[
   Two lines with slopes $m_1$ and $m_2$ (neither one vertical) are
-  *perpendicular* if and only if
+  perpendicular if and only if
   $ m_1 dot m_2 = -1, quad "i.e." quad m_2 = -1/m_1. $
   In words: perpendicular slopes are *negative reciprocals* of each
   other -- flip the fraction and change the sign.
@@ -498,3 +505,4 @@ different order can give a different result.
 ]
 
 #print-hints()
+#print-vocab()
