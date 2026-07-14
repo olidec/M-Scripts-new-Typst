@@ -23,9 +23,11 @@
   // SPF-only in year 1 — registered here, deliberately absent from
   // main-basic.typ (chapter-level exclusion; GLF reads these in
   // year 2). ch-powers opens with the exponent-law prelude:
-  // ("Powers", "/src/units/algebra-functions/ch-powers"),
-  // ("Exponentials", "/src/units/algebra-functions/ch-exponential"),
-  // ("Logarithms", "/src/units/algebra-functions/ch-logarithms"),
+  ("Powers", "/src/units/algebra-functions/ch-powers"),
+  ("Exponentials", "/src/units/algebra-functions/ch-exponential"),
+  ("Logarithms", "/src/units/algebra-functions/ch-logarithms"),
+  ("Toolkit", "/src/units/algebra-functions/ch-equation-toolkit"),
+  ("Modeling", "/src/units/algebra-functions/ch-modeling"),
 )
 
 #include_chapters()
