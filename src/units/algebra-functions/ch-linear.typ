@@ -20,25 +20,72 @@
   The equation of a straight line (also called a *linear function*) is
   given by
   $ y = m x + q, $
-  where $m$ is the *slope* and $q$ is the *$y$-intercept* (the
-  intersection with the $y$-axis).
+  where $m$ is the *slope* and $q$ is the *$y$\u{2011}intercept* (the
+  intersection with the $y$\u{2011}axis).
 ]
 
-This equation gives a relationship between the $x$- and $y$-coordinates
+#only-theory[
+This equation gives a relationship between the $x$- and $y$\u{2011}coordinates
 in a Cartesian coordinate system. If we draw all the points that satisfy
 this relation in a coordinate system, we get the graph of a straight
 line.
+]
 
 #keybox[
   The slope $m$ is defined by $m = (Delta y)/(Delta x)$.
 ]
 
+#only-theory[
 There are some shortcuts when drawing these graphs.
-- First mark the $y$-intercept -- the point with coordinates $(0, q)$.
-- From there, mark the slope by moving one unit in the $x$-direction and
-  $m$ units in the $y$-direction. If the slope is given as a fraction,
-  it's sometimes easier to move $Delta x$ units in the $x$-direction and
-  $Delta y$ units in the $y$-direction.
+- First mark the $y$\u{2011}intercept -- the point with coordinates $(0, q)$.
+- From there, mark the slope by moving one unit in the $x$\u{2011}direction and
+  $m$ units in the $y$\u{2011}direction. If the slope is given as a fraction,
+  it's sometimes easier to move $Delta x$ units in the $x$\u{2011}direction and
+  $Delta y$ units in the $y$\u{2011}direction.
+]
+
+#remark[
+  Two special cases are easy to mix up. A *horizontal* line, $y = c$,
+  has slope $0$ -- moving along it changes $x$ but never $y$. A
+  *vertical* line, $x = c$, has *undefined* slope -- every point has the
+  same $x$\u{2011}coordinate, so $Delta x = 0$ and $(Delta y)/(Delta x)$ is a
+  division by zero. A vertical line also isn't the graph of a function
+  at all (it fails the vertical line test), which is exactly why the
+  standard form $a x + b y + c = 0$ from earlier is useful: unlike
+  slope-intercept form, it can still describe one.
+]
+
+#only-theory[
+Just as the $y$\u{2011}intercept is where a line crosses the $y$\u{2011}axis, the
+*$x$\u{2011}intercept* is where it crosses the $x$\u{2011}axis -- the point where
+$y = 0$.
+]
+
+#example[
+  For $y = 2x - 6$: the $y$\u{2011}intercept is $(0, -6)$. Setting $y = 0$ gives
+  $0 = 2x - 6$, so $x = 3$ -- the $x$\u{2011}intercept is $(3, 0)$.
+]
+
+#ex(difficulty: 1, time: "10 min")[
+  For each line, state whether the slope is positive, negative, zero,
+  or undefined, then find the $x$\u{2011}intercept (if there is one).
+  #parts(
+    2,
+    [(a) $y = -3x + 9$],
+    [(b) $y = 5$],
+    [(c) $x = 4$],
+    [(d) $y = 1/4 x - 2$],
+  )
+][
+  #parts(
+    2,
+    [(a) negative; $x$\u{2011}intercept $(3, 0)$],
+    [(b) zero; no $x$\u{2011}intercept (the line never crosses the $x$\u{2011}axis)],
+    [(c) undefined; $x$\u{2011}intercept $(4, 0)$ -- a vertical line still
+      crosses the $x$\u{2011}axis at exactly one ordinary point],
+    [(d) positive; $x$\u{2011}intercept $(8, 0)$],
+  )
+]
 
 #ex(difficulty: 1, time: "20 min", keep-together: true)[
   Draw the following lines in a coordinate system.
@@ -74,6 +121,14 @@ There are some shortcuts when drawing these graphs.
     ],
     [ #plot-graph(x => 2 * x + 7 / 4, xmin: -3, xmax: 3, ymin: -3, ymax: 6, size: 3.6, grid-step: 1) (f) ],
   )
+]
+
+#keybox(title: "Slope Through Two Points")[
+  Given two points $A = (x_A, y_A)$ and $B = (x_B, y_B)$ on a line, the
+  slope is
+  $ m = (y_B - y_A)/(x_B - x_A), quad x_A != x_B. $
+  This is the same $(Delta y)/(Delta x)$ idea from before -- just
+  written out for two named points instead of a picture.
 ]
 
 #ex(difficulty: 1, time: "10 min")[
@@ -112,10 +167,12 @@ There are some shortcuts when drawing these graphs.
 
 == Alternative Forms for Linear Functions
 
+#only-theory[
 The most common way of writing a linear function uses the so-called
 *slope-intercept form*, since it directly contains the slope and the
-$y$-intercept. There are two other commonly used forms: the *standard
+$y$\u{2011}intercept. There are two other commonly used forms: the *standard
 form* and the *point-slope form*.
+]
 
 #definition(title: "Standard Form")[
   The standard form of a line is written as
@@ -127,7 +184,7 @@ form* and the *point-slope form*.
 
 #definition(title: "Point-Slope Form")[
   The point-slope form is useful when we know the slope of a line and a
-  point on it that isn't the $y$-intercept. Given the slope $m$ and a
+  point on it that isn't the $y$\u{2011}intercept. Given the slope $m$ and a
   point $P = (x_P, y_P)$, the line has the equation
   $ y - y_P = m dot (x - x_P). $
   Solving for $y$ writes this directly as a function:
@@ -168,6 +225,18 @@ form* and the *point-slope form*.
   )
 ]
 
+#keybox(title: "Parallel Lines")[
+  Two lines are *parallel* if and only if they have the *same slope*
+  (and different $y$\u{2011}intercepts -- otherwise they're the same line).
+]
+
+#look-ahead(preview: [systems of equations])[
+  Parallel lines never meet, no matter how far you extend them. But two
+  lines that *aren't* parallel always meet at exactly one point --
+  finding that point is exactly what "solving a system of equations"
+  means, which is the topic of the next chapter.
+]
+
 #ex(difficulty: 2, time: "10 min")[
   Give the equation (in slope-intercept form) of the line *parallel* to
   $l : y = -3/2 x + 4$ and passing through
@@ -178,13 +247,15 @@ form* and the *point-slope form*.
 
 == Transforming Lines
 
+#only-theory[
 Just like other graphs, a line can be shifted and reflected. The order
 of transformations matters -- doing the same two transformations in a
 different order can give a different result.
+]
 
 #ex(difficulty: 2, time: "10 min")[
   The line $y = 2x - 1$ is shifted three units to the left and then
-  reflected across the $y$-axis. What is the equation of the resulting
+  reflected across the $y$\u{2011}axis. What is the equation of the resulting
   line? What happens if you reverse the order of the two
   transformations?
 ][
@@ -200,8 +271,8 @@ different order can give a different result.
     2,
     [(a) Shift 2 units up.],
     [(b) Shift 1 unit down and 3 units left.],
-    [(c) Reflect across the $x$-axis.],
-    [(d) Shift 1 unit left and reflect across the $y$-axis.],
+    [(c) Reflect across the $x$\u{2011}axis.],
+    [(d) Shift 1 unit left and reflect across the $y$\u{2011}axis.],
   )
 ][
   #parts(
@@ -219,6 +290,14 @@ different order can give a different result.
   each pair of slopes?
 ]
 
+#keybox(title: "Perpendicular Lines")[
+  Two lines with slopes $m_1$ and $m_2$ (neither one vertical) are
+  *perpendicular* if and only if
+  $ m_1 dot m_2 = -1, quad "i.e." quad m_2 = -1/m_1. $
+  In words: perpendicular slopes are *negative reciprocals* of each
+  other -- flip the fraction and change the sign.
+]
+
 #ex(difficulty: 2, time: "10 min")[
   Give the equation (in slope-intercept form) of the line
   *perpendicular* to $l : y = -3/2 x + 4$ and passing through
@@ -228,19 +307,19 @@ different order can give a different result.
 ]
 
 #ex(difficulty: 3, time: "20 min", keep-together: true)[
-  Given the following graph:
+  Given the following two graphs:
   #align(center, plot(
-    xmin: -3,
-    xmax: 5,
-    ymin: -2,
-    ymax: 5,
+    xmin: -3.5,
+    xmax: 5.5,
+    ymin: -2.5,
+    ymax: 5.5,
     width: 7cm,
     height: 6cm,
     show-grid: "major",
     (fn: x => 0.5 * x + 2, stroke: accent + 1.3pt),
     (fn: x => -0.5 * x - 1, stroke: warn-col + 1.3pt),
   ))
-  Call the graph in accent-teal $f$ and the graph in orange $g$.
+  Call the graph in teal $f$ and the graph in orange $g$.
   + Determine the equation of the graph of $f$ in standard form.
   + Does $P = (2024, 1012)$ lie on the graph of $f$?
   + Apply the following transformation to $f$: reflect across the
@@ -254,19 +333,20 @@ different order can give a different result.
   + $2y - x - 4 = 0$
   + No: $f(2024) = 0.5 dot 2024 + 2 = 1014 != 1012$.
   + $y = 1/2 x + 1$
-  + Two options: reflect across the $y$-axis, then shift 3 units down;
-    or reflect across the $x$-axis, then shift 1 unit up.
+  + Two options: reflect across the $y$\u{2011}axis, then shift 3 units down;
+    or reflect across the $x$\u{2011}axis, then shift 1 unit up.
   + $y + 3 = -2 dot (x - 7)$, i.e. $y = -2x + 11$.
 ]
 
 #exploration(title: "The Surprising Cards")[
   I took the graph $y = 4x + 7$ and performed the four transformations
   shown below, in some order:
-  #keybox[
-    "Translate down by three units" -- "Reflect in the vertical axis"
-    -- "Translate left by two units" -- "Reflect in the horizontal
-    axis"
-  ]
+  // #keybox[
+  //   "Translate down by three units" -- "Reflect in the vertical axis"
+  //   -- "Translate left by two units" -- "Reflect in the horizontal
+  //   axis"
+  // ]
+  #align(center)[#image("images/surprising-cards.jpg", width: 85%)]
   Unfortunately, I can't remember the order in which I carried out the
   four transformations, but I know I ended up with the graph of
   $y = 4x - 2$.
@@ -299,7 +379,7 @@ different order can give a different result.
 
 #ex(difficulty: 2, time: "15 min", keep-together: true)[
   Create a scatter plot for the following points and sketch a line of
-  best fit. Determine its slope $m$, its $y$-intercept $q$, and the
+  best fit. Determine its slope $m$, its $y$\u{2011}intercept $q$, and the
   function equation.
   #align(center, plot(
     xmin: -1,
@@ -335,7 +415,7 @@ different order can give a different result.
 
 #ex(difficulty: 2, time: "15 min", keep-together: true)[
   Create a scatter plot for the following points and sketch a line of
-  best fit. Determine its slope $m$, its $y$-intercept $q$, and the
+  best fit. Determine its slope $m$, its $y$\u{2011}intercept $q$, and the
   function equation.
   #align(center, plot(
     xmin: -1,

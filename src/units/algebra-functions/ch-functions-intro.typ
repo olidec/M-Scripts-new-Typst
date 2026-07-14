@@ -4,15 +4,17 @@
 
 = Introduction to Functions
 
+#only-theory[
 A *relation* is a set of ordered pairs of numbers, usually written
 $(x, y)$. Besides a set of ordered pairs, other useful ways to
 represent a relation include an algebraic equation in two variables, a
 graph on a *Cartesian coordinate system*, or a table.
+]
 
 #definition[
   The *domain* of a relation is the set of all first numbers
-  ($x$-values) of its ordered pairs. The *range* is the set of all
-  second numbers ($y$-values).
+  ($x$\u{2011}values) of its ordered pairs. The *range* is the set of all
+  second numbers ($y$\u{2011}values).
 ]
 
 #remark[
@@ -26,7 +28,7 @@ graph on a *Cartesian coordinate system*, or a table.
 #example[
   For the relation ${(1,3), (2,5), (3,5), (4,7)}$, the domain is
   ${1, 2, 3, 4}$ and the range is ${3, 5, 7}$ -- note that $5$ is listed
-  only once, even though it occurs twice as a $y$-value.
+  only once, even though it occurs twice as a $y$\u{2011}value.
 ]
 
 #example[
@@ -59,23 +61,27 @@ graph on a *Cartesian coordinate system*, or a table.
   + domain ${1,2,3,4}$, range ${4,7,10,13}$ -- function
   + domain ${-2,-1,0,1,2}$, range ${0,1,4}$ -- function
   + domain ${1,2,3,4}$, range ${4,6,8,9,10}$ -- *not* a function ($x=3$
-    gives two different $y$-values)
+    gives two different $y$\u{2011}values)
   + domain ${-2,-1,0,1,2}$, range ${1,2,4,6}$ -- function
 ]
 
 == Graphs of Functions
 
+#only-theory[
 Given a function $f : y = f(x)$, we consider the set of points
 $ S = {(x, y) med | med x in X, med y = f(x)}, $
 where $X$ is the domain of $f$. Plotting every point of $S$ in a
 coordinate system gives the *graph* of $f$.
+]
 
 #example[
   The graph of a linear function $f : y = a dot x + b$ is a straight line.
 ]
 
+#only-theory[
 Many graphs have special names - parabolas, hyperbolas, and so on - and
 we'll meet several of these as we continue.
+]
 
 #remark[
   By convention, the independent variable goes on the horizontal axis
@@ -86,10 +92,12 @@ we'll meet several of these as we continue.
 
 === Finding the Graph of a Function
 
+#only-theory[
 If we have no idea what the graph of a function looks like, a *value
-table* gives a first approximation: pick some $x$-values from the
-domain, calculate the corresponding $y$-values, then plot the resulting
+table* gives a first approximation: pick some $x$\u{2011}values from the
+domain, calculate the corresponding $y$\u{2011}values, then plot the resulting
 points.
+]
 
 #example[
   Given $f : y = sqrt(4 - x^2)$, the domain is $X = [-2, 2]$ (since we
@@ -239,9 +247,11 @@ points.
 
 === Reading Domain and Range from a Graph
 
+#only-theory[
 When a graph doesn't extend forever in some direction, its endpoints
 need to be marked clearly, so there's no ambiguity about exactly which
 points belong to the graph and which don't.
+]
 
 #keybox(title: "Filled vs. Open Circles")[
   - A *filled* (solid) circle means that point *is* part of the graph --
@@ -271,9 +281,9 @@ points belong to the graph and which don't.
   ))
 
   The graph starts with an *open* circle at $(0, 1)$ and ends with a
-  *filled* circle at $(5, 3.5)$. Reading left to right, the $x$-values
+  *filled* circle at $(5, 3.5)$. Reading left to right, the $x$\u{2011}values
   covered run from $0$ (excluded) to $5$ (included), so the domain is
-  $(0, 5]$. Reading bottom to top, the $y$-values covered run from $1$
+  $(0, 5]$. Reading bottom to top, the $y$\u{2011}values covered run from $1$
   (excluded) to $3.5$ (included), so the range is $(1, 3.5]$.
 ]
 
@@ -419,8 +429,8 @@ points belong to the graph and which don't.
 ][
   (a), (b), (d), (e), (h), (i) are functions -- every vertical line
   meets each graph at most once. (f), the staircase, is *also* a
-  function, even though it looks unusual: each $x$-value still has
-  exactly one $y$-value. (c) and (g) are *not* functions -- both are
+  function, even though it looks unusual: each $x$\u{2011}value still has
+  exactly one $y$\u{2011}value. (c) and (g) are *not* functions -- both are
   circles/sideways parabolas, so a vertical line through the middle
   meets the graph twice.
 ]
@@ -730,11 +740,13 @@ points belong to the graph and which don't.
 
 == Inverse Functions
 
+#only-theory[
 Solving an equation like $2x + 3 = 11$ is really a process of *peeling
 away layers* to get to $x$ on its own: first undo the $+3$ (subtract 3
 from both sides), then undo the $times 2$ (divide both sides by 2). Each
 step *reverses* one operation. An *inverse function* is exactly this
 idea, formalized: it's a function that undoes another function.
+]
 
 #look-ahead(preview: [power functions])[
   Once we study power functions properly, we'll use the *graphical*
