@@ -760,9 +760,7 @@
   }
   let sorted = unique.sorted(key: e => lower(e.en))
 
-  v(1.5em)
-  line(length: 100%, stroke: 0.5pt + luma(180))
-  v(0.3em)
+  pagebreak()
   text(weight: "bold", size: 12pt)[#title]
   linebreak()
   text(size: 9pt, fill: luma(110), style: "italic")[
@@ -1183,7 +1181,7 @@
     grouped += d
     let remaining = n - 1 - i
     if remaining > 0 and calc.rem(remaining, 3) == 0 {
-      grouped += "\u{2019}"   // ’ typographic apostrophe (Swiss separator)
+      grouped += "\u{2019}" // ’ typographic apostrophe (Swiss separator)
     }
   }
 
