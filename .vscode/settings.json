@@ -20,5 +20,33 @@
     "editor.insertSpaces": true,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "myriad-dreamin.tinymist"
-  }
+  },
+  "cSpell.words": [
+    "bfkm",
+    "emph",
+    "Exponentials",
+    "exponentiate",
+    "keybox",
+    "Khwārizmī",
+    "luma",
+    "Mathstown",
+    "pagebreak",
+    "PEMDAS",
+    "quotebox",
+    "Sharyn",
+    "Steigungs",
+    "summands",
+    "travelling",
+    "underbrace",
+    "unsquared",
+    "vline",
+    "xlabel",
+    "xmax",
+    "xmin",
+    "xtick",
+    "ylabel",
+    "ymax",
+    "ymin",
+    "ytick"
+  ]
 }
