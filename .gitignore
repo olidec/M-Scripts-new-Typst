@@ -16,6 +16,8 @@ dist/
 # *.pdf rule — reference PDFs kept at the project root (e.g. the
 # Lehrplan documents) should stay tracked.
 src/**/*.pdf
+!**/images/*.pdf
+
 
 # Throwaway wrapper files build.sh generates for standalone
 # chapter compiles (it deletes these itself, but ignore them too
