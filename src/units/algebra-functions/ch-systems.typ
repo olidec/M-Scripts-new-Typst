@@ -49,7 +49,7 @@
   $S(3, 0)$.
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", keep-together: true)[
   Use the graphical method to solve these systems of linear equations.
   #parts(
     2,
@@ -77,18 +77,32 @@
     *infinitely many solutions*.
 ]
 
-#image-grid(2, gutter: 10pt,
+#image-grid(
+  2,
+  gutter: 10pt,
   [
     #plot-graph(
-      x => 0.5 * x + 1, (fn: x => -x + 4, color: warn-col),
-      xmin: -4.5, xmax: 4.5, ymin: -1.5, ymax: 5.5, size: 4.5, grid-step: 1,
+      x => 0.5 * x + 1,
+      (fn: x => -x + 4, color: warn-col),
+      xmin: -4.5,
+      xmax: 4.5,
+      ymin: -1.5,
+      ymax: 5.5,
+      size: 4.5,
+      grid-step: 1,
     )
     One solution -- the lines cross once.
   ],
   [
     #plot-graph(
-      x => 0.5 * x + 1, (fn: x => 0.5 * x - 1.5, color: warn-col),
-      xmin: -4.5, xmax: 4.5, ymin: -3.5, ymax: 3.5, size: 4.5, grid-step: 1,
+      x => 0.5 * x + 1,
+      (fn: x => 0.5 * x - 1.5, color: warn-col),
+      xmin: -4.5,
+      xmax: 4.5,
+      ymin: -3.5,
+      ymax: 3.5,
+      size: 4.5,
+      grid-step: 1,
     )
     No solution -- the lines are parallel (same slope) and never meet.
   ],
@@ -213,6 +227,7 @@
   )
 ]
 
+#pagebreak()
 == Verifying and Mixed Practice
 
 #ex(difficulty: 1, time: "10 min")[
@@ -367,7 +382,7 @@
   $71°$ and $19°$.
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#ex(difficulty: 2, time: "10 min", keep-together: true)[
   How much 10% acid solution should be mixed with a 25% acid solution to
   produce 3 liters of a solution that is 15% acid?
 ][

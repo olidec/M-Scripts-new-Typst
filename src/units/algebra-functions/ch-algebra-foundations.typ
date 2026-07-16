@@ -20,6 +20,8 @@
   [translate a word problem into an equation and solve it],
 )
 
+#pagebreak()
+
 == The Big Ideas in Algebra
 
 #only-theory[
@@ -56,6 +58,7 @@ as al-Khwārizmī (780--850) and Omar Khayyam (1048--1131).
 The main building blocks of algebra are #vocab("variable", "Variable")s,
 #vocab("expression", "Term")s, and #vocab("equation", "Gleichung")s.
 
+#pagebreak()
 ==== Variables
 
 #definition[
@@ -103,23 +106,71 @@ For example:
 
   #data-table(
     columns: (auto, 1fr, 1fr, 1fr, 1fr),
-    [$x$], [$x dot (x - 3)$], [$8x - (2 - 2x)$], [$0.5 dot (-2x) + 2x$], [$x^2 + x$],
-    [$5$], [$10$], [], [], [],
-    [$-3$], [], [], [], [],
-    [$0.1$], [], [], [], [],
-    [$0$], [], [], [], [],
-    [$3/4$], [], [], [], [],
+    [$x$],
+    [$x dot (x - 3)$],
+    [$8x - (2 - 2x)$],
+    [$0.5 dot (-2x) + 2x$],
+    [$x^2 + x$],
+    [$5$],
+    [$10$],
+    [],
+    [],
+    [],
+    [$-3$],
+    [],
+    [],
+    [],
+    [],
+    [$0.1$],
+    [],
+    [],
+    [],
+    [],
+    [$0$],
+    [],
+    [],
+    [],
+    [],
+    [$3/4$],
+    [],
+    [],
+    [],
+    [],
   )
 ][
   #data-table(
     columns: (auto, 1fr, 1fr, 1fr, 1fr),
     row-height: auto,
-    [$x$], [$x dot (x - 3)$], [$8x - (2 - 2x)$], [$0.5 dot (-2x) + 2x$], [$x^2 + x$],
-    [$5$], [$10$], [$48$], [$5$], [$30$],
-    [$-3$], [$18$], [$-32$], [$-3$], [$6$],
-    [$0.1$], [$-0.29$], [$-1$], [$0.1$], [$0.11$],
-    [$0$], [$0$], [$-2$], [$0$], [$0$],
-    [$3/4$], [$-27/16$], [$11/2$], [$3/4$], [$21/16$],
+    [$x$],
+    [$x dot (x - 3)$],
+    [$8x - (2 - 2x)$],
+    [$0.5 dot (-2x) + 2x$],
+    [$x^2 + x$],
+    [$5$],
+    [$10$],
+    [$48$],
+    [$5$],
+    [$30$],
+    [$-3$],
+    [$18$],
+    [$-32$],
+    [$-3$],
+    [$6$],
+    [$0.1$],
+    [$-0.29$],
+    [$-1$],
+    [$0.1$],
+    [$0.11$],
+    [$0$],
+    [$0$],
+    [$-2$],
+    [$0$],
+    [$0$],
+    [$3/4$],
+    [$-27/16$],
+    [$11/2$],
+    [$3/4$],
+    [$21/16$],
   )
 ]
 
@@ -155,7 +206,9 @@ If two equations are added - left side to left side and right side to right side
 
 #ex(difficulty: 1, time: "10 min")[
   Solve the equations for each variable.
-  #parts(2, row-gutter: 1.4em,
+  #parts(
+    2,
+    row-gutter: 1.4em,
     [(a) $p dot V = 10$],
     [(b) $4x + 3y = 10$],
     [(c) $5 dot (x - 2y) = y - (x + 3)$],
@@ -164,7 +217,8 @@ If two equations are added - left side to left side and right side to right side
     [(f) $(a + b)/2 = 2a + b$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $p = 10/V$ and $V = 10/p$],
     [(b) $x = (10 - 3y)/4$ and $y = (10 - 4x)/3$],
     [(c) $x = (11y - 3)/6$ and $y = (6x + 3)/11$],
@@ -185,34 +239,55 @@ If two equations are added - left side to left side and right side to right side
     stroke: 0.4pt + luma(190),
     inset: 7pt,
     align: (center + horizon, left + horizon),
-    [$NN$], [the set of the *natural numbers*: either ${1, 2, 3, ...}$
+    [$NN$],
+    [the set of the *natural numbers*: either ${1, 2, 3, ...}$
       or ${0, 1, 2, 3, ...}$ depending on the situation],
+
     [$ZZ$], [the set of the *integers*: ${..., -2, -1, 0, 1, 2, 3, ...}$],
-    [$QQ$], [the set of the *rational numbers* (all fractions):
+    [$QQ$],
+    [the set of the *rational numbers* (all fractions):
       ${p/q | p, q in ZZ, q != 0}$],
-    [$RR$], [the set of the *real numbers*: contains all numbers on the
+
+    [$RR$],
+    [the set of the *real numbers*: contains all numbers on the
       number line],
-    [$CC$], [the set of the *complex numbers*: adds $sqrt(-1)$ to the
+
+    [$CC$],
+    [the set of the *complex numbers*: adds $sqrt(-1)$ to the
       real numbers -- all algebraic equations can be solved in $CC$],
-    [$=$], [*equals sign*: the expression on the left is equal to the
+
+    [$=$],
+    [*equals sign*: the expression on the left is equal to the
       expression on the right],
+
     [$+$], [*plus sign*: the result of an addition is a *sum*],
     [$-$], [*minus sign*: the result of a subtraction is a *difference*],
-    [$dot$ or $times$], [*times sign*: the result of a multiplication is
+    [$dot$ or $times$],
+    [*times sign*: the result of a multiplication is
       a *product*],
+
     [$\/$], [*division sign*: the result of a division is a *quotient*],
-    [$x/y$], [*fraction*: an alternative way of writing division,
+    [$x/y$],
+    [*fraction*: an alternative way of writing division,
       consisting of a *numerator* ($x$) and a *denominator* ($y$)],
-    [$sqrt(x)$], [the *square root* of $x$ is the positive number such
+
+    [$sqrt(x)$],
+    [the *square root* of $x$ is the positive number such
       that $sqrt(x) dot sqrt(x) = x$],
-    [$x^2$], [$x$ *squared*: an abbreviation for $x dot x$. The general
+
+    [$x^2$],
+    [$x$ *squared*: an abbreviation for $x dot x$. The general
       form $x^n$ is read "$x$ to the $n$-th *power*"],
-    [$<$], [*less than*: the expression on the left is less than the
+
+    [$<$],
+    [*less than*: the expression on the left is less than the
       expression on the right],
+
     [$<=$], [*less than or equal to*],
     [$>$], [*greater than*],
     [$>=$], [*greater than or equal to*],
-    [$(med), [med], {med}$], [*brackets*: used to bring structure to
+    [$(med), [med], {med}$],
+    [*brackets*: used to bring structure to
       expressions; they give the order in which calculations should be
       made],
   )
@@ -238,11 +313,16 @@ As intervals come up constantly, they have their own shorthand notation:
   #data-table(
     columns: (auto, 1fr),
     row-height: auto,
-    [Notation], [Set Notation],
-    [$[a,b]$], [${x in RR med | med a <= x <= b}$],
-    [$[a,b)$], [${x in RR med | med a <= x < b}$],
-    [$(a,b]$], [${x in RR med | med a < x <= b}$],
-    [$(a,b)$], [${x in RR med | med a < x < b}$],
+    [Notation],
+    [Set Notation],
+    [$[a,b]$],
+    [${x in RR med | med a <= x <= b}$],
+    [$[a,b)$],
+    [${x in RR med | med a <= x < b}$],
+    [$(a,b]$],
+    [${x in RR med | med a < x <= b}$],
+    [$(a,b)$],
+    [${x in RR med | med a < x < b}$],
   )
 ]
 
@@ -291,7 +371,8 @@ any two sets.
 
 #ex(difficulty: 1, time: "10 min")[
   Write each inequality as an interval.
-  #parts(3,
+  #parts(
+    3,
     [(a) $x > 6$],
     [(b) $x <= -8$],
     [(c) $2 < x < 9$],
@@ -300,7 +381,8 @@ any two sets.
     [(f) $-3 <= x <= 3$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $(6, infinity)$],
     [(b) $(-infinity, -8]$],
     [(c) $(2, 9)$],
@@ -310,10 +392,12 @@ any two sets.
   )
 ]
 
-#ex(difficulty: 2, time: "20 min")[
+#pagebreak()
+#ex(difficulty: 2, time: "10 min")[
   Write each of the following as an interval -- or a union of two
   intervals, if it can't be written as one.
-  #parts(2,
+  #parts(
+    2,
     [(a) $[1,3) inter (2,7)$],
     [(b) $(-infinity,0) inter (-2,5)$],
     [(c) $[-7,-2] union (-infinity,-1)$],
@@ -324,7 +408,8 @@ any two sets.
     [(h) $(-3,3) without {0}$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $(2,3)$],
     [(b) $(-2,0)$],
     [(c) $(-infinity,-1)$],
@@ -391,7 +476,8 @@ larger.
 #ex(difficulty: 1, time: "10 min")[
   Write each number in scientific notation, rounding to 3 significant
   figures.
-  #parts(2,
+  #parts(
+    2,
     [(a) $253.8$],
     [(b) $0.00781$],
     [(c) $7405239$],
@@ -402,7 +488,8 @@ larger.
     [(h) Relative density of hydrogen: 0.0000899 grams per $"cm"^3$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $2.54 dot 10^2$],
     [(b) $7.81 dot 10^(-3)$],
     [(c) $7.41 dot 10^6$],
@@ -422,25 +509,30 @@ $abs(n)$, read aloud as "the absolute value of $n$."
 
 #definition[
   If $a$ is a real number, then the *absolute value* of $a$ is
-  $ abs(a) = cases(
-    a & "if" a >= 0,,
-    -a & "if" a < 0.,
-  ) $
+  $
+    abs(a) = cases(
+      a & "if" a >= 0, ,
+      -a & "if" a < 0.,
+    )
+  $
 ]
 
 #example[
-  $ abs(-3) &= 3 \
-    abs(8 - 25) &= 17 \
-    abs(5 + 4) &= 9 \
-    abs(1 - x) &= cases(
-      1 - x & "if" x <= 1,,
-      x - 1 & "if" x > 1.,
-    ) $
+  $
+        abs(-3) & = 3 \
+    abs(8 - 25) & = 17 \
+     abs(5 + 4) & = 9 \
+     abs(1 - x) & = cases(
+                    1 - x & "if" x <= 1, ,
+                    x - 1 & "if" x > 1.,
+                  )
+  $
 ]
 
 #ex(difficulty: 1, time: "5 min")[
   Evaluate each absolute value expression.
-  #parts(3,
+  #parts(
+    3,
     [(a) $abs(-13)$],
     [(b) $abs(7-11)$],
     [(c) $-5 dot abs(-5)$],
@@ -449,22 +541,29 @@ $abs(n)$, read aloud as "the absolute value of $n$."
     [(f) $(-1)/abs(-1)$],
   )
 ][
-  #parts(3,
-    [(a) $13$], [(b) $4$], [(c) $-25$],
-    [(d) $-5$], [(e) $3 - sqrt(3)$], [(f) $-1$],
+  #parts(
+    3,
+    [(a) $13$],
+    [(b) $4$],
+    [(c) $-25$],
+    [(d) $-5$],
+    [(e) $3 - sqrt(3)$],
+    [(f) $-1$],
   )
 ]
 
 #ex(difficulty: 2, time: "10 min")[
   Find all values of $x$ that make the equation true.
-  #parts(2,
+  #parts(
+    2,
     [(a) $abs(x) = 5$],
     [(b) $abs(x - 3) = 4$],
     [(c) $abs(6 - x) = 10$],
     [(d) $abs(3x + 5) = 1$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $x_(1,2) = plus.minus 5$],
     [(b) $x_1 = -1$, $x_2 = 7$],
     [(c) $x_1 = 16$, $x_2 = -4$],
@@ -488,7 +587,9 @@ $abs(n)$, read aloud as "the absolute value of $n$."
 ]
 
 #example[
-  $ 2^3 = 2 dot 2 dot 2 = 8 quad quad (-3)^2 = (-3) dot (-3) = 9 quad quad 1^(100) = 1 $
+  $
+    2^3 = 2 dot 2 dot 2 = 8 quad quad (-3)^2 = (-3) dot (-3) = 9 quad quad 1^(100) = 1
+  $
 ]
 
 By convention, we also define $a^0 = 1$ (for $a != 0$) and $a^1 = a$.
@@ -505,29 +606,24 @@ this power, gives me this result?"
 
 #ex(difficulty: 1, time: "10 min")[
   Evaluate.
-  #parts(4,
-    [(a) $2^5$],
-    [(b) $(-2)^4$],
-    [(c) $10^3$],
-    [(d) $0.1^2$],
-  )
+  #parts(4, [(a) $2^5$], [(b) $(-2)^4$], [(c) $10^3$], [(d) $0.1^2$])
 ][
-  #parts(4,
-    [(a) $32$], [(b) $16$], [(c) $1000$], [(d) $0.01$],
-  )
+  #parts(4, [(a) $32$], [(b) $16$], [(c) $1000$], [(d) $0.01$])
 ]
 
 #ex(difficulty: 1, time: "10 min")[
   For each power, write the corresponding root statement, and for each
   root, write the corresponding power statement.
-  #parts(2,
+  #parts(
+    2,
     [(a) $3^4 = 81$],
     [(b) $root(3, 27) = 3$],
     [(c) $5^2 = 25$],
     [(d) $root(4, 16) = 2$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $root(4, 81) = 3$],
     [(b) $3^3 = 27$],
     [(c) $root(2, 25) = 5$],
@@ -552,7 +648,9 @@ The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$, $n in NN$:
 
 #ex(difficulty: 1, time: "10 min")[
   Express each in terms of the simplest possible radical.
-  #parts(3, row-gutter: 1.4em,
+  #parts(
+    3,
+    row-gutter: 1.4em,
     [(a) $sqrt(8)$],
     [(b) $sqrt(28)/sqrt(7)$],
     [(c) $sqrt(3) dot sqrt(12)$],
@@ -563,9 +661,16 @@ The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$, $n in NN$:
     [(h) $root(3, 9) dot root(3, 3)$],
   )
 ][
-  #parts(4,
-    [(a) $2 sqrt(2)$], [(b) $2$], [(c) $6$], [(d) $2$],
-    [(e) $sqrt(3)/2$], [(f) $5 sqrt(2)$], [(g) $12 sqrt(2)$], [(h) $3$],
+  #parts(
+    4,
+    [(a) $2 sqrt(2)$],
+    [(b) $2$],
+    [(c) $6$],
+    [(d) $2$],
+    [(e) $sqrt(3)/2$],
+    [(f) $5 sqrt(2)$],
+    [(g) $12 sqrt(2)$],
+    [(h) $3$],
   )
 ]
 
@@ -579,6 +684,7 @@ and other grouping symbols. Other grouping symbols include absolute
 value bars, radical signs, and fraction bars. The order of operations
 can be remembered using the mnemonic *PEMDAS*.
 
+#pagebreak()
 #keybox(title: "Order of Operations")[
   + First, simplify expressions within parentheses and other grouping
     symbols -- including absolute value bars, fraction bars, and
@@ -593,30 +699,32 @@ can be remembered using the mnemonic *PEMDAS*.
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following expressions.
-  #parts(2, row-gutter: 1.4em,
+  #parts(
+    2,
+    row-gutter: 1.4em,
     [(a) $10 - 5 dot (2-5)^2 + 6/3 + sqrt(16-7)$],
     [(b) $abs((-3)^3 + (5^2-3)) / (-(15)/(-3) dot 2)$],
     [(c) $36/2^2 dot 3 - (18-5) dot 2 + 6$],
     [(d) $(-abs(5-7) + 11)/(-1-2)^2$],
   )
 ][
-  #parts(4,
-    [(a) $-30$], [(b) $1/2$], [(c) $7$], [(d) $1$],
-  )
+  #parts(4, [(a) $-30$], [(b) $1/2$], [(c) $7$], [(d) $1$])
 ]
 
 == Solving Equations
 
 #ex(difficulty: 1, time: "10 min")[
   Solve the following equations.
-  #parts(2,
+  #parts(
+    2,
     [(a) $4x - 2 = 3x + 6$],
     [(b) $34 - x = 4x + 12$],
     [(c) $4.2 - 2x = 3x + 4.2$],
     [(d) $3x + 6 = 3x - 6$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $x = 8$],
     [(b) $x = 22/5$],
     [(c) $x = 0$],
@@ -624,16 +732,17 @@ can be remembered using the mnemonic *PEMDAS*.
   )
 ]
 
-#pagebreak()
 #ex(difficulty: 2, time: "10 min")[
   Fill in the blanks so that both sides are equal.
-  #parts(1, row-gutter: 2em,
-  [(a) $(x + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med)^2 = x^2 + 16 + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med$],
-  [(b) $(a - med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med) dot (a + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med) = med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med - 81 b^2$],
-  [(c) $(0.5x - med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med)^2 = med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med - 1.2 x y + 1.44 y^2$],
-  [(d) $(med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med - 5t)^2 = 49 s^2 - med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med + med #box(height: 24pt, width:24pt, stroke: 1pt, baseline:8pt) med$]
+  #parts(
+    1,
+    row-gutter: 2em,
+    [(a) $(x + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med)^2 = x^2 + 16 + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med$],
+    [(b) $(a - med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med) dot (a + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med) = med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med - 81 b^2$],
+    [(c) $(0.5x - med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med)^2 = med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med - 1.2 x y + 1.44 y^2$],
+    [(d) $(med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med - 5t)^2 = 49 s^2 - med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med$],
   )
-  
+
 ][
   + $(x + 4)^2 = x^2 + 16 + 8x$
   + $(a - 9b) dot (a + 9b) = a^2 - 81 b^2$
@@ -643,7 +752,8 @@ can be remembered using the mnemonic *PEMDAS*.
 
 #ex(difficulty: 2, time: "15 min")[
   Solve the equations. Do a substitution check.
-  #parts(2,
+  #parts(
+    2,
     [(a) $2x - (4 - 5x) = 10$],
     [(b) $(x-12)^2 = (x+12)^2$],
     [(c) $(x+3)^2 = x^2 + 18$],
@@ -652,7 +762,8 @@ can be remembered using the mnemonic *PEMDAS*.
     [(f) $(x - 1/3)^2 = (1/3 - x)^2$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $x = 2$],
     [(b) $x = 0$],
     [(c) $x = 3/2$],
@@ -668,8 +779,10 @@ can be remembered using the mnemonic *PEMDAS*.
 
 #definition[
   The *distributive law* for real numbers states that
-  $ a dot (b plus.minus c) &= a b plus.minus a c \
-    (a plus.minus b) dot c &= a c plus.minus b c $
+  $
+    a dot (b plus.minus c) & = a b plus.minus a c \
+    (a plus.minus b) dot c & = a c plus.minus b c
+  $
 ]
 
 #example[
@@ -681,8 +794,10 @@ can be remembered using the mnemonic *PEMDAS*.
 In special cases the following formulas are particularly important:
 
 #keybox(title: "Special Products")[
-  $ (a+b) dot (a-b) &= a^2 - b^2 \
-    (a plus.minus b)^2 &= a^2 plus.minus 2 a b + b^2 $
+  $
+       (a+b) dot (a-b) & = a^2 - b^2 \
+    (a plus.minus b)^2 & = a^2 plus.minus 2 a b + b^2
+  $
 ]
 
 #example[
@@ -691,6 +806,7 @@ In special cases the following formulas are particularly important:
   + $(4-x)^2 = 16 - 8x + x^2$
 ]
 
+#pagebreak()
 === Factoring Algebraic Expressions
 
 To #vocab("factor", "faktorisieren") an expression means to rewrite it
@@ -711,14 +827,17 @@ as a product of simpler expressions. Several methods can help:
 *Application: Solving Equations*
 
 #example[
-  $ 3x^2 + 4x - 4 &= 0 \
-    (3x - 2) dot (x + 2) &= 0 $
+  $
+           3x^2 + 4x - 4 & = 0 \
+    (3x - 2) dot (x + 2) & = 0
+  $
   Thus $x_1 = 2/3$ and $x_2 = -2$.
 ]
 
 #ex(difficulty: 2, time: "15 min")[
   Expand and simplify.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(n+4) dot (n-5)$],
     [(b) $(x+7) dot (x-7)$],
     [(c) $(5m+2)^2$],
@@ -727,7 +846,8 @@ as a product of simpler expressions. Several methods can help:
     [(f) $(1+sqrt(5)) dot (1-sqrt(5))$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $n^2 - n - 20$],
     [(b) $x^2 - 49$],
     [(c) $25m^2 + 20m + 4$],
@@ -739,7 +859,8 @@ as a product of simpler expressions. Several methods can help:
 
 #ex(difficulty: 2, time: "20 min")[
   Factor each expression.
-  #parts(2,
+  #parts(
+    2,
     [(a) $12x^2 - 48$],
     [(b) $x^3 - 6x^2$],
     [(c) $x^2 + x - 12$],
@@ -752,7 +873,8 @@ as a product of simpler expressions. Several methods can help:
     [(j) $4z^4 - 8z^3 - 96z^2$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $12 dot (x-2) dot (x+2)$],
     [(b) $x^2 dot (x-6)$],
     [(c) $(x-3) dot (x+4)$],
@@ -768,7 +890,8 @@ as a product of simpler expressions. Several methods can help:
 
 #ex(difficulty: 2, time: "20 min")[
   Solve the following equations.
-  #parts(2,
+  #parts(
+    2,
     [(a) $x dot (x-3) = 0$],
     [(b) $4x^2 - 12x = 0$],
     [(c) $x^2 - 16 = 0$],
@@ -781,7 +904,8 @@ as a product of simpler expressions. Several methods can help:
     [(j) $x^2 - 7x + 12 = 0$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $x_1 = 0$, $x_2 = 3$],
     [(b) $x_1 = 0$, $x_2 = 3$],
     [(c) $x_(1,2) = plus.minus 4$],
@@ -812,18 +936,23 @@ $a : b$. If you remember the following, you should be set:
   $ (a+b)/c = a/c + b/c\. $
 
 #example[
-  $ (1-x^2)/(x^2+x-2) = ((1-x)(1+x))/((x-1)(x+2)) = (-(1+x))/(x+2) = -(x+1)/(x+2) $
+  $
+    (1-x^2)/(x^2+x-2) = ((1-x)(1+x))/((x-1)(x+2)) = (-(1+x))/(x+2) = -(x+1)/(x+2)
+  $
 ]
 #example[
   $ x - 1/x = x^2/x - 1/x = (x^2-1)/x $
 ]
 #example[
-  $ (a/b + 1)/(1 - a/b) = (a/b + b/b)/(b/b - a/b) = ((a+b)/b)/((b-a)/b) = (a+b)/b dot b/(b-a) = (a+b)/(b-a) $
+  $
+    (a/b + 1)/(1 - a/b) = (a/b + b/b)/(b/b - a/b) = ((a+b)/b)/((b-a)/b) = (a+b)/b dot b/(b-a) = (a+b)/(b-a)
+  $
 ]
 
 #ex(difficulty: 1, time: "15 min")[
   Simplify the following fractions.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(8a dot b)/(64a^2b^2)$],
     [(b) $(24a^2)/(24a dot b)$],
     [(c) $(-27a^5)/(9a^4)$],
@@ -832,7 +961,8 @@ $a : b$. If you remember the following, you should be set:
     [(f) $(15x^2 dot y)/(35x dot y^2)$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $1/(8a dot b)$],
     [(b) $a/b$],
     [(c) $-3a$],
@@ -844,7 +974,8 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following fractions.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(28a-35b)/21$],
     [(b) $(5x+5y)/(25x+25y)$],
     [(c) $(8a+16b)/(24a-8b)$],
@@ -853,7 +984,8 @@ $a : b$. If you remember the following, you should be set:
     [(f) $(r dot s+r dot t)/(s dot x+t dot x)$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $(4a-5b)/3$],
     [(b) $1/5$],
     [(c) $(a+2b)/(3a-b)$],
@@ -865,7 +997,8 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "20 min")[
   Simplify the following fractions.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(x^2-25)/(x^2+10x+25)$],
     [(b) $(a^4-1)/(a^2-1)$],
     [(c) $(9x^2-16y^2)/(8y-6x)$],
@@ -874,7 +1007,8 @@ $a : b$. If you remember the following, you should be set:
     [(f) $(x^4-16)/(x+2)$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $(x-5)/(x+5)$],
     [(b) $a^2+1$],
     [(c) $-(3x+4y)/2$],
@@ -886,7 +1020,8 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "15 min")[
   Multiply and simplify.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(8a)/(27b) dot (9b dot c)/(16a)$],
     [(b) $3a dot 4/(5a)$],
     [(c) $44x^2y^2 dot (-2x^3)/(11y^3)$],
@@ -895,7 +1030,8 @@ $a : b$. If you remember the following, you should be set:
     [(f) $(9a)/(4b) dot 6a dot b$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $c/6$],
     [(b) $12/5$],
     [(c) $-(8x^5)/y$],
@@ -907,7 +1043,8 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "15 min")[
   Divide and simplify.
-  #parts(2,
+  #parts(
+    2,
     [(a) $(5k dot m)/6 : (3k)/(2m)$],
     [(b) $19r^2s^2 : (19r^2s^2)/(23t)$],
     [(c) $(x dot y)/(w dot z) : y dot z$],
@@ -916,7 +1053,8 @@ $a : b$. If you remember the following, you should be set:
     [(f) $(9c^2 dot d)/(a dot b) : 9c^2 dot d$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $(5m^2)/9$],
     [(b) $23t$],
     [(c) $x/(w dot z^2)$],
@@ -928,7 +1066,8 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "20 min")[
   Add/subtract and simplify.
-  #parts(3,
+  #parts(
+    3,
     [(a) $4a - (4a^2+5)/(a-1)$],
     [(b) $(17a-15)/39 - (8a+9)/26$],
     [(c) $(5c)/(6a^3) + c/(3a^2)$],
@@ -937,7 +1076,8 @@ $a : b$. If you remember the following, you should be set:
     [(f) $5/(2a dot c) + 3/(5c dot d)$],
   )
 ][
-  #parts(3,
+  #parts(
+    3,
     [(a) $-(4a+5)/(a-1)$],
     [(b) $(10a-57)/78$],
     [(c) $(5c+2a dot c)/(6a^3)$],
@@ -949,14 +1089,16 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following fractions.
-  #parts(2,
+  #parts(
+    2,
     [(a) $(x+4)/(x^2+5x+4)$],
     [(b) $(3n-2)/(6n^2-6n)$],
     [(c) $(a^2-b^2)/(5a-5b)$],
     [(d) $((2x+h)^2-4x^2)/h$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $1/(x+1)$],
     [(b) $(3n-2)/(6n^2-6n)$],
     [(c) $(a+b)/5$],
@@ -966,14 +1108,16 @@ $a : b$. If you remember the following, you should be set:
 
 #ex(difficulty: 2, time: "15 min")[
   Perform the indicated operation and simplify.
-  #parts(2,
+  #parts(
+    2,
     [(a) $x/5 - (x-1)/3$],
     [(b) $2/(2x-1) - 4$],
     [(c) $1/(x+y) + 1/(x-y)$],
     [(d) $(3x^2-3)/(6x) dot (5x^2)/(1-x)$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $(5-2x)/15$],
     [(b) $(6-8x)/(2x-1)$],
     [(c) $(2x)/(x^2-y^2)$],
@@ -987,6 +1131,7 @@ $a : b$. If you remember the following, you should be set:
 ][
   $1$
 ]
+#pagebreak()
 
 #ex(difficulty: 1, time: "5 min")[
   Calculate.
@@ -1009,14 +1154,16 @@ Here is a quick mixed workout using both techniques together.
 
 #ex(difficulty: 2, time: "15 min", keep-together: true)[
   Solve each equation, using whichever technique fits best.
-  #parts(2,
+  #parts(
+    2,
     [(a) $5x - 8 = 2x + 7$],
     [(b) $x^2 - 5x + 6 = 0$],
     [(c) $3 dot (2x - 1) = x + 9$],
     [(d) $x^2 - 9x = 0$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $x = 5$],
     [(b) $x_1 = 2$, $x_2 = 3$],
     [(c) $x = 12/5$],
@@ -1041,6 +1188,8 @@ Even further along, we'll add an additional step at the very beginning:
 The middle step -- solving the equation -- is often the least
 interesting one. As a result, the other steps will become more and more
 prominent as we progress.
+
+#pagebreak()
 
 #ex(difficulty: 1, time: "10 min")[
   Translate the following into an equation and solve.

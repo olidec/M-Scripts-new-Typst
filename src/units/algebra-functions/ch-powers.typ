@@ -50,16 +50,21 @@ $ a^n = underbrace(a dot a dot a dots.h.c a, n med "times") . $
 As long as the exponents are all natural numbers, the following rules
 seem self-evident:
 
+#pagebreak()
 #keybox(title: "The Laws of Exponents")[
-  $ a^n dot a^m &= a^(n+m) \
-    a^n/a^m &= a^(n-m) \
-    (a^n)^m &= a^(n dot m) \
-    a^n dot b^n &= (a dot b)^n \
-    a^n/b^n &= (a/b)^n $
+  $
+    a^n dot a^m & = a^(n+m) \
+        a^n/a^m & = a^(n-m) \
+        (a^n)^m & = a^(n dot m) \
+    a^n dot b^n & = (a dot b)^n \
+        a^n/b^n & = (a/b)^n
+  $
 ]
 
 #example[
-  $ 3^2 dot 3^4 = underbrace(3 dot 3, 2 med "times") dot underbrace(3 dot 3 dot 3 dot 3, 4 med "times") = 3^6 . $
+  $
+    3^2 dot 3^4 = underbrace(3 dot 3, 2 med "times") dot underbrace(3 dot 3 dot 3 dot 3, 4 med "times") = 3^6 .
+  $
 ]
 
 #exploration(title: "What Should a Negative Exponent Mean?")[
@@ -86,101 +91,100 @@ seem self-evident:
 
 #ex(difficulty: 1, time: "10 min")[
   Decide which power is larger, without using a calculator.
-  #parts(3,
-    [(a) $3^4$ or $4^3$],
-    [(b) $2^3$ or $3^2$],
-    [(c) $2^4$ or $4^2$],
-  )
+  #parts(3, [(a) $3^4$ or $4^3$], [(b) $2^3$ or $3^2$], [(c) $2^4$ or $4^2$])
 ][
-  #parts(3,
-    [(a) $3^4$], [(b) $3^2$], [(c) both are equal],
-  )
+  #parts(3, [(a) $3^4$], [(b) $3^2$], [(c) both are equal])
 ]
 
 #ex(difficulty: 1, time: "15 min")[
   Simplify the following products.
-  #parts(3,
+  #parts(
+    3,
     [(a) $a^4 dot a$],
     [(b) $(5c) dot (2c)^3$],
     [(c) $(4a^(10)) dot (-6a^4) dot a$],
   )
 ][
-  #parts(3,
-    [(a) $a^5$], [(b) $40c^4$], [(c) $-24a^(15)$],
-  )
+  #parts(3, [(a) $a^5$], [(b) $40c^4$], [(c) $-24a^(15)$])
 ]
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following quotients.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(6r^5)/(2r^3)$],
     [(b) $(-(x dot y)^3)/((-2x dot y)^2)$],
     [(c) $(4x^5 dot y^4)/(6x^2)$],
   )
 ][
-  #parts(3,
-    [(a) $3r^2$], [(b) $-(x dot y)/4$], [(c) $(2x^3 dot y^4)/3$],
-  )
+  #parts(3, [(a) $3r^2$], [(b) $-(x dot y)/4$], [(c) $(2x^3 dot y^4)/3$])
 ]
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following powers.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(4s^2)^3$],
     [(b) $(d^2 dot e^3 dot f^4)^3$],
     [(c) $(x^2 dot (-z)^3)^5$],
   )
 ][
-  #parts(3,
-    [(a) $64s^6$], [(b) $d^6 dot e^9 dot f^(12)$], [(c) $-x^(10) dot z^(15)$],
+  #parts(
+    3,
+    [(a) $64s^6$],
+    [(b) $d^6 dot e^9 dot f^(12)$],
+    [(c) $-x^(10) dot z^(15)$],
   )
 ]
 
 #ex(difficulty: 2, time: "15 min")[
   Order the following terms from smallest to largest.
-  #parts(2,
+  #parts(
+    2,
     [(a) $(-2)^3, med -2^3, med (-3)^3, med -3^2$],
     [(b) $2^(-2), med 3^(-3), med -2^(-2), med 2^(-3)$],
   )
 ][
-  #parts(1,
+  #parts(
+    1,
     [(a) $-3^3 < -3^2 < -2^3 = (-2)^3$],
     [(b) $-2^(-2) < 3^(-3) < 2^(-3) < 2^(-2)$],
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "15 min", keep-together: true)[
   Simplify the following expressions. The results should contain only
   positive exponents.
-  #parts(3,
+  #parts(
+    3,
     [(a) $(x^4 dot x^(-4))/x^4$],
     [(b) $(6a^4 dot b^(-2))/(72a^7) dot b^(-5)$],
     [(c) $-b^(-1) dot b^(-2)$],
   )
 ][
-  #parts(3,
-    [(a) $1/x^4$], [(b) $1/(12a^3b^7)$], [(c) $-1/b^3$],
-  )
+  #parts(3, [(a) $1/x^4$], [(b) $1/(12a^3b^7)$], [(c) $-1/b^3$])
 ]
 
-#ex(difficulty: 1, time: "10 min", hints: ("Rewrite each root as a fractional power first.",))[
+#ex(difficulty: 1, time: "10 min", hints: (
+  "Rewrite each root as a fractional power first.",
+))[
   Solve using only your head. Hint: write as powers.
-  #parts(4,
+  #parts(
+    4,
     [(a) $16^(1/2)$],
     [(b) $625^(1/4)$],
     [(c) $27^(2/3)$],
     [(d) $25^(3/2)$],
   )
 ][
-  #parts(4,
-    [(a) $4$], [(b) $5$], [(c) $9$], [(d) $125$],
-  )
+  #parts(4, [(a) $4$], [(b) $5$], [(c) $9$], [(d) $125$])
 ]
 
 #ex(difficulty: 2, time: "20 min")[
   Give an exact expression for the solution, then approximate to two
   decimal places using a calculator.
-  #parts(2,
+  #parts(
+    2,
     [(a) $x^4 = 20$],
     [(b) $x^7 = -100$],
     [(c) $0.4x^4 = 250$],
@@ -207,35 +211,34 @@ seem self-evident:
 
 #ex(difficulty: 2, time: "15 min")[
   Simplify the following expressions according to the example above.
-  #parts(4,
+  #parts(
+    4,
     [(a) $root(3, 2) dot root(3, 4)$],
     [(b) $root(3, 12) dot root(3, 18)$],
     [(c) $root(5, 16) dot root(5, 2)$],
     [(d) $root(6, 9) dot root(6, 81)$],
   )
 ][
-  #parts(4,
-    [(a) $2$], [(b) $6$], [(c) $2$], [(d) $3$],
-  )
+  #parts(4, [(a) $2$], [(b) $6$], [(c) $2$], [(d) $3$])
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#ex(difficulty: 2, time: "10 min", keep-together: true)[
   Calculate without a calculator.
-  #parts(3,
+  #parts(
+    3,
     [(a) $3^(1/2) dot 12^(1/2)$],
     [(b) $2^(1/5)/64^(1/5)$],
     [(c) $25^(3/8) dot 25^(5/8)$],
   )
 ][
-  #parts(3,
-    [(a) $6$], [(b) $1/2$], [(c) $25$],
-  )
+  #parts(3, [(a) $6$], [(b) $1/2$], [(c) $25$])
 ]
 
 #ex(difficulty: 3, time: "25 min")[
   Replace $x$ with the appropriate number. These are designed to be
   solved without a calculator.
-  #parts(4,
+  #parts(
+    4,
     [(a) $x^(0.75) = 8$],
     [(b) $x^(2/3) = 9$],
     [(c) $x^(1.5) = 0.001$],
@@ -257,7 +260,8 @@ seem self-evident:
     [(s) $8^(-0.25) = 2^x$],
   )
 ][
-  #parts(4,
+  #parts(
+    4,
     [(a) $x = 16$],
     [(b) $x = 27$],
     [(c) $x = 10^(-2)$],
@@ -282,14 +286,16 @@ seem self-evident:
 
 #ex(difficulty: 3, time: "15 min")[
   Solve the following equations without using a calculator.
-  #parts(2,
+  #parts(
+    2,
     [(a) $9^(50) = 27^x$],
     [(b) $16^(-x) = 2^(10)$],
     [(c) $a^(3/4) dot a^x = a^(2/3)$],
     [(d) $a^(3/4) : a^x = a^(2/3)$],
   )
 ][
-  #parts(2,
+  #parts(
+    2,
     [(a) $x = 100/3$],
     [(b) $x = -2.5$],
     [(c) $x = -1/12$],
@@ -299,17 +305,18 @@ seem self-evident:
 
 #ex(difficulty: 3, time: "15 min")[
   True or false? Determine without a calculator.
-  #parts(4,
+  #parts(
+    4,
     [(a) $9^(1.5) in NN$],
     [(b) $5^(1.5) < 11$],
     [(c) $0.5^(0.5) > 0.5$],
     [(d) $pi^(100) < 9^(50)$],
   )
 ][
-  #parts(4,
-    [(a) true], [(b) false], [(c) true], [(d) false],
-  )
+  #parts(4, [(a) true], [(b) false], [(c) true], [(d) false])
 ]
+
+#pagebreak()
 == Power Functions and Models
 
 #only-theory[
@@ -340,8 +347,10 @@ seem self-evident:
 
 #exploration(title: "Fractional Exponents on One Graph")[
   Draw $f(x) = x^q$ for
-  $ q = 4, med 3/2, med 1, med 2/3, med 1/4, med 0, med -1/2, med -1,
-    med -3/2 $
+  $
+    q = 4, med 3/2, med 1, med 2/3, med 1/4, med 0, med -1/2, med -1,
+    med -3/2
+  $
   on $x in [-3, 3]$, all in the same coordinate system.
 
   + Which of these graphs look similar to each other?
@@ -362,11 +371,17 @@ seem self-evident:
     follows the same even/odd pattern as the positive exponents.
 ]
 
-#image-grid(2, gutter: 10pt,
+#image-grid(
+  2,
+  gutter: 10pt,
   [
     #plot-graph(
       x => if x == 0 { none } else { calc.pow(x, -4) },
-      xmin: -2.5, xmax: 2.5, ymin: -0.5, ymax: 5.5, size: 5,
+      xmin: -2.5,
+      xmax: 2.5,
+      ymin: -0.5,
+      ymax: 5.5,
+      size: 5,
       grid-step: 1,
     )
     Graph A
@@ -374,7 +389,11 @@ seem self-evident:
   [
     #plot-graph(
       x => calc.pow(x, 3),
-      xmin: -1.7, xmax: 1.7, ymin: -3.7, ymax: 3.7, size: 5,
+      xmin: -1.7,
+      xmax: 1.7,
+      ymin: -3.7,
+      ymax: 3.7,
+      size: 5,
       grid-step: 1,
     )
     Graph B
@@ -382,7 +401,11 @@ seem self-evident:
   [
     #plot-graph(
       x => if x == 0 { none } else { calc.pow(x, -3) },
-      xmin: -2.5, xmax: 2.5, ymin: -4.5, ymax: 4.5, size: 5,
+      xmin: -2.5,
+      xmax: 2.5,
+      ymin: -4.5,
+      ymax: 4.5,
+      size: 5,
       grid-step: 1,
     )
     Graph C
@@ -390,7 +413,11 @@ seem self-evident:
   [
     #plot-graph(
       x => calc.pow(x, 4),
-      xmin: -1.7, xmax: 1.7, ymin: -0.5, ymax: 5.5, size: 5,
+      xmin: -1.7,
+      xmax: 1.7,
+      ymin: -0.5,
+      ymax: 5.5,
+      size: 5,
       grid-step: 1,
     )
     Graph D
@@ -409,7 +436,10 @@ seem self-evident:
 ][
   #parts(
     2,
-    [(a) Graph B], [(b) Graph D], [(c) Graph C], [(d) Graph A],
+    [(a) Graph B],
+    [(b) Graph D],
+    [(c) Graph C],
+    [(d) Graph A],
   )
 ]
 
@@ -437,8 +467,10 @@ seem self-evident:
     $g(x) = x^m - 5$ intersect at $P = (2, 3)$.
 ][
   + Divide the second equation by the first to eliminate $a$:
-    $ (a dot 6^n)/(a dot 3^n) = 16/1 quad => quad (6/3)^n = 16 quad
-      => quad 2^n = 16 quad => quad n = 4. $
+    $
+      (a dot 6^n)/(a dot 3^n) = 16/1 quad => quad (6/3)^n = 16 quad
+      => quad 2^n = 16 quad => quad n = 4.
+    $
     Then from $a dot 3^4 = 1$: $a = 1/81$.
   + Both functions must pass through $(2,3)$:
     $ 2^n + 2.5 = 3 => 2^n = 0.5 => n = -1, $
@@ -526,7 +558,12 @@ seem self-evident:
     fn: x => if x < 2 { none } else { -calc.sqrt(x - 2) + 1 },
     color: warn-col,
   ),
-  xmin: -0.5, xmax: 7.5, ymin: -1.5, ymax: 3.5, size: 7, grid-step: 1,
+  xmin: -0.5,
+  xmax: 7.5,
+  ymin: -1.5,
+  ymax: 3.5,
+  size: 7,
+  grid-step: 1,
 )
 
 #ex(difficulty: 2, time: "15 min")[

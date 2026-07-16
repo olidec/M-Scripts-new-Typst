@@ -190,6 +190,9 @@ form* and the *point-slope form*.
   vertical lines (which slope-intercept form can't).
 ]
 
+
+#pagebreak()
+
 #definition(title: "Point-Slope Form")[
   The #vocab("point-slope form", "Punkt-Steigungs-Form") is useful when
   we know the slope of a line and a point on it that isn't the
@@ -238,6 +241,7 @@ form* and the *point-slope form*.
   Two lines are *parallel* if and only if they have the *same slope*
   (and different $y$\u{2011}intercepts -- otherwise they're the same line).
 ]
+#pagebreak()
 
 #look-ahead(preview: [systems of equations])[
   Parallel lines never meet, no matter how far you extend them. But two
@@ -452,13 +456,14 @@ different order can give a different result.
   A reasonable line of best fit gives approximately $m approx 0.80$,
   $q approx 1.20$, i.e. $y approx 0.80 x + 1.20$.
 ]
+#pagebreak()
 
 == Extra Bits
 
 #ex(difficulty: 3, time: "15 min")[
   A group of 10 students are on a field trip when their bus breaks down
   40 miles from school. A teacher takes 5 of them back to school in her
-  car, travelling at a steady 40 mph. The other 5 start walking towards
+  car, traveling at a steady 40 mph. The other 5 start walking towards
   school at a steady 4 mph. The teacher drops the first 5 off, then
   immediately turns around and comes back for the others, again at 40
   mph.

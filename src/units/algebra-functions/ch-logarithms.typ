@@ -107,16 +107,27 @@
 ][
   #parts(
     3,
-    [(a) $1$], [(b) $2$], [(c) $0$], [(d) $-1$],
-    [(e) doesn't exist], [(f) $2$], [(g) $3$], [(h) $-2$],
-    [(i) $1/2$], [(j) $10$], [(k) $2$], [(l) $-1$],
+    [(a) $1$],
+    [(b) $2$],
+    [(c) $0$],
+    [(d) $-1$],
+    [(e) doesn't exist],
+    [(f) $2$],
+    [(g) $3$],
+    [(h) $-2$],
+    [(i) $1/2$],
+    [(j) $10$],
+    [(k) $2$],
+    [(l) $-1$],
   )
 ]
 
 #example[
   Evaluate $9^(log_3 (4))$.
-  $ 9^(log_3 (4)) = (3^2)^(log_3 (4)) = 3^(2 dot log_3 (4)) =
-    (3^(log_3 (4)))^2 = 4^2 = 16 $
+  $
+    9^(log_3 (4)) = (3^2)^(log_3 (4)) = 3^(2 dot log_3 (4)) =
+    (3^(log_3 (4)))^2 = 4^2 = 16
+  $
 ]
 
 #ex(difficulty: 2, time: "10 min")[
@@ -132,6 +143,8 @@
   #parts(2, [(a) $10$], [(b) $100$], [(c) $3$], [(d) $25$])
 ]
 
+
+#pagebreak()
 == The Logarithm as an Inverse Function
 
 #exploration(title: "Discovering Euler's Number")[
@@ -172,19 +185,25 @@
   expect from an inverse function.
 ]
 
+
 #example[
   Find the inverse function of $f(x) = 2^(x+1) - 1$.
 
   Solve for $x$, then swap $x$ and $y$:
-  $ y = 2^(x+1) - 1 quad => quad y + 1 = 2^(x+1) quad => quad
-    log_2 (y+1) = x + 1 quad => quad x = log_2 (y+1) - 1. $
+  $
+    y = 2^(x+1) - 1 quad => quad y + 1 = 2^(x+1) quad => quad
+    log_2 (y+1) = x + 1 quad => quad x = log_2 (y+1) - 1.
+  $
   So $f^(-1): y = log_2 (x+1) - 1$.
 ]
 
+#pagebreak()
 #example[
   Find the inverse function of $f(x) = 2 dot ln(-x+1)$.
-  $ y = 2 dot ln(-x+1) quad => quad y/2 = ln(-x+1) quad => quad
-    e^(y/2) = -x+1 quad => quad x = 1 - e^(y/2). $
+  $
+    y = 2 dot ln(-x+1) quad => quad y/2 = ln(-x+1) quad => quad
+    e^(y/2) = -x+1 quad => quad x = 1 - e^(y/2).
+  $
   So $f^(-1): y = 1 - e^(x/2)$.
 ]
 
@@ -217,11 +236,13 @@
 == The Laws of Logarithms
 
 #keybox(title: "The Laws of Logarithms")[
-  $ log_b (x dot y) &= log_b (x) + log_b (y) \
-    log_b (x/y) &= log_b (x) - log_b (y) \
-    log_b (1/y) &= -log_b (y) \
-    log_b (x^n) &= n dot log_b (x) \
-    log_c (x) &= log_b (x)/log_b (c) $
+  $
+    log_b (x dot y) & = log_b (x) + log_b (y) \
+        log_b (x/y) & = log_b (x) - log_b (y) \
+        log_b (1/y) & = -log_b (y) \
+        log_b (x^n) & = n dot log_b (x) \
+          log_c (x) & = log_b (x)/log_b (c)
+  $
 ]
 
 #only-theory[
@@ -229,32 +250,40 @@
   calculator that only knows $log$ and $ln$ evaluate a logarithm in
   any other base.
 ]
-
+#pagebreak()
 #example[
   Express $log_a (5) + 2 dot log_a (7) - log_a (35)$ as a single
   logarithm.
-  $ log_a (5) + 2 dot log_a (7) - log_a (35) =
-    log_a ((5 dot 7^2)/35) = log_a (7). $
+  $
+    log_a (5) + 2 dot log_a (7) - log_a (35) =
+    log_a ((5 dot 7^2)/35) = log_a (7).
+  $
 ]
 
 #example[
   Express $1 - log_a (a dot b)$ as a single logarithm.
-  $ 1 - log_a (a dot b) = log_a (a) - log_a (a dot b) =
-    log_a (a/(a dot b)) = log_a (1/b) = -log_a (b). $
+  $
+    1 - log_a (a dot b) = log_a (a) - log_a (a dot b) =
+    log_a (a/(a dot b)) = log_a (1/b) = -log_a (b).
+  $
 ]
 
 #example[
   Evaluate $2 dot (log(5) + log(2)) - 1$ without a calculator.
-  $ 2 dot (log(5) + log(2)) - 1 = 2 dot log(5 dot 2) - 1 =
-    2 dot log(10) - 1 = 2 - 1 = 1. $
+  $
+    2 dot (log(5) + log(2)) - 1 = 2 dot log(5 dot 2) - 1 =
+    2 dot log(10) - 1 = 2 - 1 = 1.
+  $
 ]
 
 #example[
   Solve $5^(2-x) = 4$ using the natural logarithm.
 
   Taking $ln$ of both sides:
-  $ (2-x) dot ln(5) = ln(4) quad => quad 2 - x = ln(4)/ln(5) quad
-    => quad x = 2 - ln(4)/ln(5). $
+  $
+    (2-x) dot ln(5) = ln(4) quad => quad 2 - x = ln(4)/ln(5) quad
+    => quad x = 2 - ln(4)/ln(5).
+  $
 ]
 
 #ex(difficulty: 2, time: "15 min", keep-together: true)[
@@ -309,11 +338,15 @@
   Recall the Smiths' investment: worth CHF 15'338.11 today, growing
   at $4.2%$ per year. Exactly how many more years, $t$, until it
   passes CHF 20'000?
-  $ 15338.11 dot 1.042^t = 20000 quad => quad 1.042^t =
-    20000/15338.11 $
+  $
+    15338.11 dot 1.042^t = 20000 quad => quad 1.042^t =
+    20000/15338.11
+  $
   Taking $ln$ of both sides:
-  $ t dot ln(1.042) = ln(20000/15338.11) quad => quad
-    t = ln(20000/15338.11)/ln(1.042) approx 6.45 . $
+  $
+    t dot ln(1.042) = ln(20000/15338.11) quad => quad
+    t = ln(20000/15338.11)/ln(1.042) approx 6.45 .
+  $
   This confirms and sharpens our earlier trial-and-error estimate: it
   takes about $6.45$ more years, matching what we bracketed between
   $6$ and $7$ years before.
@@ -396,6 +429,7 @@
   )
 ]
 
+#pagebreak()
 #ex(difficulty: 3, time: "15 min")[
   For which values of $x$ does $log(log(log(x)))$ have a real value?
 ][

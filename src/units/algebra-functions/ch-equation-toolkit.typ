@@ -46,6 +46,8 @@
     logarithm's argument ends up positive.
 ]
 
+#pagebreak()
+
 == Linear Equations
 
 #only-theory[
@@ -117,8 +119,10 @@
   Solve $sqrt(x+3) = x - 3$.
 
   Both sides are already isolated, so square directly:
-  $ x + 3 = (x-3)^2 = x^2 - 6x + 9 quad => quad x^2 - 7x + 6 = 0
-    quad => quad (x-1) dot (x-6) = 0. $
+  $
+    x + 3 = (x-3)^2 = x^2 - 6x + 9 quad => quad x^2 - 7x + 6 = 0
+    quad => quad (x-1) dot (x-6) = 0.
+  $
   So $x=1$ or $x=6$. *Checking both* in the original equation:
   - $x=1$: $sqrt(1+3) = 2$, but $x-3 = -2$. Since $2 eq.not -2$,
     this is *extraneous* -- reject it.
@@ -178,8 +182,10 @@
   Solve $2^(x^2) = 8^x$.
 
   Rewrite $8$ as $2^3$, so both sides share base $2$:
-  $ 2^(x^2) = 2^(3x) quad => quad x^2 = 3x quad => quad x^2 - 3x = 0
-    quad => quad x dot (x - 3) = 0. $
+  $
+    2^(x^2) = 2^(3x) quad => quad x^2 = 3x quad => quad x^2 - 3x = 0
+    quad => quad x dot (x - 3) = 0.
+  $
   So $x = 0$ or $x = 3$ -- a same-base exponential equation that
   turned into an ordinary quadratic once the bases matched.
 ]
@@ -214,8 +220,10 @@
   Solve $log(x) + log(x-3) = 1$.
 
   Combine the left side into a single logarithm, then exponentiate:
-  $ log(x dot (x-3)) = 1 quad => quad x dot (x-3) = 10 quad =>
-    quad x^2 - 3x - 10 = 0 quad => quad (x-5) dot (x+2) = 0. $
+  $
+    log(x dot (x-3)) = 1 quad => quad x dot (x-3) = 10 quad =>
+    quad x^2 - 3x - 10 = 0 quad => quad (x-5) dot (x+2) = 0.
+  $
   So $x=5$ or $x=-2$. But the original equation needs $x>0$ *and*
   $x-3>0$, i.e. $x>3$. Only $x=5$ satisfies that -- $x=-2$ is
   rejected before we even check the arithmetic, because $log(-2)$
@@ -225,8 +233,10 @@
 #example[
   Solve $log(2x-1) - log(x) = log(3)$.
 
-  $ log((2x-1)/x) = log(3) quad => quad (2x-1)/x = 3 quad =>
-    quad 2x - 1 = 3x quad => quad x = -1. $
+  $
+    log((2x-1)/x) = log(3) quad => quad (2x-1)/x = 3 quad =>
+    quad 2x - 1 = 3x quad => quad x = -1.
+  $
   The algebra looks clean -- but the original equation needs
   $2x-1>0$ *and* $x>0$, i.e. $x > 1/2$. Since $x=-1$ fails this,
   it's rejected. *This equation has no solution.*
@@ -266,8 +276,10 @@
 
   The equation only involves $x^2$ and $x^4 = (x^2)^2$, so substitute
   $u = x^2$:
-  $ u^2 - 5u + 4 = 0 quad => quad (u-1) dot (u-4) = 0 quad =>
-    quad u = 1 "or" u = 4. $
+  $
+    u^2 - 5u + 4 = 0 quad => quad (u-1) dot (u-4) = 0 quad =>
+    quad u = 1 "or" u = 4.
+  $
   Translating back, $x^2 = u$:
   $ x^2 = 1 => x = plus.minus 1, quad x^2 = 4 => x = plus.minus 2. $
   Four solutions in total: $x = -2, -1, 1, 2$.

@@ -152,6 +152,7 @@
   fail wildly for a hundred, once resources run out.)
 ]
 
+#pagebreak()
 == Linear Models
 
 #example[
@@ -309,7 +310,7 @@
   table, and think about the situation itself otherwise.
 ]
 
-#ex(difficulty: 2, time: "15 min", keep-together: true)[
+#ex(difficulty: 2, time: "15 min", keep-together: false)[
   For each table, decide whether the data is linear, quadratic, or
   exponential, and find its equation.
   #data-table(
