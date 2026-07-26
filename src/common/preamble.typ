@@ -475,6 +475,36 @@
   ]
 }
 
+// epigraph — a small, decorative "easter-egg" quotation, distinct from
+// quotebox above. quotebox is a full grey callout for a story or passage
+// worked into the narrative; epigraph is a light, centered flourish for
+// dropping a nerdy/mathy one-liner wherever it fits — a chapter opening,
+// a section break, an awkward patch of white space. Purely flavor, so
+// like the other theory environments it vanishes in sheet/solutions mode
+// (via _hide-aux) — an exam sheet is no place for an in-joke.
+//   #epigraph[Mathematics is the art of giving the same name to different things.]
+//   #epigraph(by: "Henri Poincaré")[
+//     Mathematics is the art of giving the same name to different things.
+//   ]
+// `by:` is free-form — "Kronecker", "Kronecker, 1886", "attributed to
+// Erdős", whatever reads best under that particular quote. Omit it for an
+// unattributed line. The enclosing quotation marks are drawn by the
+// environment, so type only the words of the quote in the body.
+#let epigraph(by: none, body) = context {
+  if _hide-aux() { return }
+  block(width: 100%, breakable: false, inset: (top: 6pt, bottom: 6pt))[
+    #align(center, block(width: 82%)[
+      #set par(leading: 0.7em, justify: false)
+      #set text(size: 10.5pt, style: "italic", fill: luma(90))
+      #text(fill: accent)[\u{201C}]#body#text(fill: accent)[\u{201D}]
+      #if by != none {
+        linebreak()
+        text(size: 9pt, style: "normal", fill: luma(130))[\u{2014} #by]
+      }
+    ])
+  ]
+}
+
 
 // ai-box — an AI task with an explicitly defined role. Roles that
 // work well (put the role in the students' hands, not the answer):
@@ -1611,3 +1641,723 @@
   row-gutter: if row-gutter != none { row-gutter } else { gutter },
   ..items.pos(),
 )
+
+// ════════════════════════════════════════════════════════════
+//  STATISTICAL SUMMARIES AND CHARTS
+//
+//  simple-plot (imported above) covers function graphs, scatter
+//  plots and line plots. It has nothing for the four chart types
+//  descriptive statistics actually needs -- bar charts, histograms,
+//  dotplots and boxplots -- so those are hand-rolled here from
+//  native Typst shapes, in the same spirit as dot-triangle /
+//  koch-star above: no external package, compiles offline, never
+//  goes stale.
+//
+//  DESIGN NOTE -- misleading graphs are produced by PARAMETER, not
+//  by hand-drawing a second fake figure. bar-chart takes an explicit
+//  `ymin:`, so the truncated-axis deception is one changed argument
+//  away from the honest chart; histogram takes `bins:`, so the
+//  too-few-bins / too-many-bins triptych is three calls differing in
+//  one number. That matters pedagogically: students should see that
+//  a misleading chart usually needs no fakery at all, just a
+//  defensible-looking option chosen badly.
+//
+//  Like fig() and plot-graph(), NONE of these is wrapped in
+//  only-theory -- a chart is very often the question or the solution
+//  of an exercise, not just theory prose. Wrap a specific call in
+//  #only-theory[...] yourself when you want that occurrence
+//  suppressed on the exercise sheet.
+//
+//  All four take absolute width:/height: in Typst lengths (unlike
+//  plot-graph, whose size: is a bare centimeter count inherited from
+//  simple-plot). Inside image-grid(), pass a smaller width: so two
+//  charts plus the gutter still fit the text block.
+// ════════════════════════════════════════════════════════════
+
+// ── Numeric summaries ────────────────────────────────────────
+//  Exported so chapter prose can COMPUTE the numbers it quotes --
+//  #mean-of(waiting-times) rather than a hardcoded 8.4 -- which is
+//  what keeps an example's text, its table and its chart from
+//  drifting apart when the dataset is edited.
+
+#let mean-of(xs) = xs.sum() / xs.len()
+
+#let median-of(xs) = {
+  let s = xs.sorted()
+  let n = s.len()
+  if n == 0 { return none }
+  if calc.odd(n) { s.at(int((n - 1) / 2)) } else {
+    (s.at(int(n / 2) - 1) + s.at(int(n / 2))) / 2
+  }
+}
+
+// HOUSE CONVENTION -- variance divides by n. Descriptive statistics
+// describes the dataset you actually have, so the population formula
+// is the definition. The n-1 version below is the separate estimator
+// used when the data is a SAMPLE standing in for a larger
+// population; both sit on the students' calculators (sigma-x vs.
+// s-x), so both are exported here under names that say which is
+// which.
+#let variance-of(xs) = {
+  let m = mean-of(xs)
+  xs.map(x => calc.pow(x - m, 2)).sum() / xs.len()
+}
+#let sd-of(xs) = calc.sqrt(variance-of(xs))
+
+#let sample-variance-of(xs) = {
+  let m = mean-of(xs)
+  xs.map(x => calc.pow(x - m, 2)).sum() / (xs.len() - 1)
+}
+#let sample-sd-of(xs) = calc.sqrt(sample-variance-of(xs))
+
+// QUARTILE CONVENTION -- "exclusive" (house default) is the
+// median-of-each-half method with the overall median left out of
+// both halves when n is odd; this is what the TI calculators and the
+// textbook do. "inclusive" keeps the median in both halves. The two
+// disagree whenever n is odd (on 1..9: 2.5/7.5 vs. 3/7), which is
+// exactly the discrepancy the chapter's warning box is about -- so
+// both are implemented and a figure can show them disagreeing on the
+// same data.
+#let quartiles-of(xs, method: "exclusive") = {
+  let s = xs.sorted()
+  let n = s.len()
+  let h = int(n / 2)
+  let lower = if calc.even(n) or method != "inclusive" {
+    s.slice(0, h)
+  } else { s.slice(0, h + 1) }
+  let upper = if calc.even(n) { s.slice(h) } else { s.slice(h + 1) }
+  (q1: median-of(lower), med: median-of(s), q3: median-of(upper))
+}
+
+#let five-number(xs, method: "exclusive") = {
+  let s = xs.sorted()
+  let q = quartiles-of(s, method: method)
+  (
+    min: s.first(),
+    q1: q.q1,
+    med: q.med,
+    q3: q.q3,
+    max: s.last(),
+    iqr: q.q3 - q.q1,
+  )
+}
+
+// Linear-interpolation percentile (R's default type 7, and
+// spreadsheet PERCENTILE.INC). Deliberately NOT the same rule as
+// quartiles-of above: that mismatch is genuine, it is why two tools
+// report different quartiles for the same data, and the chapter says
+// so out loud rather than hiding it.
+#let percentile-of(xs, p) = {
+  let s = xs.sorted()
+  let n = s.len()
+  if n == 0 { return none }
+  if n == 1 { return s.first() }
+  let pos = (p / 100) * (n - 1)
+  let lo = calc.floor(pos)
+  let hi = calc.ceil(pos)
+  if lo == hi { s.at(int(lo)) } else {
+    s.at(int(lo)) + (pos - lo) * (s.at(int(hi)) - s.at(int(lo)))
+  }
+}
+
+// Display helper for COMPUTED statistics. Rounds, drops a trailing
+// ".0" (so a mean that lands exactly on 44 prints as 44, not 44.0 --
+// which matters because almost every quantity on this page is
+// computed rather than typed), then hands off to num() for the Swiss
+// thousands separator. Use this, not num(), for anything that came
+// out of the functions above:
+//   #stat-num(mean-of(salaries))          -> 94'714.29
+//   #stat-num(median-of(nine))            -> 5
+//   #stat-num(sd-of(sprint), digits: 3)   -> 0.273
+#let stat-num(x, digits: 2) = {
+  let r = calc.round(x, digits: digits)
+  num(if r == calc.trunc(r) { calc.trunc(r) } else { r })
+}
+
+// Returns an ARRAY -- a dataset can be bimodal or multimodal, and
+// collapsing that to a single number is the very thing the chapter
+// warns against.
+#let mode-of(xs) = {
+  let tally = (:)
+  for x in xs {
+    let k = str(x)
+    tally.insert(k, tally.at(k, default: 0) + 1)
+  }
+  let best = calc.max(..tally.values())
+  xs.dedup().filter(x => tally.at(str(x)) == best).sorted()
+}
+
+// ── Shared chart internals ───────────────────────────────────
+
+#let _chart-axis = 0.7pt + luma(70)
+#let _chart-grid = 0.5pt + luma(215)
+#let _chart-ink = luma(70)
+
+// Round a raw step up to a human-readable 1 / 2 / 5 x 10^k.
+#let _nice-step(span, target: 5) = {
+  if span <= 0 { return 1 }
+  let raw = span / target
+  let mag = calc.pow(10.0, calc.floor(calc.log(raw, base: 10)))
+  let norm = raw / mag
+  let mult = if norm <= 1 { 1 } else if norm <= 2 { 2 } else if norm <= 5 {
+    5
+  } else { 10 }
+  mult * mag
+}
+
+// Tick label: drop a trailing ".0" so 4.0 prints as 4.
+#let _fmt(v) = {
+  let r = calc.round(v, digits: 3)
+  if r == calc.trunc(r) { str(calc.trunc(r)) } else { str(r) }
+}
+
+#let _ticks-from(lo, hi, step) = {
+  let out = ()
+  let k = calc.ceil(lo / step)
+  while k * step <= hi + step / 1000 {
+    out.push(k * step)
+    k += 1
+  }
+  out
+}
+
+// Text centered on an x position, and text right-aligned before one.
+// Both go through a fixed-width box because Typst cannot center
+// content on a point without knowing its width first.
+#let _label-at(x, y, body, w: 1.6cm, size: 8pt) = place(
+  dx: x - w / 2,
+  dy: y,
+  box(width: w, align(center, text(size: size, fill: _chart-ink, body))),
+)
+
+#let _label-before(x, y, body, size: 8pt) = place(
+  dx: 0pt,
+  dy: y,
+  box(width: x - 5pt, align(right, text(
+    size: size,
+    fill: _chart-ink,
+    body,
+  ))),
+)
+
+#let _vrule(x, y0, len, stroke) = place(
+  dx: x,
+  dy: y0,
+  line(start: (0pt, 0pt), end: (0pt, len), stroke: stroke),
+)
+
+#let _hrule(x, y, len, stroke) = place(
+  dx: x,
+  dy: y,
+  line(start: (0pt, 0pt), end: (len, 0pt), stroke: stroke),
+)
+
+// ── Bar chart (categorical -- bars separated by gaps) ─────────
+//
+//  #bar-chart(
+//    ("Hydro", 29.1), ("Solar", 1.2), ("Wind", 0.1),
+//    y-label: [bn. kWh],
+//  )
+//
+//  Categorical data, so the bars are SEPARATED -- the gap is what
+//  distinguishes a bar chart from a histogram, and it is a real
+//  distinction, not decoration.
+//
+//  ymin: is the truncated-axis lever. Compare
+//    #bar-chart(..., ymin: 0)     honest
+//    #bar-chart(..., ymin: 299)   the same data, "twice as good"
+
+#let bar-chart(
+  ..bars,
+  ymin: 0,
+  ymax: auto,
+  ystep: auto,
+  width: 8cm,
+  height: 5cm,
+  bar-color: accent,
+  colors: none,
+  y-label: none,
+  gap: 0.3,
+  show-values: false,
+  show-grid: true,
+  pad-left: 1.1cm,
+  pad-bottom: 0.9cm,
+  pad-top: 0.15cm,
+  pad-right: 0.3cm,
+) = align(center, {
+  let items = bars.pos()
+  let n = items.len()
+  let values = items.map(it => it.at(1))
+  let data-max = calc.max(..values)
+
+  let step = if ystep == auto { _nice-step(data-max - ymin) } else { ystep }
+  let hi = if ymax != auto { ymax } else {
+    let h = ymin + calc.ceil((data-max - ymin) / step) * step
+    if h <= data-max { h + step } else { h }
+  }
+
+  // The tallest bar's printed value needs somewhere to sit. Without
+  // this it is pushed clean out of the plot area and lands on the
+  // y-label. Raising the axis maximum by whole steps keeps the tick
+  // grid readable, which merely nudging the label would not.
+  if show-values and ymax == auto {
+    let guard = 0
+    while (
+      height * (1 - (data-max - ymin) / (hi - ymin)) < 15pt and guard < 5
+    ) {
+      hi += step
+      guard += 1
+    }
+  }
+
+  // The y-label gets a reserved band ABOVE the plot rather than
+  // sharing airspace with the bars.
+  let head = if y-label != none { pad-top + 0.42cm } else { pad-top }
+
+  let total-w = pad-left + width + pad-right
+  let total-h = head + height + pad-bottom
+  let base = head + height
+  let py(v) = head + height * (1 - (v - ymin) / (hi - ymin))
+  let slot = width / n
+
+  box(width: total-w, height: total-h, {
+    for t in _ticks-from(ymin, hi, step) {
+      if show-grid and t > ymin {
+        _hrule(pad-left, py(t), width, _chart-grid)
+      }
+      _label-before(pad-left, py(t) - 5pt, _fmt(t))
+    }
+
+    for (i, it) in items.enumerate() {
+      let v = it.at(1)
+      let col = if colors == none { bar-color } else {
+        colors.at(calc.rem(i, colors.len()))
+      }
+      let bw = slot * (1 - gap)
+      let bx = pad-left + i * slot + (slot - bw) / 2
+      let bty = py(calc.max(calc.min(v, hi), ymin))
+      let bh = base - bty
+      if bh > 0pt {
+        place(dx: bx, dy: bty, rect(
+          width: bw,
+          height: bh,
+          fill: col,
+          stroke: none,
+        ))
+      }
+      if show-values {
+        _label-at(
+          pad-left + (i + 0.5) * slot,
+          bty - 12pt,
+          _fmt(v),
+          w: slot,
+          size: 7.5pt,
+        )
+      }
+      _label-at(
+        pad-left + (i + 0.5) * slot,
+        base + 4pt,
+        it.at(0),
+        w: slot,
+        size: 7.5pt,
+      )
+    }
+
+    _hrule(pad-left, base, width, _chart-axis)
+    _vrule(pad-left, head, height, _chart-axis)
+
+    if y-label != none {
+      place(dx: pad-left + 3pt, dy: pad-top, text(
+        size: 8pt,
+        fill: _chart-ink,
+        y-label,
+      ))
+    }
+  })
+})
+
+// ── Histogram (numeric -- bars touch) ────────────────────────
+//
+//  #histogram(travel-times)                        // sqrt(n) bins
+//  #histogram(travel-times, bins: 4)
+//  #histogram(travel-times, bin-width: 10, start: 10)
+//  #histogram(counts: ((10, 20, 3), (20, 30, 7)))  // from a table
+//
+//  bins: auto applies the sqrt(n) rule of thumb, so the DEFAULT is
+//  the rule the chapter teaches -- and overriding it is exactly the
+//  bin-width investigation.
+//
+//  counts: takes (lo, hi, frequency) triples for the common case
+//  where the frequency table is given and the raw data is not.
+
+#let histogram(
+  ..args,
+  counts: none,
+  bins: auto,
+  bin-width: none,
+  start: auto,
+  ymax: auto,
+  ystep: auto,
+  width: 8cm,
+  height: 5cm,
+  bar-color: accent,
+  y-label: [frequency],
+  x-label: none,
+  show-grid: true,
+  pad-left: 1.1cm,
+  pad-bottom: auto,
+  pad-top: 0.15cm,
+  pad-right: 0.5cm,
+) = align(center, {
+  let cells = if counts != none { counts } else {
+    let data = args.pos().at(0, default: ())
+    let n = data.len()
+    let lo0 = if start == auto { calc.min(..data) } else { start }
+    let hi0 = calc.max(..data)
+    // int() on the whole thing, not just the sqrt branch: calc.round
+    // returns a FLOAT when given a float, and range() further down
+    // demands a genuine integer. Wrapping here also absorbs a caller
+    // who writes bins: 4.0.
+    let k = int(if bin-width != none {
+      calc.max(1, calc.ceil((hi0 - lo0) / bin-width))
+    } else if bins == auto {
+      calc.max(1, calc.round(calc.sqrt(n)))
+    } else { bins })
+    let w = if bin-width != none { bin-width } else {
+      if hi0 == lo0 { 1 } else { (hi0 - lo0) / k }
+    }
+    // Half-open bins [edge, next) so no observation is counted twice;
+    // the last bin closes on the right so the maximum is included.
+    range(k).map(i => {
+      let edge = lo0 + i * w
+      let nxt = lo0 + (i + 1) * w
+      let c = data
+        .filter(x => (
+          x >= edge
+            and (
+              if i == k - 1 { x <= nxt } else {
+                x < nxt
+              }
+            )
+        ))
+        .len()
+      (edge, nxt, c)
+    })
+  }
+
+  let freqs = cells.map(c => c.at(2))
+  let data-max = calc.max(..freqs)
+  let step = if ystep == auto { _nice-step(data-max) } else { ystep }
+  let hi = if ymax != auto { ymax } else {
+    let h = calc.ceil(data-max / step) * step
+    if h <= data-max { h + step } else { h }
+  }
+
+  let xlo = cells.first().at(0)
+  let xhi = cells.last().at(1)
+
+  let head = if y-label != none { pad-top + 0.42cm } else { pad-top }
+  // Bin-edge labels take one 8pt line; an x-label goes on a SECOND
+  // line below them, never sharing the first.
+  let foot = if pad-bottom != auto { pad-bottom } else {
+    18pt + (if x-label != none { 12pt } else { 0pt })
+  }
+
+  let total-w = pad-left + width + pad-right
+  let total-h = head + height + foot
+  let base = head + height
+  let py(v) = head + height * (1 - v / hi)
+  let px(v) = pad-left + width * (v - xlo) / (xhi - xlo)
+
+  box(width: total-w, height: total-h, {
+    for t in _ticks-from(0, hi, step) {
+      if show-grid and t > 0 { _hrule(pad-left, py(t), width, _chart-grid) }
+      _label-before(pad-left, py(t) - 5pt, _fmt(t))
+    }
+
+    for c in cells {
+      let bx = px(c.at(0))
+      let bw = px(c.at(1)) - bx
+      let bty = py(c.at(2))
+      let bh = base - bty
+      if bh > 0pt {
+        place(dx: bx, dy: bty, rect(
+          width: bw,
+          height: bh,
+          fill: bar-color,
+          stroke: 0.6pt + white,
+        ))
+      }
+    }
+
+    for e in cells.map(c => c.at(0)) + (xhi,) {
+      _label-at(px(e), base + 4pt, _fmt(e), size: 7.5pt)
+    }
+
+    _hrule(pad-left, base, width, _chart-axis)
+    _vrule(pad-left, head, height, _chart-axis)
+
+    if y-label != none {
+      place(dx: pad-left + 3pt, dy: pad-top, text(
+        size: 8pt,
+        fill: _chart-ink,
+        y-label,
+      ))
+    }
+    if x-label != none {
+      place(
+        dx: pad-left,
+        dy: base + 18pt,
+        box(width: width, align(right, text(
+          size: 8pt,
+          fill: _chart-ink,
+          x-label,
+        ))),
+      )
+    }
+  })
+})
+
+// ── Dotplot (one dot per observation, stacked) ───────────────
+//
+//  #dotplot((12, 9, 23, 10, 10, 8, 35, 9, 2, 14))
+//
+//  The most honest small-data display there is: every single
+//  observation stays individually visible, so nothing is hidden by a
+//  choice of bin. Worth showing next to the histogram of the same
+//  data for exactly that reason.
+
+#let dotplot(
+  ..args,
+  xmin: auto,
+  xmax: auto,
+  step: auto,
+  width: 9cm,
+  dot-radius: 3pt,
+  dot-gap: 8pt,
+  dot-color: accent,
+  x-label: none,
+  pad-left: 0.9cm,
+  pad-right: 0.9cm,
+  pad-top: 0.3cm,
+  pad-bottom: auto,
+) = align(center, {
+  let data = args.pos().at(0, default: ())
+
+  let tally = (:)
+  for x in data {
+    let k = str(x)
+    tally.insert(k, tally.at(k, default: 0) + 1)
+  }
+  let stack-max = calc.max(..tally.values())
+
+  let lo = if xmin == auto { calc.min(..data) } else { xmin }
+  let hi = if xmax == auto { calc.max(..data) } else { xmax }
+  let tick-step = if step == auto {
+    _nice-step(hi - lo, target: 8)
+  } else { step }
+
+  let height = stack-max * dot-gap + dot-radius
+  // tick numbers on one line, x-label on the next
+  let foot = if pad-bottom != auto { pad-bottom } else {
+    20pt + (if x-label != none { 12pt } else { 0pt })
+  }
+  let total-w = pad-left + width + pad-right
+  let total-h = pad-top + height + foot
+  let base = pad-top + height
+  let px(v) = pad-left + width * (v - lo) / (hi - lo)
+
+  box(width: total-w, height: total-h, {
+    for x in data.dedup().sorted() {
+      for j in range(tally.at(str(x))) {
+        place(
+          dx: px(x) - dot-radius,
+          dy: base - (j + 1) * dot-gap,
+          circle(radius: dot-radius, fill: dot-color, stroke: none),
+        )
+      }
+    }
+
+    _hrule(pad-left, base, width, _chart-axis)
+
+    for t in _ticks-from(lo, hi, tick-step) {
+      _vrule(px(t), base, 4pt, _chart-axis)
+      _label-at(px(t), base + 6pt, _fmt(t))
+    }
+
+    if x-label != none {
+      place(
+        dx: pad-left,
+        dy: base + 20pt,
+        box(width: width, align(right, text(
+          size: 8pt,
+          fill: _chart-ink,
+          x-label,
+        ))),
+      )
+    }
+  })
+})
+
+// ── Boxplot (one or several, sharing one axis) ───────────────
+//
+//  #boxplot(("Antonia", (9.5, 11, 9, 10, 10.5)),
+//           ("Lars",    (13, 7, 6, 15, 9)))
+//
+//  Each series is ("Label", data-array) -- the five-number summary
+//  and the outliers get computed -- or ("Label", (min: .., q1: ..,
+//  med: .., q3: .., max: .., outliers: (..))) when only the summary
+//  is known. That second form matters: reading a boxplot BACK off a
+//  printed figure is its own exercise type, and those exercises have
+//  no underlying dataset to hand.
+//
+//  whiskers: "tukey"  -- whiskers reach the most extreme observation
+//                        still within 1.5 x IQR of the quartile;
+//                        anything past that is drawn as its own
+//                        point. NOTE this is the correct rule: the
+//                        whisker ends at a REAL DATA VALUE, not at
+//                        the fence itself.
+//  whiskers: "minmax" -- whiskers reach the true minimum and
+//                        maximum, nothing marked as an outlier (the
+//                        textbook's convention).
+//
+//  method: passes through to quartiles-of, so one figure can show
+//  the two quartile conventions disagreeing on identical data.
+
+#let _box-summary(spec, whiskers: "tukey", method: "exclusive") = {
+  if type(spec) == dictionary {
+    (
+      q1: spec.q1,
+      med: spec.med,
+      q3: spec.q3,
+      lo: spec.at("min", default: spec.q1),
+      hi: spec.at("max", default: spec.q3),
+      outliers: spec.at("outliers", default: ()),
+    )
+  } else {
+    let f = five-number(spec, method: method)
+    if whiskers == "minmax" {
+      (q1: f.q1, med: f.med, q3: f.q3, lo: f.min, hi: f.max, outliers: ())
+    } else {
+      let low-fence = f.q1 - 1.5 * f.iqr
+      let high-fence = f.q3 + 1.5 * f.iqr
+      let inside = spec.filter(x => x >= low-fence and x <= high-fence)
+      (
+        q1: f.q1,
+        med: f.med,
+        q3: f.q3,
+        lo: calc.min(..inside),
+        hi: calc.max(..inside),
+        outliers: spec.filter(x => x < low-fence or x > high-fence).sorted(),
+      )
+    }
+  }
+}
+
+#let boxplot(
+  ..series,
+  xmin: auto,
+  xmax: auto,
+  xstep: auto,
+  whiskers: "tukey",
+  method: "exclusive",
+  width: 9cm,
+  box-height: 0.75cm,
+  row-gap: 0.5cm,
+  box-color: accent,
+  fill-color: accent-bg,
+  outlier-color: warn-col,
+  label-width: 2cm,
+  x-label: none,
+  pad-right: 0.6cm,
+  pad-top: 0.3cm,
+  pad-bottom: auto,
+) = align(center, {
+  let items = series.pos()
+  let sums = items.map(it => _box-summary(
+    it.at(1),
+    whiskers: whiskers,
+    method: method,
+  ))
+
+  let spread = ()
+  for s in sums { spread += (s.lo, s.hi) + s.outliers }
+  let raw-lo = calc.min(..spread)
+  let raw-hi = calc.max(..spread)
+  let margin = (raw-hi - raw-lo) * 0.08
+  let lo = if xmin == auto { raw-lo - margin } else { xmin }
+  let hi = if xmax == auto { raw-hi + margin } else { xmax }
+  let tick-step = if xstep == auto {
+    _nice-step(hi - lo, target: 6)
+  } else { xstep }
+
+  let n = items.len()
+  let plot-h = n * box-height + calc.max(0, n - 1) * row-gap
+  // 0.25cm down to the axis, then one line of tick numbers, then the
+  // x-label on its own line below those.
+  let foot = if pad-bottom != auto { pad-bottom } else {
+    0.25cm + 20pt + (if x-label != none { 12pt } else { 0pt })
+  }
+  let total-w = label-width + width + pad-right
+  let total-h = pad-top + plot-h + foot
+  let px(v) = label-width + width * (v - lo) / (hi - lo)
+
+  box(width: total-w, height: total-h, {
+    for (i, sum) in sums.enumerate() {
+      let row-top = pad-top + i * (box-height + row-gap)
+      let mid = row-top + box-height / 2
+
+      _hrule(px(sum.lo), mid, px(sum.q1) - px(sum.lo), 0.8pt + box-color)
+      _hrule(px(sum.q3), mid, px(sum.hi) - px(sum.q3), 0.8pt + box-color)
+      _vrule(
+        px(sum.lo),
+        row-top + box-height * 0.2,
+        box-height * 0.6,
+        0.8pt + box-color,
+      )
+      _vrule(
+        px(sum.hi),
+        row-top + box-height * 0.2,
+        box-height * 0.6,
+        0.8pt + box-color,
+      )
+
+      place(dx: px(sum.q1), dy: row-top, rect(
+        width: px(sum.q3) - px(sum.q1),
+        height: box-height,
+        fill: fill-color,
+        stroke: 0.9pt + box-color,
+      ))
+      _vrule(px(sum.med), row-top, box-height, 1.4pt + box-color)
+
+      for o in sum.outliers {
+        place(dx: px(o) - 2.5pt, dy: mid - 2.5pt, circle(
+          radius: 2.5pt,
+          fill: none,
+          stroke: 0.9pt + outlier-color,
+        ))
+      }
+
+      _label-before(label-width, mid - 6pt, items.at(i).at(0), size: 9pt)
+    }
+
+    let ay = pad-top + plot-h + 0.25cm
+    _hrule(label-width, ay, width, _chart-axis)
+    for t in _ticks-from(lo, hi, tick-step) {
+      _vrule(px(t), ay, 4pt, _chart-axis)
+      _label-at(px(t), ay + 6pt, _fmt(t))
+    }
+
+    if x-label != none {
+      place(
+        dx: label-width,
+        dy: ay + 20pt,
+        box(width: width, align(right, text(
+          size: 8pt,
+          fill: _chart-ink,
+          x-label,
+        ))),
+      )
+    }
+  })
+})
