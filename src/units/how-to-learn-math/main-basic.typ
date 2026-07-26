@@ -31,10 +31,11 @@
 #import "../../common/preamble.typ": *
 
 #set-subject-name("How to Learn Math")
-#set-level("high")
+#set-level("basic")
 
 #register_chapters(
   ("How to Learn Math", "/src/units/how-to-learn-math/ch-how-to-learn-math"),
+  ("How to Work", "/src/units/how-to-learn-math/ch-how-to-work"),
 )
 
 #include_chapters()
