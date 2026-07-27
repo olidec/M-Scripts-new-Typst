@@ -975,99 +975,112 @@
   if not visible { return }
 
   ex-counter.step()
-  // get() resolves at this exercise's location, i.e. it counts all the
-  // step()s of PREVIOUS exercises but not the one placed just above
-  // (updates inside a context block apply after the block's location).
-  // Hence +1 gives this exercise's number.
-  let n = ex-counter.get().first() + 1
 
-  let dot(filled) = box(baseline: 15%, circle(
-    radius: 2.3pt,
-    fill: if filled { accent } else { white },
-    stroke: 0.6pt + accent,
-  ))
-  let dots = if difficulty > 0 {
-    range(3).map(i => dot(i < difficulty)).join(h(2.5pt))
-  } else { none }
+  // NUMBERING -- read the counter in a NESTED context, not this one.
+  //
+  // Reading it in the same context block that emits the step() made
+  // the number depend on where that update landed relative to the
+  // block's own location, and that differed by MODE: the sheet branch
+  // saw its own step (needing no +1) while the notes and solutions
+  // branches did not (needing one). No single choice of "+1 or not"
+  // can be right for both -- which is why removing the +1 fixed the
+  // sheets and broke the other two, starting them at 0.
+  //
+  // A nested context is located strictly after the update above, so
+  // get() here carries this exercise's own number in every mode. The
+  // visibility test stays in the OUTER context, so a hidden exercise
+  // returns before stepping and never consumes a number.
+  context {
+    let n = ex-counter.get().first()
 
-  let effort-note = if time != none {
-    text(size: 9pt, fill: luma(110), style: "italic")[
-      Expected effort: #time. Being stuck for part of that time is
-      normal — it is part of the exercise, not a sign that you can't do it.
-    ]
-  } else { none }
+    let dot(filled) = box(baseline: 15%, circle(
+      radius: 2.3pt,
+      fill: if filled { accent } else { white },
+      stroke: 0.6pt + accent,
+    ))
+    let dots = if difficulty > 0 {
+      range(3).map(i => dot(i < difficulty)).join(h(2.5pt))
+    } else { none }
 
-  if _ex-mode.get() {
-    // ── EXERCISE-SHEET MODE ──────────────────────────────────
-    // The level tag next to the exercise number keeps the two
-    // printed sheet stacks (Foundations / Advanced) tellable apart
-    // at a glance — sheet pages have no page header to carry it.
-    let lvl-name = if _level.get() == "basic" { "Foundations" } else {
-      "Advanced"
-    }
-    pagebreak(weak: true)
-    grid(
-      columns: (1fr, 1fr),
-      align(left)[#text(weight: "bold", fill: accent)[#chapter]],
-      align(right)[
-        #if dots != none [#dots #h(0.6em)]
-        #text(fill: luma(100))[Exercise #n · #lvl-name]
-      ],
-    )
-    line(length: 100%, stroke: 0.5pt + accent)
-    v(1.2em)
-    body
-    if effort-note != none {
-      v(0.8em)
-      effort-note
-    }
-    v(1fr)
-  } else if _sol-mode.get() {
-    // ── SOLUTIONS-BOOKLET MODE ───────────────────────────────
-    v(0.9em)
-    block(
-      width: 100%,
-      breakable: not keep-together,
-      fill: luma(250),
-      radius: 3pt,
-      inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
-      stroke: (left: 4pt + accent),
-    )[
-      #grid(
-        columns: (1fr, auto),
-        text(weight: "bold", fill: accent)[Exercise #n],
-        align(right + horizon)[#dots],
-      )
-      #if _sol-show-questions.get() [
-        #v(0.2em)
-        #block(text(size: 9pt, fill: luma(110), body))
-        #v(0.2em)
-        #line(length: 100%, stroke: 0.3pt + luma(200))
+    let effort-note = if time != none {
+      text(size: 9pt, fill: luma(110), style: "italic")[
+        Expected effort: #time. Being stuck for part of that time is
+        normal — it is part of the exercise, not a sign that you can't do it.
       ]
-      #solution
-    ]
-  } else {
-    // ── CHAPTER / MAIN MODE ──────────────────────────────────
-    v(0.6em)
-    block(
-      width: 100%,
-      breakable: not keep-together,
-      fill: accent-bg,
-      radius: 3pt,
-      inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
-      stroke: (left: 4pt + accent),
-    )[
-      #grid(
-        columns: (1fr, auto),
-        text(weight: "bold", fill: accent)[Exercise #n],
-        align(right + horizon)[#dots],
+    } else { none }
+
+    if _ex-mode.get() {
+      // ── EXERCISE-SHEET MODE ──────────────────────────────────
+      // The level tag next to the exercise number keeps the two
+      // printed sheet stacks (Foundations / Advanced) tellable apart
+      // at a glance — sheet pages have no page header to carry it.
+      let lvl-name = if _level.get() == "basic" { "Foundations" } else {
+        "Advanced"
+      }
+      pagebreak(weak: true)
+      grid(
+        columns: (1fr, 1fr),
+        align(left)[#text(weight: "bold", fill: accent)[#chapter]],
+        align(right)[
+          #if dots != none [#dots #h(0.6em)]
+          #text(fill: luma(100))[Exercise #n · #lvl-name]
+        ],
       )
-      #body
-      #if effort-note != none [#v(0.4em) #effort-note]
-    ]
-    v(0.4em)
-    if hints.len() > 0 {
-      hint-store.update(hs => hs + ((number: n, hints: hints),))
+      line(length: 100%, stroke: 0.5pt + accent)
+      v(1.2em)
+      body
+      if effort-note != none {
+        v(0.8em)
+        effort-note
+      }
+      v(1fr)
+    } else if _sol-mode.get() {
+      // ── SOLUTIONS-BOOKLET MODE ───────────────────────────────
+      v(0.9em)
+      block(
+        width: 100%,
+        breakable: not keep-together,
+        fill: luma(250),
+        radius: 3pt,
+        inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
+        stroke: (left: 4pt + accent),
+      )[
+        #grid(
+          columns: (1fr, auto),
+          text(weight: "bold", fill: accent)[Exercise #n],
+          align(right + horizon)[#dots],
+        )
+        #if _sol-show-questions.get() [
+          #v(0.2em)
+          #block(text(size: 9pt, fill: luma(110), body))
+          #v(0.2em)
+          #line(length: 100%, stroke: 0.3pt + luma(200))
+        ]
+        #solution
+      ]
+    } else {
+      // ── CHAPTER / MAIN MODE ──────────────────────────────────
+      v(0.6em)
+      block(
+        width: 100%,
+        breakable: not keep-together,
+        fill: accent-bg,
+        radius: 3pt,
+        inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
+        stroke: (left: 4pt + accent),
+      )[
+        #grid(
+          columns: (1fr, auto),
+          text(weight: "bold", fill: accent)[Exercise #n],
+          align(right + horizon)[#dots],
+        )
+        #body
+        #if effort-note != none [#v(0.4em) #effort-note]
+      ]
+      v(0.4em)
+      if hints.len() > 0 {
+        hint-store.update(hs => hs + ((number: n, hints: hints),))
+      }
     }
   }
 }
