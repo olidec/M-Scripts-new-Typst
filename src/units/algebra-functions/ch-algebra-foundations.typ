@@ -19,8 +19,9 @@
   [add, simplify, and manipulate algebraic fractions],
   [translate a word problem into an equation and solve it],
 )
-
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 
 == The Big Ideas in Algebra
 
@@ -28,26 +29,27 @@
   The following graphic gives an overview of the so-called big ideas in
   algebra. Over the next four years we will cover these and many more
   topics.
+
+
+  #fig(
+    image("images/big-ideas-in-algebra.png", width: 85%),
+    caption: [Source: #link("http://www.greatmathsteachingideas.com/")],
+  )
+
+  === What is Algebra?
+
+  In its most general form, algebra is the study of mathematical symbols
+  and the rules for manipulating them. It is a unifying thread running
+  through almost all of mathematics. The more basic parts of algebra are
+  called *elementary algebra*; the more abstract parts are called
+  *abstract algebra* or *modern algebra*. Elementary algebra is essential
+  for any study of mathematics, science, or engineering, as well as
+  applications such as medicine and economics. Abstract algebra is a
+  major area of advanced mathematics, studied primarily by professional
+  mathematicians. Much early work in algebra -- as the Arabic origin of
+  its name suggests -- was done in the Near East, by mathematicians such
+  as al-Khwārizmī (780--850) and Omar Khayyam (1048--1131).
 ]
-
-#fig(
-  image("images/big-ideas-in-algebra.png", width: 85%),
-  caption: [Source: #link("http://www.greatmathsteachingideas.com/")],
-)
-
-=== What is Algebra?
-
-In its most general form, algebra is the study of mathematical symbols
-and the rules for manipulating them. It is a unifying thread running
-through almost all of mathematics. The more basic parts of algebra are
-called *elementary algebra*; the more abstract parts are called
-*abstract algebra* or *modern algebra*. Elementary algebra is essential
-for any study of mathematics, science, or engineering, as well as
-applications such as medicine and economics. Abstract algebra is a
-major area of advanced mathematics, studied primarily by professional
-mathematicians. Much early work in algebra -- as the Arabic origin of
-its name suggests -- was done in the Near East, by mathematicians such
-as al-Khwārizmī (780--850) and Omar Khayyam (1048--1131).
 
 #remark[
   Source: #link("https://en.wikipedia.org/wiki/Algebra")
@@ -55,29 +57,34 @@ as al-Khwārizmī (780--850) and Omar Khayyam (1048--1131).
 
 === The Building Blocks of Algebra
 
-The main building blocks of algebra are #vocab("variable", "Variable")s,
-#vocab("expression", "Term")s, and #vocab("equation", "Gleichung")s.
+#only-theory[
+  The main building blocks of algebra are #vocab("variable", "Variable")s,
+  #vocab("expression", "Term")s, and #vocab("equation", "Gleichung")s.
+  #pagebreak()
 
-#pagebreak()
+]
+
 ==== Variables
 
 #definition[
   A *variable* is a placeholder (usually a letter or symbol) that stands
   for an unknown number.
 ]
+#only-theory[
+  Variables can have different interpretations depending on the situation:
+  - In an equation (see below), a variable may stand for an unknown number:
+    $ x + 2 = 5 $
+  - A variable may be used to describe a general situation: if a car is
+    going 5 m/s, then after $t$ seconds it will have traveled $s = 5 dot t$
+    meters.
+  - Variables can describe relationships between quantities that vary: if
+    $c$ is the circumference of a circle and $d$ is its diameter, then the
+    ratio $c/d$ is always constant, and $c/d = pi$.
+  - Variables can be used to describe general *rules* (or theorems) of
+    mathematics: the operation of addition is commutative, i.e.
+    $a + b = b + a$.
 
-Variables can have different interpretations depending on the situation:
-- In an equation (see below), a variable may stand for an unknown number:
-  $ x + 2 = 5 $
-- A variable may be used to describe a general situation: if a car is
-  going 5 m/s, then after $t$ seconds it will have traveled $s = 5 dot t$
-  meters.
-- Variables can describe relationships between quantities that vary: if
-  $c$ is the circumference of a circle and $d$ is its diameter, then the
-  ratio $c/d$ is always constant, and $c/d = pi$.
-- Variables can be used to describe general *rules* (or theorems) of
-  mathematics: the operation of addition is commutative, i.e.
-  $a + b = b + a$.
+]
 
 ==== Expressions
 
@@ -87,19 +94,21 @@ Variables can have different interpretations depending on the situation:
   multiplication, division, and exponentiation).
 ]
 
-For example:
-- Added terms are simplified using coefficients. For example,
-  $x + x + x$ can be simplified as $3 dot x$ (where 3 is the coefficient).
-- Multiplied terms are simplified using exponents. For example,
-  $x dot x dot x$ is represented as $x^3$.
-- Like terms are added together: for example, $2x^2 + 3 a b - x^2 + a b$
-  is written as $x^2 + 4 a b$, because the terms containing $x^2$ are
-  added together, and the terms containing $a b$ are added together.
-- Parentheses can be "multiplied out," using distributivity. For
-  example, $x dot (2x + 3)$ can be written as $(x dot 2x) + (x dot 3)$,
-  which simplifies to $2x^2 + 3x$.
-- Expressions can be factored. For example, $6x^5 + 3x^2$, by dividing
-  both terms by $3x^2$, can be written as $3x^2 dot (2x^3 + 1)$.
+#only-theory[
+  For example:
+  - Added terms are simplified using coefficients. For example,
+    $x + x + x$ can be simplified as $3 dot x$ (where 3 is the coefficient).
+  - Multiplied terms are simplified using exponents. For example,
+    $x dot x dot x$ is represented as $x^3$.
+  - Like terms are added together: for example, $2x^2 + 3 a b - x^2 + a b$
+    is written as $x^2 + 4 a b$, because the terms containing $x^2$ are
+    added together, and the terms containing $a b$ are added together.
+  - Parentheses can be "multiplied out," using distributivity. For
+    example, $x dot (2x + 3)$ can be written as $(x dot 2x) + (x dot 3)$,
+    which simplifies to $2x^2 + 3x$.
+  - Expressions can be factored. For example, $6x^5 + 3x^2$, by dividing
+    both terms by $3x^2$, can be written as $3x^2 dot (2x^3 + 1)$.
+]
 
 #ex(difficulty: 1, time: "10 min", keep-together: true)[
   Evaluate the following terms for the given $x$\u{2011}values.
@@ -194,15 +203,17 @@ For example:
   where $a$, $b$, $c$, and $d$ are arbitrary algebraic expressions.
 ]
 
+#only-theory[
+  #pagebreak()
+  You can think of an equation as a balance. If both sides are changed in the same fashion, the equation will still be true (_balanced_).
 
-#pagebreak()
-You can think of an equation as a balance. If both sides are changed in the same fashion, the equation will still be true (_balanced_).
+  #fig(image("images/equation-balance-2.png", width: 65%))
 
-#fig(image("images/equation-balance-2.png", width: 65%))
+  If two equations are added - left side to left side and right side to right side - then the resulting equation will still be true (_balanced_).
 
-If two equations are added - left side to left side and right side to right side - then the resulting equation will still be true (_balanced_).
+  #fig(image("images/equation-balance.png", width: 65%))
 
-#fig(image("images/equation-balance.png", width: 65%))
+]
 
 #ex(difficulty: 1, time: "10 min")[
   Solve the equations for each variable.
@@ -299,42 +310,44 @@ If two equations are added - left side to left side and right side to right side
   numbers between $1$ and $4$." Such a piece is called a *subset* of
   $RR$, and the most common kind we'll work with is an *interval*.
 ]
+#only-theory[
+  Intervals are special subsets of the real numbers -- they can be
+  pictured as a section of the number line. Formally, they can be written
+  in set notation, e.g.
+  $ I = {x in RR med | med 1 <= x < 4}. $
+  Here the square bracket would indicate that $1$ is included in the
+  interval, and the round bracket that $4$ is not.
 
-Intervals are special subsets of the real numbers -- they can be
-pictured as a section of the number line. Formally, they can be written
-in set notation, e.g.
-$ I = {x in RR med | med 1 <= x < 4}. $
-Here the square bracket would indicate that $1$ is included in the
-interval, and the round bracket that $4$ is not.
+  As intervals come up constantly, they have their own shorthand notation:
 
-As intervals come up constantly, they have their own shorthand notation:
+  #keybox(title: "Interval Notation")[
+    #data-table(
+      columns: (auto, 1fr),
+      row-height: auto,
+      [Notation],
+      [Set Notation],
+      [$[a,b]$],
+      [${x in RR med | med a <= x <= b}$],
+      [$[a,b)$],
+      [${x in RR med | med a <= x < b}$],
+      [$(a,b]$],
+      [${x in RR med | med a < x <= b}$],
+      [$(a,b)$],
+      [${x in RR med | med a < x < b}$],
+    )
+  ]
 
-#keybox(title: "Interval Notation")[
-  #data-table(
-    columns: (auto, 1fr),
-    row-height: auto,
-    [Notation],
-    [Set Notation],
-    [$[a,b]$],
-    [${x in RR med | med a <= x <= b}$],
-    [$[a,b)$],
-    [${x in RR med | med a <= x < b}$],
-    [$(a,b]$],
-    [${x in RR med | med a < x <= b}$],
-    [$(a,b)$],
-    [${x in RR med | med a < x < b}$],
-  )
+  There are also *unbounded* intervals, where one boundary is $plus.minus infinity$.
+  These are written the same way, with $infinity$ standing in for the
+  missing boundary. For example $I = {x in RR med | med x >= 4}$ is written
+  $[4, infinity)$. Remember that infinity is a concept, not a number -- so
+  that side of the interval always gets a *round* bracket, since infinity
+  itself can never actually be included.
+
+  Since intervals are sets, we can combine them the same way we'd combine
+  any two sets.
+
 ]
-
-There are also *unbounded* intervals, where one boundary is $plus.minus infinity$.
-These are written the same way, with $infinity$ standing in for the
-missing boundary. For example $I = {x in RR med | med x >= 4}$ is written
-$[4, infinity)$. Remember that infinity is a concept, not a number -- so
-that side of the interval always gets a *round* bracket, since infinity
-itself can never actually be included.
-
-Since intervals are sets, we can combine them the same way we'd combine
-any two sets.
 
 #definition[
   Given two sets $A$ and $B$:
