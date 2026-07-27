@@ -192,22 +192,28 @@
   symbols:
 ]
 
-#data-table(
-  columns: (1.4fr, 1fr, 1fr),
-  row-height: auto,
-  [],
-  [*Population (parameter)*],
-  [*Sample (statistic)*],
-  [Mean],
-  [$mu$ (mu)],
-  [$overline(x)$ ("x-bar")],
-  [Standard deviation],
-  [$sigma$ (sigma)],
-  [$s$],
-  [Size],
-  [$N$],
-  [$n$],
-)
+// data-table is NOT auto-suppressed -- same rule as fig() and the
+// chart helpers, since a table is very often the question in an
+// exercise. Theory tables must therefore be wrapped explicitly, or
+// they leak onto the exercise sheets.
+#only-theory[
+  #data-table(
+    columns: (1.4fr, 1fr, 1fr),
+    row-height: auto,
+    [],
+    [*Population (parameter)*],
+    [*Sample (statistic)*],
+    [Mean],
+    [$mu$ (mu)],
+    [$overline(x)$ ("x-bar")],
+    [Standard deviation],
+    [$sigma$ (sigma)],
+    [$s$],
+    [Size],
+    [$N$],
+    [$n$],
+  )
+]
 
 #only-theory[
   Greek letters for the population, Latin letters for the sample.
