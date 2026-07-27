@@ -25,20 +25,20 @@
 #set-level("high")
 
 #register_chapters(
-  ("Data & Trust", "/src/units/stochastics-descriptive/ch-data-and-trust"),
+  ("Data & Trust", "/src/units/descriptive-statistics/ch-data-and-trust"),
   // Uncomment as chapters are finished (commented lines are safely
   // invisible to both text parsers — they don't start with `("` ):
   //
-  // ("Displaying", "/src/units/stochastics-descriptive/ch-displaying-data"),
-  // ("Center", "/src/units/stochastics-descriptive/ch-center"),
-  // ("Spread", "/src/units/stochastics-descriptive/ch-spread"),
+  // ("Displaying", "/src/units/descriptive-statistics/ch-displaying-data"),
+  // ("Center", "/src/units/descriptive-statistics/ch-center"),
+  // ("Spread", "/src/units/descriptive-statistics/ch-spread"),
   //
   // ch-two-variables is registered for BOTH levels. The Lehrplan
   // makes scatterplots/regression/correlation an SPF-only BfKM item,
   // so the machinery (r, the regression line) sits behind only-high —
   // but "correlation does not imply causation" is reasoning both
   // levels need, and it is gated inside the chapter, not here.
-  // ("Two Variables", "/src/units/stochastics-descriptive/ch-two-variables"),
+  // ("Two Variables", "/src/units/descriptive-statistics/ch-two-variables"),
 )
 
 #include_chapters()

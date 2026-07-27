@@ -8,7 +8,7 @@
 #show: solutions-template.with(level: "high", show-questions: true)
 
 #for f in read-chapter-files(
-  from: "/src/units/stochastics-descriptive/main-high.typ",
+  from: "/src/units/descriptive-statistics/main-high.typ",
 ) {
   include f + ".typ"
 }

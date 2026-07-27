@@ -11,7 +11,7 @@
 #show: exercise-sheet-template.with(level: "basic")
 
 #for f in read-chapter-files(
-  from: "/src/units/stochastics-descriptive/main-basic.typ",
+  from: "/src/units/descriptive-statistics/main-basic.typ",
 ) {
   include f + ".typ"
 }
