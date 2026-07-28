@@ -37,6 +37,13 @@
   // eye and leaves "best" undefined; this one defines it. It must
   // therefore stay AFTER ch-association in this list.
   ("Two Variables", "/src/units/descriptive-statistics/ch-two-variables"),
+  //
+  // ch-project is OPTIONAL and scalable -- its tier 1 briefs run in a
+  // single lesson, tier 3 over weeks. Nothing else in the unit
+  // depends on it, so deleting this one line in a tight year costs
+  // nothing; leaving it in means students can run a project
+  // independently whether or not it is taught.
+  ("Project", "/src/units/descriptive-statistics/ch-project"),
 )
 
 #include_chapters()

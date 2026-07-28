@@ -31,6 +31,13 @@
   ("Spread", "/src/units/descriptive-statistics/ch-spread"),
   ("Association", "/src/units/descriptive-statistics/ch-association"),
   //
+  // ch-project is OPTIONAL and scalable -- its tier 1 briefs run in a
+  // single lesson, tier 3 over weeks. Nothing else in the unit
+  // depends on it, so deleting this one line in a tight year costs
+  // nothing; leaving it in means students can run a project
+  // independently whether or not it is taught.
+  ("Project", "/src/units/descriptive-statistics/ch-project"),
+  //
   // ch-two-variables is SPF-ONLY and is therefore absent here, not
   // merely commented: the Lehrplan makes scatterplots, regression and
   // correlation an SPF BfKM item (SPF 4.1), and GLF has no
