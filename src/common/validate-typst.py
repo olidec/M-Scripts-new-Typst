@@ -26,13 +26,14 @@ KNOWN = set(
     quad wide qquad space thin med thick
     dot dots dot.c dots.c dot.v dot.h times div plus minus pm mp
     in notin subset supset subseteq union sect inter empty
+    emptyset nothing without setminus degree
     eq not neq approx equiv sim prop leq geq less gt lt
     arrow arrows mapsto to gets implies iff
     forall exists partial nabla infinity oo
     cases mat vec binom cal bb frak sans serif upright italic bold
     text op display inline script sscript
     star square checkmark circle bullet degree angle perp parallel
-    left right lr mid
+    left right lr mid slash
     NN ZZ QQ RR CC Re Im Arg conj cis num system
     underbrace overbrace overline underline hat bar tilde vec dot.double
     """.split()
@@ -187,6 +188,21 @@ def check(path: str) -> int:
             errs.append(
                 f"line {line_of(s + m.start())}: "
                 f"unparenthesized negative '{m.group(0).strip()}'"
+            )
+
+    # 4. term-list items missing their colon
+    #
+    # Typst term lists are `/ Term: description`. Omit the colon and
+    # the compiler reports "expected colon" -- a real syntax error
+    # that nothing else here catches, because the line is perfectly
+    # well-formed markup right up until Typst looks for the colon.
+    # Easy to write by accident when the "term" is a whole sentence.
+    for i, raw in enumerate(strip_line_comments(src).split("\n"), 1):
+        t = raw.strip()
+        if t.startswith("/ ") and ":" not in t:
+            errs.append(
+                f"line {i}: term-list item has no colon "
+                f"(Typst needs '/ Term: description')"
             )
 
     print(f"=== {path}")
