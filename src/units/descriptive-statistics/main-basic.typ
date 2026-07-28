@@ -26,19 +26,19 @@
 
 #register_chapters(
   ("Data & Trust", "/src/units/descriptive-statistics/ch-data-and-trust"),
-  // Uncomment as chapters are finished (commented lines are safely
-  // invisible to both text parsers — they don't start with `("` ):
+  ("Displaying", "/src/units/descriptive-statistics/ch-displaying-data"),
+  ("Center", "/src/units/descriptive-statistics/ch-center"),
+  ("Spread", "/src/units/descriptive-statistics/ch-spread"),
+  ("Association", "/src/units/descriptive-statistics/ch-association"),
   //
-  // ("Displaying", "/src/units/descriptive-statistics/ch-displaying-data"),
-  // ("Center", "/src/units/descriptive-statistics/ch-center"),
-  // ("Spread", "/src/units/descriptive-statistics/ch-spread"),
-  //
-  // ch-two-variables is registered for BOTH levels. The Lehrplan
-  // makes scatterplots/regression/correlation an SPF-only BfKM item,
-  // so the machinery (r, the regression line) sits behind only-high —
-  // but "correlation does not imply causation" is reasoning both
-  // levels need, and it is gated inside the chapter, not here.
-  // ("Two Variables", "/src/units/descriptive-statistics/ch-two-variables"),
+  // ch-two-variables is SPF-ONLY and is therefore absent here, not
+  // merely commented: the Lehrplan makes scatterplots, regression and
+  // correlation an SPF BfKM item (SPF 4.1), and GLF has no
+  // corresponding entry. The REASONING about association -- what a
+  // correlation does and does not license -- is in ch-association
+  // above, which both levels read. Splitting the material this way
+  // means the level gate is a chapter boundary rather than forty
+  // only-high paragraphs, which is far harder to get wrong.
 )
 
 #include_chapters()

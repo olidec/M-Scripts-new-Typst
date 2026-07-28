@@ -26,19 +26,17 @@
 
 #register_chapters(
   ("Data & Trust", "/src/units/descriptive-statistics/ch-data-and-trust"),
-  // Uncomment as chapters are finished (commented lines are safely
-  // invisible to both text parsers — they don't start with `("` ):
+  ("Displaying", "/src/units/descriptive-statistics/ch-displaying-data"),
+  ("Center", "/src/units/descriptive-statistics/ch-center"),
+  ("Spread", "/src/units/descriptive-statistics/ch-spread"),
+  ("Association", "/src/units/descriptive-statistics/ch-association"),
   //
-  // ("Displaying", "/src/units/descriptive-statistics/ch-displaying-data"),
-  // ("Center", "/src/units/descriptive-statistics/ch-center"),
-  // ("Spread", "/src/units/descriptive-statistics/ch-spread"),
-  //
-  // ch-two-variables is registered for BOTH levels. The Lehrplan
-  // makes scatterplots/regression/correlation an SPF-only BfKM item,
-  // so the machinery (r, the regression line) sits behind only-high —
-  // but "correlation does not imply causation" is reasoning both
-  // levels need, and it is gated inside the chapter, not here.
-  // ("Two Variables", "/src/units/descriptive-statistics/ch-two-variables"),
+  // ch-two-variables is SPF-only (Lehrplan SPF 4.1: Streudiagramme
+  // lesen, Regressionsgeraden und Korrelation verstehen). It builds
+  // directly on ch-association above -- that chapter fits a line by
+  // eye and leaves "best" undefined; this one defines it. It must
+  // therefore stay AFTER ch-association in this list.
+  ("Two Variables", "/src/units/descriptive-statistics/ch-two-variables"),
 )
 
 #include_chapters()
