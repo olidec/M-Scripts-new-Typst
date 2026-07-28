@@ -473,20 +473,20 @@
 #only-theory[
   These are the failures that recur, in rough order of frequency.
 
-  / The question was never narrowed. Everything downstream is then
+  / The question was never narrowed: everything downstream is then
     guesswork, because there is no statement to test.
-  / The sample was whoever was nearby. Convenience sampling is the
+  / The sample was whoever was nearby: convenience sampling is the
     default failure, and it is invisible from inside the data --- the
     numbers look perfectly normal.
-  / The measurement changed halfway through. Someone rounded
+  / The measurement changed halfway through: someone rounded
     differently, or asked the question a second way, and the two
     halves are not comparable.
-  / The plot was skipped. A mean and a standard deviation were
+  / The plot was skipped: a mean and a standard deviation were
     computed for a bimodal distribution, and the report describes a
     typical case that does not exist.
-  / A cause was claimed. Almost every first report does this, usually
+  / A cause was claimed: almost every first report does this, usually
     in the final sentence.
-  / The limitations section is missing or empty. This is the section
+  / The limitations section is missing or empty: this is the section
     that makes a report credible, and it is the one people cut when
     they run out of time.
 ]
