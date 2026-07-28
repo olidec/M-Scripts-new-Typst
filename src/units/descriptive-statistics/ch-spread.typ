@@ -17,6 +17,87 @@
   40, 11, 6, 20, 13, 28, 16, 10, 35, 12, 24, 45,
 )
 
+
+// ── Bell-curve figure (chapter-local) ────────────────────────
+// Native Typst: a normal density drawn as a filled polygon, with
+// nested bands for |z| <= 1, <= 2, <= 3. Kept local rather than put
+// in preamble.typ because so far only this one extension section
+// needs it -- promote it if a later unit wants the same picture.
+#let bell-curve(width: 12cm, height: 3.8cm) = align(center, {
+  let zlo = -3.6
+  let zhi = 3.6
+  let steps = 100
+  let foot = 0.95cm
+  let px(z) = width * (z - zlo) / (zhi - zlo)
+  let py(z) = height * (1 - calc.exp(-z * z / 2))
+
+  // one shaded band from a to b, closed along the baseline
+  let band(a, b, fillc) = {
+    let pts = range(steps + 1).map(i => {
+      let z = a + (b - a) * i / steps
+      (px(z), py(z))
+    }) + ((px(b), height), (px(a), height))
+    place(dx: 0pt, dy: 0pt, polygon(fill: fillc, stroke: none, ..pts))
+  }
+
+  let tick(z, body) = place(
+    dx: px(z) - 0.85cm,
+    dy: height + 5pt,
+    box(width: 1.7cm, align(center, text(size: 8pt, fill: luma(70), body))),
+  )
+
+  let pct(z, body) = place(
+    dx: px(z) - 0.7cm,
+    dy: height - 22pt,
+    box(width: 1.4cm, align(center, text(size: 7.5pt, fill: luma(50), body))),
+  )
+
+  box(width: width, height: height + foot, {
+    // widest band first, narrower bands painted over it
+    band(-3, 3, accent.lighten(78%))
+    band(-2, 2, accent.lighten(52%))
+    band(-1, 1, accent.lighten(22%))
+
+    // the curve itself, closed along the baseline
+    let outline = range(steps + 1).map(i => {
+      let z = zlo + (zhi - zlo) * i / steps
+      (px(z), py(z))
+    }) + ((px(zhi), height), (px(zlo), height))
+    place(dx: 0pt, dy: 0pt, polygon(
+      fill: none,
+      stroke: 1pt + accent,
+      ..outline,
+    ))
+
+    // boundaries at +-1 and +-2 standard deviations
+    for z in (-2, -1, 1, 2) {
+      place(dx: px(z), dy: py(z), line(
+        start: (0pt, 0pt),
+        end: (0pt, height - py(z)),
+        stroke: 0.6pt + luma(90),
+      ))
+    }
+
+    place(dx: 0pt, dy: height, line(
+      start: (0pt, 0pt),
+      end: (width, 0pt),
+      stroke: 0.7pt + luma(70),
+    ))
+
+    pct(0, [68%])
+    pct(-1.5, [13.5%])
+    pct(1.5, [13.5%])
+    pct(-2.5, [2.1%])
+    pct(2.5, [2.1%])
+
+    tick(-2, $mu - 2 sigma$)
+    tick(-1, $mu - sigma$)
+    tick(0, $mu$)
+    tick(1, $mu + sigma$)
+    tick(2, $mu + 2 sigma$)
+  })
+})
+
 = Measures of Spread
 
 #only-theory[
@@ -719,6 +800,62 @@
   contain two thirds of the club contains almost nobody. Check the
   shape first; the rule is a consequence of the shape, not a property
   of the standard deviation.
+]
+
+=== Extension: The Bell Curve
+
+#remark[
+  Everything in this short section lies beyond what this course
+  examines. It is here because the 68/95 rule looks arbitrary until
+  you see where the two numbers come from, and one picture settles
+  it.
+]
+
+#only-theory[
+  The reason bell-shaped histograms keep appearing is that a great
+  many quantities are the combined result of a large number of small,
+  independent influences --- and quantities built that way tend
+  toward one particular curve, whatever the influences happen to be.
+  Height is the accumulation of many genetic and nutritional factors;
+  measurement error is the accumulation of many small imprecisions.
+  Neither was designed to be bell-shaped, and both are.
+
+  That curve is the *normal distribution*. Drawn with the mean in the
+  middle and the standard deviation as the unit along the horizontal
+  axis, it looks like this:
+]
+
+#only-theory[
+  #fig(
+    bell-curve(),
+    caption: [The normal distribution. Each band is one standard
+      deviation wide, and the percentage is the share of the data
+      falling in it.],
+  )
+]
+
+#only-theory[
+  Now the rule of thumb stops being arbitrary. The two shaded bands
+  nearest the middle together hold about
+  $34% + 34% = 68%$ of the data --- that is the first part of the
+  rule. Adding the next band on each side gives
+  $68% + 13.5% + 13.5% = 95%$, which is the second. A third standard
+  deviation either way brings the total to about $99.7%$, leaving
+  roughly three observations in a thousand outside
+  $[mu - 3 sigma, thin mu + 3 sigma]$.
+
+  Notice also what the picture explains about the standard deviation
+  itself. It is not an arbitrary way of measuring spread: for this
+  curve, $mu plus.minus sigma$ marks precisely the points where the
+  curve changes from bending downward to bending outward. The
+  standard deviation is built into the shape.
+]
+
+#warning[
+  None of this transfers to data that is not bell-shaped, as Club B
+  demonstrated a moment ago. The percentages are properties of the
+  *curve*, and they apply to a dataset only to the extent that the
+  dataset resembles it. Always check the histogram first.
 ]
 
 #look-ahead(preview: [the normal distribution])[
