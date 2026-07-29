@@ -27,10 +27,10 @@
   ("Chance", "/src/units/probabilities-combinatorics/ch-randomness"),
   ("Events", "/src/units/probabilities-combinatorics/ch-sample-spaces"),
   ("Rules", "/src/units/probabilities-combinatorics/ch-prob-rules"),
+  ("Conditional", "/src/units/probabilities-combinatorics/ch-conditional"),
   // Uncomment as chapters are finished (commented lines are safely
   // invisible to both text parsers — they don't start with `("` ):
   //
-  // ("Conditional", "/src/units/probabilities-combinatorics/ch-conditional"),
   // ("Trees", "/src/units/probabilities-combinatorics/ch-trees"),
   // ("Counting", "/src/units/probabilities-combinatorics/ch-counting"),
   //
