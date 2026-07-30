@@ -9,6 +9,8 @@
 #        main-basic.typ        main-high.typ
 #        exercises-basic.typ   exercises-high.typ
 #        solutions-basic.typ   solutions-high.typ
+#        notebooks/            (optional — Jupyter notebooks)
+#        data/                 (optional — CSV and other data files)
 #    src/years/<name>.typ       (e.g. glf-y1.typ, spf-y1.typ)
 #
 #  Outputs:
@@ -16,10 +18,12 @@
 #    dist/<unit>/exercises-basic.pdf, exercises-high.pdf
 #    dist/<unit>/solutions-basic.pdf, solutions-high.pdf
 #    dist/<unit>/<chapter>-basic.pdf, <chapter>-high.pdf  (standalone)
+#    dist/<unit>/notebooks/, dist/<unit>/data/   (copied verbatim)
 #    dist/years/<name>.pdf
 #
 #  Usage:
-#    ./build.sh unit <unit-name> <full|chapters|exercises|solutions|all>
+#    ./build.sh unit <unit-name> \
+#        <full|chapters|exercises|solutions|assets|all>
 #    ./build.sh year <year-name|all>
 #    ./build.sh all                # "all" mode for every unit — NEVER
 #                                   # touches src/years/, which is opt-in
@@ -28,6 +32,7 @@
 #  Examples:
 #    ./build.sh unit algebra-functions all
 #    ./build.sh unit sequences-series chapters
+#    ./build.sh unit distributions assets
 #    ./build.sh year glf-y1
 #    ./build.sh year all
 #
@@ -45,6 +50,16 @@
 #      line, each trimmed line starting with ("  — exactly how every
 #      main-*.typ file in this project is written. If you reformat an
 #      entry onto multiple lines, this script won't see it.
+#    * "assets" mode copies a unit's notebooks/ and data/ folders into
+#      dist/<unit>/ verbatim, so each built unit is one self-contained
+#      folder that can be dropped on a server as it stands. A data file
+#      used by a notebook therefore exists in two places (src and dist,
+#      and possibly twice within src if the notebook keeps its own
+#      copy so it runs standalone). That duplication is deliberate:
+#      dist/ is a build artefact and src/ is the source of truth, so
+#      the copies are never edited in dist/. Units with neither folder
+#      skip the step silently, which is why "assets" is safe to run as
+#      part of "all" for every unit.
 #    * Year-file builds are always opt-in (`./build.sh year ...`) and
 #      are never included in `./build.sh all`, since a full-year
 #      binder's exercise numbering will not match the numbering in
@@ -81,7 +96,7 @@ check_typst() {
 usage() {
   cat <<'USAGE' >&2
 Usage:
-  ./build.sh unit <unit-name> <full|chapters|exercises|solutions|all>
+  ./build.sh unit <unit-name> <full|chapters|exercises|solutions|assets|all>
   ./build.sh year <year-name|all>
   ./build.sh all
   ./build.sh list
@@ -89,6 +104,7 @@ Usage:
 Examples:
   ./build.sh unit algebra-functions all
   ./build.sh unit sequences-series chapters
+  ./build.sh unit distributions assets
   ./build.sh year glf-y1
   ./build.sh year all
 USAGE
@@ -221,6 +237,33 @@ EOF
   done
 }
 
+build_assets() {
+  # Copy a unit's notebooks/ and data/ folders into dist/<unit>/ so the
+  # built unit is self-contained. Nothing is compiled here.
+  local unit="$1"
+  local dir="$UNITS_DIR/$unit"
+  local sub count
+  for sub in notebooks data; do
+    [[ -d "$dir/$sub" ]] || continue
+    # Count real entries first. Globbing an empty directory would leave
+    # the pattern unexpanded and hand cp a nonexistent path, which under
+    # `set -e` aborts the whole build over an empty folder. -mindepth /
+    # -maxdepth and the tr are for BSD find and BSD wc on macOS.
+    count=$(find "$dir/$sub" -mindepth 1 -maxdepth 1 | wc -l | tr -d " ")
+    if [[ "$count" -eq 0 ]]; then
+      echo "  (skip: $dir/$sub is empty)"
+      continue
+    fi
+    mkdir -p "$DIST_DIR/$unit/$sub"
+    # The trailing "/." copies the *contents* of the folder, including
+    # dotfiles, rather than nesting the folder inside itself on a second
+    # run. -R rather than -r so a notebooks/ folder may hold subfolders;
+    # both flags exist on BSD and GNU cp.
+    cp -R "$dir/$sub/." "$DIST_DIR/$unit/$sub/"
+    echo "  assets: $sub/ -> $DIST_DIR/$unit/$sub/ ($count item(s))"
+  done
+}
+
 build_unit_all() {
   local unit="$1"
   echo "== unit: $unit =="
@@ -228,6 +271,7 @@ build_unit_all() {
   build_chapters "$unit"
   build_exercises "$unit"
   build_solutions "$unit"
+  build_assets "$unit"
 }
 
 # ---- year builds (always opt-in) ----------------------------------
@@ -291,6 +335,7 @@ case "${1:-}" in
       chapters)  build_chapters "$unit" ;;
       exercises) build_exercises "$unit" ;;
       solutions) build_solutions "$unit" ;;
+      assets)    build_assets "$unit" ;;
       all)       build_unit_all "$unit" ;;
       *) usage ;;
     esac
