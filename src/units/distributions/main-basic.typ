@@ -36,7 +36,7 @@
   //
   // ---- required for GLF (Lehrplan Y4 2.1 / 2.2) ----
   ("Binomial", "/src/units/distributions/ch-binomial"),
-  // ("Binomial test", "/src/units/distributions/ch-binomial-test"),
+  ("Binomial test", "/src/units/distributions/ch-binomial-test"),
   // ("Models", "/src/units/distributions/ch-models"),
   //
   // ---- optional for GLF from here on ----

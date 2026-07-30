@@ -34,7 +34,7 @@
   // invisible to both text parsers — they don't start with `("` ):
   //
   ("Binomial", "/src/units/distributions/ch-binomial"),
-  // ("Binomial test", "/src/units/distributions/ch-binomial-test"),
+  ("Binomial test", "/src/units/distributions/ch-binomial-test"),
   // ("Models", "/src/units/distributions/ch-models"),
   // ("Normal curve", "/src/units/distributions/ch-normal-intro"),
   //
