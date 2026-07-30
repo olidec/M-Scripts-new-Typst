@@ -36,17 +36,17 @@
   ("Events", "/src/units/probabilities-combinatorics/ch-sample-spaces"),
   ("Rules", "/src/units/probabilities-combinatorics/ch-prob-rules"),
   ("Conditional", "/src/units/probabilities-combinatorics/ch-conditional"),
+  ("Trees", "/src/units/probabilities-combinatorics/ch-trees"),
+  ("Counting", "/src/units/probabilities-combinatorics/ch-counting"),
+  ("Combined", "/src/units/probabilities-combinatorics/ch-prob-counting"),
+  ("Paradoxes", "/src/units/probabilities-combinatorics/ch-paradoxes"),
   // Uncomment as chapters are finished (commented lines are safely
   // invisible to both text parsers — they don't start with `("` ):
   //
-  // ("Trees", "/src/units/probabilities-combinatorics/ch-trees"),
-  // ("Counting", "/src/units/probabilities-combinatorics/ch-counting"),
   //
   // ch-counting-advanced is SPF-only and is registered in
   // main-high.typ alone. Do not add it here.
   //
-  // ("Combined", "/src/units/probabilities-combinatorics/ch-prob-counting"),
-  // ("Paradoxes", "/src/units/probabilities-combinatorics/ch-paradoxes"),
 )
 
 #include_chapters()

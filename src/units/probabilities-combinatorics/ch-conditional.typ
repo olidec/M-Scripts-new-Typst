@@ -39,7 +39,7 @@
   [build a two-way table from percentages, and read conditional
     probabilities off it in both directions],
   bfkm[use the general multiplication rule
-    $p(A sect B) = p(B) dot p(A|B)$],
+    $p(A inter B) = p(B) dot p(A|B)$],
   [recognize independence as the special case $p(A|B) = p(A)$],
   [explain why a test that is right $99%$ of the time can still be
     wrong most of the time it says yes],
@@ -74,17 +74,19 @@
   That sentence is the whole chapter; the formula is just what happens
   when you write it down. Both $16$ and $30$ were counts out of the
   same $100$, so dividing each by $100$ changes nothing:
-  $ 16/30 = (16 slash 100)/(30 slash 100)
-    = p(A sect B)/p(B). $
+  $
+    16/30 = (16 slash 100)/(30 slash 100)
+    = p(A inter B)/p(B).
+  $
   The numerator counts the outcomes in the new sample space that also
-  lie in $A$ — which is exactly $A sect B$.
+  lie in $A$ — which is exactly $A inter B$.
 ]
 
 #definition(title: "Conditional Probability")[
   The #vocab("conditional probability", "bedingte Wahrscheinlichkeit")
   of $A$ #vocab("given", "unter der Bedingung", show-de: false) $B$,
   written $p(A|B)$, is
-  $ p(A|B) = p(A sect B) / p(B), quad "provided" p(B) > 0. $
+  $ p(A|B) = p(A inter B) / p(B), quad "provided" p(B) > 0. $
 
   In words: of all the ways $B$ can happen, what fraction also has $A$
   happening? It is the same "favorable over possible" as before, with
@@ -104,7 +106,7 @@
 #example[
   A fair die is rolled. Let $A$ be "the result is a $6$" and $B$ be
   "the result is even".
-  $ p(A) = 1/6, quad p(B) = 1/2, quad p(A sect B) = 1/6, $
+  $ p(A) = 1/6, quad p(B) = 1/2, quad p(A inter B) = 1/6, $
   so
   $ p(A|B) = (1 slash 6)/(1 slash 2) = 1/3. $
   Which is obvious once stated in words: told that the die came up
@@ -130,10 +132,22 @@
   #data-table(
     columns: (auto, auto, auto, auto),
     row-height: auto,
-    [], [male], [female], [*total*],
-    [color-blind], [$40$], [$2$], [*$42$*],
-    [not color-blind], [$470$], [$488$], [*$958$*],
-    [*total*], [*$510$*], [*$490$*], [*$1000$*],
+    [],
+    [male],
+    [female],
+    [*total*],
+    [color-blind],
+    [$40$],
+    [$2$],
+    [*$42$*],
+    [not color-blind],
+    [$470$],
+    [$488$],
+    [*$958$*],
+    [*total*],
+    [*$510$*],
+    [*$490$*],
+    [*$1000$*],
   )
 
   Let $C$ be "color-blind" and $W$ be "female". Two questions that
@@ -183,10 +197,26 @@
   #data-table(
     columns: (auto, auto, auto, auto, auto),
     row-height: auto,
-    [], [smoker], [occasional], [non-smoker], [*total*],
-    [male], [$127$], [$73$], [$214$], [*$414$*],
-    [female], [$99$], [$66$], [$189$], [*$354$*],
-    [*total*], [*$226$*], [*$139$*], [*$403$*], [*$768$*],
+    [],
+    [smoker],
+    [occasional],
+    [non-smoker],
+    [*total*],
+    [male],
+    [$127$],
+    [$73$],
+    [$214$],
+    [*$414$*],
+    [female],
+    [$99$],
+    [$66$],
+    [$189$],
+    [*$354$*],
+    [*total*],
+    [*$226$*],
+    [*$139$*],
+    [*$403$*],
+    [*$768$*],
   )
 
   A student is picked at random from the study.
@@ -224,10 +254,22 @@
   #data-table(
     columns: (auto, auto, auto, auto),
     row-height: auto,
-    [], [boys], [girls], [*total*],
-    [television], [], [], [],
-    [sport], [$33$], [$29$], [],
-    [*total*], [*$46$*], [], [*$100$*],
+    [],
+    [boys],
+    [girls],
+    [*total*],
+    [television],
+    [],
+    [],
+    [],
+    [sport],
+    [$33$],
+    [$29$],
+    [],
+    [*total*],
+    [*$46$*],
+    [],
+    [*$100$*],
   )
 
   #auto-parts(
@@ -249,10 +291,22 @@
       #data-table(
         columns: (auto, auto, auto, auto),
         row-height: auto,
-        [], [boys], [girls], [*total*],
-        [television], [$13$], [$25$], [*$38$*],
-        [sport], [$33$], [$29$], [*$62$*],
-        [*total*], [*$46$*], [*$54$*], [*$100$*],
+        [],
+        [boys],
+        [girls],
+        [*total*],
+        [television],
+        [$13$],
+        [$25$],
+        [*$38$*],
+        [sport],
+        [$33$],
+        [$29$],
+        [*$62$*],
+        [*total*],
+        [*$46$*],
+        [*$54$*],
+        [*$100$*],
       )],
     [$38/100 = 0.38$.],
     [Restrict to the boys' column, which holds $46$ students, of whom
@@ -274,10 +328,18 @@
   #data-table(
     columns: (auto, auto, auto),
     row-height: auto,
-    [], [defective], [non-defective],
-    [machine I], [$6$], [$120$],
-    [machine II], [$4$], [$80$],
-    [machine III], [$10$], [$150$],
+    [],
+    [defective],
+    [non-defective],
+    [machine I],
+    [$6$],
+    [$120$],
+    [machine II],
+    [$4$],
+    [$80$],
+    [machine III],
+    [$10$],
+    [$150$],
   )
 
   + One component is chosen at random from the whole run. Find the
@@ -325,9 +387,9 @@
 
 #keybox(title: "The general multiplication rule")[
   For any two events with $p(B) > 0$,
-  $ p(A sect B) = p(B) dot p(A|B), $
+  $ p(A inter B) = p(B) dot p(A|B), $
   and equally, when $p(A) > 0$,
-  $ p(A sect B) = p(A) dot p(B|A). $
+  $ p(A inter B) = p(A) dot p(B|A). $
 
   In words: the chance that both happen is the chance that the first
   happens, times the chance that the second happens *given* that it
@@ -342,7 +404,7 @@
   It also puts independence in its proper place. If $A$ and $B$ are
   independent then knowing about $B$ changes nothing about $A$, so
   $p(A|B) = p(A)$ — and substituting that into the rule above returns
-  $p(A sect B) = p(A) dot p(B)$, the special case we started with.
+  $p(A inter B) = p(A) dot p(B)$, the special case we started with.
 ]
 
 #keybox(title: "Three ways to say the same thing")[
@@ -351,7 +413,7 @@
     1,
     [$A$ and $B$ are independent;],
     [$p(A|B) = p(A)$;],
-    [$p(A sect B) = p(A) dot p(B)$.],
+    [$p(A inter B) = p(A) dot p(B)$.],
   )
   The second is the most meaningful — it says the information is
   worthless — and the third is the easiest to check.
@@ -359,13 +421,13 @@
 
 #ex(difficulty: 2, time: "12 min")[
   Two events satisfy $p(A) = 7/10$, $p(A union B) = 9/10$ and
-  $p(A sect B) = 3/10$. Find
+  $p(A inter B) = 3/10$. Find
   #auto-parts(
     3,
     [$p(B)$,],
-    [$p(overline(B) sect A)$,],
-    [$p(B sect overline(A))$,],
-    [$p(overline(B) sect overline(A))$,],
+    [$p(overline(B) inter A)$,],
+    [$p(B inter overline(A))$,],
+    [$p(overline(B) inter overline(A))$,],
     [$p(B|A)$.],
   )
 ][
@@ -376,8 +438,10 @@
     [The part of $A$ outside $B$: $7/10 - 3/10 = 4/10 = 2/5$.],
     [The part of $B$ outside $A$: $5/10 - 3/10 = 2/10 = 1/5$.],
     [Outside both is outside the union: $1 - 9/10 = 1/10$.],
-    [$ p(B|A) = p(A sect B)/p(A)
-       = (3 slash 10)/(7 slash 10) = 3/7. $],
+    [$
+      p(B|A) = p(A inter B)/p(A)
+      = (3 slash 10)/(7 slash 10) = 3/7.
+    $],
   )
   A check: the four regions $3/10$, $2/5$, $1/5$, $1/10$ add to $1$,
   as they must.
@@ -385,23 +449,25 @@
 
 #ex(difficulty: 2, time: "12 min")[
   Two events satisfy $p(A|B) = 0.30$, $p(B|A) = 0.60$ and
-  $p(A sect B) = 0.18$.
+  $p(A inter B) = 0.18$.
   #auto-parts(
     1,
     [Find $p(B)$ and $p(A)$.],
     [Are $A$ and $B$ independent? Justify your answer.],
-    [Find $p(B sect overline(A))$.],
+    [Find $p(B inter overline(A))$.],
   )
 ][
   #auto-parts(
     1,
     [Read the multiplication rule backwards, in both directions:
-      $ p(B) = p(A sect B)/p(A|B) = 0.18/0.30 = 0.6, quad
-        p(A) = p(A sect B)/p(B|A) = 0.18/0.60 = 0.3. $],
-    [Yes: $p(A) dot p(B) = 0.3 dot 0.6 = 0.18 = p(A sect B)$. It could
+      $
+        p(B) = p(A inter B)/p(A|B) = 0.18/0.30 = 0.6, quad
+        p(A) = p(A inter B)/p(B|A) = 0.18/0.60 = 0.3.
+      $],
+    [Yes: $p(A) dot p(B) = 0.3 dot 0.6 = 0.18 = p(A inter B)$. It could
       have been spotted a step earlier — $p(A|B) = 0.30 = p(A)$, which
       is the statement that $B$ tells you nothing about $A$.],
-    [$p(B) - p(A sect B) = 0.6 - 0.18 = 0.42$.],
+    [$p(B) - p(A inter B) = 0.6 - 0.18 = 0.42$.],
   )
 ]
 
@@ -419,10 +485,12 @@
     1,
     [The multiplication rule turns the conditional probability into an
       intersection:
-      $ p(A sect B) = p(B) dot p(A|B) = 3/8 dot 1/4 = 3/32. $],
+      $ p(A inter B) = p(B) dot p(A|B) = 3/8 dot 1/4 = 3/32. $],
     [First the union:
-      $ p(A union B) = 9/16 + 3/8 - 3/32
-        = 18/32 + 12/32 - 3/32 = 27/32. $
+      $
+        p(A union B) = 9/16 + 3/8 - 3/32
+        = 18/32 + 12/32 - 3/32 = 27/32.
+      $
       "Exactly one" is the union with the overlap removed:
       $ 27/32 - 3/32 = 24/32 = 3/4. $],
     [$1 - 27/32 = 5/32$.],
@@ -433,7 +501,7 @@
   An airline is proud of its punctuality. The probability that a
   scheduled flight departs on time is $p(D) = 0.83$; that it arrives
   on time is $p(A) = 0.92$; and that it both departs and arrives on
-  time is $p(A sect D) = 0.78$. Find the probability that a flight
+  time is $p(A inter D) = 0.78$. Find the probability that a flight
   #auto-parts(
     1,
     [arrives on time, given that it departed on time,],
@@ -456,7 +524,7 @@
 #only-high[
   #ex(difficulty: 3, level: "high", time: "12 min")[
     Two independent events satisfy $p(A) = k$, $p(B) = k + 0.3$ and
-    $p(A sect B) = 0.18$.
+    $p(A inter B) = 0.18$.
     #auto-parts(
       1,
       [Find $k$.],
@@ -466,9 +534,11 @@
   ][
     #auto-parts(
       1,
-      [Independence gives $p(A) dot p(B) = p(A sect B)$, so
-        $ k dot (k + 0.3) = 0.18
-          arrow.r.double k^2 + 0.3 k - 0.18 = 0. $
+      [Independence gives $p(A) dot p(B) = p(A inter B)$, so
+        $
+          k dot (k + 0.3) = 0.18
+          arrow.r.double k^2 + 0.3 k - 0.18 = 0.
+        $
         The quadratic formula gives $k = 0.3$ or $k = -0.6$, and a
         probability cannot be negative, so $k = 0.3$ and
         $p(B) = 0.6$.],
@@ -476,10 +546,12 @@
       [The last chapter's SPF exercise showed that independence of $A$
         and $B$ carries over to $overline(A)$ and $overline(B)$. So
         conditioning on $overline(B)$ tells us nothing:
-        $ p(overline(A) | overline(B)) = p(overline(A))
-          = 1 - 0.3 = 0.7. $
+        $
+          p(overline(A) | overline(B)) = p(overline(A))
+          = 1 - 0.3 = 0.7.
+        $
         The alternative is to compute
-        $p(overline(A) sect overline(B)) = 1 - 0.72 = 0.28$ and divide
+        $p(overline(A) inter overline(B)) = 1 - 0.72 = 0.28$ and divide
         by $p(overline(B)) = 0.4$, which gives $0.7$ as well.],
     )
   ]
@@ -492,14 +564,16 @@
     is even". Both conditional probabilities equal $1/2$.
 
     In general, writing both sides out,
-    $ p(A|B) = p(A sect B)/p(B) quad "and" quad
-      p(B|A) = p(A sect B)/p(A), $
+    $
+      p(A|B) = p(A inter B)/p(B) quad "and" quad
+      p(B|A) = p(A inter B)/p(A),
+    $
     two fractions with the same numerator. If that numerator is not
     zero, they are equal exactly when the denominators are:
     $ p(A|B) = p(B|A) arrow.l.r.double p(A) = p(B). $
     So the condition has nothing to do with independence or with
     overlap — it is simply that the two events are equally likely to
-    begin with. (The excluded case $p(A sect B) = 0$ makes both sides
+    begin with. (The excluded case $p(A inter B) = 0$ makes both sides
     $0$ regardless.)
   ]
 ]
@@ -534,19 +608,31 @@
   #data-table(
     columns: (auto, auto, auto, auto),
     row-height: auto,
-    [], [tests positive], [tests negative], [*total*],
-    [infected], [$#num(1998)$], [$2$], [*$#num(2000)$*],
-    [not infected], [$#num(4990)$], [$#num(993010)$],
+    [],
+    [tests positive],
+    [tests negative],
+    [*total*],
+    [infected],
+    [$#num(1998)$],
+    [$2$],
+    [*$#num(2000)$*],
+    [not infected],
+    [$#num(4990)$],
+    [$#num(993010)$],
     [*$#num(998000)$*],
-    [*total*], [*$#num(6988)$*], [*$#num(993012)$*],
+    [*total*],
+    [*$#num(6988)$*],
+    [*$#num(993012)$*],
     [*$#num(1000000)$*],
   )
 
   Now read off the answer by covering all but the "tests positive"
   column. It holds $#num(6988)$ people, of whom $#num(1998)$ are
   actually infected:
-  $ p("infected" | "positive") = #num(1998)/#num(6988)
-    approx 0.286. $
+  $
+    p("infected" | "positive") = #num(1998)/#num(6988)
+    approx 0.286.
+  $
 ]
 
 #keybox(title: "The base rate")[
@@ -621,10 +707,21 @@
       #data-table(
         columns: (auto, auto, auto, auto),
         row-height: auto,
-        [], [tests positive], [tests negative], [*total*],
-        [allergic], [$80$], [$20$], [*$100$*],
-        [not allergic], [$990$], [$#num(8910)$], [*$#num(9900)$*],
-        [*total*], [*$#num(1070)$*], [*$#num(8930)$*],
+        [],
+        [tests positive],
+        [tests negative],
+        [*total*],
+        [allergic],
+        [$80$],
+        [$20$],
+        [*$100$*],
+        [not allergic],
+        [$990$],
+        [$#num(8910)$],
+        [*$#num(9900)$*],
+        [*total*],
+        [*$#num(1070)$*],
+        [*$#num(8930)$*],
         [*$#num(10000)$*],
       )],
     [Restrict to the $#num(1070)$ people who tested positive; $80$ of
@@ -660,10 +757,22 @@
       #data-table(
         columns: (auto, auto, auto, auto),
         row-height: auto,
-        [], [high blood pressure], [normal], [*total*],
-        [more than $5 "g"$ salt], [$20$], [$20$], [*$40$*],
-        [$5 "g"$ salt or less], [$9$], [$51$], [*$60$*],
-        [*total*], [*$29$*], [*$71$*], [*$100$*],
+        [],
+        [high blood pressure],
+        [normal],
+        [*total*],
+        [more than $5 "g"$ salt],
+        [$20$],
+        [$20$],
+        [*$40$*],
+        [$5 "g"$ salt or less],
+        [$9$],
+        [$51$],
+        [*$60$*],
+        [*total*],
+        [*$29$*],
+        [*$71$*],
+        [*$100$*],
       )],
     [Restrict to the $29$ people with high blood pressure, of whom
       $20$ are heavy salt consumers:
@@ -686,8 +795,8 @@
   #only-theory[
     The table method works because it computes both sides of the
     multiplication rule. Writing that out gives the reversal in one
-    line. Since $p(A sect B)$ can be split either way,
-    $ p(B) dot p(A|B) = p(A sect B) = p(A) dot p(B|A), $
+    line. Since $p(A inter B)$ can be split either way,
+    $ p(B) dot p(A|B) = p(A inter B) = p(A) dot p(B|A), $
     and dividing by $p(A)$ turns a condition around:
     $ p(B|A) = (p(A|B) dot p(B)) / p(A). $
 
