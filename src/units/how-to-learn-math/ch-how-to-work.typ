@@ -285,58 +285,61 @@ and most of the value is in not skipping the early steps. Each rung
 costs a little more of your independence than the one below it — so
 climb, don't jump.
 
-#data-table(
-  columns: (0.5fr, 1.5fr, 2fr),
-  row-height: auto,
-  [#text(weight: "bold")[Order]],
-  [#text(weight: "bold")[Resource]],
-  [#text(weight: "bold")[Why here]],
+#only-theory[
+  #data-table(
+    columns: (0.5fr, 1.5fr, 2fr),
+    row-height: auto,
+    [#text(weight: "bold")[Order]],
+    [#text(weight: "bold")[Resource]],
+    [#text(weight: "bold")[Why here]],
 
-  [1],
-  [Your own notes and worked examples],
-  [Closest to what the exam will look like, and written in the
-    language your teacher actually used.],
+    [1],
+    [Your own notes and worked examples],
+    [Closest to what the exam will look like, and written in the
+      language your teacher actually used.],
 
-  [2],
-  [The course materials — theory boxes, earlier exercises, the
-    toolbox],
-  [Written for exactly your level and exactly this sequence of
-    topics.],
+    [2],
+    [The course materials — theory boxes, earlier exercises, the
+      toolbox],
+    [Written for exactly your level and exactly this sequence of
+      topics.],
 
-  [3],
-  [A classmate],
-  [Explaining is the single best way for *them* to learn, and a peer
-    explanation is often pitched better than an expert one.],
+    [3],
+    [A classmate],
+    [Explaining is the single best way for *them* to learn, and a peer
+      explanation is often pitched better than an expert one.],
 
-  [4],
-  [Another book, or a video],
-  [A genuinely different presentation can unstick you — but it may
-    use different notation and different conventions.],
+    [4],
+    [Another book, or a video],
+    [A genuinely different presentation can unstick you — but it may
+      use different notation and different conventions.],
 
-  [5],
-  [Me],
-  [Bring the sentence you wrote about where you got stuck.],
+    [5],
+    [Me],
+    [Bring the sentence you wrote about where you got stuck.],
 
-  [6],
-  [An AI tool],
-  [Last, and only under the conditions in the next section.],
-)
+    [6],
+    [An AI tool],
+    [Last, and only under the conditions in the next section.],
+  )
 
-Two notes on the middle rungs.
+  Two notes on the middle rungs.
 
-*Videos* are the most overrated study resource in existence, for one
-specific reason: watching a competent person solve a problem
-smoothly produces a strong feeling of understanding and almost no
-retrieval. If you use one, pause it before every step and predict
-what comes next, then compare. A video you watched straight through
-is entertainment.
+  *Videos* are the most overrated study resource in existence, for one
+  specific reason: watching a competent person solve a problem
+  smoothly produces a strong feeling of understanding and almost no
+  retrieval. If you use one, pause it before every step and predict
+  what comes next, then compare. A video you watched straight through
+  is entertainment.
 
-*Working with classmates* is excellent and easy to do badly. "We did
-it together" very often means one person solved it and the other
-watched — see the paragraph above for why that's worth roughly
-nothing. The version that works: solve separately first, then
-compare, then argue about the differences. The disagreements are the
-valuable part.
+  *Working with classmates* is excellent and easy to do badly. "We did
+  it together" very often means one person solved it and the other
+  watched — see the paragraph above for why that's worth roughly
+  nothing. The version that works: solve separately first, then
+  compare, then argue about the differences. The disagreements are the
+  valuable part.
+
+]
 
 == Working with AI
 
