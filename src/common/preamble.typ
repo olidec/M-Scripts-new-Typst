@@ -968,6 +968,24 @@
   time: none,
   hints: (),
   keep-together: false,
+  // CALCULATOR POLICY -- three states, and the default is silence:
+  //   none   no badge at all (every exercise written before this
+  //          existed, so nothing already in the course changes)
+  //   true   "CALC" -- a calculator is expected
+  //   false  "NO CALC" -- to be done by hand
+  //
+  // Deliberately NOT called `calc:`. Inside this function that name
+  // would shadow Typst's built-in `calc` module, so the day anyone
+  // adds a calc.max() or calc.round() to exercise() it would fail
+  // with a baffling error. The preamble uses calc.* 44 times
+  // elsewhere; this is the one place the collision could bite.
+  //
+  // Note this is a policy flag, not a track flag: it says nothing
+  // about WHICH machine. GLF sit the TI-30X Pro MathPrint and SPF the
+  // TI-Nspire CAS, and exam papers are split by whether a calculator
+  // is allowed at all, not by model -- so a single badge serves both
+  // levels and needs no interaction with `level`.
+  calculator: none,
   body,
   solution,
 ) = context {
@@ -1002,6 +1020,32 @@
       range(3).map(i => dot(i < difficulty)).join(h(2.5pt))
     } else { none }
 
+    // "NO CALC" is the pedagogically loaded state -- it is the one
+    // asking for something -- so it carries the stronger colour.
+    // "CALC" is merely permission and stays quiet.
+    let calc-badge = if calculator == none { none } else {
+      let (tag, fg, bg) = if calculator == true {
+        ("CALC", accent, accent-bg)
+      } else {
+        ("NO CALC", warn-col, warn-bg)
+      }
+      box(
+        baseline: 15%,
+        inset: (x: 4pt, y: 1.5pt),
+        outset: (y: 1.5pt),
+        radius: 2pt,
+        fill: bg,
+        stroke: 0.5pt + fg,
+        text(size: 7pt, weight: "semibold", fill: fg, tracking: 0.4pt, tag),
+      )
+    }
+
+    // One handle for everything that sits in the corner, so the three
+    // rendering modes below stay identical to each other.
+    let tags = if calc-badge == none { dots } else if dots == none {
+      calc-badge
+    } else { calc-badge + h(0.5em) + dots }
+
     let effort-note = if time != none {
       text(size: 9pt, fill: luma(110), style: "italic")[
         Expected effort: #time. Being stuck for part of that time is
@@ -1022,7 +1066,7 @@
         columns: (1fr, 1fr),
         align(left)[#text(weight: "bold", fill: accent)[#chapter]],
         align(right)[
-          #if dots != none [#dots #h(0.6em)]
+          #if tags != none [#tags #h(0.6em)]
           #text(fill: luma(100))[Exercise #n · #lvl-name]
         ],
       )
@@ -1048,7 +1092,7 @@
         #grid(
           columns: (1fr, auto),
           text(weight: "bold", fill: accent)[Exercise #n],
-          align(right + horizon)[#dots],
+          align(right + horizon)[#tags],
         )
         #if _sol-show-questions.get() [
           #v(0.2em)
@@ -1072,7 +1116,7 @@
         #grid(
           columns: (1fr, auto),
           text(weight: "bold", fill: accent)[Exercise #n],
-          align(right + horizon)[#dots],
+          align(right + horizon)[#tags],
         )
         #body
         #if effort-note != none [#v(0.4em) #effort-note]
@@ -1209,6 +1253,34 @@
 //
 // Don't pass years or other "label" numbers (2026, ZIP codes)
 // through num() — grouping is for quantities, not names.
+// ────────────────────────────────────────────────────────────
+//  COMPLEX-NUMBER HELPERS
+//
+//  Restored after going missing from the preamble: ch-gaussian-plane
+//  and ch-arithmetic in complex-sls are written against these, and
+//  validate-typst.py already lists all five in its KNOWN set, which is
+//  what identified them as expected-but-absent.
+//
+//  Re, Im, Arg and cis are OPERATORS, so they set upright and take the
+//  spacing Typst gives sin/cos/log. Written as math.op they work both
+//  with and without parentheses: $Arg(z)$ and $Arg z$ both set
+//  correctly.
+//
+//  Note that Re and Im shadow Typst's Fraktur symbols of the same
+//  name. That is deliberate: upright "Re" and "Im" are the modern
+//  convention and match what students meet elsewhere. If you want the
+//  Fraktur forms anywhere, frak(R) and frak(I) still give them.
+//
+//  conj is a FUNCTION because it wraps its argument, so it must be
+//  called with parentheses: $conj(z)$, never $conj z$.
+// ────────────────────────────────────────────────────────────
+#let Re = math.op("Re")
+#let Im = math.op("Im")
+#let Arg = math.op("Arg")
+#let cis = math.op("cis")
+#let conj(z) = $overline(#z)$
+
+
 #let num(x) = {
   let s = if type(x) == str { x } else { str(x) }
   let neg = s.starts-with("-")
