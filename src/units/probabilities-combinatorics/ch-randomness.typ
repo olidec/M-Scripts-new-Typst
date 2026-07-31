@@ -252,7 +252,8 @@
   intervals. $H$ counts the heads, $T$ the tails.
 ]
 
-#data-table(
+#only-theory[
+  #data-table(
   columns: (auto, auto, auto, auto, auto, auto, auto, auto, auto),
   row-height: auto,
   [$n$], [10], [50], [100], [500], [#num(1000)], [#num(2000)],
@@ -263,6 +264,7 @@
   [0.503], [0.502],
   [$abs(H - T)$], [2], [2], [8], [10], [14], [6], [30], [48],
 )
+]
 
 #only-theory[
   Read the third row from left to right. Early on the relative

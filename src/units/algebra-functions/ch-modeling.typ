@@ -31,36 +31,37 @@
   Five function families cover the overwhelming majority of models
   you'll meet -- all five are ones you already know how to solve
   equations with.
-]
 
-#data-table(
-  columns: (auto, auto, 1fr),
-  row-height: auto,
-  [Model],
-  [Equation],
-  [Typical uses],
-  [Linear],
-  [$y = m dot x + b$],
-  [Constant rate: fixed cost +
-    per-unit cost, constant speed, simple conversions.],
-  [Quadratic],
-  [$y = a dot x^2 + b dot x + c$],
-  [Projectile motion,
-    area and revenue optimization.],
-  [Power],
-  [$y = a dot x^n$],
-  [Geometric scaling (area $prop$
-    $"length"^2$, volume $prop$ $"length"^3$), inverse-square laws,
-    biological scaling.],
-  [Exponential],
-  [$y = a dot b^x$],
-  [Population growth, radioactive
-    decay, compound interest, cooling and heating.],
-  [Logarithmic],
-  [$y = a + b log(x)$],
-  [Diminishing returns as input
-    grows: perceived loudness and brightness, pH, magnitude scales.],
-)
+
+  #data-table(
+    columns: (auto, auto, 1fr),
+    row-height: auto,
+    [Model],
+    [Equation],
+    [Typical uses],
+    [Linear],
+    [$y = m dot x + b$],
+    [Constant rate: fixed cost +
+      per-unit cost, constant speed, simple conversions.],
+    [Quadratic],
+    [$y = a dot x^2 + b dot x + c$],
+    [Projectile motion,
+      area and revenue optimization.],
+    [Power],
+    [$y = a dot x^n$],
+    [Geometric scaling (area $prop$
+      $"length"^2$, volume $prop$ $"length"^3$), inverse-square laws,
+      biological scaling.],
+    [Exponential],
+    [$y = a dot b^x$],
+    [Population growth, radioactive
+      decay, compound interest, cooling and heating.],
+    [Logarithmic],
+    [$y = a + b log(x)$],
+    [Diminishing returns as input
+      grows: perceived loudness and brightness, pH, magnitude scales.],
+  )
+]
 
 == Recognizing a Model from Data
 

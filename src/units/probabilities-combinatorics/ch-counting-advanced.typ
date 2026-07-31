@@ -184,13 +184,15 @@
   + May the same thing be chosen more than once?
 ]
 
-#data-table(
+#only-theory[
+  #data-table(
   columns: (auto, auto, auto),
   row-height: auto,
   [choosing $k$ from $n$], [*order matters*], [*order does not*],
   [*no repeats*], [$n!/(n-k)!$], [$binom(n, k)$],
   [*repeats allowed*], [$n^k$], [$binom(n + k - 1, k)$],
 )
+]
 
 #only-theory[
   A fifth situation sits outside the table because it is not a

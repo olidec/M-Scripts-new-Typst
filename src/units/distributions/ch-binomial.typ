@@ -225,7 +225,8 @@
   interchangeable, so the distribution is symmetric about $5$:
 ]
 
-#bar-chart(
+#only-theory[
+  #bar-chart(
   ("0", 0.001),
   ("1", 0.010),
   ("2", 0.044),
@@ -241,13 +242,15 @@
   width: 9cm,
   height: 3.6cm,
 )
+]
 
 #only-theory[
   Lowering $p$ to $0.2$ pushes the mass to the left and makes the
   distribution visibly lopsided, with a longer tail on the right:
 ]
 
-#bar-chart(
+#only-theory[
+  #bar-chart(
   ("0", 0.107),
   ("1", 0.268),
   ("2", 0.302),
@@ -264,6 +267,7 @@
   width: 9cm,
   height: 3.6cm,
 )
+]
 
 #only-theory[
   Now keep $p = 0.2$ and raise $n$ to $30$. The skew is still there,
@@ -271,7 +275,8 @@
   and its outline is starting to look like a bell:
 ]
 
-#bar-chart(
+#only-theory[
+  #bar-chart(
   ("0", 0.0012),
   ("1", 0.0093),
   ("2", 0.0337),
@@ -293,6 +298,7 @@
   width: 11cm,
   height: 3.6cm,
 )
+]
 
 #only-theory[
   The bars stop at $15$ only because everything beyond it is too small
