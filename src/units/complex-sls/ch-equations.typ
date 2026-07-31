@@ -278,7 +278,7 @@
   actually finding them.
 ]
 
-#ex(difficulty: 3, time: "20 min", cas: true, hints: (
+#ex(difficulty: 3, time: "20 min", calculator: true, hints: (
   [$z dot overline(z)$ is real and equals $a^2 + b^2$. Compute
     $z dot i$ separately.],
   [After matching parts, one of the two equations gives $a$ immediately;

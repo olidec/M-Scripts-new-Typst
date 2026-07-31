@@ -402,7 +402,7 @@
   )
 ]
 
-#ex(difficulty: 3, time: "25 min", cas: true)[
+#ex(difficulty: 3, time: "25 min", calculator: true)[
   Let $w = 1 + sqrt(3) dot i$.
   #auto-parts(
     1,
@@ -432,7 +432,7 @@
   )
 ]
 
-#ex(difficulty: 3, time: "30 min", cas: true)[
+#ex(difficulty: 3, time: "30 min", calculator: true)[
   Let $z_1 = 2 + i$ and $z_2 = -1 + 3 dot i$.
   #auto-parts(
     1,
@@ -468,7 +468,7 @@
   )
 ]
 
-#ex(difficulty: 3, time: "30 min", cas: true)[
+#ex(difficulty: 3, time: "30 min", calculator: true)[
   Consider $z^2 + (2 - 4 dot i) dot z + c = 0$ with $c in RR$.
   #auto-parts(
     1,

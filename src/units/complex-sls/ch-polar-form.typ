@@ -447,7 +447,7 @@
 
 // ── Exercises ────────────────────────────────────────────────
 
-#ex(difficulty: 2, time: "20 min", cas: true)[
+#ex(difficulty: 2, time: "20 min", calculator: true)[
   Write each number in polar form $r dot e^(i dot phi.alt)$. Give exact
   values where you can, otherwise four significant figures. A CAS may
   be used to check.
@@ -495,7 +495,7 @@
   )
 ]
 
-#ex(difficulty: 3, time: "20 min", cas: true)[
+#ex(difficulty: 3, time: "20 min", calculator: true)[
   Use De Moivre's theorem to compute each power. A CAS may be used to
   check.
   #auto-parts(
@@ -601,7 +601,7 @@
   )
 ]
 
-#ex(difficulty: 3, time: "25 min", cas: true)[
+#ex(difficulty: 3, time: "25 min", calculator: true)[
   Find all solutions of each equation. Give answers in polar form, and
   in Cartesian form where it is clean to do so.
   #auto-parts(

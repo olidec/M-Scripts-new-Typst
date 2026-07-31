@@ -506,7 +506,7 @@
     answer wrong, or right in a different language? Justify.
 ]
 
-#ex(difficulty: 2, time: "20 min", cas: true)[
+#ex(difficulty: 2, time: "20 min", calculator: true)[
   Find the modulus and the principal argument of each number. Give
   exact values; sketch each one before you calculate. Use a CAS only to
   check your answers afterwards.

@@ -275,7 +275,7 @@
 )
 ]
 
-#ex(difficulty: 2, time: "20 min", cas: true)[
+#ex(difficulty: 2, time: "20 min", calculator: true)[
   Consider the parabola $y = x^2 - 1$.
   #auto-parts(
     1,
@@ -449,7 +449,7 @@
   $
 ]
 
-#ex(difficulty: 3, time: "22 min", cas: true)[
+#ex(difficulty: 3, time: "22 min", calculator: true)[
   The graph of $y = 1 / 2 x^2 - 4$ is rotated about the origin by
   $90 degree$.
   #auto-parts(

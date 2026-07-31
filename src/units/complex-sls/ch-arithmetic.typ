@@ -383,7 +383,7 @@
 
 // ── Exercises ────────────────────────────────────────────────
 
-#ex(difficulty: 2, time: "20 min", cas: true)[
+#ex(difficulty: 2, time: "20 min", calculator: true)[
   Let $z_1 = 2 + 3 dot i$, $z_2 = 3 / 2 - 4 dot i$, $z_3 = 1 - 5 dot i$
   and $z_4 = (3 + 4 dot i) / 5$. Calculate each of the following, and
   check your answers with a CAS.
