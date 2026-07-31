@@ -194,15 +194,16 @@
 
   There are four paths, and they correspond exactly to the four
   outcomes of the experiment:
-  $ (B, B), quad (B, overline(B)), quad (overline(B), B), quad
-    (overline(B), overline(B)). $
+  $
+    (B, B), quad (B, overline(B)), quad (overline(B), B), quad
+    (overline(B), overline(B)).
+  $
 ]
 
 #keybox(title: "The two path rules")[
   / Multiply along a path: The probability of one complete path is
     the product of the probabilities on its branches. In German this
-    is the #vocab("path multiplication rule",
-    "Pfadmultiplikationsregel", show-de: false).
+    is the #vocab("path multiplication rule", "Pfadmultiplikationsregel", show-de: false).
 
   / Add across paths: The probability of an event is the sum of the
     probabilities of all paths that produce it. This is the
@@ -212,7 +213,7 @@
 #only-theory[
   Neither rule is new. Multiplying along a path is the general
   multiplication rule
-  $p(A sect B) = p(A) dot p(B|A)$ applied one branch at a time —
+  $p(A inter B) = p(A) dot p(B|A)$ applied one branch at a time —
   which is exactly why every branch probability is a *conditional*
   one, conditioned on the path so far. Adding across paths is the
   addition rule, made easy by the fact that different paths are
@@ -285,8 +286,10 @@
 
   For at least one green, use the complement, which is again a single
   path:
-  $ p("at least one green") = 1 - 6/11 dot 5/10
-    = 1 - 3/11 = 8/11. $
+  $
+    p("at least one green") = 1 - 6/11 dot 5/10
+    = 1 - 3/11 = 8/11.
+  $
 ]
 
 #warning[
@@ -337,8 +340,10 @@
     [This asks about the *first* stage given the second, so use the
       definition of conditional probability with the two numbers
       already computed:
-      $ p("red" | "grows") = p("red and grows")/p("grows")
-        = 0.36/0.84 = 3/7 approx 0.43. $
+      $
+        p("red" | "grows") = p("red and grows")/p("grows")
+        = 0.36/0.84 = 3/7 approx 0.43.
+      $
       Notice it is below the $0.4$ we started with — germinating is
       slightly more likely for yellow seeds simply because there are
       more of them.],
@@ -365,8 +370,7 @@
     about, and add them. This is the numerator.
   + Divide.
 
-  Step 1 is the #vocab("law of total probability",
-  "Satz von der totalen Wahrscheinlichkeit", show-de: false): the
+  Step 1 is the #vocab("law of total probability", "Satz von der totalen Wahrscheinlichkeit", show-de: false): the
   probability of a second-stage event is the sum over all the ways of
   getting to it.
 ]
@@ -446,14 +450,18 @@
       )
 
       Adding the two positive paths,
-      $ p("positive") = 0.002 dot 0.95 + 0.998 dot 0.10
-        = 0.0019 + 0.0998 = 0.1017. $],
+      $
+        p("positive") = 0.002 dot 0.95 + 0.998 dot 0.10
+        = 0.0019 + 0.0998 = 0.1017.
+      $],
     [$ p("condition" | "positive") = 0.0019/0.1017 approx 0.0187, $
       under $2%$. Almost every positive result is a false one.],
     [Only the first pair of branches: $0.2$ and $0.8$ in place of
       $0.002$ and $0.998$. Then
-      $ p("positive") = 0.2 dot 0.95 + 0.8 dot 0.10 = 0.19 + 0.08
-        = 0.27, $
+      $
+        p("positive") = 0.2 dot 0.95 + 0.8 dot 0.10 = 0.19 + 0.08
+        = 0.27,
+      $
       and
       $ p("condition" | "positive") = 0.19/0.27 approx 0.704. $
       The test did not change at all. The same positive result now
@@ -516,14 +524,18 @@
   #auto-parts(
     1,
     [Three paths lead to "no head", so add them:
-      $ 1/3 dot 1/2 + 1/3 dot 1/4 + 1/3 dot 1/8
-        = 1/3 dot (1/2 + 1/4 + 1/8) = 1/3 dot 7/8 = 7/24. $],
+      $
+        1/3 dot 1/2 + 1/3 dot 1/4 + 1/3 dot 1/8
+        = 1/3 dot (1/2 + 1/4 + 1/8) = 1/3 dot 7/8 = 7/24.
+      $],
     [The denominator is the $7/24$ just found. The numerator is the
       single path through ball $2$:
       $ 1/3 dot 1/4 = 1/12. $
       So
-      $ p("two coins" | "no head") = (1 slash 12)/(7 slash 24)
-        = 24/(12 dot 7) = 2/7. $
+      $
+        p("two coins" | "no head") = (1 slash 12)/(7 slash 24)
+        = 24/(12 dot 7) = 2/7.
+      $
       Before the coins were tossed, ball $2$ had probability $1/3$.
       Learning that no head appeared makes it slightly *less* likely —
       fewer coins would have made "no head" easier, so the evidence
@@ -539,8 +551,10 @@
   There are three ways for the colors to *match* and six ways for them
   to differ, so the complement is much less work. The first draw is
   from $26$ balls and the second from $25$:
-  $ p("same color") = 10/26 dot 9/25 + 10/26 dot 9/25
-    + 6/26 dot 5/25. $
+  $
+    p("same color") = 10/26 dot 9/25 + 10/26 dot 9/25
+    + 6/26 dot 5/25.
+  $
   Over the common denominator $26 dot 25 = 650$,
   $ p("same color") = (90 + 90 + 30)/650 = 210/650 = 21/65, $
   and therefore
@@ -560,10 +574,26 @@
   #data-table(
     columns: (auto, auto, auto, auto, auto),
     row-height: auto,
-    [], [O], [A], [B], [AB],
-    [United States], [$0.43$], [$0.41$], [$0.12$], [?],
-    [China], [$0.36$], [$0.27$], [$0.26$], [$0.11$],
-    [Russia], [$0.39$], [$0.34$], [?], [$0.09$],
+    [],
+    [O],
+    [A],
+    [B],
+    [AB],
+    [United States],
+    [$0.43$],
+    [$0.41$],
+    [$0.12$],
+    [?],
+    [China],
+    [$0.36$],
+    [$0.27$],
+    [$0.26$],
+    [$0.11$],
+    [Russia],
+    [$0.39$],
+    [$0.34$],
+    [?],
+    [$0.09$],
   )
 
   #auto-parts(
@@ -584,18 +614,22 @@
     1,
     [Each row must add to $1$, since everybody has exactly one blood
       type:
-      $ "US: " 1 - 0.43 - 0.41 - 0.12 = 0.04, quad
-        "Russia: " 1 - 0.39 - 0.34 - 0.09 = 0.18. $],
+      $
+        "US: " 1 - 0.43 - 0.41 - 0.12 = 0.04, quad
+        "Russia: " 1 - 0.39 - 0.34 - 0.09 = 0.18.
+      $],
     [Types O and B are mutually exclusive, so add:
       $0.43 + 0.12 = 0.55$.],
     [The three choices are independent, so multiply:
       $ 0.43 dot 0.36 dot 0.39 approx 0.060. $],
     [Four mutually exclusive ways for the types to agree, so compute
       each and add:
-      $ 0.43 dot 0.36 dot 0.39 &approx 0.060372 \
-        0.41 dot 0.27 dot 0.34 &approx 0.037638 \
-        0.12 dot 0.26 dot 0.18 &approx 0.005616 \
-        0.04 dot 0.11 dot 0.09 &approx 0.000396 $
+      $
+        0.43 dot 0.36 dot 0.39 & approx 0.060372 \
+        0.41 dot 0.27 dot 0.34 & approx 0.037638 \
+        0.12 dot 0.26 dot 0.18 & approx 0.005616 \
+        0.04 dot 0.11 dot 0.09 & approx 0.000396
+      $
       giving a total of about $0.104$. Multiply within a case, add
       across cases — the path rules again, on a tree with four
       first-stage branches that nobody needs to draw.],
@@ -622,8 +656,10 @@
     #auto-parts(
       1,
       [Add the two paths that end in a defective component:
-        $ p(D) = 0.6 dot 0.02 + 0.4 dot 0.05 = 0.012 + 0.020
-          = 0.032, $
+        $
+          p(D) = 0.6 dot 0.02 + 0.4 dot 0.05 = 0.012 + 0.020
+          = 0.032,
+        $
         so $3.2%$ of output is defective.],
       [$ p(A|D) = 0.012/0.032 = 3/8 = 0.375. $],
       [Machine A makes $60%$ of the output — a ratio of $3 : 2$, not

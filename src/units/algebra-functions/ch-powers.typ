@@ -464,7 +464,7 @@ seem self-evident:
   + The points $A = (3, 1)$ and $B = (6, 16)$ lie on the graph of
     $f(x) = a dot x^n$. Find $a$ and $n$.
   + Find $n$ and $m$ so that the graphs of $f(x) = x^n + 2.5$ and
-    $g(x) = x^m - 5$ intersect at $P = (2, 3)$.
+    $g(x) = x^m - 5$ interinter at $P = (2, 3)$.
 ][
   + Divide the second equation by the first to eliminate $a$:
     $
