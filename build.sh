@@ -12,6 +12,7 @@
 #        notebooks/            (optional — Jupyter notebooks)
 #        data/                 (optional — CSV and other data files)
 #    src/years/<name>.typ       (e.g. glf-y1.typ, spf-y1.typ)
+#    tools/split-chapters.py    (used by "chapters" mode)
 #
 #  Outputs:
 #    dist/<unit>/main-basic.pdf, main-high.pdf
@@ -23,33 +24,48 @@
 #
 #  Usage:
 #    ./build.sh unit <unit-name> \
-#        <full|chapters|exercises|solutions|assets|all>
+#        <full|exercises|solutions|assets|all|chapters>
 #    ./build.sh year <year-name|all>
 #    ./build.sh all                # "all" mode for every unit — NEVER
-#                                   # touches src/years/, which is opt-in
+#                                   # touches src/years/ or splits
+#                                   # chapters; both are opt-in
 #    ./build.sh list                # show available units and year files
 #
 #  Examples:
 #    ./build.sh unit algebra-functions all
-#    ./build.sh unit sequences-series chapters
+#    ./build.sh unit sequences-series chapters   # opt-in, not part of "all"
 #    ./build.sh unit distributions assets
 #    ./build.sh year glf-y1
 #    ./build.sh year all
 #
 #  Notes:
-#    * "chapters" mode compiles every chapter standalone, once per
-#      level, with correct chapter-heading numbering. It does this by
-#      generating a throwaway wrapper file next to the chapter (same
-#      folder, so relative imports resolve exactly as they do for
-#      main-basic.typ / main-high.typ), setting the heading counter
-#      to that chapter's index in the level's chapter list, then
-#      deleting the wrapper immediately after compiling.
-#    * The chapter list for a level is read directly out of that
-#      level's main-*.typ file, by looking for register_chapters(...)
-#      entries. This assumes the project convention of one entry per
+#    * "chapters" is opt-in and is NOT part of "all", for the same
+#      reason year files are not: it is a convenience artefact, and a
+#      failure in it must never cost you the lecture notes, exercise
+#      sheets and solutions booklets that "all" exists to produce.
+#    * "chapters" mode builds the level's full book and then CUTS it
+#      into one PDF per chapter, rather than compiling each chapter on
+#      its own. Every chapter file is therefore a literal excerpt: page
+#      numbers, heading numbers and exercise numbers are exactly what
+#      the full document produced, and nothing restarts at 1. It builds
+#      main-<level>.pdf itself, so it still works as a standalone mode.
+#    * Chapter starts are found in the PDF outline that Typst writes
+#      from the document headings — no markers in the source, no
+#      recompilation. Filenames come from the register_chapters(...)
+#      list in that level's main-*.typ, matched to outline entries BY
+#      TITLE, so a preface or appendix heading that is not a registered
+#      chapter is skipped rather than shifting every filename by one.
+#      That parsing assumes the project convention of one entry per
 #      line, each trimmed line starting with ("  — exactly how every
 #      main-*.typ file in this project is written. If you reformat an
-#      entry onto multiple lines, this script won't see it.
+#      entry onto multiple lines, the splitter won't see it.
+#    * The splitter needs Python with pypdf (pip install pypdf). Set
+#      PYTHON_BIN in the environment if python3 is not the interpreter
+#      that has it.
+#    * A cross-reference pointing OUT of a chapter still renders, but
+#      its internal link target is no longer in the file — expected for
+#      an excerpt, and the reason the full book stays the primary
+#      artefact.
 #    * "assets" mode copies a unit's notebooks/ and data/ folders into
 #      dist/<unit>/ verbatim, so each built unit is one self-contained
 #      folder that can be dropped on a server as it stands. A data file
@@ -74,6 +90,11 @@ DIST_DIR="dist"
 UNITS_DIR="$SRC_DIR/units"
 YEARS_DIR="$SRC_DIR/years"
 
+# "chapters" mode cuts the built book rather than recompiling; the
+# splitter needs Python with pypdf. Override PYTHON_BIN in the
+# environment if python3 is not the interpreter that has pypdf.
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
 # Resolve the project root as the directory this script itself lives in,
 # rather than assuming the caller's cwd — this is what gets passed to
 # `typst --root`. Without an explicit --root, Typst defaults the project
@@ -84,6 +105,7 @@ YEARS_DIR="$SRC_DIR/years"
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 TYPST_FLAGS=(--root "$PROJECT_ROOT" --diagnostic-format short)
+SPLITTER="$PROJECT_ROOT/tools/split-chapters.py"
 
 # ---- small helpers ------------------------------------------------
 
@@ -93,17 +115,27 @@ check_typst() {
   command -v typst >/dev/null 2>&1 || err "typst not found on PATH"
 }
 
+# Only called by modes that actually split, so a missing pypdf never
+# blocks a plain `full` or `exercises` build.
+check_splitter() {
+  [[ -f "$SPLITTER" ]] || err "chapter splitter not found at $SPLITTER"
+  command -v "$PYTHON_BIN" >/dev/null 2>&1 \
+    || err "$PYTHON_BIN not found on PATH (set PYTHON_BIN to override)"
+  "$PYTHON_BIN" -c "import pypdf" 2>/dev/null \
+    || err "pypdf not installed for $PYTHON_BIN — run: $PYTHON_BIN -m pip install pypdf"
+}
+
 usage() {
   cat <<'USAGE' >&2
 Usage:
-  ./build.sh unit <unit-name> <full|chapters|exercises|solutions|assets|all>
+  ./build.sh unit <unit-name> <full|exercises|solutions|assets|all|chapters>
   ./build.sh year <year-name|all>
   ./build.sh all
   ./build.sh list
 
 Examples:
   ./build.sh unit algebra-functions all
-  ./build.sh unit sequences-series chapters
+  ./build.sh unit sequences-series chapters   # opt-in, not part of "all"
   ./build.sh unit distributions assets
   ./build.sh year glf-y1
   ./build.sh year all
@@ -117,17 +149,6 @@ compile() {
   mkdir -p "$(dirname "$out")"
   echo "  compiling $src -> $out"
   typst compile "${TYPST_FLAGS[@]}" "$src" "$out"
-}
-
-# extract_chapters <main-file.typ>
-# Prints, one per line, the chapter filename (2nd element) of every
-# register_chapters(...) entry, in the order they appear. Uses
-# `sed -E` (POSIX extended regex) rather than `grep -P`, since -P is a
-# GNU-only extension that stock macOS's BSD grep doesn't support —
-# -E works identically on both BSD sed (macOS default) and GNU sed.
-extract_chapters() {
-  local main_file="$1"
-  sed -nE 's/^[[:space:]]*\("[^"]*",[[:space:]]*"([^"]*)".*/\1/p' "$main_file"
 }
 
 unit_exists() {
@@ -191,10 +212,25 @@ build_solutions() {
 }
 
 build_chapters() {
-  # Every chapter, standalone, once per level, numbered correctly.
+  # Every chapter as an excerpt of the finished book.
+  #
+  # This used to compile each chapter standalone from a generated
+  # wrapper that reset the heading counter. The numbering came out
+  # right, but each chapter was compiled in isolation: cross-references
+  # to other chapters dangled, and page numbers restarted at 1. Cutting
+  # the built PDF instead means each chapter file IS the real document,
+  # so every number in it — page, heading, exercise — is whatever the
+  # full compilation produced.
+  #
+  # Chapter starts are located from the PDF outline that Typst writes
+  # from the headings; see tools/split-chapters.py. Because the printed
+  # page numbers live in the page content, extracting a page range
+  # preserves them with no extra work.
   local unit="$1"
   local dir="$UNITS_DIR/$unit"
-  local level main chapters chapter chapter_name wrapper idx
+  local level main pdf
+
+  check_splitter
 
   for level in basic high; do
     main="$dir/main-$level.typ"
@@ -203,37 +239,24 @@ build_chapters() {
       continue
     fi
 
-    chapters=()
-    while IFS= read -r chapter_line; do
-      chapters+=("$chapter_line")
-    done < <(extract_chapters "$main")
-    if [[ ${#chapters[@]} -eq 0 ]]; then
-      echo "  (skip: no register_chapters entries found in $main)"
-      continue
+    # Splitting needs the book, so build it if it is missing or stale.
+    # Doing that here rather than requiring `full` first keeps
+    # `chapters` usable on its own, exactly as it was before — while
+    # the staleness check stops `all` from compiling the same book
+    # twice. "Stale" means any .typ in the unit or in common/ is newer
+    # than the PDF; -newer needs an existing reference file, hence the
+    # -f guard, and `head -n 1` stands in for GNU find's -quit, which
+    # BSD find on macOS does not have.
+    pdf="$DIST_DIR/$unit/main-$level.pdf"
+    if [[ -f "$pdf" ]] \
+      && [[ -z "$(find "$dir" "$SRC_DIR/common" -name '*.typ' \
+                    -newer "$pdf" -print 2>/dev/null | head -n 1)" ]]; then
+      echo "  (up to date: $pdf)"
+    else
+      compile "$main" "$pdf"
     fi
 
-    idx=0
-    for chapter in "${chapters[@]}"; do
-      # `chapter` is now a full root-absolute path (e.g.
-      # /src/units/sequences-series/ch-basics), per the
-      # register_chapters convention — strip everything up to the
-      # last "/" to get just the bare chapter name for filenames.
-      # The wrapper itself lives alongside the real chapter file (in
-      # $dir), so a plain relative #include of the bare name resolves
-      # correctly without needing the full absolute path again.
-      chapter_name="${chapter##*/}"
-      wrapper="$dir/_wrapper-${chapter_name}-${level}.typ"
-      cat > "$wrapper" <<EOF
-// auto-generated by build.sh — safe to delete, removed automatically
-#import "../../common/preamble.typ": *
-#set-level("$level")
-#counter(heading).update($idx)
-#include "${chapter_name}.typ"
-EOF
-      compile "$wrapper" "$DIST_DIR/$unit/${chapter_name}-${level}.pdf"
-      rm -f "$wrapper"
-      idx=$((idx + 1))
-    done
+    "$PYTHON_BIN" "$SPLITTER" "$main" "$pdf" "$DIST_DIR/$unit" "$level"
   done
 }
 
@@ -265,10 +288,17 @@ build_assets() {
 }
 
 build_unit_all() {
+  # Deliberately does NOT include build_chapters. Per-chapter PDFs are
+  # excerpts of the book, useful now and then but never the thing you
+  # actually hand out — and because "all" runs under `set -e`, having
+  # them here meant any hiccup in the split (a missing pypdf, an
+  # unexpected outline) aborted the run before the exercises and
+  # solutions were built. The essential artefacts should not depend on
+  # an optional convenience. Run `./build.sh unit <name> chapters`
+  # when you want them.
   local unit="$1"
   echo "== unit: $unit =="
   build_full "$unit"
-  build_chapters "$unit"
   build_exercises "$unit"
   build_solutions "$unit"
   build_assets "$unit"
