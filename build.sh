@@ -13,6 +13,7 @@
 #        data/                 (optional — CSV and other data files)
 #    src/years/<name>.typ       (e.g. glf-y1.typ, spf-y1.typ)
 #    tools/split-chapters.py    (used by "chapters" mode)
+#    .venv/                     (optional — auto-detected, see Notes)
 #
 #  Outputs:
 #    dist/<unit>/main-basic.pdf, main-high.pdf
@@ -59,9 +60,11 @@
 #      line, each trimmed line starting with ("  — exactly how every
 #      main-*.typ file in this project is written. If you reformat an
 #      entry onto multiple lines, the splitter won't see it.
-#    * The splitter needs Python with pypdf (pip install pypdf). Set
-#      PYTHON_BIN in the environment if python3 is not the interpreter
-#      that has it.
+#    * The splitter needs Python with pypdf. If a .venv/ exists at the
+#      project root it is used automatically; otherwise python3 from
+#      PATH. Set PYTHON_BIN to override either.
+#          python3 -m venv .venv
+#          .venv/bin/python -m pip install pypdf
 #    * A cross-reference pointing OUT of a chapter still renders, but
 #      its internal link target is no longer in the file — expected for
 #      an excerpt, and the reason the full book stays the primary
@@ -90,10 +93,6 @@ DIST_DIR="dist"
 UNITS_DIR="$SRC_DIR/units"
 YEARS_DIR="$SRC_DIR/years"
 
-# "chapters" mode cuts the built book rather than recompiling; the
-# splitter needs Python with pypdf. Override PYTHON_BIN in the
-# environment if python3 is not the interpreter that has pypdf.
-PYTHON_BIN="${PYTHON_BIN:-python3}"
 
 # Resolve the project root as the directory this script itself lives in,
 # rather than assuming the caller's cwd — this is what gets passed to
@@ -106,6 +105,27 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 TYPST_FLAGS=(--root "$PROJECT_ROOT" --diagnostic-format short)
 SPLITTER="$PROJECT_ROOT/tools/split-chapters.py"
+
+# "chapters" mode cuts the built book rather than recompiling, and the
+# splitter needs Python with pypdf.
+#
+# Prefer a project-local virtualenv if there is one. VS Code's
+# interpreter picker only affects its debugger and newly-opened
+# integrated terminals — it does NOT change which python3 is on PATH
+# for a script launched from tasks.json. Resolving .venv here means the
+# build behaves identically from a plain shell, from VS Code's
+# terminal, and from a task, activated or not.
+#
+# An explicit PYTHON_BIN in the environment always wins.
+if [[ -z "${PYTHON_BIN:-}" ]]; then
+  if [[ -x "$PROJECT_ROOT/.venv/bin/python" ]]; then
+    PYTHON_BIN="$PROJECT_ROOT/.venv/bin/python"          # macOS / Linux
+  elif [[ -x "$PROJECT_ROOT/.venv/Scripts/python.exe" ]]; then
+    PYTHON_BIN="$PROJECT_ROOT/.venv/Scripts/python.exe"   # Windows
+  else
+    PYTHON_BIN="python3"
+  fi
+fi
 
 # ---- small helpers ------------------------------------------------
 
@@ -121,8 +141,12 @@ check_splitter() {
   [[ -f "$SPLITTER" ]] || err "chapter splitter not found at $SPLITTER"
   command -v "$PYTHON_BIN" >/dev/null 2>&1 \
     || err "$PYTHON_BIN not found on PATH (set PYTHON_BIN to override)"
-  "$PYTHON_BIN" -c "import pypdf" 2>/dev/null \
-    || err "pypdf not installed for $PYTHON_BIN — run: $PYTHON_BIN -m pip install pypdf"
+  "$PYTHON_BIN" -c "import pypdf" 2>/dev/null || err \
+    "pypdf not available to $PYTHON_BIN
+       install it with:  $PYTHON_BIN -m pip install pypdf
+       or create a project venv:
+           python3 -m venv .venv && .venv/bin/python -m pip install pypdf
+       (build.sh picks up ./.venv automatically)"
 }
 
 usage() {
