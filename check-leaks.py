@@ -28,6 +28,9 @@ So the rule this script enforces is:
     at chapter top level, the only things allowed are a suppressing
     environment, a heading, or an #ex(...) call.
 
+Point it at CHAPTER files. Running it over preamble.typ is meaningless
+-- that file is all definitions, and a definition is not content.
+
 Usage
 -----
     python3 check-leaks.py src/units/*/ch-*.typ
@@ -59,17 +62,17 @@ ALLOWED_PREFIXES = (
 
 
 def top_level_lines(text):
-    """Yield (lineno, line, depth_ok) tracking [] and () nesting.
+    """Yield (lineno, line, at_top_level) tracking [], () and {} nesting.
 
     String, math ($...$), escape and line-comment regions are handled so
     that a URL containing '//' or an interval like $[a,b)$ does not throw
     the depth counter off -- both were false-positive sources in naive
     versions of this check.
     """
-    bracket = paren = 0
+    bracket = paren = brace = 0
     in_math = in_str = False
     for lineno, line in enumerate(text.split("\n"), start=1):
-        start_bracket, start_paren = bracket, paren
+        start_depth = bracket + paren + brace
         i = 0
         while i < len(line):
             c = line[i]
@@ -98,8 +101,12 @@ def top_level_lines(text):
                     paren += 1
                 elif c == ")":
                     paren -= 1
+                elif c == "{":
+                    brace += 1
+                elif c == "}":
+                    brace -= 1
             i += 1
-        yield lineno, line, (start_bracket == 0 and start_paren == 0)
+        yield lineno, line, start_depth == 0
 
 
 def scan(path):
