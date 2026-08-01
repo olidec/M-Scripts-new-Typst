@@ -144,7 +144,9 @@
 ]
 
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 == The Logarithm as an Inverse Function
 
 #exploration(title: "Discovering Euler's Number")[
@@ -197,7 +199,9 @@
   So $f^(-1): y = log_2 (x+1) - 1$.
 ]
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 #example[
   Find the inverse function of $f(x) = 2 dot ln(-x+1)$.
   $
@@ -250,7 +254,9 @@
   calculator that only knows $log$ and $ln$ evaluate a logarithm in
   any other base.
 ]
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 #example[
   Express $log_a (5) + 2 dot log_a (7) - log_a (35)$ as a single
   logarithm.
@@ -429,7 +435,9 @@
   )
 ]
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 #ex(difficulty: 3, time: "15 min")[
   For which values of $x$ does $log(log(log(x)))$ have a real value?
 ][

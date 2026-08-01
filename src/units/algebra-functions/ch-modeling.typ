@@ -153,7 +153,9 @@
   fail wildly for a hundred, once resources run out.)
 ]
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 == Linear Models
 
 #example[

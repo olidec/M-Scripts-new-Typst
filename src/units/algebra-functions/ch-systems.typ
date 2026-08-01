@@ -77,36 +77,59 @@
     *infinitely many solutions*.
 ]
 
-#image-grid(
-  2,
-  gutter: 10pt,
-  [
-    #plot-graph(
-      x => 0.5 * x + 1,
-      (fn: x => -x + 4, color: warn-col),
-      xmin: -4.5,
-      xmax: 4.5,
-      ymin: -1.5,
-      ymax: 5.5,
-      size: 4.5,
-      grid-step: 1,
-    )
-    One solution -- the lines cross once.
-  ],
-  [
-    #plot-graph(
-      x => 0.5 * x + 1,
-      (fn: x => 0.5 * x - 1.5, color: warn-col),
-      xmin: -4.5,
-      xmax: 4.5,
-      ymin: -3.5,
-      ymax: 3.5,
-      size: 4.5,
-      grid-step: 1,
-    )
-    No solution -- the lines are parallel (same slope) and never meet.
-  ],
-)
+#only-theory[
+  #image-grid(
+    3,
+    gutter: 8pt,
+    [
+      #plot-graph(
+        x => 0.5 * x + 1,
+        (fn: x => -x + 4, color: warn-col),
+        xmin: -4.5,
+        xmax: 4.5,
+        ymin: -1.5,
+        ymax: 5.5,
+        size: 4.2,
+        grid-step: 1,
+      )
+      One solution -- the lines cross once.
+    ],
+    [
+      #plot-graph(
+        x => 0.5 * x + 1,
+        (fn: x => 0.5 * x - 1.5, color: warn-col),
+        xmin: -4.5,
+        xmax: 4.5,
+        ymin: -3.5,
+        ymax: 3.5,
+        size: 4.2,
+        grid-step: 1,
+      )
+      No solution -- the lines are parallel (same slope) and never meet.
+    ],
+    [
+      // The two equations describe the SAME line, so the second graph
+      // lies exactly on top of the first and would be invisible drawn
+      // solid. The dashed overlay lets the teal show through between
+      // the dashes -- one line, visibly carrying two graphs. Requires
+      // the optional `dash:` key on plot-graph; see
+      // plot-graph-dash-patch.md. Without that patch, drop the second
+      // function and let the caption do the work.
+      #plot-graph(
+        x => 0.5 * x + 1,
+        (fn: x => 0.5 * x + 1, color: warn-col, dash: "dashed"),
+        xmin: -4.5,
+        xmax: 4.5,
+        ymin: -1.5,
+        ymax: 3.5,
+        size: 4.2,
+        grid-step: 1,
+      )
+      Infinitely many solutions -- the two equations describe the *same*
+      line, so every point on it solves both.
+    ],
+  )
+]
 
 #look-ahead(preview: [quadratic functions])[
   Two straight lines can meet at most *once*. But what if one of the
@@ -227,7 +250,9 @@
   )
 ]
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 == Verifying and Mixed Practice
 
 #ex(difficulty: 1, time: "10 min")[

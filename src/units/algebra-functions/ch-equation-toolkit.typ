@@ -46,7 +46,9 @@
     logarithm's argument ends up positive.
 ]
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 
 == Linear Equations
 

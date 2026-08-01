@@ -374,32 +374,34 @@
     $x$‑axis at all.
 ]
 
-#image-grid(3, gutter: 8pt,
-  [
-    #plot-graph(
-      x => (x - 0.5) * (x - (-1.5)),
-      xmin: -3.5, xmax: 3.5, ymin: -3.5, ymax: 5.5, size: 4.2,
-      grid-step: 1,
-    )
-    $Delta > 0$: two crossings.
-  ],
-  [
-    #plot-graph(
-      x => (x - 1) * (x - 1),
-      xmin: -2.5, xmax: 4.5, ymin: -2.5, ymax: 4.5, size: 4.2,
-      grid-step: 1,
-    )
-    $Delta = 0$: one touching point.
-  ],
-  [
-    #plot-graph(
-      x => x * x + 2,
-      xmin: -3.5, xmax: 3.5, ymin: -1.5, ymax: 6.5, size: 4.2,
-      grid-step: 1,
-    )
-    $Delta < 0$: no crossing.
-  ],
-)
+#only-theory[
+  #image-grid(3, gutter: 8pt,
+    [
+      #plot-graph(
+        x => (x - 0.5) * (x - (-1.5)),
+        xmin: -3.5, xmax: 3.5, ymin: -3.5, ymax: 5.5, size: 4.2,
+        grid-step: 1,
+      )
+      $Delta > 0$: two crossings.
+    ],
+    [
+      #plot-graph(
+        x => (x - 1) * (x - 1),
+        xmin: -2.5, xmax: 4.5, ymin: -2.5, ymax: 4.5, size: 4.2,
+        grid-step: 1,
+      )
+      $Delta = 0$: one touching point.
+    ],
+    [
+      #plot-graph(
+        x => x * x + 2,
+        xmin: -3.5, xmax: 3.5, ymin: -1.5, ymax: 6.5, size: 4.2,
+        grid-step: 1,
+      )
+      $Delta < 0$: no crossing.
+    ],
+  )
+]
 
 #ex(difficulty: 1, time: "15 min")[
   Without solving, use the discriminant to state how many real

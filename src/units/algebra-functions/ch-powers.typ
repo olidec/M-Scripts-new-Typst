@@ -43,14 +43,17 @@
     board this way. Explain your thinking.
 ]
 
-An exponent represents repeated multiplication of a number by itself, so
-$ 3^4 = 3 dot 3 dot 3 dot 3 . $
-Generally,
-$ a^n = underbrace(a dot a dot a dots.h.c a, n med "times") . $
-As long as the exponents are all natural numbers, the following rules
-seem self-evident:
+#only-theory[
+  An exponent represents repeated multiplication of a number by itself,
+  so
+  $ 3^4 = 3 dot 3 dot 3 dot 3 . $
+  Generally,
+  $ a^n = underbrace(a dot a dot a dots.h.c a, n med "times") . $
+  As long as the exponents are all natural numbers, the following rules
+  seem self-evident:
 
-#pagebreak()
+  #pagebreak()
+]
 #keybox(title: "The Laws of Exponents")[
   $
     a^n dot a^m & = a^(n+m) \
@@ -162,7 +165,7 @@ seem self-evident:
     [(c) $-b^(-1) dot b^(-2)$],
   )
 ][
-  #parts(3, [(a) $1/x^4$], [(b) $1/(12a^3b^7)$], [(c) $-1/b^3$])
+  #parts(3, [(a) $1/x^4$], [(b) $1/(12a^3 dot b^7)$], [(c) $-1/b^3$])
 ]
 
 #ex(difficulty: 1, time: "10 min", hints: (
@@ -316,7 +319,9 @@ seem self-evident:
   #parts(4, [(a) true], [(b) false], [(c) true], [(d) false])
 ]
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 == Power Functions and Models
 
 #only-theory[
@@ -371,61 +376,60 @@ seem self-evident:
     follows the same even/odd pattern as the positive exponents.
 ]
 
-#image-grid(
-  2,
-  gutter: 10pt,
-  [
-    #plot-graph(
-      x => if x == 0 { none } else { calc.pow(x, -4) },
-      xmin: -2.5,
-      xmax: 2.5,
-      ymin: -0.5,
-      ymax: 5.5,
-      size: 5,
-      grid-step: 1,
-    )
-    Graph A
-  ],
-  [
-    #plot-graph(
-      x => calc.pow(x, 3),
-      xmin: -1.7,
-      xmax: 1.7,
-      ymin: -3.7,
-      ymax: 3.7,
-      size: 5,
-      grid-step: 1,
-    )
-    Graph B
-  ],
-  [
-    #plot-graph(
-      x => if x == 0 { none } else { calc.pow(x, -3) },
-      xmin: -2.5,
-      xmax: 2.5,
-      ymin: -4.5,
-      ymax: 4.5,
-      size: 5,
-      grid-step: 1,
-    )
-    Graph C
-  ],
-  [
-    #plot-graph(
-      x => calc.pow(x, 4),
-      xmin: -1.7,
-      xmax: 1.7,
-      ymin: -0.5,
-      ymax: 5.5,
-      size: 5,
-      grid-step: 1,
-    )
-    Graph D
-  ],
-)
-
-#ex(difficulty: 2, time: "15 min")[
-  Match each power function to one of the four graphs shown above.
+#ex(difficulty: 2, time: "15 min", keep-together: true)[
+  Match each power function to one of the four graphs below.
+  #image-grid(
+    2,
+    gutter: 10pt,
+    [
+      #plot-graph(
+        x => if x == 0 { none } else { calc.pow(x, -4) },
+        xmin: -2.5,
+        xmax: 2.5,
+        ymin: -0.5,
+        ymax: 5.5,
+        size: 5,
+        grid-step: 1,
+      )
+      Graph A
+    ],
+    [
+      #plot-graph(
+        x => calc.pow(x, 3),
+        xmin: -1.7,
+        xmax: 1.7,
+        ymin: -3.7,
+        ymax: 3.7,
+        size: 5,
+        grid-step: 1,
+      )
+      Graph B
+    ],
+    [
+      #plot-graph(
+        x => if x == 0 { none } else { calc.pow(x, -3) },
+        xmin: -2.5,
+        xmax: 2.5,
+        ymin: -4.5,
+        ymax: 4.5,
+        size: 5,
+        grid-step: 1,
+      )
+      Graph C
+    ],
+    [
+      #plot-graph(
+        x => calc.pow(x, 4),
+        xmin: -1.7,
+        xmax: 1.7,
+        ymin: -0.5,
+        ymax: 5.5,
+        size: 5,
+        grid-step: 1,
+      )
+      Graph D
+    ],
+  )
   #parts(
     2,
     [(a) $f(x) = x^3$],
@@ -552,23 +556,22 @@ seem self-evident:
   $f(x+5) = -x^2 - 5x + 2$.
 ]
 
-#plot-graph(
-  x => if x < 0 { none } else { calc.sqrt(x) },
-  (
-    fn: x => if x < 2 { none } else { -calc.sqrt(x - 2) + 1 },
-    color: warn-col,
-  ),
-  xmin: -0.5,
-  xmax: 7.5,
-  ymin: -1.5,
-  ymax: 3.5,
-  size: 7,
-  grid-step: 1,
-)
-
-#ex(difficulty: 2, time: "15 min")[
-  The graph above shows $f(x) = sqrt(x)$ (in teal) and a transformed
+#ex(difficulty: 2, time: "15 min", keep-together: true)[
+  The graph below shows $f(x) = sqrt(x)$ (in teal) and a transformed
   version $g$ (in orange).
+  #plot-graph(
+    x => if x < 0 { none } else { calc.sqrt(x) },
+    (
+      fn: x => if x < 2 { none } else { -calc.sqrt(x - 2) + 1 },
+      color: warn-col,
+    ),
+    xmin: -0.5,
+    xmax: 7.5,
+    ymin: -1.5,
+    ymax: 3.5,
+    size: 7,
+    grid-step: 1,
+  )
   + Describe the transformation from $f$ to $g$ in words.
   + Give the equation for $g(x)$.
 ][
