@@ -1657,7 +1657,15 @@
       if type(f) == dictionary {
         (
           fn: f.fn,
-          stroke: f.at("color", default: default-color) + 1.3pt,
+          // `dash` is optional and defaults to none, so the resulting
+          // stroke is identical to the old `color + 1.3pt` form unless
+          // a call asks for dashes. Needed when two curves coincide --
+          // see the "infinitely many solutions" panel in ch-systems.
+          stroke: stroke(
+            paint: f.at("color", default: default-color),
+            thickness: f.at("thickness", default: 1.3pt),
+            dash: f.at("dash", default: none),
+          ),
           samples: f.at("samples", default: samples),
         )
       } else {
