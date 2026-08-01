@@ -1937,6 +1937,777 @@
   line(start: (0pt, 0pt), end: (len, 0pt), stroke: stroke),
 )
 
+
+
+// ════════════════════════════════════════════════════════════
+//  ADDITIONS FOR preamble.typ
+//
+//  Insert this whole block into preamble.typ immediately AFTER the
+//  `_hrule` definition at the end of the "Shared chart internals"
+//  section (~line 1940) and BEFORE `// ── Bar chart`.
+//
+//  Conceptually these two belong up with the native figure helpers
+//  (dot-triangle, koch-star, ...) around line 1320, but they reuse
+//  _chart-axis / _chart-ink / _vrule / _hrule /
+//  _ticks-from / _nice-step / _fmt, which are defined further down.
+//  Typst needs the definitions first, so they go here.
+//
+//  Like fig(), plot-graph() and the four charts -- and UNLIKE
+//  dot-triangle / koch-star / nested-squares -- neither of these is
+//  wrapped in only-theory. That is deliberate and load-bearing: a
+//  blank Venn diagram for students to shade themselves IS an exercise
+//  question, and a number line with an interval marked on it is very
+//  often the solution. Wrap a specific call in #only-theory[...]
+//  yourself when a particular occurrence is theory illustration.
+// ════════════════════════════════════════════════════════════
+
+
+// ════════════════════════════════════════════════════════════
+//  NUMBER LINE
+//
+//  A real number line with tick marks, carrying any number of
+//  intervals ("spans"), marked points, and distance measurements.
+//  Built for four jobs that recur across the course:
+//
+//    1. interval notation -- [a,b] vs [a,b) vs (a,b] vs (a,b), where
+//       the filled/hollow endpoint is the whole point;
+//    2. combining intervals -- A and B on stacked rows, so the
+//       intersection/union/difference can be read off;
+//    3. absolute value as distance -- |x - 3| = 4 as two hops;
+//    4. domain and range in ch-functions-intro, including a domain
+//       with a point removed (an "open" point is exactly a hole).
+//
+//  Items are built with three small constructors and passed
+//  positionally (they return plain dictionaries, so they are only
+//  meaningful inside a number-line(...) call -- never write
+//  #nl-span(...) bare in prose):
+//
+//    nl-span(lo, hi, brackets: "[)", label:, color:, row:)
+//    nl-point(x, label:, kind: "closed"|"open", side:, color:, row:)
+//    nl-measure(from, to, label:, color:)
+//
+//  `brackets` is the interval notation itself, as a two-character
+//  string -- "[]", "[)", "(]", "()" -- so the call site reads the way
+//  the maths is written. Pass `none` for lo or hi to run off the edge
+//  with an arrow, which is how an unbounded interval is drawn.
+//
+//    #number-line(from: -0.5, to: 9.5,
+//      nl-span(1, 5, brackets: "[)", label: [$A$], row: 1),
+//      nl-span(3, 8, brackets: "(]", label: [$B$], row: 2,
+//              color: warn-col),
+//    )
+//
+//    #number-line(from: -1.5, to: 9.5, ticks: none,
+//      nl-point(-1, label: [$-1$], side: "below"),
+//      nl-point(3,  label: [$3$],  side: "below"),
+//      nl-point(7,  label: [$7$],  side: "below"),
+//      nl-measure(-1, 3, label: [$4$]),
+//      nl-measure(3, 7, label: [$4$]),
+//    )
+//
+//    #number-line(from: -1.5, to: 6.5,          // [4, oo)
+//      nl-span(4, none, brackets: "[)"))
+//
+//    #number-line(from: -3.5, to: 3.5,          // RR without {0}
+//      nl-span(none, none, brackets: "()"),
+//      nl-point(0, kind: "open", label: [$0$], side: "below"))
+//
+//  ticks:  auto  -- numeric ticks at a readable step (the default)
+//          none  -- no ticks at all, for a purely symbolic line
+//          array of (value, label) pairs -- explicit ticks, e.g.
+//                   ticks: ((0, [$a$]), (1, [$b$])) for the interval
+//                   notation figure, whose endpoints are letters
+//                   rather than numbers. A label of `none` draws the
+//                   tick mark with no number under it.
+//
+//  Rows: row 0 (the default) draws the span ON the axis; rows 1, 2,
+//  ... stack it above, which is what you want when two intervals are
+//  being compared. Point labels sit above their marker by default;
+//  side: "below" puts them where coordinates normally go, and the
+//  tick numbers then drop a line automatically to make room.
+//
+//  Space above the topmost label is reserved automatically, so a
+//  labeled span never paints over the paragraph before it. `row-gap`
+//  must stay above ~18pt whenever the rows carry labels, or a label
+//  runs into the bar above it -- shrink it only for unlabeled rows.
+//
+//  `width` must be an ABSOLUTE length (cm/pt), never a percentage --
+//  the geometry is computed in points, exactly as in the charts below.
+// ════════════════════════════════════════════════════════════
+
+#let nl-span(
+  lo,
+  hi,
+  brackets: "[]",
+  label: none,
+  color: accent,
+  row: 0,
+) = (
+  kind: "span",
+  lo: lo,
+  hi: hi,
+  brackets: brackets,
+  label: label,
+  color: color,
+  row: row,
+)
+
+#let nl-point(
+  x,
+  label: none,
+  kind: "closed",
+  side: "above",
+  color: accent,
+  row: 0,
+) = (
+  kind: "point",
+  x: x,
+  label: label,
+  mark: kind,
+  side: side,
+  color: color,
+  row: row,
+)
+
+#let nl-measure(from, to, label: none, color: _chart-ink) = (
+  kind: "measure",
+  from: from,
+  to: to,
+  label: label,
+  color: color,
+)
+
+// Small filled triangle marking "the line continues this way".
+// dir: 1 points right, -1 points left.
+#let _nl-arrow(x, y, dir, color, size: 4pt) = place(
+  dx: x,
+  dy: y,
+  polygon(
+    fill: color,
+    stroke: none,
+    (0pt, 0pt),
+    (-dir * size, -size * 0.42),
+    (-dir * size, size * 0.42),
+  ),
+)
+
+// Text centered on an x position that must NEVER wrap.
+//
+// _label-at boxes its content at a fixed width (1.6cm by default),
+// which is right for the numeric tick labels it was written for but
+// silently breaks a phrase like "tolerance band" across two lines --
+// and the second line then lands on whatever sits below, the axis
+// included. Here the INNER box() is auto-width, so it sizes to the
+// content and is atomic; the outer fixed-width box only exists to
+// provide the centering, and its width is generous rather than
+// meaningful. Overflow past that width is harmless: place() does not
+// participate in layout and nothing clips.
+//
+// Pass an explicit `w` only when the label must be centered within a
+// known slot, as area-model does with its cell widths.
+#let _fig-label(x, y, body, w: 5cm, size: 9pt, fill: _chart-ink) = place(
+  dx: x - w / 2,
+  dy: y,
+  box(width: w, align(center, box(text(size: size, fill: fill, body)))),
+)
+
+// Endpoint dot: filled for an included endpoint, hollow for an
+// excluded one. The hollow one is filled white rather than left
+// transparent so the span bar underneath does not show through --
+// that little gap is precisely what "not included" looks like.
+#let _nl-dot(x, y, closed, color, r: 3pt) = place(
+  dx: x - r,
+  dy: y - r,
+  circle(
+    radius: r,
+    fill: if closed { color } else { white },
+    stroke: if closed { none } else { 1pt + color },
+  ),
+)
+
+#let number-line(
+  ..items,
+  from: 0,
+  to: 10,
+  ticks: auto,
+  step: auto,
+  width: 10cm,
+  row-gap: 24pt,
+  bar-weight: 2.2pt,
+  axis-label: none,
+  pad-left: 0.7cm,
+  pad-right: 0.7cm,
+  pad-top: 0.15cm,
+) = align(center, {
+  let objs = items.pos()
+  let lo = from
+  let hi = to
+  let px(v) = pad-left + width * (v - lo) / (hi - lo)
+
+  let tick-step = if step == auto {
+    _nice-step(hi - lo, target: 8)
+  } else { step }
+  let tick-list = if ticks == none {
+    ()
+  } else if ticks == auto {
+    _ticks-from(lo, hi, tick-step).map(t => (t, _fmt(t)))
+  } else { ticks }
+
+  let measures = objs.filter(o => o.kind == "measure")
+  let marks = objs.filter(o => o.kind != "measure")
+  let max-row = if marks.len() == 0 {
+    0
+  } else { calc.max(..marks.map(o => o.row)) }
+
+  // Anything labeled below the axis competes with the tick numbers,
+  // so the numbers move down a line whenever that happens.
+  let has-below = marks.any(o => (
+    o.kind == "point"
+      and o.at("side", default: "above") == "below"
+      and o.label != none
+  ))
+  let tick-label-dy = if has-below { 20pt } else { 6pt }
+
+  // Labels above a bar or point are placed label-lift above it, and a
+  // 9pt line then occupies roughly label-lift..label-lift-11 below
+  // that. Two consequences, both of which used to be wrong:
+  //
+  //   * the TOPMOST label needs that much clear space reserved above
+  //     it, or place() pushes it out of the box and it paints over
+  //     whatever precedes the figure;
+  //   * row-gap has to exceed label-lift, or a label collides with the
+  //     bar on the row above it. Hence the 24pt default -- shrink it
+  //     only when the rows carry no labels.
+  let label-lift = 15pt
+  let has-above = marks.any(o => (
+    o.label != none and o.at("side", default: "above") != "below"
+  ))
+  let head = if has-above or measures.len() > 0 { label-lift + 3pt } else {
+    0pt
+  }
+
+  let measure-band = measures.len() * 18pt
+  let axis-y = pad-top + head + measure-band + max-row * row-gap
+  let foot-base = if tick-list.len() > 0 or has-below {
+    tick-label-dy + 14pt
+  } else { 8pt }
+  let foot = foot-base + (if axis-label != none { 12pt } else { 0pt })
+
+  box(width: pad-left + width + pad-right, height: axis-y + foot, {
+    // ── the axis itself, arrowed at both ends ──
+    _hrule(pad-left, axis-y, width, _chart-axis)
+    _nl-arrow(pad-left + width + 3pt, axis-y, 1, luma(70))
+    _nl-arrow(pad-left - 3pt, axis-y, -1, luma(70))
+
+    // ── ticks ──
+    for t in tick-list {
+      let v = t.at(0)
+      let lab = t.at(1, default: none)
+      _vrule(px(v), axis-y - 3pt, 6pt, _chart-axis)
+      if lab != none {
+        _fig-label(px(v), axis-y + tick-label-dy, lab, w: 2.4cm, size: 8pt)
+      }
+    }
+
+    // ── spans and points ──
+    for o in marks {
+      let y = axis-y - o.row * row-gap
+      if o.kind == "span" {
+        let open-left = o.lo == none
+        let open-right = o.hi == none
+        let x0 = if open-left { pad-left } else { px(o.lo) }
+        let x1 = if open-right { pad-left + width } else { px(o.hi) }
+        place(dx: x0, dy: y, line(
+          start: (0pt, 0pt),
+          end: (x1 - x0, 0pt),
+          stroke: bar-weight + o.color,
+        ))
+        if open-left {
+          _nl-arrow(pad-left - 3pt, y, -1, o.color)
+        } else {
+          _nl-dot(x0, y, o.brackets.starts-with("["), o.color)
+        }
+        if open-right {
+          _nl-arrow(pad-left + width + 3pt, y, 1, o.color)
+        } else {
+          _nl-dot(x1, y, o.brackets.ends-with("]"), o.color)
+        }
+        if o.label != none {
+          _fig-label(
+            (x0 + x1) / 2,
+            y - label-lift,
+            text(fill: o.color, o.label),
+          )
+        }
+      } else {
+        _nl-dot(px(o.x), y, o.mark == "closed", o.color)
+        if o.label != none {
+          let dy = if o.at("side", default: "above") == "below" {
+            y + 6pt
+          } else { y - label-lift }
+          _fig-label(px(o.x), dy, text(fill: o.color, o.label))
+        }
+      }
+    }
+
+    // ── distance measurements, stacked above everything ──
+    for (i, m) in measures.enumerate() {
+      let y = pad-top + head + i * 18pt
+      let x0 = px(m.from)
+      let x1 = px(m.to)
+      // thin guides down to the axis, so it is unambiguous which
+      // points the measurement runs between
+      for x in (x0, x1) {
+        place(dx: x, dy: y, line(
+          start: (0pt, 0pt),
+          end: (0pt, axis-y - y),
+          stroke: 0.4pt + luma(180),
+        ))
+      }
+      place(dx: x0, dy: y, line(
+        start: (0pt, 0pt),
+        end: (x1 - x0, 0pt),
+        stroke: 0.7pt + m.color,
+      ))
+      _nl-arrow(x1, y, 1, m.color, size: 3.5pt)
+      _nl-arrow(x0, y, -1, m.color, size: 3.5pt)
+      if m.label != none {
+        _fig-label((x0 + x1) / 2, y - label-lift, text(fill: m.color, m.label))
+      }
+    }
+
+    if axis-label != none {
+      place(
+        dx: pad-left,
+        dy: axis-y + tick-label-dy + 13pt,
+        box(width: width, align(right, text(
+          size: 8pt,
+          fill: _chart-ink,
+          axis-label,
+        ))),
+      )
+    }
+  })
+})
+
+
+// ════════════════════════════════════════════════════════════
+//  VENN DIAGRAM (two sets)
+//
+//  Two labeled circles inside a universal-set rectangle, with any
+//  combination of regions shaded.
+//
+//    #venn2("inter")                       // A ∩ B
+//    #venn2("a-only")                      // A \ B
+//    #venn2("sym-diff")                    // exactly one of the two
+//    #venn2("none")                        // blank, for students to
+//                                          // shade in themselves
+//
+//  Region names (aliases in brackets):
+//    "a"        all of A            "b"        all of B
+//    "inter"    A ∩ B  ["and"]      "union"    A ∪ B  ["or"]
+//    "a-only"   A \ B  ["a-not-b"]  "b-only"   B \ A  ["b-not-a"]
+//    "sym-diff" exactly one  ["xor"]
+//    "outside"  neither  ["complement", "neither"]
+//    "none"     nothing             "all"      everything
+//
+//  Pass an array to shade several at once: #venn2(("a-only", "b-only")).
+//
+//  layout:
+//    "overlap"  (default) the general case
+//    "disjoint" mutually exclusive events -- the circles do not meet,
+//               and "inter" then correctly shades nothing at all
+//    "subset"   B inside A, for B ⊆ A
+//
+//  values: places content in each region, keyed by region name -- the
+//  form probability exercises actually need:
+//
+//    #venn2("none", values: (
+//      a-only: [0.30], inter: [0.10], b-only: [0.25], outside: [0.35],
+//    ))
+//
+//  Only a-only / inter / b-only / outside have a placement point; a
+//  value handed to any other key is ignored. Note that "b-only" has no
+//  meaningful position under layout: "subset", since that region is
+//  empty by construction.
+//
+//  Set labels default to A and B and the universe to Omega, matching
+//  the house probability notation. Pass universe: none to drop the
+//  surrounding rectangle.
+//
+//  IMPLEMENTATION NOTE -- Typst has no boolean path operations, so the
+//  lens A ∩ B is built as an explicit polygon tracing one arc of each
+//  circle (the same approach koch-star already uses for its outline).
+//  Its area agrees with the exact circular-lens formula to within
+//  0.1%, and it depends on nothing but polygon() -- rather than on
+//  clip:/radius: interactions, which would be harder to reason about
+//  and to keep stable across Typst versions. Every other region is
+//  then plain overpainting in the background color, which is why `bg`
+//  has to match whatever the diagram is sitting on.
+// ════════════════════════════════════════════════════════════
+
+// Points along a circular arc, in float points, y measured downward.
+#let _v2-arc(cx, cy, r, a0, a1, n: 48) = range(n + 1).map(i => {
+  let t = a0 + (a1 - a0) * i / n
+  ((cx + r * calc.cos(t)) * 1pt, (cy - r * calc.sin(t)) * 1pt)
+})
+
+// The lens where two circles overlap, as a closed polygon. Returns
+// none when the circles miss each other, and the smaller circle when
+// one contains the other -- so "inter" stays correct under all three
+// layouts without the caller having to think about which case applies.
+#let _v2-lens(xa, xb, cy, ra, rb) = {
+  let d = calc.abs(xb - xa)
+  if d >= ra + rb { return none }
+  if d <= calc.abs(ra - rb) {
+    let cx = if ra < rb { xa } else { xb }
+    let r = calc.min(ra, rb)
+    return _v2-arc(cx, cy, r, 0deg, 360deg, n: 96)
+  }
+  let a = (d * d + ra * ra - rb * rb) / (2 * d)
+  let b = d - a
+  let ta = calc.acos(calc.max(-1.0, calc.min(1.0, a / ra)))
+  let tb = calc.acos(calc.max(-1.0, calc.min(1.0, b / rb)))
+  // right-hand arc of A, from the top crossing down to the bottom one,
+  // then the left-hand arc of B back up, which closes the shape
+  let arc-a = _v2-arc(xa, cy, ra, ta, -ta)
+  let arc-b = _v2-arc(xb, cy, rb, 180deg + tb, 180deg - tb)
+  arc-a + arc-b
+}
+
+#let _v2-canon = (
+  "and": "inter",
+  "or": "union",
+  "xor": "sym-diff",
+  "complement": "outside",
+  "neither": "outside",
+  "a-not-b": "a-only",
+  "b-not-a": "b-only",
+)
+
+#let venn2(
+  ..args,
+  layout: "overlap",
+  labels: ([$A$], [$B$]),
+  universe: [$Omega$],
+  values: (:),
+  width: 8cm,
+  fill-color: accent-bg,
+  stroke-color: accent,
+  bg: white,
+) = align(center, {
+  let shade = args.pos().at(0, default: "none")
+  let asked = if type(shade) == str { (shade,) } else { shade }
+  let regions = asked.map(r => _v2-canon.at(r, default: r))
+  let on(r) = regions.contains(r) or regions.contains("all")
+
+  let w = width.pt()
+  let h = w * 0.62
+  let cy = h * 0.53
+  // circle geometry per layout, as fractions of the total width
+  let geo = if layout == "disjoint" {
+    (0.27, 0.73, 0.190, 0.190)
+  } else if layout == "subset" {
+    (0.47, 0.555, 0.270, 0.130)
+  } else { (0.365, 0.635, 0.250, 0.250) }
+  let xa = w * geo.at(0)
+  let xb = w * geo.at(1)
+  let ra = w * geo.at(2)
+  let rb = w * geo.at(3)
+
+  let circ-a = _v2-arc(xa, cy, ra, 0deg, 360deg, n: 96)
+  let circ-b = _v2-arc(xb, cy, rb, 0deg, 360deg, n: 96)
+  let lens = _v2-lens(xa, xb, cy, ra, rb)
+
+  let disc(pts, col) = place(dx: 0pt, dy: 0pt, polygon(
+    fill: col,
+    stroke: none,
+    ..pts,
+  ))
+
+  box(width: width, height: h * 1pt, {
+    // ── universal set ──
+    if universe != none {
+      place(dx: 0pt, dy: 0pt, rect(
+        width: width,
+        height: h * 1pt,
+        radius: 2pt,
+        fill: if on("outside") { fill-color } else { bg },
+        stroke: 0.6pt + luma(150),
+      ))
+    } else if on("outside") {
+      place(dx: 0pt, dy: 0pt, rect(
+        width: width,
+        height: h * 1pt,
+        fill: fill-color,
+        stroke: none,
+      ))
+    }
+
+    // ── shading, painted in dependency order ──
+    // Whole-circle regions go down first; the "-only" crescents are
+    // then carved back out of them in the background color.
+    if on("outside") {
+      disc(circ-a, bg)
+      disc(circ-b, bg)
+    }
+    if on("a") or on("union") or on("a-only") or on("sym-diff") {
+      disc(circ-a, fill-color)
+    }
+    if on("b") or on("union") or on("b-only") or on("sym-diff") {
+      disc(circ-b, fill-color)
+    }
+    if lens != none {
+      let carve = (
+        (on("a-only") and not (on("b") or on("union") or on("inter")))
+          or (on("b-only") and not (on("a") or on("union") or on("inter")))
+          or (on("sym-diff") and not on("inter"))
+      )
+      if carve { disc(lens, bg) }
+      if on("inter") { disc(lens, fill-color) }
+    }
+
+    // ── outlines, always on top of any shading ──
+    place(dx: 0pt, dy: 0pt, polygon(
+      fill: none,
+      stroke: 1pt + stroke-color,
+      ..circ-a,
+    ))
+    place(dx: 0pt, dy: 0pt, polygon(
+      fill: none,
+      stroke: 1pt + stroke-color,
+      ..circ-b,
+    ))
+
+    // ── labels, set in the upper-outer part of each circle. The
+    //    inset is deliberately well short of the radius: at 0.55 a
+    //    bold 10pt glyph reaches the outline on the small circles
+    //    (the inner circle under layout: "subset", and both circles
+    //    under "disjoint", which are smaller than the "overlap"
+    //    ones). 0.42 clears all three with room to spare.
+    if universe != none {
+      place(dx: 5pt, dy: 4pt, text(size: 9pt, fill: _chart-ink, universe))
+    }
+    let inset = 0.42
+    _fig-label(
+      (xa - ra * inset) * 1pt,
+      (cy - ra * inset - 5) * 1pt,
+      text(weight: "bold", fill: stroke-color, labels.at(0)),
+      w: 2cm,
+      size: 10pt,
+    )
+    _fig-label(
+      (xb + rb * inset) * 1pt,
+      (cy - rb * inset - 5) * 1pt,
+      text(weight: "bold", fill: stroke-color, labels.at(1)),
+      w: 2cm,
+      size: 10pt,
+    )
+
+    // ── per-region content ──
+    // Under "subset" the intersection IS the inner circle, so its
+    // value would land right under the B label. Drop it below centre.
+    let centroid = (
+      "a-only": (xa - ra * 0.42, cy),
+      "b-only": (xb + rb * 0.42, cy),
+      "inter": if layout == "subset" {
+        (xb, cy + rb * 0.55)
+      } else { ((xa + xb) / 2, cy) },
+      "outside": (w * 0.10, h * 0.88),
+    )
+    for (key, body) in values.pairs() {
+      let k = _v2-canon.at(key, default: key)
+      let p = centroid.at(k, default: none)
+      if p != none {
+        _fig-label(p.at(0) * 1pt, (p.at(1) - 5) * 1pt, body, w: 2.4cm)
+      }
+    }
+  })
+})
+
+
+// ════════════════════════════════════════════════════════════
+//  AREA MODEL
+//
+//  A rectangle partitioned into labeled sub-rectangles: the picture
+//  behind the distributive law and both special products. Three
+//  chapters want it (algebra foundations for a·(b+c), (a+b)^2 and
+//  a^2-b^2; quadratic for completing the square; powers for a^m·a^n),
+//  which is exactly the "same kind of diagram more than once" signal
+//  from STYLE_GUIDE §7 -- so it lives here rather than being
+//  hand-placed three times.
+//
+//  Columns and rows are given as (label, size) tuples, where size is
+//  a bare number in arbitrary units scaled by `unit`. Cells follow
+//  ROW-MAJOR, one per (row, column) pair:
+//
+//    #area-model(
+//      cols: (([$a$], 3), ([$b$], 2)),
+//      rows: (([$a$], 3), ([$b$], 2)),
+//      [$a^2$],      [$a dot b$],
+//      [$a dot b$],  [$b^2$],
+//    )
+//
+//  A cell may be bare content (used as its label), `none` for an
+//  empty cell, or area-cell(...) for anything needing its own fill,
+//  a colspan, or the "removed" treatment:
+//
+//    area-cell(label: [$b^2$], removed: true)      // dashed, unfilled
+//    area-cell(label: [I], colspan: 2)             // spans 2 columns
+//
+//  `removed: true` is what makes the difference-of-squares dissection
+//  work -- the corner that gets cut away is drawn in place, dashed
+//  and unfilled, rather than silently omitted. Students need to see
+//  the hole to see the subtraction.
+//
+//  `colspan:` matters for the same figure: the piece that gets cut
+//  off and rotated is one rectangle, and drawing a column line
+//  through it would suggest a cut that isn't being made. A row
+//  carrying a colspan therefore has fewer items than there are
+//  columns -- cells are consumed left to right, not indexed by
+//  position.
+//
+//  Sizes should be roughly proportional to the quantities they stand
+//  for, but they are deliberately NOT to scale with any particular
+//  numeric value of a and b -- the diagram is a general argument, and
+//  a suspiciously exact-looking picture invites students to measure
+//  it instead of reasoning about it.
+// ════════════════════════════════════════════════════════════
+
+#let area-cell(
+  label: none,
+  fill: auto,
+  removed: false,
+  colspan: 1,
+  text-color: auto,
+) = (
+  label: label,
+  fill: fill,
+  removed: removed,
+  colspan: colspan,
+  text-color: text-color,
+)
+
+#let area-model(
+  ..cells,
+  cols: (),
+  rows: (),
+  unit: 0.7cm,
+  fill-color: accent-bg,
+  stroke-color: accent,
+  label-size: 9.5pt,
+  dim-size: 9.5pt,
+  pad-left: 1.0cm,
+  pad-top: 0.55cm,
+) = align(center, {
+  let items = cells.pos()
+  let ncol = cols.len()
+  let nrow = rows.len()
+
+  // running offsets, in the same arbitrary units as the tuples
+  let xs = (0,)
+  for c in cols { xs.push(xs.last() + c.at(1)) }
+  let ys = (0,)
+  for r in rows { ys.push(ys.last() + r.at(1)) }
+  let total-u = xs.last()
+  let total-v = ys.last()
+
+  let px(u) = pad-left + unit * u
+  let py(v) = pad-top + unit * v
+
+  box(
+    width: pad-left + unit * total-u,
+    height: pad-top + unit * total-v,
+    {
+      // Cells are consumed left to right, row by row. A cell with
+      // colspan: n covers n columns and swallows their share of the
+      // row, so a row carries FEWER items than there are columns --
+      // which is why this walks the array sequentially rather than
+      // indexing it at i * ncol + j. With every colspan at its
+      // default of 1 the two are identical.
+      let k = 0
+      for i in range(nrow) {
+        let j = 0
+        while j < ncol {
+          let raw = items.at(k, default: none)
+          k += 1
+          let cell = if raw == none {
+            area-cell()
+          } else if type(raw) == dictionary and "removed" in raw {
+            raw
+          } else { area-cell(label: raw) }
+
+          let span = calc.min(cell.at("colspan", default: 1), ncol - j)
+          let x0 = px(xs.at(j))
+          let y0 = py(ys.at(i))
+          let w = unit * (xs.at(j + span) - xs.at(j))
+          let h = unit * rows.at(i).at(1)
+
+          place(dx: x0, dy: y0, rect(
+            width: w,
+            height: h,
+            fill: if cell.removed {
+              none
+            } else if cell.fill == auto { fill-color } else { cell.fill },
+            stroke: if cell.removed {
+              (paint: luma(150), thickness: 0.8pt, dash: "dashed")
+            } else { 0.8pt + stroke-color },
+          ))
+
+          if cell.label != none {
+            _fig-label(
+              x0 + w / 2,
+              y0 + h / 2 - 6pt,
+              text(
+                fill: if cell.text-color == auto {
+                  if cell.removed { luma(120) } else { _chart-ink }
+                } else { cell.text-color },
+                cell.label,
+              ),
+              w: w,
+              size: label-size,
+            )
+          }
+
+          j += span
+        }
+      }
+
+      // ── dimension labels: columns above, rows to the left ──
+      for (j, c) in cols.enumerate() {
+        _fig-label(
+          px(xs.at(j)) + unit * c.at(1) / 2,
+          pad-top - 14pt,
+          text(fill: stroke-color, weight: "bold", c.at(0)),
+          w: 3cm,
+          size: dim-size,
+        )
+      }
+      // Same non-wrapping treatment as _fig-label, but right-aligned
+      // against the grid rather than centered: pad-left is only about
+      // 22pt of usable space, and a row label like $a-b$ is wider than
+      // that. The inner box() keeps it on one line and lets it extend
+      // leftward instead of stacking.
+      for (i, r) in rows.enumerate() {
+        place(
+          dx: 0pt,
+          dy: py(ys.at(i)) + unit * r.at(1) / 2 - 6pt,
+          box(width: pad-left - 6pt, align(right, box(text(
+            size: dim-size,
+            fill: stroke-color,
+            weight: "bold",
+            r.at(0),
+          )))),
+        )
+      }
+    },
+  )
+})
+
+
+
+
+
 // ── Bar chart (categorical -- bars separated by gaps) ─────────
 //
 //  #bar-chart(
