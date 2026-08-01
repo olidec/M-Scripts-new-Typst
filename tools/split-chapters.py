@@ -48,32 +48,76 @@ from pathlib import Path
 try:
     import pypdf
 except ImportError:
+    # Name the interpreter that failed. Without this the message is
+    # actively misleading when pypdf IS installed -- just into a
+    # different Python than the one running this file, which is the
+    # normal situation when the script is launched from an editor's
+    # Run button or a non-activated shell rather than through build.sh.
     sys.exit(
-        "error: pypdf is not installed.\n"
-        "       pip install pypdf   (or: pip install --user pypdf)"
+        f"error: pypdf is not importable by this interpreter:\n"
+        f"           {sys.executable}\n"
+        f"       Install it there:\n"
+        f"           {sys.executable} -m pip install pypdf\n"
+        f"       Or run the script with the project venv instead:\n"
+        f"           .venv/bin/python {sys.argv[0]} ...\n"
+        f"       (build.sh picks up ./.venv automatically; if you are\n"
+        f"        running this file directly from an editor, check which\n"
+        f"        interpreter that editor is configured to use.)"
     )
 
 
 # register_chapters entries look like:
-#     ("Algebra Foundations", "/src/units/algebra-functions/ch-algebra-foundations"),
+#     ("Foundations", "/src/units/algebra-functions/ch-algebra-foundations"),
 # One per line, each trimmed line starting with `("` -- the same
-# convention build.sh relies on. Captures (title, path).
+# convention build.sh relies on. Captures (label, path).
+#
+# NOTE: the first element is a SHORT LABEL, not the chapter title. In
+# this project "Foundations" refers to a chapter headed "Algebra
+# Foundations", and "Quadratics" to one headed "Quadratic Functions and
+# Equations". So the label cannot be matched against the PDF outline --
+# we read each chapter's real level-1 heading out of its own .typ file
+# instead. The label is only used in messages.
 ENTRY_RE = re.compile(r'^\s*\(\s*"([^"]*)"\s*,\s*"([^"]*)"')
 
+# The chapter's own title: the first level-1 heading in the file.
+HEADING_RE = re.compile(r"^=\s+(\S.*?)\s*$")
+
+# Fallback: the title passed to chapter-template.
+TEMPLATE_TITLE_RE = re.compile(r'chapter-template\.with\(\s*title:\s*"([^"]*)"')
+
 # Typst prefixes outline titles with the heading number, e.g.
-# "3 Quadratic Functions". Strip a leading dotted number group.
+# "3 Linear Functions". Strip a leading dotted number group.
 NUMBER_PREFIX_RE = re.compile(r"^\s*[\d]+(?:\.[\d]+)*\.?\s+")
 
 
 def read_registered_chapters(main_typ):
-    """[(title, bare-chapter-name), ...] in document order."""
+    """[(label, bare-chapter-name), ...] in document order."""
     out = []
     for line in Path(main_typ).read_text(encoding="utf-8").splitlines():
         m = ENTRY_RE.match(line)
         if m:
-            title, path = m.group(1), m.group(2)
-            out.append((title, path.rsplit("/", 1)[-1]))
+            label, path = m.group(1), m.group(2)
+            bare = path.rsplit("/", 1)[-1]
+            if bare.endswith(".typ"):
+                bare = bare[:-4]
+            out.append((label, bare))
     return out
+
+
+def read_chapter_title(chapter_dir, bare):
+    """The chapter's own level-1 heading, which is what Typst puts in
+    the PDF outline. Returns None if the file is missing or headingless.
+    """
+    path = Path(chapter_dir) / f"{bare}.typ"
+    if not path.is_file():
+        return None
+    text = path.read_text(encoding="utf-8")
+    for line in text.splitlines():
+        m = HEADING_RE.match(line)
+        if m:
+            return m.group(1)
+    m = TEMPLATE_TITLE_RE.search(text)
+    return m.group(1) if m else None
 
 
 def read_top_level_outline(reader):
@@ -102,16 +146,32 @@ def normalize(s):
     return NUMBER_PREFIX_RE.sub("", s).strip().casefold()
 
 
-def match_chapters(registered, outline):
+def match_chapters(registered, outline, chapter_dir):
     """Pair each registered chapter with its outline entry.
 
-    Returns [(bare_name, title, start_page)], in document order, and
-    reports anything it could not pair up.
+    Primary strategy: read each chapter's own level-1 heading from its
+    .typ file and match that against the outline text. This is exact,
+    and it tolerates extra top-level headings in the front or back
+    matter -- a preface or appendix is reported and skipped rather than
+    shifting every subsequent filename by one.
+
+    Fallback: if titles cannot be read (files moved, headings built
+    dynamically) but the counts agree, pair them up in document order
+    and say so. Better than failing outright, but noisy on purpose,
+    because a silent positional match is exactly how filenames get
+    quietly attached to the wrong chapter.
+
+    Returns [(bare_name, outline_title, start_page)] in document order.
     """
     norm_outline = [(normalize(t), t, p) for t, p in outline]
-    used, matched = set(), []
+    used, matched, unresolved = set(), [], []
 
-    for title, bare in registered:
+    for label, bare in registered:
+        title = read_chapter_title(chapter_dir, bare)
+        if title is None:
+            unresolved.append((label, bare))
+            continue
+
         want = normalize(title)
         hit = None
         for i, (nt, raw, page) in enumerate(norm_outline):
@@ -121,19 +181,32 @@ def match_chapters(registered, outline):
                 hit = (i, raw, page)
                 break
         if hit is None:
-            print(f"  (warning: '{title}' is registered in the main file "
-                  f"but no matching chapter heading was found in the PDF "
-                  f"outline -- skipping)")
+            unresolved.append((label, bare))
             continue
         used.add(hit[0])
         matched.append((bare, hit[1], hit[2]))
+
+    # Positional fallback, only when nothing matched at all.
+    if not matched and unresolved and len(registered) == len(outline):
+        print("  (warning: could not match any chapter heading by title; "
+              "falling back to document order)")
+        print("  (check that each chapter file's '= Heading' matches the "
+              "PDF outline, and that register_chapters lists them in "
+              "document order)")
+        return [
+            (bare, outline[i][0], outline[i][1])
+            for i, (_, bare) in enumerate(registered)
+        ]
+
+    for label, bare in unresolved:
+        print(f"  (warning: no chapter heading found in the PDF outline "
+              f"for {bare}.typ (listed as '{label}') -- skipping)")
 
     for i, (_, raw, page) in enumerate(norm_outline):
         if i not in used:
             print(f"  (note: top-level heading {raw!r} on page {page + 1} "
                   f"is not a registered chapter -- not split out)")
 
-    # Document order, not registration order, so page ranges are sane.
     matched.sort(key=lambda t: t[2])
     return matched
 
@@ -156,7 +229,10 @@ def split(main_typ, pdf_path, outdir, level):
             f"       headings are not marked bookmarked: false."
         )
 
-    chapters = match_chapters(registered, outline)
+    # Chapter files sit next to the main file, as build.sh assumes
+    # for its own relative imports.
+    chapters = match_chapters(registered, outline,
+                              Path(main_typ).parent)
     if not chapters:
         sys.exit("error: no chapters could be matched to outline entries")
 
