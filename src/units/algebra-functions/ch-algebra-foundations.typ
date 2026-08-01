@@ -2,7 +2,19 @@
 #show: chapter-template.with(title: "Algebra Foundations")
 #let ex = exercise.with(chapter: "Algebra Foundations")
 
+// Reusable blank square for fill-in-the-gap exercises.
+#let blank = box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt)
+
 = Algebra Foundations
+
+#only-theory[
+  Algebra is the language the rest of this course is written in. Almost
+  every later chapter -- functions, trigonometry, statistics -- assumes
+  you can move symbols around without having to think about it. That
+  fluency is the goal here: not new ideas so much as old ideas made
+  automatic, and given precise names in English so we can talk about
+  them for the next four years.
+]
 
 #toolbox()
 
@@ -12,13 +24,21 @@
     scientific notation and absolute value],
   [apply the order of operations correctly, including with nested
     exponents and radicals],
+  [read and write intervals, and combine them with intersection, union,
+    and set difference],
   [solve linear equations, including ones requiring multiple steps or
     fractions],
-  [factor algebraic expressions using the common-factor,
-    difference-of-squares, and trinomial methods],
+  bfkm[apply the special products (dt. _binomische Formeln_) to expand
+    and to factor algebraic expressions],
+  bfkm[solve equations that reduce to a quadratic, by factoring and the
+    zero-product property],
   [add, simplify, and manipulate algebraic fractions],
-  [translate a word problem into an equation and solve it],
+  [translate a word problem into an equation, solve it, and check
+    whether the answer makes sense],
+  obj(level: "high")[justify the special products both algebraically and
+    with an area diagram, rather than only quoting them],
 )
+
 #only-theory[
   #pagebreak()
 ]
@@ -29,7 +49,6 @@
   The following graphic gives an overview of the so-called big ideas in
   algebra. Over the next four years we will cover these and many more
   topics.
-
 
   #fig(
     image("images/big-ideas-in-algebra.png", width: 85%),
@@ -60,8 +79,20 @@
 #only-theory[
   The main building blocks of algebra are #vocab("variable", "Variable")s,
   #vocab("expression", "Term")s, and #vocab("equation", "Gleichung")s.
-  #pagebreak()
+]
 
+#warning[
+  Two words in that sentence are *false friends* between English and
+  German, and they will cost you marks if you mix them up:
+  - English *expression* = German _Term_. A German _Term_ is never
+    called a "term" in English.
+  - English *term* = German _Summand_ / _Glied_: one of the pieces a
+    sum is built from. In $3x^2 + 5x - 7$ there are three *terms*, and
+    the whole thing is one *expression*.
+]
+
+#only-theory[
+  #pagebreak()
 ]
 
 ==== Variables
@@ -70,6 +101,7 @@
   A *variable* is a placeholder (usually a letter or symbol) that stands
   for an unknown number.
 ]
+
 #only-theory[
   Variables can have different interpretations depending on the situation:
   - In an equation (see below), a variable may stand for an unknown number:
@@ -83,7 +115,6 @@
   - Variables can be used to describe general *rules* (or theorems) of
     mathematics: the operation of addition is commutative, i.e.
     $a + b = b + a$.
-
 ]
 
 ==== Expressions
@@ -96,13 +127,15 @@
 
 #only-theory[
   For example:
-  - Added terms are simplified using coefficients. For example,
-    $x + x + x$ can be simplified as $3 dot x$ (where 3 is the coefficient).
+  - Added terms are simplified using #vocab("coefficient", "Koeffizient")s.
+    For example, $x + x + x$ can be simplified as $3 dot x$ (where 3 is
+    the coefficient).
   - Multiplied terms are simplified using exponents. For example,
     $x dot x dot x$ is represented as $x^3$.
-  - Like terms are added together: for example, $2x^2 + 3 a b - x^2 + a b$
-    is written as $x^2 + 4 a b$, because the terms containing $x^2$ are
-    added together, and the terms containing $a b$ are added together.
+  - Like terms are added together: for example,
+    $2x^2 + 3 a dot b - x^2 + a dot b$ is written as $x^2 + 4 a dot b$,
+    because the terms containing $x^2$ are added together, and the terms
+    containing $a dot b$ are added together.
   - Parentheses can be "multiplied out," using distributivity. For
     example, $x dot (2x + 3)$ can be written as $(x dot 2x) + (x dot 3)$,
     which simplifies to $2x^2 + 3x$.
@@ -110,7 +143,7 @@
     both terms by $3x^2$, can be written as $3x^2 dot (2x^3 + 1)$.
 ]
 
-#ex(difficulty: 1, time: "10 min", keep-together: true)[
+#ex(difficulty: 1, time: "10 min", calculator: false, keep-together: true)[
   Evaluate the following terms for the given $x$\u{2011}values.
 
   #data-table(
@@ -181,6 +214,10 @@
     [$3/4$],
     [$21/16$],
   )
+
+  Notice that the third column always returns the value of $x$ itself:
+  $0.5 dot (-2x) + 2x = -x + 2x = x$. Simplifying first would have saved
+  five evaluations. #heuristic("look for what stays the same")
 ]
 
 ==== Equations
@@ -190,11 +227,14 @@
   "=".
 ]
 
-- Some equations are true for all values of the involved variables: the
-  commutativity of addition above states that $a + b = b + a$ for all
-  values of $a$ and $b$.
-- Some equations are only true for certain values: $x^2 - 1 = 0$ is only
-  true if $x = 1$ or $x = -1$.
+#only-theory[
+  - Some equations are true for all values of the involved variables: the
+    commutativity of addition above states that $a + b = b + a$ for all
+    values of $a$ and $b$.
+  - Some equations are only true for certain values: $x^2 - 1 = 0$ is only
+    true if $x = 1$ or $x = -1$. The set of those values is called the
+    #vocab("solution set", "Lösungsmenge") of the equation.
+]
 
 #keybox(title: "Two important properties of equations")[
   - If $a = b$ and $c = d$, then $a + c = b + d$.
@@ -205,17 +245,19 @@
 
 #only-theory[
   #pagebreak()
-  You can think of an equation as a balance. If both sides are changed in the same fashion, the equation will still be true (_balanced_).
+  You can think of an equation as a balance. If both sides are changed in
+  the same fashion, the equation will still be true (_balanced_).
 
   #fig(image("images/equation-balance-2.png", width: 65%))
 
-  If two equations are added - left side to left side and right side to right side - then the resulting equation will still be true (_balanced_).
+  If two equations are added -- left side to left side and right side to
+  right side -- then the resulting equation will still be true
+  (_balanced_).
 
   #fig(image("images/equation-balance.png", width: 65%))
-
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Solve the equations for each variable.
   #parts(
     2,
@@ -288,7 +330,7 @@
 
     [$x^2$],
     [$x$ *squared*: an abbreviation for $x dot x$. The general
-      form $x^n$ is read "$x$ to the $n$-th *power*"],
+      form $x^n$ is read "$x$ to the $n$\u{2011}th *power*"],
 
     [$<$],
     [*less than*: the expression on the left is less than the
@@ -307,9 +349,11 @@
 #remark[
   $NN$, $ZZ$, $QQ$, $RR$, and $CC$ above are all *sets* of numbers.
   Often we want to describe just a *piece* of $RR$ -- for example, "all
-  numbers between $1$ and $4$." Such a piece is called a *subset* of
-  $RR$, and the most common kind we'll work with is an *interval*.
+  numbers between $1$ and $4$." Such a piece is called a
+  #vocab("subset", "Teilmenge") of $RR$, and the most common kind we'll
+  work with is an #vocab("interval", "Intervall").
 ]
+
 #only-theory[
   Intervals are special subsets of the real numbers -- they can be
   pictured as a section of the number line. Formally, they can be written
@@ -320,43 +364,87 @@
 
   As intervals come up constantly, they have their own shorthand notation:
 
+  #let _iv(br) = number-line(
+    from: -0.6,
+    to: 1.6,
+    width: 5cm,
+    ticks: ((0, [$a$]), (1, [$b$])),
+    nl-span(0, 1, brackets: br),
+  )
+
   #keybox(title: "Interval Notation")[
     #data-table(
-      columns: (auto, 1fr),
+      columns: (auto, auto, 1fr),
       row-height: auto,
       [Notation],
+      [Picture],
       [Set Notation],
       [$[a,b]$],
+      _iv("[]"),
       [${x in RR med | med a <= x <= b}$],
       [$[a,b)$],
+      _iv("[)"),
       [${x in RR med | med a <= x < b}$],
       [$(a,b]$],
+      _iv("(]"),
       [${x in RR med | med a < x <= b}$],
       [$(a,b)$],
+      _iv("()"),
       [${x in RR med | med a < x < b}$],
     )
+    A #emph[filled] dot means the endpoint belongs to the interval, a
+    #emph[hollow] one means it does not. The four intervals contain
+    exactly the same numbers apart from their two endpoints -- which is
+    why the brackets have to be read carefully rather than glanced at.
   ]
 
-  There are also *unbounded* intervals, where one boundary is $plus.minus infinity$.
-  These are written the same way, with $infinity$ standing in for the
-  missing boundary. For example $I = {x in RR med | med x >= 4}$ is written
-  $[4, infinity)$. Remember that infinity is a concept, not a number -- so
-  that side of the interval always gets a *round* bracket, since infinity
-  itself can never actually be included.
+  There are also *unbounded* intervals, where one boundary is
+  $plus.minus infinity$. These are written the same way, with $infinity$
+  standing in for the missing boundary. For example
+  $I = {x in RR med | med x >= 4}$ is written $[4, infinity)$. Remember
+  that infinity is a concept, not a number -- so that side of the
+  interval always gets a *round* bracket, since infinity itself can never
+  actually be included.
+
+  #fig(
+    number-line(from: -1.5, to: 7.5, width: 9cm, nl-span(
+      4,
+      none,
+      brackets: "[)",
+    )),
+    caption: [The unbounded interval $[4, infinity)$. The arrow replaces
+      the endpoint that isn't there.],
+  )
 
   Since intervals are sets, we can combine them the same way we'd combine
   any two sets.
 
+  #image-grid(
+    3,
+    gutter: 8pt,
+    [
+      #venn2("inter", width: 4.6cm)
+      #align(center)[$A inter B$]
+    ],
+    [
+      #venn2("union", width: 4.6cm)
+      #align(center)[$A union B$]
+    ],
+    [
+      #venn2("a-only", width: 4.6cm)
+      #align(center)[$A without B$]
+    ],
+  )
 ]
 
 #definition[
   Given two sets $A$ and $B$:
-  - The *intersection* $A inter B$ is the set of elements belonging to
-    *both* $A$ and $B$.
-  - The *union* $A union B$ is the set of elements belonging to *at
-    least one* of $A$ and $B$.
-  - The *set difference* $A without B$ is the set of elements belonging
-    to $A$ but *not* to $B$.
+  - The #vocab("intersection", "Schnittmenge") $A inter B$ is the set of
+    elements belonging to *both* $A$ and $B$.
+  - The #vocab("union", "Vereinigungsmenge") $A union B$ is the set of
+    elements belonging to *at least one* of $A$ and $B$.
+  - The #vocab("set difference", "Differenzmenge") $A without B$ is the
+    set of elements belonging to $A$ but *not* to $B$.
 ]
 
 #example[
@@ -366,6 +454,24 @@
   - $A without B = [1, 3]$ -- numbers in $A$ that are *not* in $B$: $3$
     stays, since $(3,8]$ doesn't include it; everything from $3$ up to
     $5$ gets removed, since that's exactly $A inter B$.
+
+  #v(4pt)
+  #number-line(
+    from: -0.5,
+    to: 9.5,
+    width: 10cm,
+    step: 1,
+    nl-span(1, 5, brackets: "[)", label: [$A$], row: 3),
+    nl-span(3, 8, brackets: "(]", label: [$B$], row: 2, color: warn-col),
+    nl-span(3, 5, brackets: "()", label: [$A inter B$], row: 1, color: def-col),
+  )
+  #v(2pt)
+  #align(center)[
+    #text(size: 9pt, fill: luma(110))[
+      Reading down the two bars: the overlap is open at both ends,
+      because $A$ stops before $5$ and $B$ starts after $3$.
+    ]
+  ]
 ]
 
 #example[
@@ -380,9 +486,26 @@
   Set difference is exactly how we describe a domain with a single
   point removed, e.g. the domain of $y = 1/x$ is $RR without {0}$ --
   "all real numbers, except $0$."
+
+  #number-line(
+    from: -3.5,
+    to: 3.5,
+    width: 8cm,
+    step: 1,
+    nl-span(none, none, brackets: "()"),
+    nl-point(0, kind: "open"),
+  )
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#look-ahead(preview: [the domain and range of a function])[
+  Interval notation looks like bookkeeping right now. It becomes the
+  standard way to answer two questions we will ask of every single
+  function from the next chapter onward: *which inputs are allowed*, and
+  *which outputs actually occur*. Getting the brackets right here is why
+  those answers will be one line long later.
+]
+
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Write each inequality as an interval.
   #parts(
     3,
@@ -405,8 +528,21 @@
   )
 ]
 
-#pagebreak()
-#ex(difficulty: 2, time: "10 min")[
+#only-theory[
+  #pagebreak()
+]
+
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: (
+    [Draw both intervals on the same number line before you write
+      anything down. #heuristic("draw a picture")],
+    [For (e)--(h), shade the first interval, then *erase* the part the
+      second one covers. Whatever survives is the answer.],
+  ),
+)[
   Write each of the following as an interval -- or a union of two
   intervals, if it can't be written as one.
   #parts(
@@ -436,15 +572,17 @@
 
 == Numbers and Expressions
 
-The most fundamental building blocks in mathematics are numbers and the
-operations that can be performed on them. Algebra, like arithmetic,
-involves performing operations such as addition, subtraction,
-multiplication, and division on numbers. In arithmetic we perform
-operations on known, specific numbers (e.g. $5 + 3 = 8$); in algebra we
-often deal with operations on unknown numbers represented by variables,
-usually symbolized by a letter (e.g. $(a+b)/c = a/c + b/c$). The use of
-variables gives us the power to write general statements about
-relationships between numbers.
+#only-theory[
+  The most fundamental building blocks in mathematics are numbers and the
+  operations that can be performed on them. Algebra, like arithmetic,
+  involves performing operations such as addition, subtraction,
+  multiplication, and division on numbers. In arithmetic we perform
+  operations on known, specific numbers (e.g. $5 + 3 = 8$); in algebra we
+  often deal with operations on unknown numbers represented by variables,
+  usually symbolized by a letter (e.g. $(a+b)/c = a/c + b/c$). The use of
+  variables gives us the power to write general statements about
+  relationships between numbers.
+]
 
 === Real Numbers
 
@@ -453,23 +591,43 @@ relationships between numbers.
   -- Leopold Kronecker
 ]
 
-A real number is any number that can be represented by a point on the
-real number line. Each point on the real number line corresponds to one
-and only one real number, and each real number corresponds to one and
-only one point on the real number line. This kind of relationship is
-called a #emph[one-to-one correspondence]. The number associated with a
-point on the real number line is called the #emph[coordinate] of the
-point.
+#only-theory[
+  A #vocab("real number", "reelle Zahl") is any number that can be
+  represented by a point on the real number line. Each point on the real
+  number line corresponds to one and only one real number, and each real
+  number corresponds to one and only one point on the real number line.
+  This kind of relationship is called a #emph[one-to-one correspondence].
+  The number associated with a point on the real number line is called
+  the #emph[coordinate] of the point.
+
+  #fig(
+    number-line(
+      from: -4.5,
+      to: 4.5,
+      width: 11cm,
+      step: 1,
+      nl-point(-3, label: [$-3$], row: 1),
+      nl-point(-1.41421, label: [$-sqrt(2)$], row: 2, color: warn-col),
+      nl-point(0.5, label: [$1/2$], row: 1),
+      nl-point(3.14159, label: [$pi$], row: 2, color: warn-col),
+    ),
+    caption: [Whole numbers, fractions and irrational numbers all live on
+      the same line -- there are no gaps between them and no separate
+      shelf for the awkward ones.],
+  )
+]
 
 === Scientific Notation
 
-A light year (the distance light travels in one year) is
-9,460,730,472,581 kilometers, and the mass of a single water molecule is
-0.0000000000000000000000056 grams. Without
-#vocab("scientific notation", "wissenschaftliche Schreibweise"), these
-numbers seem meaningless -- it's hard to process very large or very
-small numbers this way. If we instead write $9.46 dot 10^(12)$ km or
-$5.6 dot 10^(-24)$ g, they immediately become clearer.
+#only-theory[
+  A light year (the distance light travels in one year) is
+  #num(9460730472581) kilometers, and the mass of a single water molecule
+  is 0.0000000000000000000000056 grams. Without
+  #vocab("scientific notation", "wissenschaftliche Schreibweise"), these
+  numbers seem meaningless -- it's hard to process very large or very
+  small numbers this way. If we instead write $9.46 dot 10^(12)$ km or
+  $5.6 dot 10^(-24)$ g, they immediately become clearer.
+]
 
 #definition(title: "Scientific Notation")[
   A positive number $N$ is written in scientific notation if it is
@@ -477,27 +635,63 @@ $5.6 dot 10^(-24)$ g, they immediately become clearer.
   $ N = a dot 10^k, quad "where" 1 <= a < 10 "and" k "is an integer." $
 ]
 
-This also gives us a way to compare numbers: if we change the exponent
-$k$ to $k+1$, the number is one #emph[order of magnitude] (ten times)
-larger.
+#only-theory[
+  This also gives us a way to compare numbers: if we change the exponent
+  $k$ to $k+1$, the number is one
+  #vocab("order of magnitude", "Grössenordnung") (ten times) larger.
+
+  #fig(
+    number-line(
+      from: -13,
+      to: 19,
+      width: 12.5cm,
+      ticks: (
+        (-12, [$10^(-12)$]),
+        (-9, [$10^(-9)$]),
+        (-6, [$10^(-6)$]),
+        (-3, [$10^(-3)$]),
+        (0, [$10^0$]),
+        (3, [$10^3$]),
+        (6, [$10^6$]),
+        (9, [$10^9$]),
+        (12, [$10^(12)$]),
+        (15, [$10^(15)$]),
+        (18, [$10^(18)$]),
+      ),
+      nl-point(-9.6, label: [water molecule], row: 1, color: warn-col),
+      nl-point(-4.2, label: [human hair], row: 2),
+      nl-point(0.2, label: [you], row: 1),
+      nl-point(4.9, label: [Basel--Zurich], row: 2),
+      nl-point(7.1, label: [Earth], row: 1),
+      nl-point(16, label: [light year], row: 2, color: warn-col),
+    ),
+    caption: [Lengths in meters. One step along this axis is a
+      *multiplication* by ten, not an addition -- which is the only
+      reason a single line can hold both a molecule and a light year.
+      Note that the light year is $9.46 dot 10^(15)$ m; the
+      $9.46 dot 10^(12)$ above was in kilometers, and the
+      $5.6 dot 10^(-24)$ was a mass in grams, so neither belongs on
+      this particular scale.],
+  )
+]
 
 #quotebox[
   A man walks into a bar and says: "I'd like ten times as many drinks as
   everyone here." -- now that's an order of magnitude!
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", calculator: true)[
   Write each number in scientific notation, rounding to 3 significant
   figures.
   #parts(
     2,
     [(a) $253.8$],
     [(b) $0.00781$],
-    [(c) $7405239$],
+    [(c) $#num(7405239)$],
     [(d) $0.0000010448$],
     [(e) $4.9812$],
     [(f) $0.001991$],
-    [(g) Land area of Earth: 148,940,000 square kilometers],
+    [(g) Land area of Earth: #num(148940000) square kilometers],
     [(h) Relative density of hydrogen: 0.0000899 grams per $"cm"^3$],
   )
 ][
@@ -516,9 +710,11 @@ larger.
 
 === Absolute Value
 
-The #vocab("absolute value", "Betrag") of a number $n$ is the distance
-of the number $n$ from zero. It is denoted by vertical bars as
-$abs(n)$, read aloud as "the absolute value of $n$."
+#only-theory[
+  The #vocab("absolute value", "Betrag") of a number $n$ is the distance
+  of the number $n$ from zero. It is denoted by vertical bars as
+  $abs(n)$, read aloud as "the absolute value of $n$."
+]
 
 #definition[
   If $a$ is a real number, then the *absolute value* of $a$ is
@@ -528,6 +724,13 @@ $abs(n)$, read aloud as "the absolute value of $n$."
       -a & "if" a < 0.,
     )
   $
+]
+
+#warning[
+  The second line does *not* say "$abs(a)$ is negative when $a$ is
+  negative." The symbol $-a$ means "the opposite of $a$," and the
+  opposite of a negative number is positive: if $a = -7$, then
+  $-a = 7$. An absolute value is never negative.
 ]
 
 #example[
@@ -542,7 +745,7 @@ $abs(n)$, read aloud as "the absolute value of $n$."
   $
 ]
 
-#ex(difficulty: 1, time: "5 min")[
+#ex(difficulty: 1, time: "5 min", calculator: false)[
   Evaluate each absolute value expression.
   #parts(
     3,
@@ -565,7 +768,37 @@ $abs(n)$, read aloud as "the absolute value of $n$."
   )
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#keybox(title: "Absolute Value as Distance")[
+  $abs(x - a)$ is the *distance between $x$ and $a$* on the number line.
+  So $abs(x - 3) = 4$ asks: which numbers sit exactly $4$ units away
+  from $3$? Reading it this way turns an equation into a picture, and
+  the two answers ($-1$ and $7$) can be read straight off the line.
+
+  #v(4pt)
+  #number-line(
+    from: -3.5,
+    to: 9.5,
+    width: 9.5cm,
+    step: 1,
+    nl-point(-1, label: [$-1$], side: "below", color: warn-col),
+    nl-point(3, label: [$3$], side: "below"),
+    nl-point(7, label: [$7$], side: "below", color: warn-col),
+    nl-measure(-1, 3, label: [$4$]),
+    nl-measure(3, 7, label: [$4$]),
+  )
+]
+
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: (
+    [Every one of these splits into *two* ordinary equations -- one
+      where the inside is positive, one where it is negative.],
+    [Or read it as a distance and use the number line.
+      #heuristic("draw a picture")],
+  ),
+)[
   Find all values of $x$ that make the equation true.
   #parts(
     2,
@@ -587,16 +820,17 @@ $abs(n)$, read aloud as "the absolute value of $n$."
 === Natural Number Powers
 
 #look-ahead(preview: [power functions])[
-  You already know how to compute things like $2^3 = 8$ or $5^2 = 25$ —
+  You already know how to compute things like $2^3 = 8$ or $5^2 = 25$ --
   here we give this idea a proper name and notation, since it comes back
   in a much bigger way once we study functions of the form $y = x^n$.
 ]
 
 #definition[
-  For a real number $a$ and a natural number $n >= 1$, the *$n$-th power*
-  of $a$ is
+  For a real number $a$ and a natural number $n >= 1$, the
+  *$n$\u{2011}th #vocab("power", "Potenz")* of $a$ is
   $ a^n = underbrace(a dot a dot dots.h.c dot a, n med "times") . $
-  We call $a$ the *base* and $n$ the *exponent*.
+  We call $a$ the *#vocab("base", "Basis")* and $n$ the
+  *#vocab("exponent", "Exponent")*.
 ]
 
 #example[
@@ -605,26 +839,28 @@ $abs(n)$, read aloud as "the absolute value of $n$."
   $
 ]
 
-By convention, we also define $a^0 = 1$ (for $a != 0$) and $a^1 = a$.
+#only-theory[
+  By convention, we also define $a^0 = 1$ (for $a != 0$) and $a^1 = a$.
 
-The *$n$-th root* undoes the $n$-th power: for $a >= 0$ and a natural
-number $n$, $root(n, a)$ is the non-negative number $b$ such that
-$b^n = a$. Powers and roots are *inverse operations* of each other --
-one builds up a repeated product, the other asks "what number, raised to
-this power, gives me this result?"
+  The *$n$\u{2011}th root* undoes the $n$\u{2011}th power: for $a >= 0$
+  and a natural number $n$, $root(n, a)$ is the non-negative number $b$
+  such that $b^n = a$. Powers and roots are *inverse operations* of each
+  other -- one builds up a repeated product, the other asks "what number,
+  raised to this power, gives me this result?"
+]
 
 #keybox(title: "Powers and Roots as Inverse Operations")[
   $ b^n = a quad <=> quad b = root(n, a), quad a >= 0, med b >= 0 $
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Evaluate.
   #parts(4, [(a) $2^5$], [(b) $(-2)^4$], [(c) $10^3$], [(d) $0.1^2$])
 ][
-  #parts(4, [(a) $32$], [(b) $16$], [(c) $1000$], [(d) $0.01$])
+  #parts(4, [(a) $32$], [(b) $16$], [(c) $#num(1000)$], [(d) $0.01$])
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   For each power, write the corresponding root statement, and for each
   root, write the corresponding power statement.
   #parts(
@@ -646,12 +882,15 @@ this power, gives me this result?"
 
 === Roots and Radicals
 
-The square #vocab("root", "Wurzel") $sqrt(x)$ of a positive real number
-$x$ is a positive real number $y$ such that $y^2 = x$. Higher roots are
-defined analogously: the $n$-th root $root(n, x)$ of a positive real
-number $x$ is a positive real number $y$ such that $y^n = x$.
+#only-theory[
+  The square #vocab("root", "Wurzel") $sqrt(x)$ of a positive real number
+  $x$ is a positive real number $y$ such that $y^2 = x$. Higher roots are
+  defined analogously: the $n$\u{2011}th root $root(n, x)$ of a positive
+  real number $x$ is a positive real number $y$ such that $y^n = x$.
 
-The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$, $n in NN$:
+  The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$,
+  $n in NN$:
+]
 
 #keybox[
   Product: $quad root(n, a) dot root(n, b) = root(n, a dot b)$ \
@@ -659,7 +898,16 @@ The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$, $n in NN$:
   Quotient: $quad root(n, a) / root(n, b) = root(n, a/b), quad b != 0$
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#warning[
+  There is deliberately *no* rule for a root of a sum. In particular
+  $ sqrt(a + b) eq.not sqrt(a) + sqrt(b) . $
+  Check it once and you will not forget it:
+  $sqrt(9 + 16) = sqrt(25) = 5$, but $sqrt(9) + sqrt(16) = 3 + 4 = 7$.
+  Roots distribute over products and quotients, never over sums and
+  differences. #heuristic("check an extreme or special case")
+]
+
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Express each in terms of the simplest possible radical.
   #parts(
     3,
@@ -689,15 +937,19 @@ The following rules apply for $a >= 0$, $b >= 0$, and $n > 0$, $n in NN$:
 
 === Order of Operations
 
-When algebraic expressions contain numerous operations, it is important
-to evaluate the operations in the proper order. Parentheses $(med)$,
-brackets $[med]$, and braces ${med}$ are used for grouping numbers and
-algebraic expressions; operations must be done first within parentheses
-and other grouping symbols. Other grouping symbols include absolute
-value bars, radical signs, and fraction bars. The order of operations
-can be remembered using the mnemonic *PEMDAS*.
+#only-theory[
+  When algebraic expressions contain numerous operations, it is important
+  to evaluate the operations in the proper order. Parentheses $(med)$,
+  brackets $[med]$, and braces ${med}$ are used for grouping numbers and
+  algebraic expressions; operations must be done first within parentheses
+  and other grouping symbols. Other grouping symbols include absolute
+  value bars, radical signs, and fraction bars. The
+  #vocab("order of operations", "Reihenfolge der Rechenoperationen") can
+  be remembered using the mnemonic *PEMDAS*.
 
-#pagebreak()
+  #pagebreak()
+]
+
 #keybox(title: "Order of Operations")[
   + First, simplify expressions within parentheses and other grouping
     symbols -- including absolute value bars, fraction bars, and
@@ -710,7 +962,65 @@ can be remembered using the mnemonic *PEMDAS*.
     left to right.
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#warning[
+  A minus sign in front of a power is *not* part of the base unless
+  parentheses say so:
+  $ -3^2 = -(3^2) = -9, quad "but" quad (-3)^2 = 9 . $
+  Step 2 above happens before the subtraction in step 4, which is
+  exactly why. The same trap appears with a calculator: type both and
+  compare.
+]
+
+#only-theory[
+  Rules 1--4 describe a *structure*, not a left-to-right march. The
+  clearest way to see that is to watch one expression collapse from the
+  inside out, one rule at a time:
+
+  #let _step(rule, changed, expr) = (
+    text(size: 8.5pt, fill: luma(120), rule),
+    text(size: 8.5pt, fill: accent, changed),
+    align(center, expr),
+  )
+
+  #align(center, block(
+    width: 100%,
+    grid(
+      columns: (auto, auto, 1fr),
+      column-gutter: 10pt,
+      row-gutter: 7pt,
+      align: horizon,
+      .._step([given], [], $10 - 5 dot (2-5)^2 + 6/3 + sqrt(16-7)$),
+      .._step(
+        [rule 1],
+        [innermost groups, radical included],
+        $10 - 5 dot (-3)^2 + 6/3 + sqrt(9)$,
+      ),
+      .._step(
+        [rule 2],
+        [exponents and radicals],
+        $10 - 5 dot 9 + 6/3 + 3$,
+      ),
+      .._step(
+        [rule 3],
+        [$dot$ and $:$, left to right],
+        $10 - 45 + 2 + 3$,
+      ),
+      .._step(
+        [rule 4],
+        [$+$ and $-$, left to right],
+        $-30$,
+      ),
+    ),
+  ))
+
+  Notice that the fraction bar and the radical sign never needed a rule
+  of their own: both are grouping symbols, so rule 1 had already
+  finished their insides before rule 2 looked at them. That is what
+  survives when the expression stops looking like the ones in a
+  "Klammer, Punkt, Strich" slogan.
+]
+
+#ex(difficulty: 2, time: "15 min", calculator: false)[
   Simplify the following expressions.
   #parts(
     2,
@@ -724,9 +1034,24 @@ can be remembered using the mnemonic *PEMDAS*.
   #parts(4, [(a) $-30$], [(b) $1/2$], [(c) $7$], [(d) $1$])
 ]
 
+#exploration(title: "Make 100")[
+  How many numbers from 1 to 100 can you make using the digits 2, 0, 2,
+  and 3, each exactly once? You may use any operations you like
+  (addition, multiplication, powers, roots, etc.).
+]
+
+#ai-box(role: "Explainer")[
+  Ask an AI what $8 div 2(2+3)$ equals, then ask a second AI the same
+  question. If they disagree, neither is broken -- the expression itself
+  is ambiguous, and different conventions resolve it differently. Write
+  down one sentence saying what each model assumed, then rewrite the
+  expression twice, using brackets, so that each answer becomes the
+  unambiguous one.
+]
+
 == Solving Equations
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Solve the following equations.
   #parts(
     2,
@@ -743,27 +1068,54 @@ can be remembered using the mnemonic *PEMDAS*.
     [(c) $x = 0$],
     [(d) false -- no solution],
   )
+
+  Part (d) is worth a second look: the variable disappears and what is
+  left, $6 = -6$, is simply false. That is the signature of an equation
+  with an empty solution set -- not a mistake in your algebra.
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: (
+    [Each right-hand side is one of the special products in disguise.
+      Decide first *which* of the three it is.],
+    [In (a), the $16$ is the square of the missing number, and the
+      remaining box must then be twice the product of the two.],
+  ),
+)[
   Fill in the blanks so that both sides are equal.
   #parts(
     1,
     row-gutter: 2em,
-    [(a) $(x + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med)^2 = x^2 + 16 + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med$],
-    [(b) $(a - med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med) dot (a + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med) = med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med - 81 b^2$],
-    [(c) $(0.5x - med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med)^2 = med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med - 1.2 x y + 1.44 y^2$],
-    [(d) $(med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med - 5t)^2 = 49 s^2 - med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med + med #box(height: 24pt, width: 24pt, stroke: 1pt, baseline: 8pt) med$],
+    [(a) $(x + med #blank med)^2 = x^2 + 16 + med #blank med$],
+    [(b) $(a - med #blank med) dot (a + med #blank med) = med #blank med - 81 b^2$],
+    [(c) $(0.5x - med #blank med)^2 = med #blank med - 1.2 x dot y + 1.44 y^2$],
+    [(d) $(med #blank med - 5t)^2 = 49 s^2 - med #blank med + med #blank med$],
   )
-
 ][
-  + $(x + 4)^2 = x^2 + 16 + 8x$
-  + $(a - 9b) dot (a + 9b) = a^2 - 81 b^2$
-  + $(0.5x - 1.2y)^2 = 0.25 x^2 - 1.2 x y + 1.44 y^2$
-  + $(7s - 5t)^2 = 49 s^2 - 70 s t + 25 t^2$
+  #parts(
+    1,
+    row-gutter: 0.8em,
+    [(a) $(x + 4)^2 = x^2 + 16 + 8x$],
+    [(b) $(a - 9b) dot (a + 9b) = a^2 - 81 b^2$],
+    [(c) $(0.5x - 1.2y)^2 = 0.25 x^2 - 1.2 x dot y + 1.44 y^2$],
+    [(d) $(7s - 5t)^2 = 49 s^2 - 70 s dot t + 25 t^2$],
+  )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(
+  difficulty: 2,
+  time: "15 min",
+  calculator: false,
+  hints: (
+    [Expand both sides completely first. Several of these collapse to
+      something much smaller than they look.],
+    [If every $x^2$ cancels, what you are left with is a linear
+      equation -- and it may turn out to be true always, or never.],
+  ),
+)[
   Solve the equations. Do a substitution check.
   #parts(
     2,
@@ -784,6 +1136,11 @@ can be remembered using the mnemonic *PEMDAS*.
     [(e) $a = 1$],
     [(f) true -- holds for all $x$],
   )
+
+  In (f), the two sides are opposites of each other before squaring, and
+  squaring destroys the sign -- so the equation holds for every $x$
+  without any calculation at all.
+  #heuristic("look for what stays the same")
 ]
 
 == Multiplying and Factoring Algebraic Expressions
@@ -791,11 +1148,27 @@ can be remembered using the mnemonic *PEMDAS*.
 === Multiplying Algebraic Expressions
 
 #definition[
-  The *distributive law* for real numbers states that
+  The *#vocab("distributive law", "Distributivgesetz")* for real numbers
+  states that
   $
     a dot (b plus.minus c) & = a b plus.minus a c \
     (a plus.minus b) dot c & = a c plus.minus b c
   $
+]
+
+#only-theory[
+  #fig(
+    area-model(
+      cols: (([$b$], 3), ([$c$], 2)),
+      rows: (([$a$], 2),),
+      [$a dot b$],
+      [$a dot c$],
+    ),
+    caption: [The whole rectangle is $a$ tall and $b + c$ wide, so its
+      area is $a dot (b + c)$. Cutting it in two gives $a b$ and $a c$.
+      The area doesn't care where you draw the line -- which is the
+      distributive law.],
+  )
 ]
 
 #example[
@@ -804,13 +1177,98 @@ can be remembered using the mnemonic *PEMDAS*.
   + $(x+2) dot (x+3) = x^2 + 5x + 6$
 ]
 
-In special cases the following formulas are particularly important:
+#only-theory[
+  In special cases the following formulas -- known in German as the
+  *binomische Formeln* -- are particularly important:
+]
 
 #keybox(title: "Special Products")[
   $
        (a+b) dot (a-b) & = a^2 - b^2 \
-    (a plus.minus b)^2 & = a^2 plus.minus 2 a b + b^2
+    (a plus.minus b)^2 & = a^2 plus.minus 2 a dot b + b^2
   $
+]
+
+#only-theory[
+  Both formulas are pictures before they are formulas. For
+  $(a+b)^2$, build a square of side $a + b$ and look at the four pieces:
+
+  #fig(
+    area-model(
+      cols: (([$a$], 3), ([$b$], 2)),
+      rows: (([$a$], 3), ([$b$], 2)),
+      [$a^2$],
+      [$a dot b$],
+      [$a dot b$],
+      [$b^2$],
+    ),
+    caption: [$(a+b)^2 = a^2 + 2 a dot b + b^2$. There are *two*
+      rectangles, not one -- and they are exactly the term that goes
+      missing when someone writes $a^2 + b^2$.],
+  )
+
+  For $(a+b) dot (a-b)$, start from a square of side $a$ and cut a
+  square of side $b$ out of one corner. What's left has area
+  $a^2 - b^2$; slicing it into two pieces and laying them end to end
+  gives a rectangle $a + b$ long and $a - b$ tall:
+
+  #image-grid(
+    2,
+    gutter: 14pt,
+    [
+      #area-model(
+        cols: (([$a-b$], 3), ([$b$], 2)),
+        rows: (([$b$], 2), ([$a-b$], 3)),
+        area-cell(label: [II]),
+        area-cell(label: [$b^2$], removed: true),
+        area-cell(label: [I], colspan: 2),
+      )
+      #align(center)[
+        #text(size: 9pt, fill: luma(110))[
+          Area $a^2 - b^2$, cut into I and II.
+        ]
+      ]
+    ],
+    [
+      #area-model(
+        cols: (([$a$], 3), ([$b$], 2)),
+        rows: (([$a-b$], 3),),
+        [I],
+        [II],
+      )
+      #align(center)[
+        #text(size: 9pt, fill: luma(110))[
+          The same two pieces, rearranged:
+          $(a+b) dot (a-b)$.
+        ]
+      ]
+    ],
+  )
+
+  Piece II is turned on its side; nothing is added or thrown away, so
+  the two areas must be equal. #heuristic("look for what stays the same")
+]
+
+#warning[
+  The most expensive mistake in all of school algebra:
+  $ (a + b)^2 eq.not a^2 + b^2 . $
+  Squaring is *not* something you can do to each term separately. Test
+  it once with numbers: $(3 + 4)^2 = 7^2 = 49$, while
+  $3^2 + 4^2 = 9 + 16 = 25$. The missing $24$ is exactly
+  $2 dot 3 dot 4 = 2 a dot b$ -- the two rectangles in the area picture.
+]
+
+#only-high[
+  Both formulas are worth deriving rather than quoting. The second one
+  is just the distributive law applied twice:
+  $
+    (a+b)^2 & = (a+b) dot (a+b) \
+            & = a dot (a+b) + b dot (a+b) \
+            & = a^2 + a dot b + b dot a + b^2 = a^2 + 2 a dot b + b^2 .
+  $
+  Do the same for $(a+b) dot (a-b)$ and note *why* the middle terms
+  cancel there but not here. A formula you can rebuild in four lines is
+  one you can never quite forget.
 ]
 
 #example[
@@ -819,25 +1277,43 @@ In special cases the following formulas are particularly important:
   + $(4-x)^2 = 16 - 8x + x^2$
 ]
 
-#pagebreak()
-=== Factoring Algebraic Expressions
-
-To #vocab("factor", "faktorisieren") an expression means to rewrite it
-as a product of simpler expressions. Several methods can help:
-
-*Method 1: Common Factor*
-
-#example[
-  $ 2x^2 y + x y^2 - x^2 y^2 = x dot y dot (2x + y - x y) $
+#look-ahead(preview: [completing the square and the quadratic formula])[
+  Right now the special products are used from left to right, to expand.
+  Reading them *backwards* -- recognizing $x^2 + 6x + dots$ as the
+  beginning of $(x+3)^2$ -- is the whole trick behind completing the
+  square, which in turn is where the quadratic formula comes from. The
+  pattern you are drilling here is the one that derives that formula.
 ]
 
-*Method 2: Trial and Error*
+#only-theory[
+  #pagebreak()
+]
+
+=== Factoring Algebraic Expressions
+
+#only-theory[
+  To #vocab("factor", "faktorisieren") an expression means to rewrite it
+  as a product of simpler expressions -- the reverse of
+  #vocab("expanding", "ausmultiplizieren"). Several methods can help:
+
+  *Method 1: Common Factor*
+]
+
+#example[
+  $ 2x^2 dot y + x dot y^2 - x^2 dot y^2 = x dot y dot (2x + y - x dot y) $
+]
+
+#only-theory[
+  *Method 2: Trial and Error*
+]
 
 #example[
   $ x^2 - 4x - 12 = (x-6) dot (x+2) $
 ]
 
-*Application: Solving Equations*
+#only-theory[
+  *Application: Solving Equations*
+]
 
 #example[
   $
@@ -847,7 +1323,21 @@ as a product of simpler expressions. Several methods can help:
   Thus $x_1 = 2/3$ and $x_2 = -2$.
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#keybox(title: "Why Factoring Solves Equations")[
+  A product is zero exactly when one of its factors is zero. So once one
+  side is a product and the other side is $0$, a single equation splits
+  into several easy ones. This is called the *zero-product property*, and
+  it is the reason we bother factoring at all.
+]
+
+#warning[
+  The zero-product property works because the right-hand side is *zero*.
+  From $(x-2) dot (x+1) = 6$ you may *not* conclude $x - 2 = 6$ or
+  $x + 1 = 6$ -- there are far too many ways for two numbers to multiply
+  to $6$. Always bring everything to one side first.
+]
+
+#ex(difficulty: 2, time: "15 min", calculator: false)[
   Expand and simplify.
   #parts(
     3,
@@ -870,7 +1360,17 @@ as a product of simpler expressions. Several methods can help:
   )
 ]
 
-#ex(difficulty: 2, time: "20 min")[
+#ex(
+  difficulty: 2,
+  time: "20 min",
+  calculator: false,
+  hints: (
+    [Always look for a common factor *first* -- (a), (b), (f) and (j)
+      all get much smaller once you pull one out.],
+    [For (i), substitute $u = y - 3$ and the difference of squares
+      becomes visible. #heuristic("introduce notation")],
+  ),
+)[
   Factor each expression.
   #parts(
     2,
@@ -899,9 +1399,22 @@ as a product of simpler expressions. Several methods can help:
     [(i) $-y dot (y-6)$],
     [(j) $4z^2 dot (z-6) dot (z+4)$],
   )
+
+  For (h), the difference of squares can be applied twice; for (i), the
+  substitution $u = y - 3$ turns it into $9 - u^2 = (3-u) dot (3+u)$
+  before substituting back. #heuristic("introduce notation")
 ]
 
-#ex(difficulty: 2, time: "20 min")[
+#ai-box(role: "Generator")[
+  Ask an AI to produce ten quadratic expressions of the form
+  $x^2 + b x + c$ that factor into two brackets with *integer* entries.
+  Then expand each of the ten yourself and record how many of its claims
+  were actually true. Report the hit rate, and for one failure, say in a
+  sentence what the model got wrong -- generating plausible-looking
+  problems is easy, generating correct ones is not the same task.
+]
+
+#ex(difficulty: 2, time: "20 min", calculator: false)[
   Solve the following equations.
   #parts(
     2,
@@ -925,48 +1438,89 @@ as a product of simpler expressions. Several methods can help:
     [(d) $x_1 = -1$, $x_2 = 3$],
     [(e) $x_1 = 2$, $x_2 = 2/3$, $x_3 = -7$],
     [(f) $x_1 = -3$, $x_2 = 4$],
-    [(g) no solution],
+    [(g) no real solution],
     [(h) $x_1 = -4$, $x_2 = -5$],
-    [(i) no solution],
+    [(i) no real solution],
     [(j) $x_1 = 3$, $x_2 = 4$],
   )
+
+  In (g) and (i) a square would have to come out negative, which no real
+  number can do.
+]
+
+#only-high[
+  #look-ahead(preview: [complex numbers])[
+    "No real solution" is a careful phrase, not a dead end. The equation
+    $x^2 = -1$ has no answer *among the real numbers* -- but neither did
+    $x + 5 = 2$ before negative numbers existed, and neither did
+    $2x = 1$ before fractions. Each time, mathematicians extended the
+    number system rather than accepting the gap. Doing it once more, by
+    inventing a number whose square is $-1$, produces $CC$ -- and in
+    $CC$ every polynomial equation has a solution.
+  ]
 ]
 
 == Working with Fractions
 
-A fraction $a/b$ is simply an alternative way of writing the division
-$a : b$. If you remember the following, you should be set:
-- In a fraction, the upper number (or expression) is called the
-  *numerator*, and the lower one is called the *denominator*.
-- A fraction can be *simplified* if and only if the numerator and
-  denominator share a common *factor* (e.g. $4/12 = (4 dot 1)/(4 dot 3) = 1/3$).
-- The minus sign of a negative fraction can be in many different places:
-  $ -a/b = (-a)/b = a/(-b) = (-1) dot a/b\. $
-- Fractions can be added and subtracted only if they have a common
-  denominator:
-  $ (a+c)/(2b^2) + (a-c)/(2b^2) = (2a)/(2b^2) = a/b^2\. $
-- Sometimes it's useful to split a fraction into multiple summands:
-  $ (a+b)/c = a/c + b/c\. $
+#only-theory[
+  A fraction $a/b$ is simply an alternative way of writing the division
+  $a : b$. If you remember the following, you should be set:
+  - In a fraction, the upper number (or expression) is called the
+    #vocab("numerator", "Zähler"), and the lower one is called the
+    #vocab("denominator", "Nenner").
+  - A fraction can be *simplified* if and only if the numerator and
+    denominator share a common *factor*
+    (e.g. $4/12 = (4 dot 1)/(4 dot 3) = 1/3$).
+  - The minus sign of a negative fraction can be in many different places:
+    $ -a/b = (-a)/b = a/(-b) = (-1) dot a/b\. $
+  - Fractions can be added and subtracted only if they have a common
+    denominator:
+    $ (a+c)/(2b^2) + (a-c)/(2b^2) = (2a)/(2b^2) = a/b^2\. $
+  - Sometimes it's useful to split a fraction into multiple summands:
+    $ (a+b)/c = a/c + b/c\. $
+]
+
+#warning[
+  "Common *factor*" is the whole sentence -- you may cancel factors, never
+  terms:
+  $ (x + 3)/3 eq.not x + 1, quad "but" quad (3 dot x)/3 = x . $
+  In the first fraction the $3$ in the denominator is a factor of the
+  *whole* numerator, not of the $x$ alone. A quick check with $x = 3$
+  settles it: the left side is $2$, the right side is $4$.
+  #heuristic("check an extreme or special case")
+]
 
 #example[
   $
-    (1-x^2)/(x^2+x-2) = ((1-x)(1+x))/((x-1)(x+2)) = (-(1+x))/(x+2) = -(x+1)/(x+2)
+    (1-x^2)/(x^2+x-2) = ((1-x) dot (1+x))/((x-1) dot (x+2)) = (-(1+x))/(x+2) = -(x+1)/(x+2)
   $
 ]
+
 #example[
   $ x - 1/x = x^2/x - 1/x = (x^2-1)/x $
 ]
+
 #example[
   $
     (a/b + 1)/(1 - a/b) = (a/b + b/b)/(b/b - a/b) = ((a+b)/b)/((b-a)/b) = (a+b)/b dot b/(b-a) = (a+b)/(b-a)
   $
 ]
 
-#ex(difficulty: 1, time: "15 min")[
+#ai-box(role: "Checker")[
+  A student hands in these two lines:
+  $ (x + 3)/3 = x + 1 quad quad "and" quad quad (x^2 - 9)/(x - 3) = x + 3 . $
+  Exactly one of them is correct. Decide which on paper first, with a
+  reason. Then ask an AI to mark the same two lines. If it marks both
+  correct, or both wrong, write one sentence identifying the error *the
+  model* made -- and say what you would have to add to the prompt to
+  stop it happening.
+]
+
+#ex(difficulty: 1, time: "15 min", calculator: false)[
   Simplify the following fractions.
   #parts(
     3,
-    [(a) $(8a dot b)/(64a^2b^2)$],
+    [(a) $(8a dot b)/(64a^2 dot b^2)$],
     [(b) $(24a^2)/(24a dot b)$],
     [(c) $(-27a^5)/(9a^4)$],
     [(d) $(12a^3 dot x dot y)/(10x^2)$],
@@ -979,13 +1533,13 @@ $a : b$. If you remember the following, you should be set:
     [(a) $1/(8a dot b)$],
     [(b) $a/b$],
     [(c) $-3a$],
-    [(d) $(6a^3y)/(5x)$],
+    [(d) $(6a^3 dot y)/(5x)$],
     [(e) $(9a dot b dot m^2)/(2n)$],
     [(f) $(3x)/(7y)$],
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "15 min", calculator: false)[
   Simplify the following fractions.
   #parts(
     3,
@@ -1006,9 +1560,21 @@ $a : b$. If you remember the following, you should be set:
     [(e) $1/(b+3c)$],
     [(f) $r/x$],
   )
+
+  Every one of these needs factoring *before* anything can be cancelled --
+  that is the point of the set.
 ]
 
-#ex(difficulty: 2, time: "20 min")[
+#ex(
+  difficulty: 2,
+  time: "20 min",
+  calculator: false,
+  hints: (
+    [Factor numerator and denominator completely before cancelling
+      anything. Most of these hide a difference of squares.],
+    [In (f), $x^4 - 16$ is a difference of squares twice over.],
+  ),
+)[
   Simplify the following fractions.
   #parts(
     3,
@@ -1031,15 +1597,15 @@ $a : b$. If you remember the following, you should be set:
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "15 min", calculator: false)[
   Multiply and simplify.
   #parts(
     3,
     [(a) $(8a)/(27b) dot (9b dot c)/(16a)$],
     [(b) $3a dot 4/(5a)$],
-    [(c) $44x^2y^2 dot (-2x^3)/(11y^3)$],
-    [(d) $p/q dot p q$],
-    [(e) $(-x^2y)/(28z^3) dot (7z^2)/(x^2y^2)$],
+    [(c) $44x^2 dot y^2 dot (-2x^3)/(11y^3)$],
+    [(d) $p/q dot p dot q$],
+    [(e) $(-x^2 dot y)/(28z^3) dot (7z^2)/(x^2 dot y^2)$],
     [(f) $(9a)/(4b) dot 6a dot b$],
   )
 ][
@@ -1054,12 +1620,12 @@ $a : b$. If you remember the following, you should be set:
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "15 min", calculator: false)[
   Divide and simplify.
   #parts(
     2,
     [(a) $(5k dot m)/6 : (3k)/(2m)$],
-    [(b) $19r^2s^2 : (19r^2s^2)/(23t)$],
+    [(b) $19r^2 dot s^2 : (19r^2 dot s^2)/(23t)$],
     [(c) $(x dot y)/(w dot z) : y dot z$],
     [(d) $(-(72f)/(85h^3)) : (-(48f^2)/(85h^3))$],
     [(e) $(-14x dot y)/(9z^3) : (21x^2)/(99z^2)$],
@@ -1077,7 +1643,7 @@ $a : b$. If you remember the following, you should be set:
   )
 ]
 
-#ex(difficulty: 2, time: "20 min")[
+#ex(difficulty: 2, time: "20 min", calculator: false)[
   Add/subtract and simplify.
   #parts(
     3,
@@ -1100,7 +1666,7 @@ $a : b$. If you remember the following, you should be set:
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "15 min", calculator: false)[
   Simplify the following fractions.
   #parts(
     2,
@@ -1113,13 +1679,38 @@ $a : b$. If you remember the following, you should be set:
   #parts(
     2,
     [(a) $1/(x+1)$],
-    [(b) $(3n-2)/(6n^2-6n)$],
+    [(b) already in lowest terms],
     [(c) $(a+b)/5$],
     [(d) $4x+h$],
   )
+
+  Part (b) is the odd one out on purpose: $6n^2 - 6n = 6n dot (n-1)$
+  shares no factor with $3n - 2$, so there is nothing to cancel. Being
+  able to say "this cannot be simplified" *and defend it* is as much a
+  skill as simplifying.
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#look-ahead(preview: [the derivative and instantaneous rate of change])[
+  Part (d) of the last exercise deserves a name. The expression
+  $ (f(x + h) - f(x))/h $
+  measures the average rate of change of a function between $x$ and
+  $x + h$ -- for $f(x) = 4x^2$ it simplified to $4x + h$. Later we will
+  ask what happens to that answer as $h$ shrinks toward zero. The
+  algebra you just did is the entire computational content of that
+  question; only the limit is new.
+]
+
+#ex(
+  difficulty: 2,
+  time: "15 min",
+  calculator: false,
+  hints: (
+    [In (b), write the $4$ as a fraction over the same denominator
+      before subtracting.],
+    [In (d), factor $3x^2 - 3$ first and notice that $1 - x$ is the
+      negative of $x - 1$.],
+  ),
+)[
   Perform the indicated operation and simplify.
   #parts(
     2,
@@ -1138,34 +1729,69 @@ $a : b$. If you remember the following, you should be set:
   )
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(
+  difficulty: 3,
+  time: "10 min",
+  calculator: false,
+  hints: (
+    [Do not put all six over one enormous denominator. Look at the
+      denominators' prime factors first: $39 = 3 dot 13$,
+      $38 = 2 dot 19$, $33 = 3 dot 11$, $22 = 2 dot 11$.],
+    [That pairs them up: $13$ with $39$, $19$ with $38$, $22$ with $33$.
+      Add each pair on its own and see what you get.],
+  ),
+)[
   Calculate the sum.
   $ 3/13 + 8/19 + 3/22 + 1/33 + 3/38 + 4/39 = med ? $
 ][
   $1$
-]
-#pagebreak()
 
-#ex(difficulty: 1, time: "5 min")[
+  Grouping by shared prime factors,
+  $3/13 + 4/39 = 13/39 = 1/3$, $8/19 + 3/38 = 19/38 = 1/2$, and
+  $3/22 + 1/33 = 11/66 = 1/6$. Then
+  $1/3 + 1/2 + 1/6 = 1$. #heuristic("look for what stays the same")
+]
+
+#only-theory[
+  #pagebreak()
+]
+
+#ex(
+  difficulty: 1,
+  time: "5 min",
+  calculator: false,
+  hints: ([Both fractions can be written over the denominator $3600$.],),
+)[
   Calculate.
   $ sqrt(1/25 + 1/144) = med ? $
 ][
   $13/60$
+
+  $1/25 + 1/144 = 144/3600 + 25/3600 = 169/3600$, and both $169$ and
+  $3600$ are perfect squares. The numbers $5$, $12$, $13$ are not a
+  coincidence -- they are a Pythagorean triple, which is where this
+  exercise comes from.
 ]
 
 == Techniques You Know So Far
 
-Before we start applying these to real-world problems, let's take stock
-of the equation-solving methods now in your toolkit.
+#only-theory[
+  Before we start applying these to real-world problems, let's take stock
+  of the equation-solving methods now in your toolkit.
+]
 
 #known-techniques(
   "Simple transformations (do the same thing to both sides)",
-  "Factoring (common factor, trial and error)",
+  "Factoring (common factor, trial and error) together with the zero-product property",
 )
 
-Here is a quick mixed workout using both techniques together.
+#only-theory[
+  Here is a quick mixed workout using both techniques together. The
+  first decision -- *which* technique -- is the one worth practicing;
+  the algebra afterward you already know.
+]
 
-#ex(difficulty: 2, time: "15 min", keep-together: true)[
+#ex(difficulty: 2, time: "15 min", calculator: false, keep-together: true)[
   Solve each equation, using whichever technique fits best.
   #parts(
     2,
@@ -1182,29 +1808,81 @@ Here is a quick mixed workout using both techniques together.
     [(c) $x = 12/5$],
     [(d) $x_1 = 0$, $x_2 = 9$],
   )
+
+  The tell is the highest power: (a) and (c) are linear, so transform;
+  (b) and (d) contain an $x^2$, so factor and use the zero-product
+  property. In (d), dividing both sides by $x$ would lose the solution
+  $x = 0$ -- factor instead of dividing.
 ]
 
 == Solving Word Problems
 
-A classic math word problem consists of two steps:
-- *Translate* the problem into an equation.
-- *Solve* the equation.
+#only-theory[
+  A classic math word problem consists of two steps:
+  - *Translate* the problem into an equation.
+  - *Solve* the equation.
 
-As we gather more experience, we'll see that it's often necessary to add
-a third step to this process:
-- *Assess* the solution: do the numbers make sense? What consequences
-  does this result have?
+  As we gather more experience, we'll see that it's often necessary to add
+  a third step to this process:
+  - *Assess* the solution: do the numbers make sense? What consequences
+    does this result have?
 
-Even further along, we'll add an additional step at the very beginning:
-- Create a *model* that describes a given situation.
+  Even further along, we'll add an additional step at the very beginning:
+  - Create a *model* that describes a given situation.
 
-The middle step -- solving the equation -- is often the least
-interesting one. As a result, the other steps will become more and more
-prominent as we progress.
+  The middle step -- solving the equation -- is often the least
+  interesting one. As a result, the other steps will become more and more
+  prominent as we progress.
 
-#pagebreak()
+  The translate step has a shape that repeats every single time. Here it
+  is, applied to the bicycle problem further down:
+]
 
-#ex(difficulty: 1, time: "10 min")[
+#abstraction-ladder(
+  l0: [Pat rides his bike home from a point, then gets a flat tire and
+    walks back along the very same path.],
+  l1: [Riding: $11$ mph for $3/4$ hr. Walking: unknown rate, $2$ hr.],
+  l2: [Distance $=$ rate $times$ time, and both journeys cover the
+    *same* distance.],
+  l3: [$11 dot 3/4 = v dot 2$],
+)
+
+#only-theory[
+  Level 2 is where the actual thinking happens: noticing that the
+  distance is the quantity that does not change is what makes an equation
+  possible at all. #heuristic("look for what stays the same")
+
+  #fig(
+    number-line(
+      from: -0.6,
+      to: 9.5,
+      width: 10cm,
+      step: 1,
+      axis-label: [distance (miles)],
+      nl-span(
+        0,
+        8.25,
+        brackets: "[]",
+        label: [riding: $11 dot 3/4$],
+        row: 2,
+      ),
+      nl-span(
+        0,
+        8.25,
+        brackets: "[]",
+        label: [walking: $v dot 2$],
+        row: 1,
+        color: warn-col,
+      ),
+    ),
+    caption: [The two bars have to end at the same place, because it is
+      the same path. That shared endpoint *is* the equation.],
+  )
+
+  #pagebreak()
+]
+
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Translate the following into an equation and solve.
   + Four times a number is 48.
   + A number doubled and reduced by 12 equals 10.
@@ -1215,55 +1893,98 @@ prominent as we progress.
   + $x + x/2 = 33 => x = 22$
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: ([Call the shorter piece $x$. How long is the other one, and
+    what must the two lengths add up to?],),
+)[
   To do a rope trick, a magician needs to cut a piece of rope so that one
   piece is one-third the length of the other. If she begins with an
   $8/3$ ft rope, what lengths will the two pieces be?
 ][
   $2/3$ ft and $2$ ft.
+
+  With $x$ the short piece, the long one is $3x$ and $x + 3x = 8/3$.
+  #heuristic("draw a picture")
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: ([If the smallest even integer is $n$, the next two are $n+2$
+    and $n+4$ -- not $n+1$ and $n+2$.],),
+)[
   Of three consecutive even integers, the sum of the smallest two is
   equal to 6 less than the largest. Find the integers.
 ][
   $-4$, $-2$, and $0$.
+
+  From $n + (n+2) = (n+4) - 6$ we get $n = -4$. Note that the answer is
+  negative -- "integer" was meant literally, and nothing in the problem
+  ruled that out. #heuristic("introduce notation")
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(
+  difficulty: 2,
+  time: "15 min",
+  calculator: true,
+  hints: ([What quantity is the same for the ride out and the walk
+    back?],),
+)[
   Pat averages a rate of 11 mph on his bike. One day he rode for 45 min
   ($3/4$ hr) and then got a flat tire and had to walk back home. He
   walked the same path he rode, and it took him 2 hr. What was his
   average rate walking?
 ][
   4.125 mph.
+
+  The distance is the invariant: $11 dot 3/4 = v dot 2$, so
+  $v = 33/8 = 4.125$. A walking pace of about 4 mph ($approx 6.6$ km/h)
+  is fast but plausible -- worth checking, since an answer of 40 mph
+  would have meant an error somewhere.
+  #heuristic("look for what stays the same")
 ]
 
-#ex(difficulty: 2, time: "15 min")[
-  Sharyn invests \$2000 more in an account that earns 9% simple interest
-  than she invests in an account that earns 6% simple interest. How much
-  did she invest in each account if her total interest is \$405 after
-  1 year?
+#ex(
+  difficulty: 2,
+  time: "15 min",
+  calculator: true,
+  hints: ([Let $x$ be the amount in the 6% account; then the other
+    account holds $x + #num(2000)$.],),
+)[
+  Sharyn invests \$#num(2000) more in an account that earns 9% simple
+  interest than she invests in an account that earns 6% simple interest.
+  How much did she invest in each account if her total interest is \$405
+  after 1 year?
 ][
-  9% account: \$3500. 6% account: \$1500.
+  9% account: \$#num(3500). 6% account: \$#num(1500).
+
+  From $0.09 dot (x + #num(2000)) + 0.06 x = 405$.
+  #heuristic("introduce notation")
 ]
 
-#ex(difficulty: 2, time: "10 min")[
+#ex(difficulty: 2, time: "10 min", calculator: true)[
   In 2003, approximately 7.2 million men were in college in the United
   States. This represents an 8% increase over the number of men in
   college in 2000. Approximately how many men were in college in 2000?
   (Round to the nearest tenth of a million.)
 ][
   6.7 million.
+
+  Note that the answer is *not* $7.2 dot 0.92$: the 8% was taken of the
+  smaller, earlier number, so the equation is $1.08 x = 7.2$.
 ]
 
-#ex(difficulty: 2, time: "10 min")[
-  In 2002, there were 17,430 deaths due to alcohol-related accidents in
-  the United States. This was a 5% increase over the number of
+#ex(difficulty: 2, time: "10 min", calculator: true)[
+  In 2002, there were #num(17430) deaths due to alcohol-related accidents
+  in the United States. This was a 5% increase over the number of
   alcohol-related deaths in 1999. How many such deaths were there in
   1999?
 ][
-  16,600 deaths.
+  #num(16600) deaths.
 ]
 
 #exploration(title: "A Better Fit")[
@@ -1271,17 +1992,59 @@ prominent as we progress.
   a square hole?
 ]
 
+#only-theory[
+  #let _peg(round-hole) = box(width: 3.2cm, height: 3.2cm, {
+    let s = 3.2cm
+    let m = 0.16cm // margin so strokes aren't clipped
+    let side = s - 2 * m
+    let outer = if round-hole {
+      circle(radius: side / 2, fill: none, stroke: 0.9pt + luma(120))
+    } else {
+      rect(width: side, height: side, fill: none, stroke: 0.9pt + luma(120))
+    }
+    place(dx: m, dy: m, outer)
+    // inscribed peg: a square inside the circle has diagonal = side,
+    // so its own side is side/sqrt(2); a circle inside the square has
+    // diameter = side.
+    if round-hole {
+      let q = side / calc.sqrt(2)
+      place(
+        dx: m + (side - q) / 2,
+        dy: m + (side - q) / 2,
+        rect(width: q, height: q, fill: accent-bg, stroke: 1pt + accent),
+      )
+    } else {
+      place(
+        dx: m,
+        dy: m,
+        circle(radius: side / 2, fill: accent-bg, stroke: 1pt + accent),
+      )
+    }
+  })
+
+  #image-grid(
+    2,
+    gutter: 16pt,
+    [
+      #align(center, _peg(true))
+      #align(center)[
+        #text(size: 9pt, fill: luma(110))[square peg, round hole]
+      ]
+    ],
+    [
+      #align(center, _peg(false))
+      #align(center)[
+        #text(size: 9pt, fill: luma(110))[round peg, square hole]
+      ]
+    ],
+  )
+]
+
 #ai-box(role: "Checker")[
   Take any two-digit number, reverse its digits, and subtract the
   smaller number from the larger. Do you ever end up with a prime
   number? Prove your answer on paper first, then ask an AI to check --
   and explain -- your reasoning.
-]
-
-#exploration(title: "Make 100")[
-  How many numbers from 1 to 100 can you make using the digits 2, 0, 2,
-  and 3, each exactly once? You may use any operations you like
-  (addition, multiplication, powers, roots, etc.).
 ]
 
 #print-hints()
