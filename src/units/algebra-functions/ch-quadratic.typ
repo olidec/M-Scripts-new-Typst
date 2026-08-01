@@ -56,6 +56,24 @@
   $x = h$ is its #vocab("axis of symmetry", "Symmetrieachse").
 ]
 
+#remark[
+  The axis of symmetry is a *geometric* statement: the parabola is
+  unchanged by reflection in the vertical line $x = h$. Like every
+  geometric statement about a graph, it has an exact algebraic twin.
+  Reflecting in $x = h$ swaps the point $h + t$ with the point
+  $h - t$, so the symmetry says
+  $ f(h + t) = f(h - t) quad "for every" t. $
+  And vertex form makes that immediate:
+  $
+    f(h + t) & = a dot (h + t - h)^2 + k = a t^2 + k \
+    f(h - t) & = a dot (h - t - h)^2 + k = a t^2 + k .
+  $
+  Both come out the same because $t$ appears only as $t^2$, and
+  squaring destroys the sign. The parent $y = x^2$ is an *even*
+  function, symmetric about $x = 0$; shifting it right by $h$ carries
+  its axis of symmetry along with it.
+]
+
 #keybox(title: "What Each Form Tells You Immediately")[
   - *Standard form* $a dot x^2 + b dot x + c$: the $y$‑intercept
     $(0, c)$.
@@ -110,8 +128,13 @@
 == Graphing and Transformations
 
 #only-theory[
-  Vertex form makes graphing fast, because it shows the parabola
-  $y = x^2$ after it has been stretched, flipped, and shifted.
+  Vertex form is not a new idea. It is the general transformation from
+  the Functions chapter,
+  $ y = a dot f(b dot (x - h)) + k, $
+  with the parent function $f(x) = x^2$ substituted in -- and with one
+  of the four knobs missing. Recognizing that is worth more than
+  memorizing the box below, because the same reading works for every
+  family of functions you will meet.
 ]
 
 #abstraction-ladder(
@@ -132,6 +155,17 @@
     downward instead of upward.
   - $h$ shifts the graph *horizontally* ($h > 0$ moves it right).
   - $k$ shifts the graph *vertically* ($k > 0$ moves it up).
+]
+
+#remark[
+  Where did the horizontal stretch $b$ go? Nowhere -- it is already
+  counted. Squashing a parabola sideways and stretching it upward are
+  the *same* transformation:
+  $ f(b dot x) = (b x)^2 = b^2 dot x^2 = b^2 dot f(x). $
+  So any horizontal stretch of a parabola can be written as a vertical
+  one, and a second parameter would be redundant. Vertex form gets away
+  with three knobs because the parabola cannot tell the two stretches
+  apart. Most functions can -- the sine curve, later, needs all four.
 ]
 
 #example[

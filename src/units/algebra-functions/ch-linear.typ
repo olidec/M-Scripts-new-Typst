@@ -15,7 +15,8 @@
   [write the equation of a line given two points, or a point and a
     slope, in slope-intercept, point-slope, or standard form],
   [apply transformations -- shifts and reflections -- to linear
-    functions],
+    functions, and predict their effect on the slope and the
+    intercept],
   [model a real-world situation with a linear function],
 )
 
@@ -40,21 +41,27 @@
   $y$\u{2011}axis).
 ]
 
-This equation gives a relationship between the $x$- and $y$\u{2011}coordinates
-in a Cartesian coordinate system. If we draw all the points that satisfy
-this relation in a coordinate system, we get the graph of a straight
-line.
+#only-theory[
+  This equation gives a relationship between the $x$\u{2011} and
+  $y$\u{2011}coordinates in a Cartesian coordinate system. If we draw all
+  the points that satisfy this relation in a coordinate system, we get
+  the graph of a straight line.
+]
 
 #keybox[
   The slope $m$ is defined by $m = (Delta y)/(Delta x)$.
 ]
 
-There are some shortcuts when drawing these graphs.
-- First mark the $y$\u{2011}intercept -- the point with coordinates $(0, q)$.
-- From there, mark the slope by moving one unit in the $x$\u{2011}direction and
-  $m$ units in the $y$\u{2011}direction. If the slope is given as a fraction,
-  it's sometimes easier to move $Delta x$ units in the $x$\u{2011}direction and
-  $Delta y$ units in the $y$\u{2011}direction.
+#only-theory[
+  There are some shortcuts when drawing these graphs.
+  - First mark the $y$\u{2011}intercept -- the point with coordinates
+    $(0, q)$.
+  - From there, mark the slope by moving one unit in the
+    $x$\u{2011}direction and $m$ units in the $y$\u{2011}direction. If the
+    slope is given as a fraction, it's sometimes easier to move
+    $Delta x$ units in the $x$\u{2011}direction and $Delta y$ units in the
+    $y$\u{2011}direction.
+]
 
 #remark[
   Two special cases are easy to mix up. A *horizontal* line, $y = c$,
@@ -67,9 +74,11 @@ There are some shortcuts when drawing these graphs.
   slope-intercept form, it can still describe one.
 ]
 
-Just as the $y$\u{2011}intercept is where a line crosses the $y$\u{2011}axis, the
-*$x$\u{2011}intercept* is where it crosses the $x$\u{2011}axis -- the point where
-$y = 0$.
+#only-theory[
+  Just as the $y$\u{2011}intercept is where a line crosses the
+  $y$\u{2011}axis, the *$x$\u{2011}intercept* is where it crosses the
+  $x$\u{2011}axis -- the point where $y = 0$.
+]
 
 #example[
   For $y = 2x - 6$: the $y$\u{2011}intercept is $(0, -6)$. Setting $y = 0$ gives
@@ -177,10 +186,12 @@ $y = 0$.
 
 == Alternative Forms for Linear Functions
 
-The most common way of writing a linear function uses the so-called
-*slope-intercept form*, since it directly contains the slope and the
-$y$\u{2011}intercept. There are two other commonly used forms: the *standard
-form* and the *point-slope form*.
+#only-theory[
+  The most common way of writing a linear function uses the so-called
+  *slope-intercept form*, since it directly contains the slope and the
+  $y$\u{2011}intercept. There are two other commonly used forms: the
+  *standard form* and the *point-slope form*.
+]
 
 #definition(title: "Standard Form")[
   The standard form of a line is written as
@@ -191,7 +202,9 @@ form* and the *point-slope form*.
 ]
 
 
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 
 #definition(title: "Point-Slope Form")[
   The #vocab("point-slope form", "Punkt-Steigungs-Form") is useful when
@@ -241,7 +254,9 @@ form* and the *point-slope form*.
   Two lines are *parallel* if and only if they have the *same slope*
   (and different $y$\u{2011}intercepts -- otherwise they're the same line).
 ]
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 
 #look-ahead(preview: [systems of equations])[
   Parallel lines never meet, no matter how far you extend them. But two
@@ -260,9 +275,85 @@ form* and the *point-slope form*.
 
 == Transforming Lines
 
-Just like other graphs, a line can be shifted and reflected. The order
-of transformations matters -- doing the same two transformations in a
-different order can give a different result.
+#only-theory[
+  The general rules for shifting, reflecting, and stretching a graph
+  were set up in the Functions chapter, and nothing about them changes
+  here: $f(x) + k$ moves up, $f(x - h)$ moves right, $-f(x)$ flips
+  vertically, $f(-x)$ flips horizontally. What is worth asking is a
+  narrower question:
+
+  #emph[what do those transformations do to the two numbers $m$ and $q$
+  that describe a line?]
+
+  Because a line is completely determined by its slope and its
+  intercept, every transformation must show up as a change to one or
+  both of them -- there is nowhere else for the effect to go.
+]
+
+#keybox(title: "Transformations of $y = m x + q$")[
+  #data-table(
+    columns: (1.4fr, 1fr, 1fr),
+    row-height: auto,
+    [Transformation], [new slope], [new intercept],
+    [shift up by $k$], [$m$], [$q + k$],
+    [shift right by $h$], [$m$], [$q - m dot h$],
+    [reflect in the $x$\u{2011}axis], [$-m$], [$-q$],
+    [reflect in the $y$\u{2011}axis], [$-m$], [$q$],
+    [reflect in the origin], [$m$], [$-q$],
+    [stretch vertically by $a$], [$a dot m$], [$a dot q$],
+  )
+]
+
+#only-theory[
+  Two rows of that table deserve a second look, because both say
+  something a general function cannot.
+]
+
+#keybox(title: "Lines Are Special")[
+  *A horizontal shift of a line is also a vertical shift.* Shifting
+  $y = m x + q$ right by $h$ gives
+  $ y = m dot (x - h) + q = m x + (q - m dot h), $
+  which is the same line you get by shifting *down* by $m dot h$. For
+  any non-horizontal line, the two kinds of shift are
+  interchangeable.
+
+  *Reflecting in the origin leaves the slope alone.* It only changes
+  the sign of $q$.
+]
+
+#only-theory[
+  Neither of these holds for graphs in general -- sliding a parabola
+  sideways is very clearly not the same as sliding it down. It happens
+  here because a line carries only *two* numbers, while the general
+  transformation offers *four* knobs. With more knobs than parameters,
+  different combinations are forced to collide.
+  #heuristic("look for what stays the same")
+]
+
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: ([Write out $m dot (x - h) + q$ and collect the constant
+    terms.],),
+)[
+  The line $l : y = 3x - 4$ is shifted $2$ units to the right.
+  + Give the equation of the resulting line.
+  + Give a *vertical* shift that produces the same line.
+  + For which lines does this trick fail?
+][
+  + $y = 3 dot (x-2) - 4 = 3x - 10$.
+  + A shift of $6$ units down, since $m dot h = 3 dot 2 = 6$.
+  + Horizontal lines ($m = 0$): shifting a horizontal line sideways
+    changes nothing at all, so no vertical shift other than $0$ can
+    imitate it. Vertical "lines" are not functions and fall outside
+    this discussion entirely.
+]
+
+#only-theory[
+  Order still matters, though -- the collisions above do not make
+  transformations commute in general.
+]
 
 #ex(difficulty: 2, time: "10 min")[
   The line $y = 2x - 1$ is shifted three units to the left and then
@@ -367,7 +458,21 @@ different order can give a different result.
   Try to explain why different orders can lead to the same outcome.
 
   What other lines could I have ended up with, if I had performed the
-  four transformations in a different order?
+  four transformations in a different order? Before you start listing
+  all $24$ orders, look at the "Lines Are Special" box above and see
+  how much of the work you can avoid.
+  #heuristic("look for what stays the same")
+]
+
+#only-high[
+  #remark[
+    Worth knowing before you begin: the $24$ orders produce far fewer
+    than $24$ answers. Both reflections flip the sign of the slope, so
+    after applying both, the slope is back where it started -- every
+    single one of the $24$ results is a line parallel to
+    $y = 4x + 7$. All that can differ is the intercept, and there are
+    only a handful of values it can take.
+  ]
 ]
 
 == Modeling with Linear Functions
@@ -456,7 +561,9 @@ different order can give a different result.
   A reasonable line of best fit gives approximately $m approx 0.80$,
   $q approx 1.20$, i.e. $y approx 0.80 x + 1.20$.
 ]
-#pagebreak()
+#only-theory[
+  #pagebreak()
+]
 
 == Extra Bits
 

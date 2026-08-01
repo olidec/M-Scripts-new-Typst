@@ -17,8 +17,11 @@
     exponents, to simplify expressions],
   bfkm[identify and graph power functions $f(x) = a dot x^n$, and
     describe how the sign and parity of $n$ shape the graph],
-  bfkm[describe how shifts and reflections transform the graph of
-    *any* function, not just parabolas],
+  bfkm[apply the general transformation rules to power functions, and
+    explain why a horizontal stretch of $y = x^n$ is also a vertical
+    one],
+  [state whether $x^n$ is an even or an odd function, and say what
+    that means for its graph],
   [solve equations and word problems involving powers and roots],
   [determine the coefficients of a power function from given points
     on its graph],
@@ -502,18 +505,41 @@
 == Transforming Graphs
 
 #only-theory[
-  We already learned to read transformations off vertex form for
-  parabolas. The same ideas work for *any* function $f$, power
-  functions included.
+  The general transformation
+  $ y = a dot f(b dot (x - h)) + k $
+  was set up in the Functions chapter and instantiated for the parabola
+  in the Quadratics chapter. Nothing about it changes for power
+  functions, so rather than repeat the rules, this section asks what is
+  *special* about applying them to $y = x^n$.
+
+  Three things, as it turns out -- and all three are consequences of a
+  single algebraic fact about powers.
 ]
 
-#keybox(title: "General Transformations of a Graph")[
-  Starting from $y = f(x)$:
-  - $y = f(x) + k$: shift *up* by $k$ (down, if $k<0$).
-  - $y = f(x - h)$: shift *right* by $h$ (left, if $h<0$).
-  - $y = -f(x)$: reflect across the $x$‑axis.
-  - $y = f(-x)$: reflect across the $y$‑axis.
-  - $y = -f(-x)$: reflect across the origin (both at once).
+#keybox(title: "Reminder: the four knobs")[
+  Starting from $y = f(x)$: $a$ stretches vertically, $b$ stretches
+  horizontally by $1/b$, $h$ shifts right, $k$ shifts up. A minus sign
+  outside $f$ reflects in the $x$\u{2011}axis, a minus sign inside
+  reflects in the $y$\u{2011}axis. See the Functions chapter for the
+  reasoning behind each.
+]
+
+=== First Speciality: the Two Stretches Coincide
+
+#only-theory[
+  You met this for the parabola. It holds for *every* power function,
+  and for the same one-line reason:
+  $ f(b dot x) = (b x)^n = b^n dot x^n = b^n dot f(x) . $
+  Squashing the graph of $y = x^n$ horizontally by a factor is
+  indistinguishable from stretching it vertically by a different
+  factor. So for power functions the family
+  $y = a dot (x - h)^n + k$ already contains everything -- a
+  horizontal-stretch parameter would be redundant.
+
+  This is a genuine property of powers, not a general truth. It fails
+  for the sine curve, which is why the generalized sine in the
+  trigonometry chapter needs all four parameters and separates
+  amplitude from period.
 ]
 
 #example[
@@ -524,12 +550,83 @@
     $f(x+2) + 1 = 1/8 (x+2)^3 + 1$.
 ]
 
+=== Second Speciality: Where the Names "Even" and "Odd" Come From
+
+#only-theory[
+  Earlier in this chapter we noted that $x^2$ and $x^4$ are symmetric
+  about the $y$\u{2011}axis while $x^3$ and $x^5$ are symmetric about the
+  origin. With the vocabulary from the Functions chapter, that
+  observation becomes a theorem -- and the naming stops being a
+  coincidence.
+]
+
+#keybox(title: "Powers and Symmetry")[
+  For $f(x) = x^n$ with $n$ a whole number:
+  - $n$ *even* $=>$ $f(-x) = (-x)^n = x^n = f(x)$, so $f$ is an
+    *even function*.
+  - $n$ *odd* $=>$ $f(-x) = (-x)^n = -x^n = -f(x)$, so $f$ is an
+    *odd function*.
+
+  The mathematical terms *even function* and *odd function* were
+  chosen precisely so that $x^n$ would be one exactly when $n$ is the
+  corresponding kind of number.
+]
+
+#remark[
+  The rule does not care about the sign of the exponent. $x^(-2)$ is
+  even and $x^(-1)$ is odd, which is why the negative-exponent graphs
+  sit in "same-side" and "opposite" quadrant pairs respectively --
+  exactly the pattern noted when we first drew them.
+]
+
+#ex(difficulty: 1, time: "10 min", calculator: false)[
+  Without drawing anything, state whether each function is even, odd,
+  or neither, and say what that means for its graph.
+  #parts(
+    3,
+    [(a) $f(x) = x^6$],
+    [(b) $f(x) = x^7$],
+    [(c) $f(x) = x^(-4)$],
+    [(d) $f(x) = x^3 + x$],
+    [(e) $f(x) = x^2 + x$],
+    [(f) $f(x) = (x-1)^2$],
+  )
+][
+  #parts(
+    2,
+    [(a) even -- symmetric about the $y$\u{2011}axis],
+    [(b) odd -- symmetric about the origin],
+    [(c) even -- symmetric about the $y$\u{2011}axis],
+    [(d) odd (a sum of two odd functions)],
+    [(e) neither -- mixing an even and an odd term destroys both
+      symmetries],
+    [(f) neither -- the parabola still has an axis of symmetry, but it
+      has moved to $x = 1$, and "even" specifically means symmetric
+      about $x = 0$],
+  )
+
+  Part (f) is the one worth remembering: shifting a graph sideways
+  destroys evenness without destroying its symmetry. The symmetry moved
+  with the graph.
+]
+
+=== Third Speciality: Reflecting in $y = x$
+
 #look-ahead(title: "Reflecting Across y = x", preview: [logarithms])[
   There's one more reflection: across the line $y=x$, which swaps the
   roles of $x$ and $y$. Applied to a function's graph, this produces
   its #vocab("inverse function", "Umkehrfunktion") (if it has one).
   We'll use exactly this idea to *define* the logarithm as the
   inverse of an exponential function.
+]
+
+#only-theory[
+  For power functions this reflection stays inside the family, which no
+  other transformation in this chapter manages: reflecting $y = x^n$
+  across $y = x$ gives $y = x^(1\/n)$, another power function. Undoing
+  a power is taking a root, and taking a root is raising to the
+  reciprocal power -- the same statement, read algebraically and
+  geometrically.
 ]
 
 #example[
