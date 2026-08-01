@@ -64,3 +64,4 @@ desktop.ini
 *.swo
 *~
 src/common/test.typ
+src/common/smoke-figures.typ
