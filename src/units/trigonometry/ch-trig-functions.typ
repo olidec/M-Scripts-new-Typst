@@ -14,7 +14,22 @@
 //  Double-angle identities are deliberately OMITTED (not used
 //  anywhere else in either track's curriculum).
 //
-//  No image files needed — all graphs are plot-graph() natives.
+//  UNIT CONVENTION: this chapter is RADIAN-FIRST. The course line is
+//  "degrees for geometry you can see, radians for functions", stated
+//  explicitly in the keybox right after the objectives. Degrees
+//  survive only where they earn their place: the geometric reading of
+//  the period, the calculator/CAS mode warning, and one contrast
+//  exercise. Do not reintroduce degree-domain equation exercises here
+//  — the previous version had four and they undercut the convention.
+//
+//  All graphs use trig-plot() (pi-labeled x-axis), never plot-graph().
+//  Its xmin/xmax are IN UNITS OF PI. Because the axis now carries the
+//  pi scale, the graph-reading exercises use plain b values (b = 2,
+//  b = 1/2) rather than the pi-fractions the old integer axes forced.
+//  Modeling exercises keep their pi-fraction b, correctly: there the
+//  input is months or hours, not an angle.
+//
+//  No image files needed — all graphs are trig-plot() natives.
 // ============================================================
 
 #import "../../common/preamble.typ": *
@@ -44,6 +59,8 @@
     $y = tan(x)$, and describe their key features],
   bfkm[explain the connection between a trigonometric function's
     equation and its graph],
+  bfkm[decide whether a situation calls for degrees or radians, and
+    justify the choice],
   obj(level: "basic")[solve simple trigonometric equations using the
     unit circle and graphs],
   bfkm(level: "high")[solve simple trigonometric equations, both
@@ -59,18 +76,39 @@
     domain to obtain a finite list of solutions],
 )
 
+#keybox(title: "Which unit, and when")[
+  From this chapter on, the default is *radians*. The rule behind that
+  default is worth stating once, plainly, because it will hold for the
+  rest of your mathematical life:
+  - Use *degrees* when the angle is something you can see and measure
+    -- a triangle, a bearing, the tilt of a roof, a rotation. Degrees
+    are a unit of _geometry_. Nobody says a road climbs at
+    $0.1$ radians.
+  - Use *radians* when the angle is the *input to a function*. A
+    radian measure is an ordinary number (an arc length on the unit
+    circle), so $sin$ takes a number and returns a number, and its
+    graph lives in the same $x y$\u{2011}plane as every other function
+    you have drawn. Degrees would force a horizontal axis running to
+    $360$ and a vertical one running to $1$ -- a wave squashed flat.
+  Almost everything in this chapter is a function question, so almost
+  everything here is in radians. Degrees reappear only where a
+  concrete situation hands you one, and in the reminder to check your
+  calculator's mode.
+]
+
 == The Graphs of Sine and Cosine
 
 #exploration(title: "From Circle to Curve")[
   Take the table of exact values from the last chapter (and your
-  calculator for the angles in between). For
-  $x = 0, 30 degree, 60 degree, ..., 720 degree$, plot the points
-  $(x, sin(x))$ on grid paper -- angle on the horizontal axis, sine
-  value on the vertical. Connect them with a smooth curve. Before you
-  plot: predict what the curve must do after $360 degree$, and say why
-  the unit circle forces that answer. Then repeat for cosine on the
-  same axes. What single transformation seems to map one curve onto
-  the other?
+  calculator, in radian mode, for the angles in between). For
+  $x = 0, pi/6, pi/3, ..., 4 pi$, plot the points $(x, sin(x))$ on
+  grid paper -- angle on the horizontal axis, sine value on the
+  vertical. Mark the horizontal axis in multiples of $pi/2$, not in
+  units of $1$; that single choice is what will make the picture
+  readable. Connect the points with a smooth curve. Before you plot:
+  predict what the curve must do after $2 pi$, and say why the unit
+  circle forces that answer. Then repeat for cosine on the same axes.
+  What single transformation seems to map one curve onto the other?
 ]
 
 #only-theory[
@@ -82,18 +120,19 @@
 
 #only-theory[
   #fig(
-    plot-graph(
+    trig-plot(
       (fn: x => calc.sin(x), color: accent),
       (fn: x => calc.cos(x), color: warn-col),
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -1.5,
       ymax: 1.5,
       width: 12,
       height: 4.5,
     ),
-    caption: [$y = sin(x)$ (teal) and $y = cos(x)$ (orange), $x$ in
-      radians. One full period is $2 pi approx 6.28$.],
+    caption: [$y = sin(x)$ (teal) and $y = cos(x)$ (orange). Note the
+      horizontal axis: every feature of these curves happens at a
+      multiple of $pi/2$, which is exactly why it is scaled that way.],
   )
 ]
 
@@ -101,16 +140,17 @@
   - Both functions are #vocab("periodic", "periodisch"): they repeat
     the same cycle of values over and over. The
     #vocab("period", "Periode") -- the length of one cycle -- is
-    $360 degree$, i.e. $2 pi$.
+    $2 pi$, which is the geometric statement that one full turn is
+    $360 degree$.
   - Both have maximum value $1$ and minimum value $-1$. The
     #vocab("amplitude", "Amplitude") is the distance from the
     #vocab("midline", "Mittellinie") of the wave (here $y = 0$) to a
     maximum -- equivalently, half the vertical distance from a maximum
     to a minimum. For both basic curves the amplitude is $1$.
   - The two curves are congruent: the cosine curve is the sine curve
-    shifted $90 degree$ (that is, $pi\/2$) to the left. This is the
-    complementary-angle identity $cos(x) = sin(90 degree - x)$ from
-    the last chapter, now visible as geometry.
+    shifted $pi\/2$ to the left. This is the complementary-angle
+    identity $cos(x) = sin(pi/2 - x)$ from the last chapter, now
+    visible as geometry.
 ]
 
 #look-ahead(
@@ -125,7 +165,10 @@
   zero, steepest negative, zero, ... The curve you have just drawn
   freehand is, remarkably, the orange one. What that means, and why it
   is exactly true, is a story for the calculus unit -- but you have
-  just discovered its shape by eye.
+  just discovered its shape by eye. Keep one detail in reserve: this
+  works only because the horizontal axis is measured in radians. On a
+  degree axis the slope curve comes out flattened by a factor of about
+  $57$, and the clean statement dissolves.
 ]
 
 == The Graph of Tangent
@@ -134,12 +177,13 @@
   For sine and cosine we started from values we already knew; do the
   same for $y = tan(x)$.
   + List the tangent values for
-    $0 degree, plus.minus 30 degree, plus.minus 45 degree,
-    plus.minus 60 degree, 120 degree, 135 degree, 150 degree,
-    180 degree, 210 degree, 225 degree, 240 degree$.
-  + Plot the points on grid paper and connect what can be connected.
-  + Why are there no tangent values at $plus.minus 90 degree$ or
-    $270 degree$? Think back to $tan = sin\/cos$ -- what happens to the
+    $0, plus.minus pi/6, plus.minus pi/4, plus.minus pi/3,
+    (2 pi)/3, (3 pi)/4, (5 pi)/6, pi, (7 pi)/6, (5 pi)/4,
+    (4 pi)/3$.
+  + Plot the points on a $pi/2$\u{2011}scaled axis and connect what
+    can be connected.
+  + Why are there no tangent values at $plus.minus pi\/2$ or
+    $(3 pi)\/2$? Think back to $tan = sin\/cos$ -- what happens to the
     fraction there? What feature does a graph show at inputs where a
     function blows up? You have met one before, on the graph of
     $y = 1\/x$.
@@ -147,28 +191,28 @@
 
 #only-theory[
   #fig(
-    plot-graph(
-      (fn: tan-fn, color: accent),
-      xmin: -6.9,
-      xmax: 6.9,
+    trig-plot(
+      (fn: tan-fn, color: accent, samples: 400),
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
       width: 12,
       height: 5,
-      samples: 400,
     ),
-    caption: [$y = tan(x)$, $x$ in radians. The branches repeat with
-      period $pi$; the gaps sit at odd multiples of $pi\/2$.],
+    caption: [$y = tan(x)$. The branches repeat with period $pi$; the
+      gaps sit at odd multiples of $pi\/2$ -- both facts you can now
+      read straight off the axis.],
   )
 ]
 
 #keybox(title: "Features of the tangent curve")[
-  - The tangent function is periodic with period $180 degree$, i.e.
-    $pi$ -- _half_ that of sine and cosine.
+  - The tangent function is periodic with period $pi$ -- _half_ that
+    of sine and cosine.
   - It has #vocab("vertical asymptotes", "senkrechte Asymptoten")
     wherever $cos(x) = 0$, that is at
-    $x = plus.minus 90 degree, plus.minus 270 degree, ...$ -- the same
-    cycle repeats between each pair of asymptotes.
+    $x = plus.minus pi/2, plus.minus (3 pi)/2, ...$ -- the same cycle
+    repeats between each pair of asymptotes.
   - It has no amplitude: there are no maximum or minimum values.
 ]
 
@@ -176,28 +220,28 @@
 
 #only-theory[
   Suppose we want to solve $sin(x) = 1/2$. We know
-  $sin(30 degree) = 1/2$ -- but the last chapter taught us that
-  $sin(150 degree) = 1/2$ too, and going around the circle again,
-  $sin(390 degree)$, $sin(510 degree)$, ... In fact infinitely many
+  $sin(pi/6) = 1/2$ -- but the last chapter taught us that
+  $sin((5 pi)/6) = 1/2$ too, and going around the circle again,
+  $sin((13 pi)/6)$, $sin((17 pi)/6)$, ... In fact infinitely many
   angles work. So the bare equation is not yet a well-posed question.
-  Two more pieces of information are needed:
-  - Is $x$ measured in degrees or radians?
-  - What is the #vocab("domain", "Definitionsbereich") -- in which
-    interval are solutions wanted?
+  One more piece of information is needed: the
+  #vocab("domain", "Definitionsbereich") -- the interval in which
+  solutions are wanted. (The unit is settled by our convention: an
+  equation in a function is a radian question, unless the problem
+  itself is geometric and says otherwise.)
 ]
 
 #example(title: "Solving with the unit circle")[
-  Solve $sin(x) = 1/2$ for $-360 degree <= x <= 360 degree$.
+  Solve $sin(x) = 1/2$ for $-2 pi <= x <= 2 pi$.
 
   There are two _positions_ on the unit circle with
-  $y$\u{2011}coordinate $1/2$: at $30 degree$ and, by symmetry, at
-  $180 degree - 30 degree = 150 degree$. Every solution is one of
-  these two positions, reached after some number of full turns.
-  Within the domain, each position is hit twice -- once turning
-  counterclockwise, once clockwise:
+  $y$\u{2011}coordinate $1/2$: at $pi/6$ and, by symmetry, at
+  $pi - pi/6 = (5 pi)/6$. Every solution is one of these two
+  positions, reached after some number of full turns. Within the
+  domain, each position is hit twice -- once turning counterclockwise,
+  once clockwise:
   $
-    x = 30 degree, quad 150 degree, quad -210 degree, quad
-    -330 degree.
+    x = pi/6, quad (5 pi)/6, quad -(7 pi)/6, quad -(11 pi)/6.
   $
 ]
 
@@ -205,22 +249,21 @@
   + Find *one* solution (an exact value you know, or $arcsin$ /
     $arccos$ / $arctan$ on the calculator).
   + Use the unit circle to find the *second position*: the mirror
-    angle $180 degree - x$ for sine, $-x$ (equivalently $360 degree -
-    x$) for cosine, $x + 180 degree$ for tangent.
-  + Add or subtract full turns of $360 degree$ (for tangent:
-    $180 degree$) until you leave the domain. A quick sketch of the
-    graph with the horizontal line $y = c$ shows how many solutions
-    the domain must contain -- if your list has a different length,
-    something is missing.
+    angle $pi - x$ for sine, $-x$ (equivalently $2 pi - x$) for
+    cosine, $x + pi$ for tangent.
+  + Add or subtract full turns of $2 pi$ (for tangent: $pi$) until you
+    leave the domain. A quick sketch of the graph with the horizontal
+    line $y = c$ shows how many solutions the domain must contain --
+    if your list has a different length, something is missing.
 ]
 
 #only-theory[
   #fig(
-    plot-graph(
+    trig-plot(
       (fn: x => calc.sin(x), color: accent),
       (fn: x => 0.5, color: warn-col),
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -1.5,
       ymax: 1.5,
       width: 12,
@@ -232,9 +275,9 @@
   )
 ]
 
-#ex(difficulty: 1, time: "15 min")[
-  Solve each equation for $-360 degree <= x <= 360 degree$, using
-  exact values and the unit circle.
+#ex(difficulty: 1, time: "15 min", calculator: false)[
+  Solve each equation for $-2 pi <= x <= 2 pi$, using exact values and
+  the unit circle.
   #auto-parts(
     4,
     [$sin(x) = sqrt(3)/2$],
@@ -245,38 +288,20 @@
 ][
   #auto-parts(
     2,
-    [$x = 60 degree, 120 degree, -240 degree, -300 degree$],
-    [$x = plus.minus 120 degree, plus.minus 240 degree$],
-    [$x = 45 degree, 225 degree, -135 degree, -315 degree$],
-    [$x = 0 degree, plus.minus 180 degree, plus.minus 360 degree$],
+    [$x = pi/3, (2 pi)/3, -(4 pi)/3, -(5 pi)/3$],
+    [$x = plus.minus (2 pi)/3, plus.minus (4 pi)/3$],
+    [$x = pi/4, (5 pi)/4, -(3 pi)/4, -(7 pi)/4$],
+    [$x = 0, plus.minus pi, plus.minus 2 pi$],
   )
 ]
 
-#ex(difficulty: 2, time: "15 min")[
-  Solve each equation for $-2 pi <= x <= 2 pi$, giving exact answers
-  in radians.
-  #auto-parts(
-    3,
-    [$sin(x) = 1/2$],
-    [$cos(x) = sqrt(3)/2$],
-    [$sin(x) = -1$],
-  )
-][
-  #auto-parts(
-    3,
-    [$x = pi/6, (5 pi)/6, -(7 pi)/6, -(11 pi)/6$],
-    [$x = plus.minus pi/6, plus.minus (11 pi)/6$],
-    [$x = -pi/2, (3 pi)/2$],
-  )
-]
-
-#ex(difficulty: 2, time: "10 min", hints: (
+#ex(difficulty: 2, time: "15 min", calculator: true, hints: (
   [The calculator's $sin^(-1)$, $cos^(-1)$, $tan^(-1)$ give one
-    solution each. The unit circle gives the other position; sketch
-    it.],
+    solution each -- in radian mode! The unit circle gives the other
+    position; sketch it.],
 ))[
-  Solve each equation for $0 degree <= x <= 360 degree$, to the
-  nearest degree.
+  Solve each equation for $0 <= x <= 2 pi$, to three significant
+  figures.
   #auto-parts(
     3,
     [$sin(x) = 0.9$],
@@ -286,19 +311,43 @@
 ][
   #auto-parts(
     3,
-    [$x approx 64 degree$ or $116 degree$],
-    [$x approx 129 degree$ or $231 degree$],
-    [$x approx 110 degree$ or $290 degree$],
+    [$x approx 1.12$ or $2.02$],
+    [$x approx 2.25$ or $4.03$],
+    [$x approx 1.91$ or $5.06$],
   )
+]
+
+#ex(difficulty: 2, time: "10 min", calculator: true)[
+  A ramp rises $1.2$ m over a horizontal run of $8.0$ m. Regulations
+  cap the angle of a wheelchair ramp at $5 degree$.
+  + Does this ramp comply?
+  + You solved a trigonometric equation to answer part (a). Which unit
+    did you work in, and why was that the right choice here -- when
+    every other equation in this section was solved in radians?
+][
+  + $tan(alpha) = 1.2\/8.0 = 0.15$, so $alpha approx 8.5 degree$. The
+    ramp does not comply.
+  + Degrees. The angle here is a physical tilt you could measure with
+    a protractor against the ground, and the regulation is written in
+    degrees -- it is a geometric quantity, not the input to a
+    function whose graph we care about. Nothing mathematical changes
+    if you work in radians ($alpha approx 0.149$, cap
+    $approx 0.0873$); it is simply the wrong dialect for the
+    conversation.
 ]
 
 #warning[
   The calculator's inverse functions return exactly *one* angle --
-  $sin^(-1)$ and $tan^(-1)$ from $[-90 degree, 90 degree]$,
-  $cos^(-1)$ from $[0 degree, 180 degree]$ -- because a function must.
-  The other solutions are your job, every time. Before accepting an
-  answer, sketch the graph and count the intersections in the domain:
-  the count is a contract your solution list has to fulfill.
+  $sin^(-1)$ and $tan^(-1)$ from $[-pi\/2, pi\/2]$, $cos^(-1)$ from
+  $[0, pi]$ -- because a function must. The other solutions are your
+  job, every time. Before accepting an answer, sketch the graph and
+  count the intersections in the domain: the count is a contract your
+  solution list has to fulfill.
+
+  And check the mode. A calculator in degree mode asked for
+  $sin^(-1)(0.9)$ answers $64.2$; in radian mode it answers $1.12$.
+  Neither is wrong -- but only one of them is the answer to the
+  question you asked.
 ]
 
 #only-high[
@@ -326,7 +375,7 @@
   ]
 ]
 
-#ex(level: "high", difficulty: 2, time: "20 min")[
+#ex(level: "high", difficulty: 2, time: "20 min", calculator: false)[
   Solve each equation for $0 <= x <= 2 pi$, exactly.
   #auto-parts(
     3,
@@ -346,19 +395,17 @@
   )
 ]
 
-#ex(level: "high", difficulty: 3, time: "15 min", hints: (
+#ex(level: "high", difficulty: 3, time: "15 min", calculator: false, hints: (
   [Substitute $u = 2x$ and solve $sin(u) = sqrt(2)\/2$ first -- but
-    note which domain $u$ lives in! If $0 degree <= x <= 360 degree$,
-    then $0 degree <= u <= 720 degree$: two full turns, twice as many
-    solutions.],
+    note which domain $u$ lives in! If $0 <= x <= 2 pi$, then
+    $0 <= u <= 4 pi$: two full turns, twice as many solutions.],
 ))[
-  Solve $sin(2x) = sqrt(2)/2$ for $0 degree <= x <= 360 degree$.
+  Solve $sin(2x) = sqrt(2)/2$ for $0 <= x <= 2 pi$.
 ][
-  With $u = 2x$ and $0 degree <= u <= 720 degree$:
-  $u = 45 degree, 135 degree, 405 degree, 495 degree$. Halving each,
+  With $u = 2x$ and $0 <= u <= 4 pi$:
+  $u = pi/4, (3 pi)/4, (9 pi)/4, (11 pi)/4$. Halving each,
   $
-    x = 22.5 degree, quad 67.5 degree, quad 202.5 degree, quad
-    247.5 degree.
+    x = pi/8, quad (3 pi)/8, quad (9 pi)/8, quad (11 pi)/8.
   $
   The angles found in the first step are values of $2x$, not of $x$ --
   forgetting to halve them (or to double the domain) are the two
@@ -400,14 +447,14 @@
   wrong mode poses the wrong question without any warning.
 ]
 
-#ex(level: "high", difficulty: 2, time: "20 min")[
+#ex(level: "high", difficulty: 2, time: "20 min", calculator: true)[
   Use your CAS with a domain restriction to solve each equation. Give
   answers to three significant figures (or exactly, where the CAS
   offers exact values). Sketch each pair of graphs first and predict
   the number of solutions before you solve.
   #auto-parts(
     2,
-    [$sin(x) = cos(x - 20 degree)$, $quad 0 degree <= x <= 540 degree$],
+    [$sin(x) = cos(x - pi/6)$, $quad 0 <= x <= 3 pi$],
     [$cos(x) = -x$, $quad -pi <= x <= 2 pi$],
     [$sin(x) = x^2 - 1$, $quad -2 pi <= x <= 2 pi$],
     [$tan(x) = 2x - 3$, $quad 0 <= x <= 2 pi$],
@@ -415,10 +462,11 @@
 ][
   #auto-parts(
     2,
-    [$x = 55 degree, 235 degree, 415 degree$],
+    [$x = pi/3, (4 pi)/3, (7 pi)/3$],
     [$x approx -0.739$ (one solution only)],
     [$x approx -0.637$ or $x approx 1.41$],
-    [$x approx 4.55$],
+    [$x approx 4.55$ (one solution only -- the other two branches of
+      the tangent never catch the line)],
   )
 ]
 
@@ -430,6 +478,13 @@
     you could write down. Numerical solving is not the lazy option
     here; it is the _only_ option. Knowing which equations have exact
     solutions and which do not is itself mathematical knowledge.
+
+    Note also that part (b) is only meaningful in radians. Writing
+    $cos(x) = -x$ with $x$ in degrees would set an angle measure equal
+    to a pure number -- an equation whose solution changes if you
+    switch units, which is a sign that the question was malformed.
+    Mixing a trigonometric function with algebra _requires_ the
+    radian convention.
   ]
 ]
 
@@ -437,9 +492,10 @@
 
 #exploration(title: "Transformations of sin and cos")[
   Using a graphing tool in radian mode (CAS, GeoGebra, or Desmos),
-  graph each pair on the same axes. For each pair: what stayed the
-  same, what changed, and _why does the algebra force exactly that
-  change?_
+  graph each pair on the same axes. Set the horizontal axis to step in
+  multiples of $pi\/2$ -- every tool offers this, and the pictures are
+  unreadable without it. For each pair: what stayed the same, what
+  changed, and _why does the algebra force exactly that change?_
   + $y = sin(x)$ and $y = sin(x) + 3$
   + $y = cos(x)$ and $y = 2 cos(x)$
   + $y = cos(x)$ and $y = cos(2x)$
@@ -484,10 +540,7 @@
   - $a$ -- vertical stretch: the *amplitude* is $abs(a)$; negative $a$
     additionally flips the curve.
   - $b$ -- horizontal stretch: the *period* becomes
-    $
-      "period" = (2 pi) / abs(b) quad "(or " (360 degree) / abs(b)
-      " in degrees)".
-    $
+    $ "period" = (2 pi) / abs(b). $
   - $c$ -- horizontal shift: the curve moves $c$ to the right
     ($c > 0$) or left ($c < 0$).
   - $d$ -- vertical shift: the *midline* becomes $y = d$; the maximum
@@ -496,6 +549,21 @@
   $y = a dot cos(b dot (x - c)) + d$; the cosine version is often more
   convenient for modeling, because its "starting point" $x = c$ is a
   _maximum_ -- easy to spot in data.
+]
+
+#remark[
+  Two shapes of $b$ turn up, and it is worth knowing which you are
+  looking at.
+  - When $x$ is an *angle*, $b$ is a plain number: $y = sin(2x)$ has
+    period $pi$, $y = sin(x\/2)$ has period $4 pi$. The period is a
+    multiple of $pi$, which is exactly what a $pi$\u{2011}scaled axis
+    is built to display.
+  - When $x$ is a *time* -- months, hours, days -- the period is a
+    plain number like $12$, so $b = (2 pi)\/12 = pi\/6$ comes out as a
+    fraction of $pi$. Nothing has changed mathematically; the
+    $pi$ has simply moved from the axis into the coefficient.
+  You will meet the first shape in the graph-reading exercises below
+  and the second throughout the modeling section.
 ]
 
 #warning[
@@ -507,7 +575,7 @@
   reading off $c$.
 ]
 
-#ex(difficulty: 1, time: "10 min")[
+#ex(difficulty: 1, time: "10 min", calculator: false)[
   Without graphing, state the amplitude, period, midline, maximum, and
   minimum of each function.
   #auto-parts(
@@ -515,6 +583,7 @@
     [$y = 3 sin(x)$],
     [$y = 1/2 cos(x) - 2$],
     [$y = -4 sin(2x) + 1$],
+    [$y = 2 cos(x/3) + 5$],
   )
 ][
   #auto-parts(
@@ -526,13 +595,17 @@
     [amplitude $4$, period $pi$, midline $y = 1$, max $5$, min $-3$
       (the minus sign flips the curve but does not change the
       amplitude)],
+    [amplitude $2$, period $(2 pi)\/(1\/3) = 6 pi$, midline $y = 5$,
+      max $7$, min $3$],
   )
 ]
 
-#ex(difficulty: 2, time: "25 min", hints: (
+#ex(difficulty: 2, time: "25 min", calculator: false, hints: (
   [Sketch in layers, in this order: midline first, then the maximum
     and minimum guide lines, then mark where one period starts and
-    ends, then draw the wave through the guides.
+    ends, then draw the wave through the guides. Rule your horizontal
+    axis in multiples of $pi\/2$ before you start -- on an integer
+    axis none of these curves has a landmark you can aim at.
     #heuristic("solve a simpler version first")],
 ))[
   Sketch each function over at least one full period, for
@@ -550,53 +623,65 @@
 ][
   #image-grid(
     2,
-    plot-graph(
+    trig-plot(
       x => calc.sin(x) + 2,
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
-      size: 5.5,
+      tick: 1,
+      width: 5.5,
+      height: 4,
     ),
-    plot-graph(
+    trig-plot(
       x => 2 * calc.sin(x) - 1,
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
-      size: 5.5,
+      tick: 1,
+      width: 5.5,
+      height: 4,
     ),
-    plot-graph(
+    trig-plot(
       x => calc.cos(x - calc.pi / 4),
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
-      size: 5.5,
+      tick: 1,
+      width: 5.5,
+      height: 4,
     ),
-    plot-graph(
+    trig-plot(
       x => calc.cos(2 * x),
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
-      size: 5.5,
+      tick: 1,
+      width: 5.5,
+      height: 4,
     ),
-    plot-graph(
+    trig-plot(
       x => calc.sin(x + calc.pi / 3) - 1,
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
-      size: 5.5,
+      tick: 1,
+      width: 5.5,
+      height: 4,
     ),
-    plot-graph(
+    trig-plot(
       (fn: x => tan-fn(x + calc.pi / 6), samples: 400),
-      xmin: -6.9,
-      xmax: 6.9,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -3.5,
       ymax: 3.5,
-      size: 5.5,
+      tick: 1,
+      width: 5.5,
+      height: 4,
     ),
   )
   Reading order: (a), (b) in the first row, then (c), (d), then (e),
@@ -606,63 +691,69 @@
   asymptotes shifted to $x = pi/3 + k dot pi$.
 ]
 
-#ex(difficulty: 2, time: "15 min", hints: (
+#ex(difficulty: 2, time: "15 min", calculator: false, hints: (
   [Read the features in this order: midline (average of max and min),
-    amplitude (max minus midline), period (peak to peak), then a
-    convenient starting point for sine (midline, going up) or cosine
-    (a maximum).],
+    amplitude (max minus midline), period (peak to peak -- count the
+    $pi$'s along the axis), then a convenient starting point for sine
+    (midline, going up) or cosine (a maximum).],
 ))[
   Write an equation for each function shown. (Many correct answers
   exist -- give one.)
   #auto-parts(
-    2,
-    [#plot-graph(
-      x => 2 * calc.sin(calc.pi / 2 * x) + 1,
-      xmin: -4.5,
-      xmax: 4.5,
+    1,
+    [#trig-plot(
+      x => 2 * calc.sin(2 * x) + 1,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -2.5,
       ymax: 3.5,
-      size: 5.5,
+      width: 11,
+      height: 4.5,
     )],
-    [#plot-graph(
-      x => 3 * calc.cos(calc.pi / 3 * x) - 1,
-      xmin: -6.5,
-      xmax: 6.5,
+    [#trig-plot(
+      x => 3 * calc.cos(x / 2) - 1,
+      xmin: -2.25,
+      xmax: 2.25,
       ymin: -4.5,
       ymax: 3.5,
-      size: 5.5,
+      width: 11,
+      height: 4.5,
     )],
   )
 ][
   #auto-parts(
     1,
-    [Midline $y = 1$, amplitude $2$, period $4$, so
-      $b = (2 pi)\/4 = pi\/2$; rising through the midline at $x = 0$:
-      $ y = 2 sin(pi/2 dot x) + 1. $],
-    [Midline $y = -1$, amplitude $3$, period $6$, so $b = pi\/3$;
-      maximum at $x = 0$ makes cosine the natural choice:
-      $ y = 3 cos(pi/3 dot x) - 1. $],
+    [Midline $y = 1$, amplitude $2$, period $pi$, so
+      $b = (2 pi)\/pi = 2$; rising through the midline at $x = 0$:
+      $ y = 2 sin(2x) + 1. $],
+    [Midline $y = -1$, amplitude $3$, period $4 pi$, so
+      $b = (2 pi)\/(4 pi) = 1\/2$; maximum at $x = 0$ makes cosine the
+      natural choice:
+      $ y = 3 cos(x/2) - 1. $],
   )
 ]
 
-#ex(level: "high", difficulty: 3, time: "10 min")[
+#ex(level: "high", difficulty: 3, time: "10 min", calculator: false)[
   Write *one sine and one cosine* equation for the function shown.
-  #plot-graph(
-    x => -1.5 * calc.sin(calc.pi / 4 * (x - 1)) + 2,
-    xmin: -8.5,
-    xmax: 8.5,
+  #trig-plot(
+    x => -1.5 * calc.sin((x - calc.pi / 2) / 2) + 2,
+    xmin: -2.25,
+    xmax: 2.25,
     ymin: -0.5,
     ymax: 4.5,
     width: 11,
     height: 5,
   )
 ][
-  Midline $y = 2$, amplitude $1.5$, period $8$, so $b = pi\/4$. The
-  curve _falls_ through the midline at $x = 1$, so as a sine it is
-  flipped: $y = -1.5 sin(pi/4 dot (x - 1)) + 2$. A maximum sits at
-  $x = -1$, so as a cosine: $y = 1.5 cos(pi/4 dot (x + 1)) + 2$. Both
-  describe the same curve -- for sine and cosine versions of one
-  curve, the horizontal shifts always differ by a quarter period.
+  Midline $y = 2$, amplitude $1.5$, period $4 pi$, so $b = 1\/2$. The
+  curve _falls_ through the midline at $x = pi\/2$, so as a sine it is
+  flipped:
+  $ y = -1.5 sin(1/2 dot (x - pi/2)) + 2. $
+  A maximum sits at $x = -pi\/2$, so as a cosine:
+  $ y = 1.5 cos(1/2 dot (x + pi/2)) + 2. $
+  Both describe the same curve -- for sine and cosine versions of one
+  curve, the horizontal shifts always differ by a quarter period, here
+  $pi$.
 ]
 
 == Applications and Modeling
@@ -674,6 +765,13 @@
   function is the dictionary between the situation and the formula --
   amplitude, period, midline, and shift each answer one concrete
   question about the situation.
+
+  Notice what the input variable is in every one of these: minutes,
+  hours, months. Not an angle. This is the clearest case for the
+  radian convention -- there is no angle here to measure in degrees,
+  and $sin$ is being used purely as "the standard periodic function of
+  a number". The graphs in this section are therefore drawn on
+  ordinary integer axes again, because the horizontal variable is time.
 ]
 
 #abstraction-ladder(
@@ -693,9 +791,14 @@
   $-21 cos(pi/5 dot t) + 24 = 40$, i.e.
   $cos(pi/5 dot t) = -16/21$, giving
   $t = 5/pi dot arccos(-16\/21) approx 3.88$ minutes.
+
+  That last step is only legal in radian mode: $arccos(-16\/21)$ has
+  to come back as $2.44$, not as $139.8$. A calculator left in degrees
+  returns $t approx 222$ minutes -- a plausible-looking number and a
+  completely wrong one.
 ]
 
-#ex(difficulty: 1, time: "15 min")[
+#ex(difficulty: 1, time: "15 min", calculator: true)[
   The water depth at the end of a North Sea pier is modeled by
   $ d(t) = 1.9 dot sin(pi/6 dot (t - 3)) + 5.1, $
   where $d$ is the depth in meters and $t$ the time in hours after
@@ -715,7 +818,7 @@
     $t = 6$ (06:00), with depth $5.1 + 1.9 = 7.0$ m.
 ]
 
-#ex(difficulty: 2, time: "15 min")[
+#ex(difficulty: 2, time: "15 min", calculator: true)[
   The number of daylight hours in Basel is modeled by
   $ h(x) = A dot sin(0.0172 dot (x - 80)) + B, $
   where $x$ is the day of the year ($x = 1$ on January 1). The longest
@@ -733,7 +836,7 @@
     hours.
 ]
 
-#ex(level: "high", difficulty: 3, time: "20 min", hints: (
+#ex(level: "high", difficulty: 3, time: "20 min", calculator: true, hints: (
   [Minimum on January 1 and maximum on July 1 fix everything: the
     midline is halfway, the amplitude is half the difference, the
     period is 12 months, and a _flipped_ cosine has its minimum at
@@ -828,7 +931,7 @@
   points by a degree is doing its job.
 ]
 
-#ex(difficulty: 2, time: "20 min")[
+#ex(difficulty: 2, time: "20 min", calculator: true)[
   The water depth at a buoy, measured every two hours from midnight:
   #data-table(
     columns: (auto, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
@@ -894,9 +997,12 @@
     converting to our cosine form recovers essentially the hand-built
     model. Same curve, different clothes -- the same lesson as writing
     one graph two ways earlier in this chapter.
+  The regression always reports in radians, whatever mode the
+  calculator is in. It has no choice: a regression is a numerical
+  optimization over a function of a number.
 ]
 
-#ex(level: "high", difficulty: 2, time: "20 min")[
+#ex(level: "high", difficulty: 2, time: "20 min", calculator: true)[
   Run a sine regression on the buoy data from the previous exercise.
   + Write down the CAS's model and its parameters.
   + Convert the regression's parameters into amplitude, period, and
@@ -927,11 +1033,13 @@
 )[
   Everything periodic you will meet from now on speaks this chapter's
   language: a pendulum in physics is a sine function of time, a sound
-  wave is one of position, alternating current one of both. And the
-  slope-sketching you did by eye at the start of this chapter -- the
-  sine curve's slope tracing out the cosine curve -- returns as an
-  exact theorem in the calculus unit, where it is the reason radians
-  were the right choice all along.
+  wave is one of position, alternating current one of both. In none of
+  them is there an angle to measure -- which is why, from here on,
+  degrees will simply stop appearing. And the slope-sketching you did
+  by eye at the start of this chapter -- the sine curve's slope
+  tracing out the cosine curve -- returns as an exact theorem in the
+  calculus unit, where it is the reason radians were the right choice
+  all along.
 ]
 
 #print-hints()
