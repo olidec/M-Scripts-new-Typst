@@ -1073,10 +1073,13 @@
       line(length: 100%, stroke: 0.5pt + accent)
       v(1.2em)
       body
-      if effort-note != none {
-        v(0.8em)
-        effort-note
-      }
+      // Effort note intentionally omitted here: it's a note to a
+      // student reading the chapter alongside the exercise ("you're
+      // not behind schedule"), not something that belongs on a
+      // standalone printed sheet. It still appears in chapter/notes
+      // mode below, and was already absent from the solutions
+      // booklet -- so this one change covers both sheets and
+      // solutions, per _hide-aux().
       v(1fr)
     } else if _sol-mode.get() {
       // ── SOLUTIONS-BOOKLET MODE ───────────────────────────────
