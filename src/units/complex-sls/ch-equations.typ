@@ -129,12 +129,12 @@
   real):
   $
     overline(p(z_0))
-      = overline(a_n dot z_0^n + dots.c + a_0)
-      = a_n dot overline(z_0)^n + dots.c + a_0
-      = p(overline(z_0)).
+    = overline(a_n dot z_0^n + dots.c + a_0)
+    = a_n dot overline(z_0)^n + dots.c + a_0
+    = p(overline(z_0)).
   $
   But $overline(p(z_0)) = overline(0) = 0$, so
-  $p(overline(z_0)) = 0$: $overline(z_0)$ is a root too. $square$
+  $p(overline(z_0)) = 0$: $overline(z_0)$ is a root too.
 ]
 
 #warning[
@@ -312,7 +312,7 @@
   the algebraic reason $CC$ is where the search for roots ends.
 ]
 
-#theorem(title: "Factorization over $CC$")[
+#theorem(title: [Factorization over $CC$])[
   Every polynomial of degree $n$ with complex coefficients factors into
   linear factors,
   $
@@ -349,10 +349,14 @@
     1,
     [$x^2 + 9 = (x - 3 dot i) dot (x + 3 dot i)$.],
     [Substitute $u = x^2$: $u^2 + 4 u + 3 = (u + 1) dot (u + 3)$, so
-      $ x^4 + 4 x^2 + 3 = (x - i) dot (x + i) dot (x - sqrt(3) dot i) dot (x + sqrt(3) dot i). $],
+      $
+        x^4 + 4 x^2 + 3 = (x - i) dot (x + i) dot (x - sqrt(3) dot i) dot (x + sqrt(3) dot i).
+      $],
     [Known real root $x = 2$: $x^3 - 8 = (x - 2) dot (x^2 + 2 x + 4)$, and
       the quadratic factor has roots $-1 plus.minus sqrt(3) dot i$, so
-      $ x^3 - 8 = (x - 2) dot (x + 1 - sqrt(3) dot i) dot (x + 1 + sqrt(3) dot i). $],
+      $
+        x^3 - 8 = (x - 2) dot (x + 1 - sqrt(3) dot i) dot (x + 1 + sqrt(3) dot i).
+      $],
     [$x^4 - 16 = (x - 2) dot (x + 2) dot (x - 2 dot i) dot (x + 2 dot i)$.],
   )
 ]

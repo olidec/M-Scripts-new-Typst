@@ -50,7 +50,7 @@
   $
     overline(z) = a - b dot i, quad
     |z| = sqrt(a^2 + b^2), quad
-    z dot overline(z) = a^2 + b^2 = |z|^2, quad
+    z dot overline(z) = a^2 + b^2 = |z|^2, quad \
     Arg(z) = "angle from the positive real axis" .
   $
   Polar (exponential) form, with $r = |z|$ and $phi.alt = Arg(z)$:
@@ -100,18 +100,18 @@
   === Transformations of a curve $z(t) = x(t) + i dot y(t)$
 
   $
-    "translate by " c: & quad w(t) = z(t) + c, \
+          "translate by " c: & quad w(t) = z(t) + c, \
     "rotate/scale about " 0: & quad w(t) = r dot e^(i dot alpha) dot z(t), \
-    "rotate about " z_0: & quad w(t) = e^(i dot alpha) dot (z(t) - z_0) + z_0.
+        "rotate about " z_0: & quad w(t) = e^(i dot alpha) dot (z(t) - z_0) + z_0.
   $
   Every one has the form $w(t) = a dot z(t) + b$.
 
   === Loci ${z in CC | dots}$
 
   $
-    |z - z_0| = r & quad "circle, center " z_0", radius " r, \
-    |z - z_1| = |z - z_2| & quad "perpendicular bisector of " [z_1, z_2], \
-    arg(z - z_0) = phi.alt & quad "ray from " z_0 " (excluded) at " phi.alt, \
+              |z - z_0| = r & quad "circle, center " z_0", radius " r, \
+      |z - z_1| = |z - z_2| & quad "perpendicular bisector of " [z_1, z_2], \
+     arg(z - z_0) = phi.alt & quad "ray from " z_0 " (excluded) at " phi.alt, \
     |z - A| = k dot |z - B| & quad "Apollonius circle " (k eq.not 1).
   $
   Combine conditions with "and" by intersecting; mark each boundary
@@ -128,21 +128,29 @@
   #data-table(
     columns: (1fr, auto),
     row-height: auto,
-    [Can you\...], [Review],
+    [Can you\...],
+    [Review],
     [add, multiply, and divide in Cartesian form, and form
-      $overline(z)$], [Arithmetic],
+      $overline(z)$],
+    [Arithmetic],
     [solve a quadratic with negative discriminant, and build a real
-      polynomial from one complex root], [Equations],
+      polynomial from one complex root],
+    [Equations],
     [solve an equation in $z$ and $overline(z)$ by comparing real and
-      imaginary parts], [Equations],
+      imaginary parts],
+    [Equations],
     [convert between Cartesian and polar form, getting the quadrant of
-      $Arg(z)$ right], [Gaussian Plane, Polar Form],
+      $Arg(z)$ right],
+    [Gaussian Plane, Polar Form],
     [compute a high power with De Moivre, and find all $n$-th roots of a
-      number], [Polar Form],
+      number],
+    [Polar Form],
     [rotate a curve about a given point and read off the image in
-      Cartesian form], [Transformations],
+      Cartesian form],
+    [Transformations],
     [identify and sketch a locus -- line, circle, ray, Apollonius
-      circle, region], [Loci],
+      circle, region],
+    [Loci],
   )
 ]
 
@@ -179,8 +187,8 @@
   Let $z = 3 - 2 dot i$ and $w = -1 + 4 dot i$.
   #auto-parts(
     1,
-    [Find $z + w$, $z dot w$, and $z \/ w$ in Cartesian form. *[4]*],
-    [Verify that $|z dot w| = |z| dot |w|$. *[2]*],
+    [Find $z + w$, $z dot w$, and $z \/ w$ in Cartesian form.],
+    [Verify that $|z dot w| = |z| dot |w|$.],
   )
 ][
   #auto-parts(
@@ -196,11 +204,11 @@
 #ex(difficulty: 2, time: "16 min")[
   #auto-parts(
     1,
-    [Solve $z^2 + 2 z + 5 = 0$. *[2]*],
+    [Solve $z^2 + 2 z + 5 = 0$.],
     [A polynomial with real coefficients has $1 - 2 dot i$ as a root.
-      Write down the monic real quadratic with this root. *[2]*],
+      Write down the monic real quadratic with this root.],
     [Find all $z in CC$ with $z^2 = -8 + 6 dot i$, by comparing real and
-      imaginary parts. *[4]*],
+      imaginary parts.],
   )
 ][
   #auto-parts(
@@ -220,9 +228,9 @@
   Let $z = -sqrt(3) + i$.
   #auto-parts(
     1,
-    [Write $z$ in polar form. *[2]*],
-    [Compute $z^6$, giving the answer in Cartesian form. *[3]*],
-    [Find all solutions of $w^3 = z$, in polar form. *[3]*],
+    [Write $z$ in polar form.],
+    [Compute $z^6$, giving the answer in Cartesian form.],
+    [Find all solutions of $w^3 = z$, in polar form.],
   )
 ][
   #auto-parts(
@@ -242,8 +250,8 @@
   #auto-parts(
     1,
     [Write the original curve and the rotated curve as complex-valued
-      functions. *[4]*],
-    [Find the image of the vertex. *[2]*],
+      functions. ],
+    [Find the image of the vertex. ],
   )
 ][
   #auto-parts(
@@ -260,9 +268,9 @@
   #auto-parts(
     1,
     [Find the Cartesian equation of the perpendicular bisector
-      ${z in CC | |z - 2| = |z - 4 dot i|}$. *[3]*],
+      ${z in CC | |z - 2| = |z - 4 dot i|}$.],
     [Show that ${z in CC | |z - 4| = 2 dot |z - 1|}$ is a circle, and
-      state its center and radius. *[4]*],
+      state its center and radius.],
   )
 ][
   #auto-parts(
@@ -278,9 +286,9 @@
 #ex(difficulty: 3, time: "18 min")[
   #auto-parts(
     1,
-    [Find all three cube roots of $8 dot i$, in Cartesian form. *[4]*],
+    [Find all three cube roots of $8 dot i$, in Cartesian form.],
     [The three roots are the vertices of a triangle. Show it is
-      equilateral and find its area. *[3]*],
+      equilateral and find its area.],
   )
 ][
   #auto-parts(
@@ -297,24 +305,4 @@
   )
 ]
 
-#only-theory[
-#cplane(
-  xmin: -3.0,
-  xmax: 3.0,
-  ymin: -3.0,
-  ymax: 2.0,
-  show-ticks: false,
-  caption: [Mock exam, final question: the cube roots of $8 dot i$
-    form an equilateral triangle on the circle of radius $2$.],
-  {
-    cp-unit-circle(r: 2)
-    cp-segment((1.732, 1), (-1.732, 1), color: accent)
-    cp-segment((-1.732, 1), (0, -2), color: accent)
-    cp-segment((0, -2), (1.732, 1), color: accent)
-    cp-point(1.732, 1, label: $z_0$, anchor: "south-west")
-    cp-point(-1.732, 1, label: $z_1$, anchor: "south-east")
-    cp-point(0, -2, label: $z_2$, anchor: "north")
-  },
-)
-]
 

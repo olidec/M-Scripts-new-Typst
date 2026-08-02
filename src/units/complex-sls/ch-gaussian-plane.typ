@@ -48,18 +48,18 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -4.5,
-  xmax: 4.5,
-  ymin: -4.5,
-  ymax: 4.5,
-  caption: [Three complex numbers as points of the Gaussian plane.],
-  {
-    cp-point(-1, -1, label: $z_1 = -1 - i$, anchor: "north-east")
-    cp-point(3, 2, label: $z_2 = 3 + 2i$, anchor: "south-west")
-    cp-point(0, 3, label: $z_3 = 3i$, anchor: "south-west", color: def-col)
-  },
-)
+  #cplane(
+    xmin: -4.5,
+    xmax: 4.5,
+    ymin: -4.5,
+    ymax: 4.5,
+    caption: [Three complex numbers as points of the Gaussian plane.],
+    {
+      cp-point(-1, -1, label: $z_1 = -1 - i$, anchor: "north-east")
+      cp-point(3, 2, label: $z_2 = 3 + 2i$, anchor: "south-west")
+      cp-point(0, 3, label: $z_3 = 3i$, anchor: "south-west", color: def-col)
+    },
+  )
 ]
 
 #keybox(title: "Reading the plane")[
@@ -129,23 +129,23 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -1.5,
-  xmax: 4.5,
-  ymin: -1.5,
-  ymax: 3.5,
-  caption: [The modulus is the hypotenuse of the triangle with legs
-    $a$ and $b$.],
-  {
-    cp-vector(3, 2, color: accent)
-    cp-segment((3, 0), (3, 2), color: luma(140), dashed: true)
-    cp-segment((0, 2), (3, 2), color: luma(140), dashed: true)
-    cp-point(3, 2, label: $z = a + b dot i$, anchor: "south-west")
-    cp-label(1.4, 1.35, $|z|$, color: accent, size: 10pt)
-    cp-label(1.5, -0.35, $a$)
-    cp-label(-0.35, 1.0, $b$)
-  },
-)
+  #cplane(
+    xmin: -1.5,
+    xmax: 4.5,
+    ymin: -1.5,
+    ymax: 3.5,
+    caption: [The modulus is the hypotenuse of the triangle with legs
+      $a$ and $b$.],
+    {
+      cp-vector(3, 2, color: accent)
+      cp-segment((3, 0), (3, 2), color: luma(140), dashed: true)
+      cp-segment((0, 2), (3, 2), color: luma(140), dashed: true)
+      cp-point(3, 2, label: $z = a + b dot i$, anchor: "south-west")
+      cp-label(1.4, 1.35, $|z|$, color: accent, size: 10pt)
+      cp-label(1.5, -0.35, $a$)
+      cp-label(-0.35, 1.0, $b$)
+    },
+  )
 ]
 
 #only-theory[
@@ -236,10 +236,10 @@
   squares agree (#heuristic("work backwards from the goal") -- the
   square root is the obstacle, so square it away first):
   $
-    |z dot w|^2 &= (z dot w) dot overline(z dot w)
-      = (z dot w) dot (overline(z) dot overline(w)) \
-    &= (z dot overline(z)) dot (w dot overline(w))
-      = |z|^2 dot |w|^2 = (|z| dot |w|)^2.
+    |z dot w|^2 & = (z dot w) dot overline(z dot w)
+                  = (z dot w) dot (overline(z) dot overline(w)) \
+                & = (z dot overline(z)) dot (w dot overline(w))
+                  = |z|^2 dot |w|^2 = (|z| dot |w|)^2.
   $
   Taking square roots of two non-negative numbers preserves the
   equality, so $|z dot w| = |z| dot |w|$. $square$
@@ -259,31 +259,31 @@
   Since $z_1 + z_2$ adds the real parts and the imaginary parts
   separately, its arrow is the one you get by placing the tail of
   $z_2$'s arrow at the tip of $z_1$'s. The three arrows close up into a
-  parallelogram -- exactly the rule you know from vectors in physics.
+  parallelogram -- exactly the rule you know from vectors.
 ]
 
 #only-theory[
-#cplane(
-  xmin: -0.5,
-  xmax: 4.5,
-  ymin: -0.5,
-  ymax: 4.5,
-  caption: [Addition is the parallelogram rule:
-    $(2 + i) + (1 + 3i) = 3 + 4i$.],
-  {
-    cp-segment((2, 1), (3, 4), color: luma(170), dashed: true)
-    cp-segment((1, 3), (3, 4), color: luma(170), dashed: true)
-    cp-vector(2, 1, color: accent, label: $z_1$, anchor: "north-west")
-    cp-vector(1, 3, color: def-col, label: $z_2$, anchor: "east")
-    cp-vector(
-      3,
-      4,
-      color: warn-col,
-      label: $z_1 + z_2$,
-      anchor: "south-west",
-    )
-  },
-)
+  #cplane(
+    xmin: -0.5,
+    xmax: 4.5,
+    ymin: -0.5,
+    ymax: 4.5,
+    caption: [Addition is the parallelogram rule:
+      $(2 + i) + (1 + 3i) = 3 + 4i$.],
+    {
+      cp-segment((2, 1), (3, 4), color: luma(170), dashed: true)
+      cp-segment((1, 3), (3, 4), color: luma(170), dashed: true)
+      cp-vector(2, 1, color: accent, label: $z_1$, anchor: "north-west")
+      cp-vector(1, 3, color: def-col, label: $z_2$, anchor: "east")
+      cp-vector(
+        3,
+        4,
+        color: warn-col,
+        label: $z_1 + z_2$,
+        anchor: "south-west",
+      )
+    },
+  )
 ]
 
 #only-theory[
@@ -301,20 +301,26 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -4.5,
-  xmax: 4.5,
-  ymin: -3.5,
-  ymax: 3.5,
-  caption: [$z$, its conjugate, and its negative.],
-  {
-    cp-point(3, 2, label: $z$, anchor: "south-west")
-    cp-point(3, -2, label: $overline(z)$, anchor: "north-west", color: def-col)
-    cp-point(-3, -2, label: $-z$, anchor: "north-east", color: warn-col)
-    cp-segment((3, 2), (3, -2), color: def-col, dashed: true)
-    cp-segment((3, 2), (-3, -2), color: warn-col, dashed: true)
-  },
-)
+  #cplane(
+    xmin: -4.5,
+    xmax: 4.5,
+    ymin: -3.5,
+    ymax: 3.5,
+    caption: [$z$, its conjugate, and its negative.],
+    {
+      cp-point(3, 2, label: $z$, anchor: "south-west")
+      cp-point(
+        3,
+        -2,
+        label: $overline(z)$,
+        anchor: "north-west",
+        color: def-col,
+      )
+      cp-point(-3, -2, label: $-z$, anchor: "north-east", color: warn-col)
+      cp-segment((3, 2), (3, -2), color: def-col, dashed: true)
+      cp-segment((3, 2), (-3, -2), color: warn-col, dashed: true)
+    },
+  )
 ]
 
 #ex(difficulty: 2, time: "15 min")[
@@ -415,20 +421,20 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -1.5,
-  xmax: 4.5,
-  ymin: -1.5,
-  ymax: 3.5,
-  caption: [Modulus and argument locate $z$ just as well as $a$ and
-    $b$ do.],
-  {
-    cp-vector(3, 2, color: accent)
-    cp-angle(0, 0, 0deg, 33.69deg, radius: 0.9, label: $phi.alt$)
-    cp-point(3, 2, label: $z$, anchor: "south-west")
-    cp-label(1.5, 1.4, $|z|$, color: accent, size: 10pt)
-  },
-)
+  #cplane(
+    xmin: -1.5,
+    xmax: 4.5,
+    ymin: -1.5,
+    ymax: 3.5,
+    caption: [Modulus and argument locate $z$ just as well as $a$ and
+      $b$ do.],
+    {
+      cp-vector(3, 2, color: accent)
+      cp-angle(0, 0, 0deg, 33.69deg, radius: 0.9, label: $phi.alt$)
+      cp-point(3, 2, label: $z$, anchor: "south-west")
+      cp-label(1.5, 1.4, $|z|$, color: accent, size: 10pt)
+    },
+  )
 ]
 
 #warning[
@@ -484,7 +490,7 @@
   Some books put the principal argument in $[0, 2 pi)$ instead of
   $(-pi, pi]$. Both conventions are in use and neither is more correct;
   they differ by a full turn for every $z$ below the real axis. These
-  notes use $(-pi, pi]$ throughout, and so does every CAS you are
+  notes use $(-pi/2, pi/2]$ throughout, and so does every CAS you are
   likely to meet -- but check before trusting an answer from a
   different source.
 ]
@@ -569,18 +575,18 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -3.5,
-  xmax: 5.5,
-  ymin: -2.5,
-  ymax: 5.5,
-  caption: [The locus ${z in CC | |z - (1 + 2i)| = 3}$.],
-  {
-    cp-circle(1, 2, 3, label: $1 + 2i$, anchor: "north-west")
-    cp-segment((1, 2), (4, 2), color: luma(120), dashed: true)
-    cp-label(2.5, 2.3, [$r = 3$], color: luma(90))
-  },
-)
+  #cplane(
+    xmin: -3.5,
+    xmax: 5.5,
+    ymin: -2.5,
+    ymax: 5.5,
+    caption: [The locus ${z in CC | |z - (1 + 2i)| = 3}$.],
+    {
+      cp-circle(1, 2, 3, label: $1 + 2i$, anchor: "north-west")
+      cp-segment((1, 2), (4, 2), color: luma(120), dashed: true)
+      cp-label(2.5, 2.3, [$r = 3$], color: luma(90))
+    },
+  )
 ]
 
 #warning[
@@ -610,21 +616,21 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -4.5,
-  xmax: 4.5,
-  ymin: -3.5,
-  ymax: 4.5,
-  caption: [The locus ${z in CC | Re(z) <= 3 "and" Im(z) > 2}$. Solid
-    boundary included, dashed excluded.],
-  {
-    cp-region((-4.5, 2), (3, 2), (3, 4.5), (-4.5, 4.5))
-    cp-segment((3, -3.5), (3, 4.5), color: def-col)
-    cp-segment((-4.5, 2), (3, 2), color: warn-col, dashed: true)
-    cp-label(3.15, -2.6, $Re(z) = 3$, color: def-col, size: 8pt)
-    cp-label(-2.6, 2.35, $Im(z) = 2$, color: warn-col, size: 8pt)
-  },
-)
+  #cplane(
+    xmin: -4.5,
+    xmax: 4.5,
+    ymin: -3.5,
+    ymax: 4.5,
+    caption: [The locus ${z in CC | Re(z) <= 3 "and" Im(z) > 2}$. Solid
+      boundary included, dashed excluded.],
+    {
+      cp-region((-4.5, 2), (3, 2), (3, 4.5), (-4.5, 4.5))
+      cp-segment((3, -3.5), (3, 4.5), color: def-col)
+      cp-segment((-4.5, 2), (3, 2), color: warn-col, dashed: true)
+      cp-label(3.15, -2.6, $Re(z) = 3$, color: def-col, size: 8pt)
+      cp-label(-2.6, 2.35, $Im(z) = 2$, color: warn-col, size: 8pt)
+    },
+  )
 ]
 
 #ex(difficulty: 2, time: "25 min", keep-together: true)[
@@ -697,12 +703,12 @@
   Expand the square of the left-hand side using
   $|u|^2 = u dot overline(u)$:
   $
-    |z + w|^2 &= (z + w) dot (overline(z) + overline(w)) \
-    &= z dot overline(z) + z dot overline(w) + w dot overline(z)
-      + w dot overline(w) \
-    &= |z|^2 + (z dot overline(w) + overline(z dot overline(w)))
-      + |w|^2 \
-    &= |z|^2 + 2 Re(z dot overline(w)) + |w|^2,
+    |z + w|^2 & = (z + w) dot (overline(z) + overline(w)) \
+              & = z dot overline(z) + z dot overline(w) + w dot overline(z)
+                + w dot overline(w) \
+              & = |z|^2 + (z dot overline(w) + overline(z dot overline(w)))
+                + |w|^2 \
+              & = |z|^2 + 2 Re(z dot overline(w)) + |w|^2,
   $
   using $w dot overline(z) = overline(z dot overline(w))$ in the third
   line and $u + overline(u) = 2 Re(u)$ in the fourth.
@@ -711,7 +717,7 @@
   = |z| dot |overline(w)| = |z| dot |w|$, so
   $
     |z + w|^2 <= |z|^2 + 2 dot |z| dot |w| + |w|^2
-      = (|z| + |w|)^2.
+    = (|z| + |w|)^2.
   $
   Both $|z + w|$ and $|z| + |w|$ are non-negative, so taking square
   roots preserves the inequality:

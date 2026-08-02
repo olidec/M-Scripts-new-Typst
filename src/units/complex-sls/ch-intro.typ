@@ -78,12 +78,30 @@
   #data-table(
     columns: (auto, auto, 1fr, 1fr),
     row-height: auto,
-    [Set], [Symbol], [Invented for], [Previously impossible],
-    [Natural], [$NN$], [Counting], [--],
-    [Integer], [$ZZ$], [Subtraction], [$5 - 7 in.not NN$],
-    [Rational], [$QQ$], [Division], [$2 / 3 in.not ZZ$],
-    [Real], [$RR$], [Roots and limits], [$sqrt(2) in.not QQ$],
-    [*Complex*], [$CC$], [Roots of negatives], [$sqrt(-1) in.not RR$],
+    [Set],
+    [Symbol],
+    [Invented for],
+    [Previously impossible],
+    [Natural],
+    [$NN$],
+    [Counting],
+    [--],
+    [Integer],
+    [$ZZ$],
+    [Subtraction],
+    [$5 - 7 in.not NN$],
+    [Rational],
+    [$QQ$],
+    [Division],
+    [$2 / 3 in.not ZZ$],
+    [Real],
+    [$RR$],
+    [Roots and limits],
+    [$sqrt(2) in.not QQ$],
+    [*Complex*],
+    [$CC$],
+    [Roots of negatives],
+    [$sqrt(-1) in.not RR$],
   )
 ]
 
@@ -128,7 +146,7 @@
   and *fails* for negative ones. If we allowed it:
   $
     1 = sqrt(1) = sqrt((-1) dot (-1)) eq.not sqrt(-1) dot sqrt(-1)
-      = i dot i = -1.
+    = i dot i = -1.
   $
   We therefore always work from $i^2 = -1$, and never write
   $i = sqrt(-1)$.
@@ -203,7 +221,8 @@
   #data-table(
     columns: (auto, 1fr),
     row-height: auto,
-    [You may also see], [Where it comes from],
+    [You may also see],
+    [Where it comes from],
     [$frak(R)(z)$ and $frak(I)(z)$],
     [Black-letter (*Fraktur*) letters -- the classical convention, still
       standard in much of the complex-analysis literature and in German
@@ -224,11 +243,21 @@
   #data-table(
     columns: (1fr, 1fr, 1fr),
     row-height: auto,
-    [$z$], [$Re(z)$], [$Im(z)$],
-    [$3 - 5i$], [$3$], [$-5$],
-    [$-sqrt(2) + i$], [$-sqrt(2)$], [$1$],
-    [$7$], [$7$], [$0$],
-    [$-4i$], [$0$], [$-4$],
+    [$z$],
+    [$Re(z)$],
+    [$Im(z)$],
+    [$3 - 5i$],
+    [$3$],
+    [$-5$],
+    [$-sqrt(2) + i$],
+    [$-sqrt(2)$],
+    [$1$],
+    [$7$],
+    [$7$],
+    [$0$],
+    [$-4i$],
+    [$0$],
+    [$-4$],
   )
 ]
 
@@ -345,7 +374,7 @@
   need is the remainder of $n$ on division by $4$.
 ]
 
-#theorem(title: "Powers of $i$")[
+#theorem(title: [Powers of $i$])[
   For every integer $n$,
   $
     i^n = cases(
@@ -369,7 +398,7 @@
   where the mistakes live:
   $
     i^(-3) = 1 / i^3 = 1 / (-i)
-           = i / ((-i) dot i) = i / 1 = i. quad #sym.checkmark
+    = i / ((-i) dot i) = i / 1 = i. quad #sym.checkmark
   $
 ]
 
@@ -386,7 +415,7 @@
   $90 degree$ per step. That is not a coincidence and it is not a
   metaphor: multiplying by $i$ really is a quarter turn, and once we
   have a picture of $CC$ we will be able to see it. Park the thought --
-  when the plane arrives, this list is the first thing to draw.
+  when the complex plane arrives, this list is the first thing to draw.
 ]
 
 #ex(difficulty: 1, time: "10 min")[

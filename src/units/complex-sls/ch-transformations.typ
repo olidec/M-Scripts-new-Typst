@@ -63,24 +63,24 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -3.5,
-  xmax: 3.5,
-  ymin: -2.5,
-  ymax: 2.5,
-  show-ticks: false,
-  caption: [A Lissajous curve $x(t) = 3 cos(3 t)$, $y(t) = 2 sin(2 t)$
-    -- no graph $y = f(x)$ can cross itself like this.],
-  {
-    cp-curve(
-      t => 3 * calc.cos(3 * t),
-      t => 2 * calc.sin(2 * t),
-      domain: (0, 2 * calc.pi),
-      samples: 240,
-      color: accent,
-    )
-  },
-)
+  #cplane(
+    xmin: -3.5,
+    xmax: 3.5,
+    ymin: -2.5,
+    ymax: 2.5,
+    show-ticks: false,
+    caption: [A Lissajous curve $x(t) = 3 cos(3 t)$, $y(t) = 2 sin(2 t)$
+      -- no graph $y = f(x)$ can cross itself like this.],
+    {
+      cp-curve(
+        t => 3 * calc.cos(3 * t),
+        t => 2 * calc.sin(2 * t),
+        domain: (0, 2 * calc.pi),
+        samples: 240,
+        color: accent,
+      )
+    },
+  )
 ]
 
 == A Curve Is a Complex-Valued Function
@@ -114,9 +114,9 @@
   A curve can be read two ways, and we will switch freely between them:
   - As *geometry* -- a shape in the plane, drawn by the moving point
     $z(t)$.
-  - As *arithmetic* -- a complex-valued function, which we can add to,
+  - As *algebra* -- a complex-valued function, which we can add to,
     multiply, and otherwise compute with.
-  Every transformation below is an arithmetic operation on $z(t)$ that
+  Every transformation below is an algebraic operation on $z(t)$ that
   we read off as a geometric motion of the curve.
 ]
 
@@ -148,28 +148,28 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -3.0,
-  xmax: 5.5,
-  ymin: -1.5,
-  ymax: 5.0,
-  show-ticks: false,
-  caption: [A curve $z(t)$ (blue) and its translation
-    $w(t) = z(t) + (3 + 2 dot i)$ (orange).],
-  {
-    cp-complex-curve(
-      t => (t, t * t - 1),
-      domain: (-2, 2),
-      color: accent,
-    )
-    cp-complex-curve(
-      t => (t + 3, t * t + 1),
-      domain: (-2, 2),
-      color: ex-col,
-    )
-    cp-vector(3, 2, color: luma(120), thickness: 1pt)
-  },
-)
+  #cplane(
+    xmin: -3.0,
+    xmax: 5.5,
+    ymin: -1.5,
+    ymax: 5.0,
+    show-ticks: false,
+    caption: [A curve $z(t)$ (blue) and its translation
+      $w(t) = z(t) + (3 + 2 dot i)$ (orange).],
+    {
+      cp-complex-curve(
+        t => (t, t * t - 1),
+        domain: (-2, 2),
+        color: accent,
+      )
+      cp-complex-curve(
+        t => (t + 3, t * t + 1),
+        domain: (-2, 2),
+        color: ex-col,
+      )
+      cp-vector(3, 2, color: luma(120), thickness: 1pt)
+    },
+  )
 ]
 
 #ex(difficulty: 1, time: "10 min")[
@@ -238,41 +238,41 @@
   $e^(i dot pi \/ 4) = (1 + i) \/ sqrt(2)$,
   $
     w(t) = (1 + i) / sqrt(2) dot (t + i dot (t^2 + 1))
-      = (t - (t^2 + 1)) / sqrt(2)
-      + i dot (t + (t^2 + 1)) / sqrt(2).
+    = (t - (t^2 + 1)) / sqrt(2)
+    + i dot (t + (t^2 + 1)) / sqrt(2).
   $
   Every point has swung $45 degree$ counterclockwise about the origin.
 ]
 
 #only-theory[
-#cplane(
-  xmin: -4.0,
-  xmax: 3.0,
-  ymin: -0.5,
-  ymax: 4.5,
-  show-ticks: false,
-  caption: [A curve $z(t)$ (blue) and its rotation
-    $w(t) = e^(i dot pi \/ 4) dot z(t)$ by $45 degree$ about the origin
-    (orange).],
-  {
-    let a = calc.pi / 4
-    cp-complex-curve(
-      t => (t, t * t + 1),
-      domain: (-1.6, 1.6),
-      color: accent,
-    )
-    cp-complex-curve(
-      t => {
-        let x = t
-        let y = t * t + 1
-        (calc.cos(a) * x - calc.sin(a) * y, calc.sin(a) * x + calc.cos(a) * y)
-      },
-      domain: (-1.6, 1.6),
-      color: ex-col,
-    )
-    cp-angle(0, 0, 63.43deg, 108.43deg, radius: 1.6, label: $45 degree$)
-  },
-)
+  #cplane(
+    xmin: -4.0,
+    xmax: 3.0,
+    ymin: -0.5,
+    ymax: 4.5,
+    show-ticks: false,
+    caption: [A curve $z(t)$ (blue) and its rotation
+      $w(t) = e^(i dot pi \/ 4) dot z(t)$ by $45 degree$ about the origin
+      (orange).],
+    {
+      let a = calc.pi / 4
+      cp-complex-curve(
+        t => (t, t * t + 1),
+        domain: (-1.6, 1.6),
+        color: accent,
+      )
+      cp-complex-curve(
+        t => {
+          let x = t
+          let y = t * t + 1
+          (calc.cos(a) * x - calc.sin(a) * y, calc.sin(a) * x + calc.cos(a) * y)
+        },
+        domain: (-1.6, 1.6),
+        color: ex-col,
+      )
+      cp-angle(0, 0, 63.43deg, 108.43deg, radius: 1.6, label: $45 degree$)
+    },
+  )
 ]
 
 #ex(difficulty: 2, time: "20 min", calculator: true)[
@@ -339,40 +339,40 @@
   Rotate the parabola $z(t) = t + i dot t^2$ by $90 degree$ about the
   point $z_0 = 1 + i$. With $e^(i dot pi \/ 2) = i$:
   $
-    w(t) &= i dot (z(t) - (1 + i)) + (1 + i) \
-      &= i dot ((t - 1) + i dot (t^2 - 1)) + 1 + i \
-      &= i dot (t - 1) - (t^2 - 1) + 1 + i \
-      &= (1 - (t^2 - 1)) + i dot (1 + (t - 1)) \
-      &= (2 - t^2) + i dot t.
+    w(t) & = i dot (z(t) - (1 + i)) + (1 + i) \
+         & = i dot ((t - 1) + i dot (t^2 - 1)) + 1 + i \
+         & = i dot (t - 1) - (t^2 - 1) + 1 + i \
+         & = (1 - (t^2 - 1)) + i dot (1 + (t - 1)) \
+         & = (2 - t^2) + i dot t.
   $
   The upward parabola becomes a leftward one -- a quarter turn, as it
   must be.
 ]
 
 #only-theory[
-#cplane(
-  xmin: -2.5,
-  xmax: 3.0,
-  ymin: -1.5,
-  ymax: 4.0,
-  show-ticks: false,
-  caption: [Rotation by $90 degree$ about $z_0 = 1 + i$: the curve
-    $z(t) = t + i dot t^2$ (blue) maps to $w(t) = (2 - t^2) + i dot t$
-    (orange). The center $z_0$ stays fixed.],
-  {
-    cp-complex-curve(
-      t => (t, t * t),
-      domain: (-1.6, 1.6),
-      color: accent,
-    )
-    cp-complex-curve(
-      t => (2 - t * t, t),
-      domain: (-1.6, 1.6),
-      color: ex-col,
-    )
-    cp-point(1, 1, label: $z_0$, anchor: "south-west", color: def-col)
-  },
-)
+  #cplane(
+    xmin: -2.5,
+    xmax: 3.0,
+    ymin: -1.5,
+    ymax: 4.0,
+    show-ticks: false,
+    caption: [Rotation by $90 degree$ about $z_0 = 1 + i$: the curve
+      $z(t) = t + i dot t^2$ (blue) maps to $w(t) = (2 - t^2) + i dot t$
+      (orange). The center $z_0$ stays fixed.],
+    {
+      cp-complex-curve(
+        t => (t, t * t),
+        domain: (-1.6, 1.6),
+        color: accent,
+      )
+      cp-complex-curve(
+        t => (2 - t * t, t),
+        domain: (-1.6, 1.6),
+        color: ex-col,
+      )
+      cp-point(1, 1, label: $z_0$, anchor: "south-west", color: def-col)
+    },
+  )
 ]
 
 #only-theory[
@@ -431,7 +431,7 @@
   Multiplying out and separating parts,
   $
     w(t) = (-(t^2 - t + 2)) / sqrt(2)
-      + i dot ((t^2 + t) / sqrt(2) + sqrt(2) - 2).
+    + i dot ((t^2 + t) / sqrt(2) + sqrt(2) - 2).
   $
   Image of the vertex ($t = 0$): $w(0) = -sqrt(2) + (sqrt(2) - 2) dot i$,
   i.e. $(-sqrt(2), sqrt(2) - 2)$.
@@ -444,8 +444,8 @@
   With $z_0 = 2 dot i$ and $e^(-i dot pi \/ 4) = (1 - i) \/ sqrt(2)$,
   $
     w(t) = e^(-i dot pi \/ 4) dot (t + i dot (t^2 - 2)) + 2 dot i
-      = (sqrt(2) dot (t^2 + t - 2)) / 2
-      + i dot ((sqrt(2) dot (t^2 - t)) / 2 - sqrt(2) + 2).
+    = (sqrt(2) dot (t^2 + t - 2)) / 2
+    + i dot ((sqrt(2) dot (t^2 - t)) / 2 - sqrt(2) + 2).
   $
 ]
 
@@ -482,37 +482,45 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -4.0,
-  xmax: 4.0,
-  ymin: -6.0,
-  ymax: 2.0,
-  length: 0.5cm,
-  show-ticks: false,
-  caption: [Three congruent cubic arcs, each a $120 degree$ rotation of
-    the next about the center, meeting at $A$, $B$, $C$.],
-  {
-    // K1: y = -x^3/9 + x on [-3, 3]
-    let k1 = t => (t, -t * t * t / 9 + t)
-    // rotate a point p by angle ang about center c
-    let rot = (p, ang, c) => {
-      let dx = p.at(0) - c.at(0)
-      let dy = p.at(1) - c.at(1)
-      (
-        c.at(0) + calc.cos(ang) * dx - calc.sin(ang) * dy,
-        c.at(1) + calc.sin(ang) * dx + calc.cos(ang) * dy,
+  #cplane(
+    xmin: -4.0,
+    xmax: 4.0,
+    ymin: -6.0,
+    ymax: 2.0,
+    length: 0.5cm,
+    show-ticks: false,
+    caption: [Three congruent cubic arcs, each a $120 degree$ rotation of
+      the next about the center, meeting at $A$, $B$, $C$.],
+    {
+      // K1: y = -x^3/9 + x on [-3, 3]
+      let k1 = t => (t, -t * t * t / 9 + t)
+      // rotate a point p by angle ang about center c
+      let rot = (p, ang, c) => {
+        let dx = p.at(0) - c.at(0)
+        let dy = p.at(1) - c.at(1)
+        (
+          c.at(0) + calc.cos(ang) * dx - calc.sin(ang) * dy,
+          c.at(1) + calc.sin(ang) * dx + calc.cos(ang) * dy,
+        )
+      }
+      let A = (-3, 0)
+      let B = (3, 0)
+      cp-complex-curve(k1, domain: (-3, 3), color: accent)
+      cp-complex-curve(
+        t => rot(k1(t), -calc.pi / 3, A),
+        domain: (-3, 3),
+        color: def-col,
       )
-    }
-    let A = (-3, 0)
-    let B = (3, 0)
-    cp-complex-curve(k1, domain: (-3, 3), color: accent)
-    cp-complex-curve(t => rot(k1(t), -calc.pi / 3, A), domain: (-3, 3), color: def-col)
-    cp-complex-curve(t => rot(k1(t), calc.pi / 3, B), domain: (-3, 3), color: warn-col)
-    cp-point(-3, 0, label: $A$, anchor: "north-east", size: 0.12)
-    cp-point(3, 0, label: $B$, anchor: "north-west", size: 0.12)
-    cp-point(0, -5.196, label: $C$, anchor: "north", size: 0.12)
-  },
-)
+      cp-complex-curve(
+        t => rot(k1(t), calc.pi / 3, B),
+        domain: (-3, 3),
+        color: warn-col,
+      )
+      cp-point(-3, 0, label: $A$, anchor: "north-east", size: 0.12)
+      cp-point(3, 0, label: $B$, anchor: "north-west", size: 0.12)
+      cp-point(0, -5.196, label: $C$, anchor: "north", size: 0.12)
+    },
+  )
 ]
 
 #ex(difficulty: 3, time: "35 min", hints: (
@@ -553,8 +561,8 @@
     [$K_2$ is $K_1$ rotated about $A = -3$ by $-60 degree$, and $K_3$ is
       $K_1$ rotated about $B = 3$ by $+60 degree$:
       $
-        w(t) &= e^(-i dot pi \/ 3) dot (z(t) + 3) - 3, \
-        u(t) &= e^(i dot pi \/ 3) dot (z(t) - 3) + 3.
+        w(t) & = e^(-i dot pi \/ 3) dot (z(t) + 3) - 3, \
+        u(t) & = e^(i dot pi \/ 3) dot (z(t) - 3) + 3.
       $],
     [$K_2$ is $K_1$ rotated by $-60 degree$ about $A$, and $A$ is a
       point of both, so at $A$ the tangent of $K_2$ is the tangent of

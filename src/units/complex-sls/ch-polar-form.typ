@@ -44,31 +44,31 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -1.5,
-  xmax: 4.5,
-  ymin: -1.5,
-  ymax: 3.5,
-  caption: [Modulus $r$ and argument $phi.alt$ recover the Cartesian
-    parts through $a = r cos(phi.alt)$, $b = r sin(phi.alt)$.],
-  {
-    cp-vector(3, 2, color: accent)
-    cp-segment((3, 0), (3, 2), color: luma(150), dashed: true)
-    cp-segment((0, 2), (3, 2), color: luma(150), dashed: true)
-    cp-angle(0, 0, 0deg, 33.69deg, radius: 0.85, label: $phi.alt$)
-    cp-point(3, 2, label: $z$, anchor: "south-west")
-    cp-label(1.35, 1.4, $r$, color: accent, size: 10pt)
-    cp-label(1.5, -0.4, $a$)
-    cp-label(-0.4, 1.0, $b$)
-  },
-)
+  #cplane(
+    xmin: -1.5,
+    xmax: 4.5,
+    ymin: -1.5,
+    ymax: 3.5,
+    caption: [Modulus $r$ and argument $phi.alt$ recover the Cartesian
+      parts through $a = r cos(phi.alt)$, $b = r sin(phi.alt)$.],
+    {
+      cp-vector(3, 2, color: accent)
+      cp-segment((3, 0), (3, 2), color: luma(150), dashed: true)
+      cp-segment((0, 2), (3, 2), color: luma(150), dashed: true)
+      cp-angle(0, 0, 0deg, 33.69deg, radius: 0.85, label: $phi.alt$)
+      cp-point(3, 2, label: $z$, anchor: "south-west")
+      cp-label(1.35, 1.4, $r$, color: accent, size: 10pt)
+      cp-label(1.5, -0.4, $a$)
+      cp-label(-0.4, 1.0, $b$)
+    },
+  )
 ]
 
 #keybox(title: "Trigonometric form")[
   Every complex number can be written using its modulus and argument as
   $
     z = r cos(phi.alt) + r sin(phi.alt) dot i
-      = r dot (cos(phi.alt) + i sin(phi.alt)),
+    = r dot (cos(phi.alt) + i sin(phi.alt)),
   $
   where $r = |z| >= 0$ and $phi.alt = Arg(z)$. This is the
   #vocab("trigonometric form", "trigonometrische Form") of $z$.
@@ -112,7 +112,7 @@
   *addition formulas* from trigonometry. They collapse:
   $
     z_1 dot z_2 = r_1 dot r_2 dot
-      (cos(phi.alt_1 + phi.alt_2) + i sin(phi.alt_1 + phi.alt_2)).
+    (cos(phi.alt_1 + phi.alt_2) + i sin(phi.alt_1 + phi.alt_2)).
   $
 ]
 
@@ -141,35 +141,34 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -0.5,
-  xmax: 3.5,
-  ymin: -0.5,
-  ymax: 3.5,
-  length: 0.9cm,
-  caption: [Multiplication rotates and scales: the arrow for
-    $z_1 dot z_2$ has length $|z_1| dot |z_2|$ and angle
-    $Arg(z_1) + Arg(z_2)$.],
-  {
-    cp-vector(2.30, 0.98, color: accent, label: $z_1$, anchor: "north")
-    cp-vector(1.07, 0.90, color: def-col, label: $z_2$, anchor: "east")
-    cp-vector(
-      1.59,
-      3.12,
-      color: warn-col,
-      label: $z_1 dot z_2$,
-      anchor: "south-west",
-    )
-    cp-angle(0, 0, 0deg, 23deg, radius: 0.55, color: accent)
-    cp-angle(0, 0, 0deg, 40deg, radius: 0.8, color: def-col)
-    cp-angle(0, 0, 0deg, 63deg, radius: 1.05, color: warn-col)
-  },
-)
+  #cplane(
+    xmin: -0.5,
+    xmax: 3.5,
+    ymin: -0.5,
+    ymax: 3.5,
+    length: 0.9cm,
+    caption: [Multiplication rotates and scales: the arrow for
+      $z_1 dot z_2$ has length $|z_1| dot |z_2|$ and angle
+      $Arg(z_1) + Arg(z_2)$.],
+    {
+      cp-vector(2.30, 0.98, color: accent, label: $z_1$, anchor: "north")
+      cp-vector(1.07, 0.90, color: def-col, label: $z_2$, anchor: "east")
+      cp-vector(
+        1.59,
+        3.12,
+        color: warn-col,
+        label: $z_1 dot z_2$,
+        anchor: "south-west",
+      )
+      cp-angle(0, 0, 0deg, 23deg, radius: 0.55, color: accent)
+      cp-angle(0, 0, 0deg, 40deg, radius: 0.8, color: def-col)
+      cp-angle(0, 0, 0deg, 63deg, radius: 1.05, color: warn-col)
+    },
+  )
 ]
 
-#look-ahead(
+#look-back(
   title: "The quarter turn, at last",
-  preview: [it was promised back in the introduction],
 )[
   Back in the introduction the powers of $i$ ran in a cycle of four --
   $1, i, -1, -i$ -- and I claimed, without proof, that multiplying by
@@ -199,7 +198,7 @@
 #only-theory[
   The trigonometric form is doing something suspicious. "Multiply the
   moduli, *add* the arguments" is precisely how *exponents* behave:
-  $x^(m) dot x^(n) = x^(m + n)$ multiplies the bases and adds the
+  $x^(m) dot x^(n) = x^(m + n)$ adds the
   exponents. If $cos(phi.alt) + i sin(phi.alt)$ were some base raised
   to the power $phi.alt$, the whole multiplication rule would be
   nothing but the law of exponents. It is -- and the base is $e$.
@@ -219,17 +218,16 @@
   $i$ to sort the terms, and the real terms assemble the cosine series
   while the imaginary terms assemble the sine series:
   $
-    e^(i dot phi.alt)
-    &= 1 + i dot phi.alt - (phi.alt^2) / 2! - i dot (phi.alt^3) / 3!
-       + (phi.alt^4) / 4! + i dot (phi.alt^5) / 5! - dots.c \
-    &= underbrace(
-        (1 - (phi.alt^2) / 2! + (phi.alt^4) / 4! - dots.c),
-        cos(phi.alt),
-      )
-      + i dot underbrace(
-        (phi.alt - (phi.alt^3) / 3! + (phi.alt^5) / 5! - dots.c),
-        sin(phi.alt),
-      ).
+    e^(i dot phi.alt) & = 1 + i dot phi.alt - (phi.alt^2) / 2! - i dot (phi.alt^3) / 3!
+                        + (phi.alt^4) / 4! + i dot (phi.alt^5) / 5! - dots.c \
+                      & = underbrace(
+                          (1 - (phi.alt^2) / 2! + (phi.alt^4) / 4! - dots.c),
+                          cos(phi.alt),
+                        )
+                        + i dot underbrace(
+                          (phi.alt - (phi.alt^3) / 3! + (phi.alt^5) / 5! - dots.c),
+                          sin(phi.alt),
+                        ).
   $
 ]
 
@@ -246,7 +244,7 @@
   addition formulas at all:
   $
     z_1 dot z_2 = r_1 dot e^(i dot phi.alt_1) dot r_2 dot e^(i dot phi.alt_2)
-      = r_1 dot r_2 dot e^(i dot (phi.alt_1 + phi.alt_2)).
+    = r_1 dot r_2 dot e^(i dot (phi.alt_1 + phi.alt_2)).
   $
   The moduli multiply and the arguments add because the exponents add.
   The addition formulas of trigonometry and the law of exponents turn
@@ -298,13 +296,12 @@
   or, written out,
   $
     (r dot (cos(phi.alt) + i sin(phi.alt)))^n
-      = r^n dot (cos(n dot phi.alt) + i sin(n dot phi.alt)).
+    = r^n dot (cos(n dot phi.alt) + i sin(n dot phi.alt)).
   $
 ]
 
-#look-ahead(
+#look-back(
   title: "The hundredth power, for free",
-  preview: [the promise from the arithmetic chapter],
 )[
   In the arithmetic chapter I warned that $(1 + i)^(100)$ was hopeless
   by hand. It no longer is. Write $1 + i = sqrt(2) dot e^(i dot pi \/ 4)$;
@@ -322,7 +319,7 @@
   $1 + i = sqrt(2) dot e^(i dot pi \/ 4)$. Then
   $
     (1 + i)^8 = (sqrt(2))^8 dot e^(i dot 8 pi \/ 4)
-      = 16 dot e^(i dot 2 pi) = 16 dot 1 = 16.
+    = 16 dot e^(i dot 2 pi) = 16 dot 1 = 16.
   $
 ]
 
@@ -334,13 +331,13 @@
   Moivre gives
   $
     (cos(phi.alt) + i sin(phi.alt))^2
-      = cos(2 phi.alt) + i sin(2 phi.alt).
+    = cos(2 phi.alt) + i sin(2 phi.alt).
   $
   On the other side, expand the square directly with $i^2 = -1$:
   $
     (cos(phi.alt) + i sin(phi.alt))^2
-      = (cos^2(phi.alt) - sin^2(phi.alt))
-      + i dot (2 sin(phi.alt) cos(phi.alt)).
+    = (cos^2(phi.alt) - sin^2(phi.alt))
+    + i dot (2 sin(phi.alt) cos(phi.alt)).
   $
   Two expressions for one number, so their real parts agree and their
   imaginary parts agree:
@@ -384,12 +381,12 @@
   $k$. So $s = rho^(1 \/ n)$ (a positive real root) and
   $psi = (theta + 2 pi dot k) \/ n$. The values $k = 0, 1, dots, n - 1$
   give $n$ distinct arguments within one full turn; every other $k$
-  repeats one of these. $square$
+  repeats one of these.
 ]
 
 #only-theory[
   The special case $w = 1$ deserves its own name. The solutions of
-  $z^n = 1$ are the #vocab("$n$-th roots of unity", "$n$-te Einheitswurzeln"),
+  $z^n = 1$ are the #vocab("n-th roots of unity", "n-te Einheitswurzeln"),
   $
     z_k = e^(2 pi dot i dot k \/ n), quad k = 0, 1, dots, n - 1,
   $
@@ -409,24 +406,24 @@
 ]
 
 #only-theory[
-#cplane(
-  xmin: -2.0,
-  xmax: 2.0,
-  ymin: -2.0,
-  ymax: 2.0,
-  length: 1.1cm,
-  caption: [The three cube roots of unity: a regular triangle on the
-    unit circle.],
-  {
-    cp-unit-circle()
-    cp-segment((1, 0), (-0.5, 0.866), color: accent)
-    cp-segment((-0.5, 0.866), (-0.5, -0.866), color: accent)
-    cp-segment((-0.5, -0.866), (1, 0), color: accent)
-    cp-point(1, 0, label: $z_0 = 1$, anchor: "west")
-    cp-point(-0.5, 0.866, label: $z_1$, anchor: "south-east")
-    cp-point(-0.5, -0.866, label: $z_2$, anchor: "north-east")
-  },
-)
+  #cplane(
+    xmin: -2.0,
+    xmax: 2.0,
+    ymin: -2.0,
+    ymax: 2.0,
+    length: 1.1cm,
+    caption: [The three cube roots of unity: a regular triangle on the
+      unit circle.],
+    {
+      cp-unit-circle()
+      cp-segment((1, 0), (-0.5, 0.866), color: accent)
+      cp-segment((-0.5, 0.866), (-0.5, -0.866), color: accent)
+      cp-segment((-0.5, -0.866), (1, 0), color: accent)
+      cp-point(1, 0, label: $z_0 = 1$, anchor: "west")
+      cp-point(-0.5, 0.866, label: $z_1$, anchor: "south-east")
+      cp-point(-0.5, -0.866, label: $z_2$, anchor: "north-east")
+    },
+  )
 ]
 
 #example[
@@ -435,11 +432,11 @@
   Write $-8 = 8 dot e^(i dot pi)$, so $rho^(1 \/ 3) = 2$ and
   $z_k = 2 dot e^(i dot (pi + 2 pi dot k) \/ 3)$ for $k = 0, 1, 2$:
   $
-    z_0 &= 2 dot e^(i dot pi \/ 3)
-        = 2 dot (1 / 2 + sqrt(3) / 2 dot i) = 1 + sqrt(3) dot i, \
-    z_1 &= 2 dot e^(i dot pi) = -2, \
-    z_2 &= 2 dot e^(i 5 pi \/ 3)
-        = 2 dot (1 / 2 - sqrt(3) / 2 dot i) = 1 - sqrt(3) dot i.
+    z_0 & = 2 dot e^(i dot pi \/ 3)
+          = 2 dot (1 / 2 + sqrt(3) / 2 dot i) = 1 + sqrt(3) dot i, \
+    z_1 & = 2 dot e^(i dot pi) = -2, \
+    z_2 & = 2 dot e^(i 5 pi \/ 3)
+          = 2 dot (1 / 2 - sqrt(3) / 2 dot i) = 1 - sqrt(3) dot i.
   $
   One of the three cube roots of $-8$ is the real number $-2$; the
   other two are a conjugate pair. The three are $120 degree$ apart.
@@ -538,13 +535,13 @@
   $i^3 = -i$ (write $c = cos(phi.alt)$, $s = sin(phi.alt)$):
   $
     (c + i dot s)^3 &= c^3 + 3 c^2 dot (i dot s) + 3 c dot (i dot s)^2 + (i dot s)^3 \
-      &= c^3 + 3 dot i dot c^2 dot s - 3 c dot s^2 - i dot s^3 \
-      &= (c^3 - 3 c dot s^2) + i dot (3 c^2 dot s - s^3).
+    &= c^3 + 3 dot i dot c^2 dot s - 3 c dot s^2 - i dot s^3 \
+    &= (c^3 - 3 c dot s^2) + i dot (3 c^2 dot s - s^3).
   $
   Comparing real and imaginary parts:
   $
-    cos(3 phi.alt) &= cos^3(phi.alt) - 3 cos(phi.alt) sin^2(phi.alt), \
-    sin(3 phi.alt) &= 3 cos^2(phi.alt) sin(phi.alt) - sin^3(phi.alt).
+    cos(3 phi.alt) & = cos^3(phi.alt) - 3 cos(phi.alt) sin^2(phi.alt), \
+    sin(3 phi.alt) & = 3 cos^2(phi.alt) sin(phi.alt) - sin^3(phi.alt).
   $
   (Using $sin^2 = 1 - cos^2$ and $cos^2 = 1 - sin^2$ these become the
   more familiar $cos(3 phi.alt) = 4 cos^3(phi.alt) - 3 cos(phi.alt)$
@@ -563,9 +560,9 @@
   *$n = 6$:* $z_k = e^(pi dot i dot k \/ 3)$ for $k = 0, dots, 5$:
   $
     z_0 &= 1, & z_1 &= 1 / 2 + sqrt(3) / 2 dot i,
-      & z_2 &= -1 / 2 + sqrt(3) / 2 dot i, \
+    & z_2 &= -1 / 2 + sqrt(3) / 2 dot i, \
     z_3 &= -1, & z_4 &= -1 / 2 - sqrt(3) / 2 dot i,
-      & z_5 &= 1 / 2 - sqrt(3) / 2 dot i,
+    & z_5 &= 1 / 2 - sqrt(3) / 2 dot i,
   $
   the vertices of a regular hexagon.
 

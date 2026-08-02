@@ -37,7 +37,9 @@
   // >>> PASTE the Bob Wells lyric here, one line per line, ending with:
   // #v(0.3em) #align(right)[#text(size: 9pt)[— Bob Wells, to the tune
   //   of Lennon's *Imagine* · #link("http://www.pleacher.com/mp/mpoetry/imagine.html")[pleacher.com]]]
-  #align(center)[#text(fill: luma(130))[_(chapter song — see source comment above)_]]
+  #align(center)[#text(
+    fill: luma(130),
+  )[_(chapter song — see source comment above)_]]
 ]
 
 #only-theory[
@@ -82,8 +84,8 @@
 
 #theorem(title: "Addition and subtraction")[
   $
-    z_1 + z_2 &= (a_1 + a_2) + (b_1 + b_2) dot i, \
-    z_1 - z_2 &= (a_1 - a_2) + (b_1 - b_2) dot i.
+    z_1 + z_2 & = (a_1 + a_2) + (b_1 + b_2) dot i, \
+    z_1 - z_2 & = (a_1 - a_2) + (b_1 - b_2) dot i.
   $
 ]
 
@@ -118,19 +120,18 @@
 #theorem(title: "Multiplication")[
   $
     z_1 dot z_2
-      = (a_1 dot a_2 - b_1 dot b_2)
-      + (a_1 dot b_2 + a_2 dot b_1) dot i.
+    = (a_1 dot a_2 - b_1 dot b_2)
+    + (a_1 dot b_2 + a_2 dot b_1) dot i.
   $
 ]
 
 #proof[
   Expand and collect, substituting $i^2 = -1$ in the middle line:
   $
-    (a_1 + b_1 dot i) dot (a_2 + b_2 dot i)
-      &= a_1 dot a_2 + a_1 dot b_2 dot i + a_2 dot b_1 dot i
-        + b_1 dot b_2 dot i^2 \
-      &= a_1 dot a_2 - b_1 dot b_2
-        + (a_1 dot b_2 + a_2 dot b_1) dot i.
+    (a_1 + b_1 dot i) dot (a_2 + b_2 dot i) & = a_1 dot a_2 + a_1 dot b_2 dot i + a_2 dot b_1 dot i
+                                              + b_1 dot b_2 dot i^2 \
+                                            & = a_1 dot a_2 - b_1 dot b_2
+                                              + (a_1 dot b_2 + a_2 dot b_1) dot i.
   $
 ]
 
@@ -146,10 +147,10 @@
   With $z_1 = 2 + 3 dot i$ and $z_2 = 1 - 4 dot i$:
   $
     z_1 dot z_2
-      = (2 + 3 dot i) dot (1 - 4 dot i)
-      = 2 - 8 dot i + 3 dot i - 12 dot i^2
-      = (2 + 12) + (-8 + 3) dot i
-      = 14 - 5 dot i.
+    = (2 + 3 dot i) dot (1 - 4 dot i)
+    = 2 - 8 dot i + 3 dot i - 12 dot i^2 \
+    = (2 + 12) + (-8 + 3) dot i
+    = 14 - 5 dot i.
   $
   The $-12 dot i^2$ became $+12$ -- the step that does all the work.
 ]
@@ -163,7 +164,7 @@
 ]
 
 #definition(title: "Complex conjugate")[
-  The #vocab("complex conjugate", "konjugiert komplexe Zahl") of
+  The #vocab("complex conjugate", "komplex konjugierte Zahl") of
   $z = a + b dot i$ is
   $ overline(z) = a - b dot i. $
   It has the same real part as $z$ and the opposite imaginary part.
@@ -179,9 +180,9 @@
 #theorem(title: "The conjugate and the parts")[
   For $z = a + b dot i$:
   $
-    z + overline(z) &= 2 a = 2 Re(z), \
-    z - overline(z) &= 2 b dot i = 2 Im(z) dot i, \
-    z dot overline(z) &= a^2 + b^2.
+      z + overline(z) & = 2 a = 2 Re(z), \
+      z - overline(z) & = 2 b dot i = 2 Im(z) dot i, \
+    z dot overline(z) & = a^2 + b^2.
   $
   In particular $z dot overline(z)$ is a *non-negative real number*,
   and it is zero only when $z = 0$.
@@ -192,11 +193,11 @@
   two squares:
   $
     (a + b dot i) dot (a - b dot i)
-      = a^2 - (b dot i)^2 = a^2 - b^2 dot i^2 = a^2 + b^2. quad square
+    = a^2 - (b dot i)^2 = a^2 - b^2 dot i^2 = a^2 + b^2.
   $
 ]
 
-#keybox(title: "Why $z dot overline(z)$ is the key")[
+#keybox(title: [Why $z dot overline(z)$ is the key])[
   The product $z dot overline(z) = a^2 + b^2$ takes two complex numbers
   and returns a *real* one -- with no $i$ left anywhere. That is exactly
   what you need to divide (it clears $i$ from a denominator), and it is
@@ -269,8 +270,8 @@
   conjugate of the denominator:
   $
     z_1 / z_2
-      = (z_1 dot overline(z_2)) / (z_2 dot overline(z_2))
-      = (z_1 dot overline(z_2)) / (a_2^2 + b_2^2).
+    = (z_1 dot overline(z_2)) / (z_2 dot overline(z_2))
+    = (z_1 dot overline(z_2)) / (a_2^2 + b_2^2).
   $
   The denominator $a_2^2 + b_2^2$ is a positive real number, so the
   result is again a complex number in Cartesian form.
@@ -281,10 +282,10 @@
   $overline(z_2) = 1 + 4 dot i$:
   $
     z_1 / z_2
-      = (2 + 3 dot i) / (1 - 4 dot i) dot (1 + 4 dot i) / (1 + 4 dot i)
-      = ((2 + 3 dot i) dot (1 + 4 dot i)) / (1^2 + 4^2)
-      = (-10 + 11 dot i) / 17
-      = -10 / 17 + 11 / 17 dot i.
+    = (2 + 3 dot i) / (1 - 4 dot i) dot (1 + 4 dot i) / (1 + 4 dot i)
+    = ((2 + 3 dot i) dot (1 + 4 dot i)) / (1^2 + 4^2)
+    = (-10 + 11 dot i) / 17
+    = -10 / 17 + 11 / 17 dot i.
   $
 ]
 
@@ -495,8 +496,8 @@
   #auto-parts(
     1,
     [$overline(z + w) = overline((a + c) + (b + d) dot i)
-      = (a + c) - (b + d) dot i = (a - b dot i) + (c - d dot i)
-      = overline(z) + overline(w).$],
+    = (a + c) - (b + d) dot i = (a - b dot i) + (c - d dot i)
+    = overline(z) + overline(w).$],
     [Expand first, then conjugate:
       $z dot w = (a dot c - b dot d) + (a dot d + b dot c) dot i$, so
       $overline(z dot w) = (a dot c - b dot d) - (a dot d + b dot c) dot i$.
