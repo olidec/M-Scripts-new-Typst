@@ -39,9 +39,6 @@
     with an area diagram, rather than only quoting them],
 )
 
-#only-theory[
-  #pagebreak()
-]
 
 == The Big Ideas in Algebra
 
@@ -91,9 +88,7 @@
     the whole thing is one *expression*.
 ]
 
-#only-theory[
-  #pagebreak()
-]
+
 
 ==== Variables
 
@@ -143,7 +138,7 @@
     both terms by $3x^2$, can be written as $3x^2 dot (2x^3 + 1)$.
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false, keep-together: true)[
+#ex(difficulty: 1, time: "10 min", calculator: none, keep-together: true)[
   Evaluate the following terms for the given $x$\u{2011}values.
 
   #data-table(
@@ -244,7 +239,6 @@
 ]
 
 #only-theory[
-  #pagebreak()
   You can think of an equation as a balance. If both sides are changed in
   the same fashion, the equation will still be true (_balanced_).
 
@@ -257,7 +251,7 @@
   #fig(image("images/equation-balance.png", width: 65%))
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Solve the equations for each variable.
   #parts(
     2,
@@ -505,7 +499,7 @@
   those answers will be one line long later.
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Write each inequality as an interval.
   #parts(
     3,
@@ -528,14 +522,10 @@
   )
 ]
 
-#only-theory[
-  #pagebreak()
-]
-
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Draw both intervals on the same number line before you write
       anything down. #heuristic("draw a picture")],
@@ -745,7 +735,7 @@
   $
 ]
 
-#ex(difficulty: 1, time: "5 min", calculator: false)[
+#ex(difficulty: 1, time: "5 min", calculator: none)[
   Evaluate each absolute value expression.
   #parts(
     3,
@@ -791,7 +781,7 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Every one of these splits into *two* ordinary equations -- one
       where the inside is positive, one where it is negative.],
@@ -853,14 +843,14 @@
   $ b^n = a quad <=> quad b = root(n, a), quad a >= 0, med b >= 0 $
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Evaluate.
   #parts(4, [(a) $2^5$], [(b) $(-2)^4$], [(c) $10^3$], [(d) $0.1^2$])
 ][
   #parts(4, [(a) $32$], [(b) $16$], [(c) $#num(1000)$], [(d) $0.01$])
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   For each power, write the corresponding root statement, and for each
   root, write the corresponding power statement.
   #parts(
@@ -907,7 +897,7 @@
   differences. #heuristic("check an extreme or special case")
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Express each in terms of the simplest possible radical.
   #parts(
     3,
@@ -946,8 +936,6 @@
   value bars, radical signs, and fraction bars. The
   #vocab("order of operations", "Reihenfolge der Rechenoperationen") can
   be remembered using the mnemonic *PEMDAS*.
-
-  #pagebreak()
 ]
 
 #keybox(title: "Order of Operations")[
@@ -1020,7 +1008,7 @@
   "Klammer, Punkt, Strich" slogan.
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false)[
+#ex(difficulty: 2, time: "15 min", calculator: none)[
   Simplify the following expressions.
   #parts(
     2,
@@ -1051,7 +1039,7 @@
 
 == Solving Equations
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Solve the following equations.
   #parts(
     2,
@@ -1077,7 +1065,7 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Each right-hand side is one of the special products in disguise.
       Decide first *which* of the three it is.],
@@ -1108,7 +1096,7 @@
 #ex(
   difficulty: 2,
   time: "15 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Expand both sides completely first. Several of these collapse to
       something much smaller than they look.],
@@ -1285,10 +1273,6 @@
   pattern you are drilling here is the one that derives that formula.
 ]
 
-#only-theory[
-  #pagebreak()
-]
-
 === Factoring Algebraic Expressions
 
 #only-theory[
@@ -1337,7 +1321,7 @@
   to $6$. Always bring everything to one side first.
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false)[
+#ex(difficulty: 2, time: "15 min", calculator: none)[
   Expand and simplify.
   #parts(
     3,
@@ -1363,7 +1347,7 @@
 #ex(
   difficulty: 2,
   time: "20 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Always look for a common factor *first* -- (a), (b), (f) and (j)
       all get much smaller once you pull one out.],
@@ -1414,7 +1398,7 @@
   problems is easy, generating correct ones is not the same task.
 ]
 
-#ex(difficulty: 2, time: "20 min", calculator: false)[
+#ex(difficulty: 2, time: "20 min", calculator: none)[
   Solve the following equations.
   #parts(
     2,
@@ -1516,7 +1500,7 @@
   stop it happening.
 ]
 
-#ex(difficulty: 1, time: "15 min", calculator: false)[
+#ex(difficulty: 1, time: "15 min", calculator: none)[
   Simplify the following fractions.
   #parts(
     3,
@@ -1539,7 +1523,7 @@
   )
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false)[
+#ex(difficulty: 2, time: "15 min", calculator: none)[
   Simplify the following fractions.
   #parts(
     3,
@@ -1568,7 +1552,7 @@
 #ex(
   difficulty: 2,
   time: "20 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Factor numerator and denominator completely before cancelling
       anything. Most of these hide a difference of squares.],
@@ -1597,7 +1581,7 @@
   )
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false)[
+#ex(difficulty: 2, time: "15 min", calculator: none)[
   Multiply and simplify.
   #parts(
     3,
@@ -1620,7 +1604,7 @@
   )
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false)[
+#ex(difficulty: 2, time: "15 min", calculator: none)[
   Divide and simplify.
   #parts(
     2,
@@ -1643,7 +1627,7 @@
   )
 ]
 
-#ex(difficulty: 2, time: "20 min", calculator: false)[
+#ex(difficulty: 2, time: "20 min", calculator: none)[
   Add/subtract and simplify.
   #parts(
     3,
@@ -1666,7 +1650,7 @@
   )
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false)[
+#ex(difficulty: 2, time: "15 min", calculator: none)[
   Simplify the following fractions.
   #parts(
     2,
@@ -1703,7 +1687,7 @@
 #ex(
   difficulty: 2,
   time: "15 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [In (b), write the $4$ as a fraction over the same denominator
       before subtracting.],
@@ -1732,7 +1716,7 @@
 #ex(
   difficulty: 3,
   time: "10 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Do not put all six over one enormous denominator. Look at the
       denominators' prime factors first: $39 = 3 dot 13$,
@@ -1752,14 +1736,10 @@
   $1/3 + 1/2 + 1/6 = 1$. #heuristic("look for what stays the same")
 ]
 
-#only-theory[
-  #pagebreak()
-]
-
 #ex(
   difficulty: 1,
   time: "5 min",
-  calculator: false,
+  calculator: none,
   hints: ([Both fractions can be written over the denominator $3600$.],),
 )[
   Calculate.
@@ -1791,7 +1771,7 @@
   the algebra afterward you already know.
 ]
 
-#ex(difficulty: 2, time: "15 min", calculator: false, keep-together: true)[
+#ex(difficulty: 2, time: "15 min", calculator: none, keep-together: true)[
   Solve each equation, using whichever technique fits best.
   #parts(
     2,
@@ -1879,10 +1859,9 @@
       the same path. That shared endpoint *is* the equation.],
   )
 
-  #pagebreak()
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Translate the following into an equation and solve.
   + Four times a number is 48.
   + A number doubled and reduced by 12 equals 10.
@@ -1896,9 +1875,11 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
-  hints: ([Call the shorter piece $x$. How long is the other one, and
-    what must the two lengths add up to?],),
+  calculator: none,
+  hints: (
+    [Call the shorter piece $x$. How long is the other one, and
+      what must the two lengths add up to?],
+  ),
 )[
   To do a rope trick, a magician needs to cut a piece of rope so that one
   piece is one-third the length of the other. If she begins with an
@@ -1913,9 +1894,11 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
-  hints: ([If the smallest even integer is $n$, the next two are $n+2$
-    and $n+4$ -- not $n+1$ and $n+2$.],),
+  calculator: none,
+  hints: (
+    [If the smallest even integer is $n$, the next two are $n+2$
+      and $n+4$ -- not $n+1$ and $n+2$.],
+  ),
 )[
   Of three consecutive even integers, the sum of the smallest two is
   equal to 6 less than the largest. Find the integers.
@@ -1931,8 +1914,10 @@
   difficulty: 2,
   time: "15 min",
   calculator: true,
-  hints: ([What quantity is the same for the ride out and the walk
-    back?],),
+  hints: (
+    [What quantity is the same for the ride out and the walk
+      back?],
+  ),
 )[
   Pat averages a rate of 11 mph on his bike. One day he rode for 45 min
   ($3/4$ hr) and then got a flat tire and had to walk back home. He
@@ -1952,8 +1937,10 @@
   difficulty: 2,
   time: "15 min",
   calculator: true,
-  hints: ([Let $x$ be the amount in the 6% account; then the other
-    account holds $x + #num(2000)$.],),
+  hints: (
+    [Let $x$ be the amount in the 6% account; then the other
+      account holds $x + #num(2000)$.],
+  ),
 )[
   Sharyn invests \$#num(2000) more in an account that earns 9% simple
   interest than she invests in an account that earns 6% simple interest.
