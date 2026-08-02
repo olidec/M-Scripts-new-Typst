@@ -66,9 +66,10 @@
   #vocab("adjacent", "Ankathete"). The
   #vocab("hypotenuse", "Hypotenuse") is always the side opposite the
   right angle -- it does not depend on which acute angle you picked.
-]
 
-#fig(image("images/right-triangle-labels.pdf", width: 50%))
+
+  #fig(image("images/right-triangle-labels.pdf", width: 50%))
+]
 
 #definition(title: "Sine, cosine, and tangent")[
   For an acute angle $phi.alt$ in a right triangle we define the three
@@ -141,7 +142,7 @@
 
 #ex(difficulty: 1, time: "15 min")[
   Solve for $x$.
-  #fig(image("images/solve-for-x-triangles.pdf", width: 60%))
+  #fig(image("images/solve-for-x-triangles.pdf", width: 55%))
 ][
   #parts(
     3,

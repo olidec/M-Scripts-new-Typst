@@ -80,20 +80,22 @@
   and repeats forever.
 ]
 
-#fig(
-  plot-graph(
-    (fn: x => calc.sin(x), color: accent),
-    (fn: x => calc.cos(x), color: warn-col),
-    xmin: -6.9,
-    xmax: 6.9,
-    ymin: -1.5,
-    ymax: 1.5,
-    width: 12,
-    height: 4.5,
-  ),
-  caption: [$y = sin(x)$ (teal) and $y = cos(x)$ (orange), $x$ in
-    radians. One full period is $2 pi approx 6.28$.],
-)
+#only-theory[
+  #fig(
+    plot-graph(
+      (fn: x => calc.sin(x), color: accent),
+      (fn: x => calc.cos(x), color: warn-col),
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -1.5,
+      ymax: 1.5,
+      width: 12,
+      height: 4.5,
+    ),
+    caption: [$y = sin(x)$ (teal) and $y = cos(x)$ (orange), $x$ in
+      radians. One full period is $2 pi approx 6.28$.],
+  )
+]
 
 #keybox(title: "Features of the sine and cosine curves")[
   - Both functions are #vocab("periodic", "periodisch"): they repeat
@@ -143,20 +145,22 @@
     $y = 1\/x$.
 ]
 
-#fig(
-  plot-graph(
-    (fn: tan-fn, color: accent),
-    xmin: -6.9,
-    xmax: 6.9,
-    ymin: -3.5,
-    ymax: 3.5,
-    width: 12,
-    height: 5,
-    samples: 400,
-  ),
-  caption: [$y = tan(x)$, $x$ in radians. The branches repeat with
-    period $pi$; the gaps sit at odd multiples of $pi\/2$.],
-)
+#only-theory[
+  #fig(
+    plot-graph(
+      (fn: tan-fn, color: accent),
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
+      width: 12,
+      height: 5,
+      samples: 400,
+    ),
+    caption: [$y = tan(x)$, $x$ in radians. The branches repeat with
+      period $pi$; the gaps sit at odd multiples of $pi\/2$.],
+  )
+]
 
 #keybox(title: "Features of the tangent curve")[
   - The tangent function is periodic with period $180 degree$, i.e.
@@ -191,8 +195,10 @@
   these two positions, reached after some number of full turns.
   Within the domain, each position is hit twice -- once turning
   counterclockwise, once clockwise:
-  $ x = 30 degree, quad 150 degree, quad -210 degree, quad
-    -330 degree. $
+  $
+    x = 30 degree, quad 150 degree, quad -210 degree, quad
+    -330 degree.
+  $
 ]
 
 #keybox(title: "The strategy")[
@@ -208,21 +214,23 @@
     something is missing.
 ]
 
-#fig(
-  plot-graph(
-    (fn: x => calc.sin(x), color: accent),
-    (fn: x => 0.5, color: warn-col),
-    xmin: -6.9,
-    xmax: 6.9,
-    ymin: -1.5,
-    ymax: 1.5,
-    width: 12,
-    height: 4,
-  ),
-  caption: [Solving $sin(x) = 1/2$ graphically: four intersection
-    points in $[-2 pi, 2 pi]$ -- so the algebra must deliver exactly
-    four solutions.],
-)
+#only-theory[
+  #fig(
+    plot-graph(
+      (fn: x => calc.sin(x), color: accent),
+      (fn: x => 0.5, color: warn-col),
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -1.5,
+      ymax: 1.5,
+      width: 12,
+      height: 4,
+    ),
+    caption: [Solving $sin(x) = 1/2$ graphically: four intersection
+      points in $[-2 pi, 2 pi]$ -- so the algebra must deliver exactly
+      four solutions.],
+  )
+]
 
 #ex(difficulty: 1, time: "15 min")[
   Solve each equation for $-360 degree <= x <= 360 degree$, using
@@ -348,8 +356,10 @@
 ][
   With $u = 2x$ and $0 degree <= u <= 720 degree$:
   $u = 45 degree, 135 degree, 405 degree, 495 degree$. Halving each,
-  $ x = 22.5 degree, quad 67.5 degree, quad 202.5 degree, quad
-    247.5 degree. $
+  $
+    x = 22.5 degree, quad 67.5 degree, quad 202.5 degree, quad
+    247.5 degree.
+  $
   The angles found in the first step are values of $2x$, not of $x$ --
   forgetting to halve them (or to double the domain) are the two
   classic mistakes here.
@@ -440,11 +450,33 @@
 
 #only-theory[
   Nothing here is specific to trigonometry -- these are the same four
-  transformations you studied for parabolas, applied to a new parent
-  function. What _is_ new is that each transformation now has a
+  transformations set up in the Functions chapter, applied to a new
+  parent function. What _is_ new is that each transformation now has a
   physical name, because sine curves describe oscillations: the
   vertical stretch sets the amplitude, the horizontal stretch sets the
   period, and the shifts position the wave.
+
+  Something else is new, and it is easy to miss. Every family you have
+  transformed so far quietly wasted some of the four knobs, because for
+  that parent two of them did the same job: for a line a horizontal
+  shift is also a vertical one, for a parabola a horizontal stretch is
+  also a vertical one, and for an exponential a horizontal shift is a
+  vertical stretch. The sine curve is the first parent function for
+  which *nothing collapses*. All four knobs stay independent, which is
+  precisely why the generalized sine below needs all four parameters
+  where a parabola needed three and a line only two.
+]
+
+#remark[
+  You can check the independence on the two most confusable knobs.
+  Doubling the amplitude and halving the period do entirely different
+  things:
+  $ 2 sin(x) eq.not sin(2x) . $
+  Try $x = pi\u{2044}2$: the left side is $2$, the right side is $0$.
+  For $y = x^2$ the analogous pair would have been indistinguishable,
+  since $(2x)^2 = 4x^2$ -- one of the reasons a parabola needs no
+  separate period parameter.
+  #heuristic("check an extreme or special case")
 ]
 
 #keybox(title: "The generalized sine function")[
@@ -452,8 +484,10 @@
   - $a$ -- vertical stretch: the *amplitude* is $abs(a)$; negative $a$
     additionally flips the curve.
   - $b$ -- horizontal stretch: the *period* becomes
-    $ "period" = (2 pi) / abs(b) quad "(or " (360 degree) / abs(b)
-      " in degrees)". $
+    $
+      "period" = (2 pi) / abs(b) quad "(or " (360 degree) / abs(b)
+      " in degrees)".
+    $
   - $c$ -- horizontal shift: the curve moves $c$ to the right
     ($c > 0$) or left ($c < 0$).
   - $d$ -- vertical shift: the *midline* becomes $y = d$; the maximum
@@ -518,32 +552,50 @@
     2,
     plot-graph(
       x => calc.sin(x) + 2,
-      xmin: -6.9, xmax: 6.9, ymin: -3.5, ymax: 3.5,
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
       size: 5.5,
     ),
     plot-graph(
       x => 2 * calc.sin(x) - 1,
-      xmin: -6.9, xmax: 6.9, ymin: -3.5, ymax: 3.5,
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
       size: 5.5,
     ),
     plot-graph(
       x => calc.cos(x - calc.pi / 4),
-      xmin: -6.9, xmax: 6.9, ymin: -3.5, ymax: 3.5,
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
       size: 5.5,
     ),
     plot-graph(
       x => calc.cos(2 * x),
-      xmin: -6.9, xmax: 6.9, ymin: -3.5, ymax: 3.5,
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
       size: 5.5,
     ),
     plot-graph(
       x => calc.sin(x + calc.pi / 3) - 1,
-      xmin: -6.9, xmax: 6.9, ymin: -3.5, ymax: 3.5,
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
       size: 5.5,
     ),
     plot-graph(
       (fn: x => tan-fn(x + calc.pi / 6), samples: 400),
-      xmin: -6.9, xmax: 6.9, ymin: -3.5, ymax: 3.5,
+      xmin: -6.9,
+      xmax: 6.9,
+      ymin: -3.5,
+      ymax: 3.5,
       size: 5.5,
     ),
   )
@@ -566,12 +618,18 @@
     2,
     [#plot-graph(
       x => 2 * calc.sin(calc.pi / 2 * x) + 1,
-      xmin: -4.5, xmax: 4.5, ymin: -2.5, ymax: 3.5,
+      xmin: -4.5,
+      xmax: 4.5,
+      ymin: -2.5,
+      ymax: 3.5,
       size: 5.5,
     )],
     [#plot-graph(
       x => 3 * calc.cos(calc.pi / 3 * x) - 1,
-      xmin: -6.5, xmax: 6.5, ymin: -4.5, ymax: 3.5,
+      xmin: -6.5,
+      xmax: 6.5,
+      ymin: -4.5,
+      ymax: 3.5,
       size: 5.5,
     )],
   )
@@ -591,8 +649,12 @@
   Write *one sine and one cosine* equation for the function shown.
   #plot-graph(
     x => -1.5 * calc.sin(calc.pi / 4 * (x - 1)) + 2,
-    xmin: -8.5, xmax: 8.5, ymin: -0.5, ymax: 4.5,
-    width: 11, height: 5,
+    xmin: -8.5,
+    xmax: 8.5,
+    ymin: -0.5,
+    ymax: 4.5,
+    width: 11,
+    height: 5,
   )
 ][
   Midline $y = 2$, amplitude $1.5$, period $8$, so $b = pi\/4$. The
@@ -725,13 +787,34 @@
   Rounded long-term averages of the daytime high in Basel, by month
   ($m = 1$ is January):
   #data-table(
-    columns: (auto, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr,
-      1fr, 1fr),
+    columns: (auto, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
     row-height: auto,
-    [$m$], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11],
+    [$m$],
+    [1],
+    [2],
+    [3],
+    [4],
+    [5],
+    [6],
+    [7],
+    [8],
+    [9],
+    [10],
+    [11],
     [12],
-    [$T$ (°C)], [4], [6], [11], [15], [19], [23], [25], [25], [20],
-    [15], [8], [5],
+    [$T$ (°C)],
+    [4],
+    [6],
+    [11],
+    [15],
+    [19],
+    [23],
+    [25],
+    [25],
+    [20],
+    [15],
+    [8],
+    [5],
   )
   Maximum $approx 25$ (July), minimum $approx 4$ (January). So:
   midline $d = (25 + 4)\/2 = 14.5$, amplitude $a = 10.5$, period
@@ -750,9 +833,28 @@
   #data-table(
     columns: (auto, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
     row-height: auto,
-    [$t$ (h)], [0], [2], [4], [6], [8], [10], [12], [14], [16], [18],
-    [$d$ (m)], [6.7], [8.3], [9.1], [8.1], [6.4], [5.6], [6.7],
-    [8.4], [9.2], [8.2],
+    [$t$ (h)],
+    [0],
+    [2],
+    [4],
+    [6],
+    [8],
+    [10],
+    [12],
+    [14],
+    [16],
+    [18],
+    [$d$ (m)],
+    [6.7],
+    [8.3],
+    [9.1],
+    [8.1],
+    [6.4],
+    [5.6],
+    [6.7],
+    [8.4],
+    [9.2],
+    [8.2],
   )
   + Plot the points and convince yourself the pattern is periodic.
   + Estimate the amplitude, midline, period, and the location of a

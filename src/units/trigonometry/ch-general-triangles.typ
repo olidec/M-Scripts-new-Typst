@@ -153,7 +153,7 @@
 
 #ex(difficulty: 1, time: "15 min")[
   Use the sine rule to find the marked side.
-  #fig(image("images/sine-rule-sides.png", width: 80%))
+  #fig(image("images/sine-rule-sides.png", width: 70%))
 ][
   #auto-parts(
     3,
@@ -733,7 +733,7 @@
   $065 degree$ and flies a further $500$ km, landing at $B$.
   + What is the straight-line distance from $A$ to $B$?
   + What is the bearing from $A$ to $B$?
-  #fig(image("images/plane-bearings.png", width: 50%))
+  #fig(image("images/plane-bearings.png", width: 40%))
 ][
   + The heading changed by $35 degree$, so the interior angle at the
     turning point is $180 degree - 35 degree = 145 degree$. Cosine

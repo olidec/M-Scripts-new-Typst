@@ -59,9 +59,11 @@
   An #vocab("angle", "Winkel") is created when two rays meet at a
   point. The two rays are called the #vocab("sides", "Schenkel") of the
   angle, and the point is called its #vocab("vertex", "Scheitelpunkt").
-]
 
-#fig(image("images/angle-rays-vertex.pdf", width: 45%))
+
+  #fig(image("images/angle-rays-vertex.pdf", width: 45%))
+
+]
 
 #only-theory[
   Notice what an angle is _not_: it is not a distance, and the rays are
@@ -77,9 +79,10 @@
 #only-theory[
   The #vocab("unit circle", "Einheitskreis") is the circle of radius
   $1$, drawn in a coordinate system centered at the origin $(0, 0)$.
-]
 
-#fig(image("images/unit-circle-arc.pdf", width: 45%))
+  #fig(image("images/unit-circle-arc.pdf", width: 45%))
+
+]
 
 #only-theory[
   Place the angle $phi.alt$ at the center, with one side along the
@@ -287,11 +290,9 @@
   and let the angle $phi.alt$ (measured from the positive
   $x$\u{2011}axis, counterclockwise) pick out a point
   $P = (x_P, y_P)$ on it.
-]
 
-#fig(image("images/unit-circle-coordinates.pdf", width: 45%))
+  #fig(image("images/unit-circle-coordinates.pdf", width: 45%))
 
-#only-theory[
   Drop a perpendicular from $P$ to the $x$\u{2011}axis. This builds a
   right triangle whose hypotenuse is the radius -- so it has length
   exactly $1$. Apply the old definitions to it:
