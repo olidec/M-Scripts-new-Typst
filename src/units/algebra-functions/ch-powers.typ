@@ -579,7 +579,7 @@
   exactly the pattern noted when we first drew them.
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Without drawing anything, state whether each function is even, odd,
   or neither, and say what that means for its graph.
   #parts(

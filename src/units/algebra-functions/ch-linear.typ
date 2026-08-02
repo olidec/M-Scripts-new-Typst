@@ -283,7 +283,7 @@
   narrower question:
 
   #emph[what do those transformations do to the two numbers $m$ and $q$
-  that describe a line?]
+    that describe a line?]
 
   Because a line is completely determined by its slope and its
   intercept, every transformation must show up as a change to one or
@@ -294,13 +294,27 @@
   #data-table(
     columns: (1.4fr, 1fr, 1fr),
     row-height: auto,
-    [Transformation], [new slope], [new intercept],
-    [shift up by $k$], [$m$], [$q + k$],
-    [shift right by $h$], [$m$], [$q - m dot h$],
-    [reflect in the $x$\u{2011}axis], [$-m$], [$-q$],
-    [reflect in the $y$\u{2011}axis], [$-m$], [$q$],
-    [reflect in the origin], [$m$], [$-q$],
-    [stretch vertically by $a$], [$a dot m$], [$a dot q$],
+    [Transformation],
+    [new slope],
+    [new intercept],
+    [shift up by $k$],
+    [$m$],
+    [$q + k$],
+    [shift right by $h$],
+    [$m$],
+    [$q - m dot h$],
+    [reflect in the $x$\u{2011}axis],
+    [$-m$],
+    [$-q$],
+    [reflect in the $y$\u{2011}axis],
+    [$-m$],
+    [$q$],
+    [reflect in the origin],
+    [$m$],
+    [$-q$],
+    [stretch vertically by $a$],
+    [$a dot m$],
+    [$a dot q$],
   )
 ]
 
@@ -333,9 +347,11 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
-  hints: ([Write out $m dot (x - h) + q$ and collect the constant
-    terms.],),
+  calculator: none,
+  hints: (
+    [Write out $m dot (x - h) + q$ and collect the constant
+      terms.],
+  ),
 )[
   The line $l : y = 3x - 4$ is shifted $2$ units to the right.
   + Give the equation of the resulting line.

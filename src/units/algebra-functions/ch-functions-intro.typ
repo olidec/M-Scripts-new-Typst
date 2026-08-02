@@ -798,8 +798,10 @@
 ]
 
 #keybox(title: "Vertical Shift")[
-  $ y = f(x) + k quad "shifts the graph" k "units UP" quad (k < 0:
-    "down)." $
+  $
+    y = f(x) + k quad "shifts the graph" k "units UP" quad (k < 0:
+    "down)."
+  $
 ]
 
 #only-theory[
@@ -842,8 +844,10 @@
 )
 
 #keybox(title: "Horizontal Shift")[
-  $ y = f(x - h) quad "shifts the graph" h "units RIGHT" quad (h < 0:
-    "left)." $
+  $
+    y = f(x - h) quad "shifts the graph" h "units RIGHT" quad (h < 0:
+    "left)."
+  $
   The sign inside the bracket is *opposite* to the direction of travel.
 ]
 
@@ -874,7 +878,7 @@
   of the first meanings we give to the word.
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   The graph of a function $f$ is given. Write the equation of the graph
   after each transformation.
   #parts(
@@ -901,10 +905,12 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
-  hints: ([Work on one point at a time. A shift right by $h$ adds $h$
-    to the $x$\u{2011}coordinate -- the *point* moves the way the words
-    say, even though the formula subtracts.],),
+  calculator: none,
+  hints: (
+    [Work on one point at a time. A shift right by $h$ adds $h$
+      to the $x$\u{2011}coordinate -- the *point* moves the way the words
+      say, even though the formula subtracts.],
+  ),
 )[
   The point $P = (1, 4)$ lies on the graph of $f$. Give the coordinates
   of the corresponding point on the graph of
@@ -943,7 +949,7 @@
     which is the same as rotating the graph by $180 degree$.
 ]
 
-#ex(difficulty: 1, time: "10 min", calculator: false)[
+#ex(difficulty: 1, time: "10 min", calculator: none)[
   Let $f(x) = x^2 - 4x$. Give the equation, simplified, of the graph
   reflected across
   #parts(
@@ -1019,9 +1025,11 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
-  hints: ([Decide first whether the number acts *inside* or *outside*
-    $f$; that alone tells you horizontal or vertical.],),
+  calculator: none,
+  hints: (
+    [Decide first whether the number acts *inside* or *outside*
+      $f$; that alone tells you horizontal or vertical.],
+  ),
 )[
   Describe in words what each equation does to the graph of $f$.
   #parts(
@@ -1084,7 +1092,7 @@
 #ex(
   difficulty: 3,
   time: "15 min",
-  calculator: false,
+  calculator: none,
   hints: (
     [Write each step as a substitution and carry it out one at a time,
       rather than trying to see the answer whole.],
@@ -1133,9 +1141,9 @@
 #example[
   Let $f(t) = 3t^2 - 2$. Then
   $
-       f(x) & = 3x^2 - 2 \
+         f(x) & = 3x^2 - 2 \
     f(square) & = 3 dot square^2 - 2 \
-    f(x + h) & = 3(x+h)^2 - 2 = 3x^2 + 6 x dot h + 3h^2 - 2
+     f(x + h) & = 3(x+h)^2 - 2 = 3x^2 + 6 x dot h + 3h^2 - 2
   $
   The third line is no harder than the second. If you can do
   $f(square)$, you can do $f(x+h)$ -- and $f(x+h)$ is the whole content
@@ -1147,10 +1155,12 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
-  hints: ([Substitute mechanically: wherever the definition has its
-    input variable, write the new expression in brackets. Simplify only
-    afterwards.],),
+  calculator: none,
+  hints: (
+    [Substitute mechanically: wherever the definition has its
+      input variable, write the new expression in brackets. Simplify only
+      afterwards.],
+  ),
 )[
   Let $g(u) = u^2 - 4u + 1$. Evaluate and simplify:
   #parts(
@@ -1183,16 +1193,18 @@
 #ex(
   difficulty: 2,
   time: "10 min",
-  calculator: false,
+  calculator: none,
   keep-together: true,
-  hints: ([For the third form, factor the coefficient of $x$ out of the
-    bracket first -- the same move as in the warning above.],),
+  hints: (
+    [For the third form, factor the coefficient of $x$ out of the
+      bracket first -- the same move as in the warning above.],
+  ),
 )[
   Three sources write the same family of wave functions differently:
   $
-    "(i)" quad & y = a dot sin(b dot (x - c)) + d \
-   "(ii)" quad & y = A dot sin(omega dot (t - t_0)) + M \
-  "(iii)" quad & y = a dot sin(k dot x + phi) + d
+      "(i)" quad & y = a dot sin(b dot (x - c)) + d \
+     "(ii)" quad & y = A dot sin(omega dot (t - t_0)) + M \
+    "(iii)" quad & y = a dot sin(k dot x + phi) + d
   $
   + Match the symbols in (ii) to those in (i).
   + In (iii), which symbol plays the role of $b$? Express $phi$ in
@@ -1236,10 +1248,16 @@
   #data-table(
     columns: (1fr, 1fr, 1fr),
     row-height: auto,
-    [Name], [Algebra], [Geometry],
-    [even], [$f(-x) = f(x)$], [unchanged by reflection in the
+    [Name],
+    [Algebra],
+    [Geometry],
+    [even],
+    [$f(-x) = f(x)$],
+    [unchanged by reflection in the
       $y$\u{2011}axis],
-    [odd], [$f(-x) = -f(x)$], [unchanged by rotation of $180 degree$
+    [odd],
+    [$f(-x) = -f(x)$],
+    [unchanged by rotation of $180 degree$
       about the origin],
   )
 ]
@@ -1259,7 +1277,7 @@
   odd. The words are not a coincidence -- they were chosen to match.
 ]
 
-#ex(difficulty: 2, time: "10 min", calculator: false)[
+#ex(difficulty: 2, time: "10 min", calculator: none)[
   Decide whether each function is even, odd, or neither. Show the
   computation of $f(-x)$ in each case.
   #parts(
