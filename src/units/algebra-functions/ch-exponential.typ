@@ -20,6 +20,10 @@
     growth factor $b$],
   [describe how shifts and reflections affect the graph of an
     exponential function],
+  [explain why a horizontal shift of an exponential is a vertical
+    stretch, and why a horizontal stretch is a change of base],
+  bfkm[convert a growth factor between time units using
+    $b^(k t) = (b^k)^t$],
   [determine the equation of an exponential function from two given
     points on its graph],
   [solve applied growth and decay problems, including half-life],
@@ -56,6 +60,27 @@
     $a > 0$).
 ]
 
+#only-theory[
+  #fig(
+    plot-graph(
+      x => calc.pow(2.0, x),
+      (fn: x => calc.pow(4.0, x), color: warn-col),
+      (fn: x => calc.pow(0.5, x), color: def-col),
+      (fn: x => 1.0, color: luma(150)),
+      xmin: -3.5,
+      xmax: 3.5,
+      ymin: -0.5,
+      ymax: 8.5,
+      size: 7,
+      grid-step: 1,
+    ),
+    caption: [$y = 2^t$ (teal), $y = 4^t$ (orange), $y = 0.5^t$ (blue),
+      and the constant $y = 1$. Every curve passes through $(0,1)$,
+      because $b^0 = 1$ whatever $b$ is. Growth and decay are mirror
+      images: $0.5^t = 2^(-t)$.],
+  )
+]
+
 #example[
   Caffeine breaks down in the blood at a rate of $15%$ per hour. If
   you drink a coffee containing $40$ mg of caffeine, how much is left
@@ -65,6 +90,42 @@
   $b = 1 - 0.15 = 0.85$.
   $ "after 1 hour:" quad 40 dot 0.85^1 = 34 "mg" $
   $ "after 6 hours:" quad 40 dot 0.85^6 approx 15.1 "mg" $
+]
+
+#only-theory[
+  It is worth seeing early how violent exponential growth is compared
+  with the power functions of the previous chapter. Below, $y = x^2$
+  and $y = 2^x$ are plotted together.
+]
+
+#only-theory[
+  #fig(
+    plot-graph(
+      x => x * x,
+      (fn: x => calc.pow(2.0, x), color: warn-col),
+      xmin: -1.5,
+      xmax: 5.5,
+      ymin: -1.5,
+      ymax: 20.5,
+      size: 7,
+      grid-step: 2,
+    ),
+    caption: [$y = x^2$ (teal) and $y = 2^x$ (orange). They cross at
+      $x = 2$ and again at $x = 4$ -- between those points the
+      parabola is *ahead*. After $x = 4$ the exponential pulls away
+      and never looks back.],
+  )
+]
+
+#remark[
+  That picture is the whole reason exponential models are treated
+  separately. A power function multiplies its input by itself a fixed
+  number of times; an exponential multiplies its *output* by a fixed
+  number, over and over. Beyond some point -- here $x = 4$ -- the
+  second always wins, no matter how large the exponent in the power
+  function is. It is also why the parabola winning on $2 < x < 4$
+  fools people: a short stretch of data is not enough to tell the two
+  apart. #heuristic("check an extreme or special case")
 ]
 
 == Growth Factors
@@ -124,6 +185,152 @@
 ]
 
 == Transformations of Exponential Functions
+
+#only-theory[
+  The four transformations
+  $ y = a dot f(b dot (x - h)) + k $
+  were set up in the Functions chapter and need no restating. What is
+  worth asking, as with every family, is which of the four knobs do
+  something *new* for $y = b^x$ -- and here the answer is unusual.
+  Two of them collapse, and they collapse into places you would not
+  expect.
+]
+
+=== A Horizontal Shift Is a Vertical Stretch
+
+#only-theory[
+  Shift $y = 2^x$ three units to the right and see what the algebra
+  says:
+  $ 2^(x-3) = 2^x dot 2^(-3) = 1/8 dot 2^x . $
+  The shifted curve is the original curve *scaled down by a factor of
+  $8$*. Sliding an exponential sideways and squashing it vertically
+  are the same operation.
+]
+
+#only-theory[
+  #fig(
+    plot-graph(
+      x => calc.pow(2.0, x),
+      (fn: x => calc.pow(2.0, x - 3), color: warn-col),
+      xmin: -1.5,
+      xmax: 5.5,
+      ymin: -0.5,
+      ymax: 8.5,
+      size: 7,
+      grid-step: 1,
+    ),
+    caption: [$y = 2^x$ (teal) and $y = 2^(x-3)$ (orange). The orange
+      curve is the teal one moved $3$ to the right -- and equally, the
+      teal one scaled to an eighth of its height. Both descriptions
+      are exactly right.],
+  )
+]
+
+#remark[
+  Contrast this with the parabola, where a horizontal shift genuinely
+  moves the vertex somewhere new and cannot be imitated by any
+  stretch. Each family collapses a different pair of knobs: for a
+  *line*, a horizontal shift is a vertical shift; for a *power
+  function*, a horizontal stretch is a vertical stretch; for an
+  *exponential*, a horizontal shift is a vertical stretch.
+]
+
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: ([Split the exponent using $b^(m+n) = b^m dot b^n$.],),
+)[
+  Write each function in the form $a dot b^x$, and state the vertical
+  stretch factor.
+  #parts(
+    2,
+    [(a) $y = 2^(x-1)$],
+    [(b) $y = 3^(x+2)$],
+    [(c) $y = 10^(x-2)$],
+    [(d) $y = (1/2)^(x-3)$],
+  )
+][
+  #parts(
+    2,
+    [(a) $1/2 dot 2^x$, factor $1/2$],
+    [(b) $9 dot 3^x$, factor $9$],
+    [(c) $1/100 dot 10^x$, factor $1/100$],
+    [(d) $8 dot (1/2)^x$, factor $8$],
+  )
+
+  In (d) the shift is to the *right* but the curve is stretched *up*,
+  because the function is decreasing -- moving a decaying curve right
+  means it was higher earlier.
+]
+
+=== A Horizontal Stretch Is a Change of Base
+
+#only-theory[
+  Now stretch the input instead. For $y = 2^(3x)$,
+  $ 2^(3x) = (2^3)^x = 8^x . $
+  Compressing an exponential horizontally does not take you out of the
+  family at all -- it just changes the base. Every exponential curve is
+  every other exponential curve, horizontally stretched.
+]
+
+#keybox(title: "Time Scaling")[
+  $ b^(k t) = (b^k)^t $
+  Rescaling *time* rescales the *growth factor* by the same power.
+]
+
+#only-theory[
+  This is not an abstraction: it is the growth-factor arithmetic from
+  the previous section, seen as a picture. If a quantity grows by
+  $5%$ per year, its yearly factor is $1.05$. The monthly factor is
+  what you must multiply by twelve times to get $1.05$, i.e.
+  $ b_"month" = 1.05^(1\/12) approx 1.00407, $
+  a monthly growth of about $0.41%$ -- noticeably less than
+  $5% \/ 12 approx 0.42%$, because the growth compounds. Changing the
+  time unit from years to months is a horizontal stretch by a factor
+  of $12$, and the new base is the old one raised to $1\/12$.
+]
+
+#warning[
+  A percentage rate is meaningless without its time unit. "$5%$
+  growth" is not a number you can transfer between contexts: $5%$ per
+  year and $5%$ per month are wildly different processes. Always
+  convert with $b^(1\/k)$, never by dividing the percentage.
+]
+
+#ex(
+  difficulty: 2,
+  time: "15 min",
+  calculator: true,
+  hints: (
+    [Find the factor for the time unit you are given first, then raise
+      it to the appropriate power.],
+    [Going from a longer unit to a shorter one means a fractional
+      exponent; the other way round, a whole one.],
+  ),
+)[
+  + An investment grows by $8%$ per year. What is the equivalent
+    monthly growth factor and monthly percentage?
+  + A population grows by $2%$ per month. By what percentage does it
+    grow per year?
+  + A sample loses $30%$ of its mass per hour. What is its decay
+    factor per minute?
+][
+  + $1.08^(1\/12) approx 1.00643$, about $0.643%$ per month.
+  + $1.02^(12) approx 1.2682$, about $26.8%$ per year -- far more
+    than $12 times 2% = 24%$, because of compounding.
+  + $0.7^(1\/60) approx 0.99407$, about $0.593%$ lost per minute.
+]
+
+#exploration(title: "The Base That Chooses Itself")[
+  Every exponential is every other one, restretched -- so no base is
+  more "correct" than any other. And yet one base does get singled out
+  later on. Compute the slope of $y = b^x$ at the point $(0, 1)$ for
+  $b = 2$, then for $b = 3$, by taking two points either side of $0$
+  and very close to it. One value of $b$ between $2$ and $3$ makes
+  that slope exactly $1$. Find it to two decimal places. What do you
+  suppose is special about it?
+]
 
 #example[
   Consider $f(t) = (3/2)^t$, $g(t) = (2/3)^t$, and

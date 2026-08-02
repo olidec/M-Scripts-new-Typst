@@ -22,6 +22,9 @@
   bfkm[solve exponential equations algebraically using logarithms],
   [use the logarithm as the inverse function of an exponential
     function, and find inverse functions in general],
+  [read each logarithm law as a statement about the graph: a
+    horizontal stretch as a vertical shift, a change of base as a
+    vertical stretch],
   [apply logarithms to real-world scales such as pH and the Richter
     scale],
 )
@@ -173,12 +176,44 @@
 ]
 
 #only-theory[
-  This is exactly the "reflect across $y = x$" idea from the powers
+  This is exactly the "reflect across $y = x$" idea from the Functions
   chapter, made concrete: $f: y = log_b (x)$ is the *inverse
   function* of $g: y = b^x$. Applying one right after the other
   cancels out:
   $ log_b (b^x) = x, quad x in RR, $
   $ b^(log_b (x)) = x, quad x in (0, infinity). $
+]
+
+#only-theory[
+  #fig(
+    plot-graph(
+      x => calc.pow(2.0, x),
+      (
+        fn: x => if x <= 0 { none } else { calc.log(x, base: 2.0) },
+        color: warn-col,
+      ),
+      (fn: x => x, color: luma(150)),
+      xmin: -3.5,
+      xmax: 5.5,
+      ymin: -3.5,
+      ymax: 5.5,
+      size: 7.5,
+      grid-step: 1,
+    ),
+    caption: [$y = 2^x$ (teal), $y = log_2 (x)$ (orange), and the
+      mirror line $y = x$ (grey). Fold the page along the grey line
+      and the two curves land on each other. The horizontal asymptote
+      of one becomes the vertical asymptote of the other, and the
+      point $(0,1)$ becomes $(1,0)$.],
+  )
+]
+
+#remark[
+  Reading the picture is the fastest way to remember the domain and
+  range below. Reflection in $y = x$ swaps the two axes, so it must
+  swap "which inputs are allowed" with "which outputs occur" -- and
+  it swaps *horizontal* features with *vertical* ones. Keep that last
+  point in mind: it is about to explain everything in this chapter.
 ]
 
 #keybox(title: "Domain and Range")[
@@ -253,6 +288,115 @@
   The last law, the *change of base* formula, is what lets a
   calculator that only knows $log$ and $ln$ evaluate a logarithm in
   any other base.
+]
+
+=== The Laws, Read as Transformations
+
+#only-theory[
+  Every one of those laws is also a statement about pictures, and
+  reading them that way makes the whole chapter hang together.
+
+  Recall from the exponentials chapter that a *horizontal shift* of
+  $b^x$ is a *vertical stretch*, and a *horizontal stretch* is a
+  change of base. Reflecting in $y = x$ swaps horizontal with
+  vertical -- so for logarithms every one of those statements must
+  come back with the two words exchanged. They do.
+]
+
+#keybox(title: "A Horizontal Stretch Is a Vertical Shift")[
+  $ log_b (k dot x) = log_b (k) + log_b (x) $
+  Stretching the graph of a logarithm horizontally moves it
+  *vertically* instead -- by $log_b (k)$, the same amount everywhere.
+]
+
+#only-theory[
+  #fig(
+    plot-graph(
+      x => if x <= 0 { none } else { calc.log(x, base: 2.0) },
+      (
+        fn: x => if x <= 0 { none } else { calc.log(2.0 * x, base: 2.0) },
+        color: warn-col,
+      ),
+      xmin: -0.5,
+      xmax: 8.5,
+      ymin: -3.5,
+      ymax: 4.5,
+      size: 7,
+      grid-step: 1,
+    ),
+    caption: [$y = log_2 (x)$ (teal) and $y = log_2 (2x)$ (orange).
+      Squashing the teal curve to half its width is the same as
+      lifting it by exactly $1$ -- because $log_2 (2x) = 1 + log_2 (x)$.],
+  )
+]
+
+#keybox(title: "Change of Base Is a Vertical Stretch")[
+  $ log_c (x) = log_b (x) / log_b (c) $
+  Since $1\/log_b (c)$ is a constant, *every* logarithm curve is
+  every other one stretched vertically. There is only one logarithm
+  graph, seen at different scales.
+]
+
+#example[
+  $log_2 (x)$ is $log_(10) (x)$ stretched vertically by
+  $ 1/log_(10) (2) approx 3.32 . $
+  So the base-$2$ curve is the base-$10$ curve, a little over three
+  times as tall -- and all logarithm graphs share the same shape, the
+  same vertical asymptote at $x = 0$, and the same zero at $x = 1$.
+]
+
+#remark[
+  Compare with the exponentials: *every exponential curve is every
+  other one stretched horizontally*, and *every logarithm curve is
+  every other one stretched vertically*. Those are the same sentence
+  reflected in $y = x$, which is exactly what has to happen when one
+  family is the inverse of the other.
+  #heuristic("look for what stays the same")
+]
+
+#ex(
+  difficulty: 2,
+  time: "15 min",
+  calculator: false,
+  hints: (
+    [Use $log_b (k x) = log_b k + log_b x$ to turn each inside change
+      into an outside one.],
+    [For (d), remember $log_b (x^n) = n log_b x$ -- what does that do
+      to the picture?],
+  ),
+)[
+  Describe each graph as a transformation of $y = log_2 (x)$, giving
+  the simplest description you can.
+  #parts(
+    2,
+    [(a) $y = log_2 (8x)$],
+    [(b) $y = log_2 (x\/4)$],
+    [(c) $y = log_2 (x) + 3$],
+    [(d) $y = log_2 (x^2)$, for $x > 0$],
+  )
+  Which two of these describe the *same* graph?
+][
+  #parts(
+    1,
+    [(a) $log_2 (8x) = 3 + log_2 (x)$: shift *up* by $3$ (equivalently,
+      squash horizontally to $1/8$ width).],
+    [(b) $log_2 (x\/4) = log_2 (x) - 2$: shift *down* by $2$.],
+    [(c) shift up by $3$.],
+    [(d) $log_2 (x^2) = 2 log_2 (x)$: stretch *vertically* by $2$.],
+  )
+
+  Parts (a) and (c) are the same graph. That two such different-looking
+  equations describe one curve is the point of the section: for a
+  logarithm, inside and outside are not as separate as they are for
+  most functions.
+]
+
+#ai-box(role: "Checker")[
+  Ask an AI whether $y = log_2 (8x)$ and $y = log_2 (x) + 3$ are the
+  same graph, and to justify the answer. Then ask whether
+  $y = (x + 3)^2$ and $y = x^2 + 3$ are the same graph. The first pair
+  is; the second is not. If the model treats the two questions alike,
+  say in one sentence what property of the logarithm it failed to use.
 ]
 #only-theory[
   #pagebreak()
