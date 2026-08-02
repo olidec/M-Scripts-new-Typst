@@ -23,6 +23,8 @@
     predict new values],
   [distinguish interpolation from extrapolation, and judge which
     predictions a model can be trusted for],
+  [say how many data points a given model needs before it is
+    determined, and why that number differs between families],
 )
 
 == The Modeling Toolkit
@@ -61,6 +63,122 @@
     [Diminishing returns as input
       grows: perceived loudness and brightness, pH, magnitude scales.],
   )
+]
+
+== One Rule, Five Families
+
+#only-theory[
+  Before fitting anything, it is worth seeing why these five families
+  behave so differently -- and the reason is the same transformation
+  rule from the Functions chapter, applied to five different parent
+  functions.
+
+  Every family in the table above is some parent curve put through
+  $ y = a dot f(b dot (x - h)) + k, $
+  which offers *four* knobs: two stretches and two shifts. But almost
+  every family wastes some of them, because for that particular parent
+  two of the knobs turn out to do the same job. Each chapter met its
+  own version of this:
+]
+
+#keybox(title: "What Collapses, Family by Family")[
+  #data-table(
+    columns: (auto, 1.6fr, auto),
+    row-height: auto,
+    [Parent],
+    [Two knobs that do the same job],
+    [Left over],
+    [$x$],
+    [horizontal shift $=$ vertical shift],
+    [$2$],
+    [$x^2$],
+    [horizontal stretch $=$ vertical stretch],
+    [$3$],
+    [$b^x$],
+    [horizontal shift $=$ vertical stretch; \
+      horizontal stretch $=$ change of base],
+    [$3$],
+    [$log(x)$],
+    [horizontal stretch $=$ vertical shift],
+    [$3$],
+    [$sin(x)$],
+    [nothing collapses],
+    [$4$],
+  )
+]
+
+#only-theory[
+  The last row is the exception that explains the rest. The sine curve
+  is the only parent here whose four knobs stay genuinely independent
+  -- which is why the generalized sine needs all four parameters, and
+  why every other family in this chapter gets away with fewer.
+]
+
+#keybox(title: "Why This Matters for Fitting")[
+  The knobs that survive are exactly the numbers you have to find --
+  so they are exactly the number of data points you need.
+
+  #data-table(
+    columns: (1.3fr, auto, 1fr),
+    row-height: auto,
+    [Model], [Points needed], [Note],
+    [$y = m dot x + q$], [$2$], [],
+    [$y = a dot x^2 + b dot x + c$], [$3$], [],
+    [$y = a dot b^x$], [$2$], [assumes the asymptote is $y = 0$],
+    [$y = k + a dot b^x$], [$3$], [cooling: asymptote at room temperature],
+    [$y = a + b dot log(x)$], [$2$], [],
+    [$y = a dot sin(b dot (x - c)) + d$], [$4$], [not a linear system],
+  )
+]
+
+#warning[
+  Count before you fit. Two points can never pin down a parabola, and
+  they cannot pin down a cooling curve either -- $y = k + a dot b^x$
+  has three unknowns, so a cooling problem that gives you only two
+  temperature readings is underdetermined unless the room temperature
+  $k$ is given separately. Most cooling problems do give it, and now
+  you know why they have to.
+]
+
+#remark[
+  The last row is a warning of a different kind. Four parameters means
+  four numbers to find, but unlike the others the sine model is not a
+  linear system -- you cannot simply substitute four points and solve.
+  In practice you read $d$ from the midline, $a$ from the amplitude,
+  $b$ from the period, and $c$ from a peak, which is exactly the
+  procedure the trigonometry chapter gives.
+  #heuristic("solve a simpler version first")
+]
+
+#ex(
+  difficulty: 2,
+  time: "10 min",
+  calculator: false,
+  hints: ([For each, ask how many unknown numbers the standard form
+    contains.],),
+)[
+  How many data points are needed, at minimum, to determine each
+  model? Say which numbers you would be solving for.
+  #parts(
+    1,
+    [(a) the height of a thrown ball as a quadratic in time],
+    [(b) a population growing exponentially from an unknown start],
+    [(c) a cup of coffee cooling toward a known room temperature],
+    [(d) a cup of coffee cooling toward an *unknown* room temperature],
+  )
+][
+  #parts(
+    1,
+    [(a) $3$ -- the three coefficients $a$, $b$, $c$ (or equivalently
+      $a$, $h$, $k$ in vertex form).],
+    [(b) $2$ -- the initial amount $a$ and the growth factor $b$.],
+    [(c) $2$ -- since $k$ is known, only $a$ and $b$ remain.],
+    [(d) $3$ -- $k$, $a$ and $b$ are all unknown, so two readings are
+      not enough.],
+  )
+
+  Parts (c) and (d) are the same physical situation; what changes is
+  how much you were told. #heuristic("look for what stays the same")
 ]
 
 == Recognizing a Model from Data
