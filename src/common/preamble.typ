@@ -3388,6 +3388,134 @@
   )
 })
 
+// ════════════════════════════════════════════════════════════
+//  TRIG-PLOT — plot-graph's sibling for trigonometric curves.
+//
+//  Same call shape and same color cycling as plot-graph(), with one
+//  difference that matters pedagogically: the horizontal axis is
+//  ticked and LABELED in multiples of pi (or pi/2), not in integers.
+//  A sine curve drawn against an integer axis silently teaches that
+//  its zeros sit "somewhere around 3.14"; drawn against a pi axis it
+//  teaches that they sit at pi. Every trig graph in the course should
+//  use this rather than plot-graph.
+//
+//  HORIZONTAL BOUNDS ARE IN UNITS OF PI. xmin: -2.25 means -2.25 pi,
+//  i.e. a quarter-period of breathing room past the -2 pi tick. This
+//  is the trig analogue of the "bounds ending in .5" rule in
+//  STYLE_GUIDE.md §6 — keep a margin so the outermost gridline does
+//  not merge with the plot border. Vertical bounds (ymin/ymax) are
+//  plain numbers, exactly as in plot-graph.
+//
+//    tick: 0.5  → ticks and gridlines every pi/2  (the default)
+//    tick: 1    → ticks and gridlines every pi
+//
+//  Use tick: 1 on narrow plots (an image-grid cell, a two-column
+//  auto-parts item): nine fraction labels do not fit in 5.5 cm.
+//
+//  The tick at 0 is deliberately omitted from the list — simple-plot
+//  already draws the origin label itself (show-origin), and the
+//  gridline there is the y-axis.
+//
+//  Usage:
+//    #trig-plot(
+//      x => calc.sin(x),
+//      (fn: x => calc.cos(x), color: warn-col),
+//      xmin: -2.25, xmax: 2.25,      // = -2.25 pi … 2.25 pi
+//      ymin: -1.5, ymax: 1.5,
+//      width: 12, height: 4.5,
+//    )
+// ════════════════════════════════════════════════════════════
+
+// One tick label for the value k/den (in units of pi), k != 0.
+// den is 1 (whole multiples of pi) or 2 (multiples of pi/2); a k that
+// is even under den: 2 is reduced first, so 4 pi/2 prints as 2 pi.
+#let _pi-tick-label(k, den) = {
+  let (m, d) = if den == 2 and calc.rem(k, 2) == 0 {
+    (calc.quo(k, 2), 1)
+  } else {
+    (k, den)
+  }
+  let a = calc.abs(m)
+  let neg = m < 0
+  if d == 1 and a == 1 {
+    if neg { $-pi$ } else { $pi$ }
+  } else if d == 1 {
+    if neg { $-#a pi$ } else { $#a pi$ }
+  } else if a == 1 {
+    if neg { $-pi/2$ } else { $pi/2$ }
+  } else {
+    if neg { $-(#a pi)/2$ } else { $(#a pi)/2$ }
+  }
+}
+
+// Tick positions (in radians) and matching labels for the range
+// [lo, hi] given in units of pi. The epsilons stop a bound written as
+// exactly 2 from losing or gaining a tick to floating-point drift.
+#let _pi-ticks(lo, hi, den) = {
+  let first = calc.ceil(lo * den - 1e-9)
+  let last = calc.floor(hi * den + 1e-9)
+  let ks = range(first, last + 1).filter(k => k != 0)
+  (
+    positions: ks.map(k => k * calc.pi / den),
+    labels: ks.map(k => _pi-tick-label(k, den)),
+  )
+}
+
+#let trig-plot(
+  ..functions,
+  xmin: -2.25,
+  xmax: 2.25,
+  ymin: -1.5,
+  ymax: 1.5,
+  tick: 0.5,
+  ystep: 1,
+  width: 12,
+  height: 4.5,
+  samples: 300,
+  show-grid: true,
+  x-label: $x$,
+  y-label: $y$,
+) = align(center, {
+  let den = if tick == 1 { 1 } else { 2 }
+  let ticks = _pi-ticks(xmin, xmax, den)
+
+  // identical normalization to plot-graph: bare function or dict with
+  // our convenience color: key, house palette cycled by position
+  let entries = functions
+    .pos()
+    .enumerate()
+    .map(((i, f)) => {
+      let default-color = _plot-colors.at(calc.rem(i, _plot-colors.len()))
+      if type(f) == dictionary {
+        (
+          fn: f.fn,
+          stroke: f.at("color", default: default-color) + 1.3pt,
+          samples: f.at("samples", default: samples),
+        )
+      } else {
+        (fn: f, stroke: default-color + 1.3pt, samples: samples)
+      }
+    })
+
+  plot(
+    xmin: xmin * calc.pi,
+    xmax: xmax * calc.pi,
+    ymin: ymin,
+    ymax: ymax,
+    width: width,
+    height: height,
+    show-grid: if show-grid { "major" } else { false },
+    xtick: ticks.positions,
+    xtick-labels: ticks.labels,
+    ytick-step: ystep,
+    unit-label-only: false,
+    xlabel: x-label,
+    ylabel: y-label,
+    ..entries,
+  )
+})
+
+
 
 // ════════════════════════════════════════════════════════════
 //  IMAGE-GRID — arrange images, plots, or any other visual content
