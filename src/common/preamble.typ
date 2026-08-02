@@ -616,6 +616,46 @@
   )
 }
 
+// look-back — look-ahead's mirror image, and the half of the spiral
+// that usually goes missing. look-ahead() says "you'll meet this
+// properly later"; look-back() is the moment that promise comes due:
+// something the course asserted without proof, or asked students to
+// accept as a picture, becomes a one-line consequence of machinery
+// they now have. Two flavors, one box:
+//   "the thing I promised you earlier — here is why it's true"
+//     e.g. multiplication by i as a quarter turn, once modulus and
+//     argument exist
+//   "the special case you already handled is this general rule"
+//     e.g. the discriminant, once completing the square is general
+// This matters pedagogically and not only structurally. A hand-wave
+// that is never redeemed teaches that mathematics contains claims
+// you simply take on faith; the same hand-wave redeemed six weeks
+// later teaches that everything is eventually accountable, and that
+// remembering an unfinished thread is a normal thing for a reader
+// to do. Cash the checks the course writes.
+// recalls: names the ORIGIN topic (not a chapter number — chapter
+// numbers shift with include order, see register_chapters), rendered
+// as a small back-reference line. Omit it if the look-back closes a
+// general expectation rather than one specific earlier passage.
+#let look-back(title: none, recalls: none, body) = context {
+  if _hide-aux() { return }
+  _bar-box(
+    bar-color: ahead-col,
+    fill-color: ahead-bg,
+    label: "Look Back",
+    title: title,
+    {
+      body
+      if recalls != none {
+        v(4pt)
+        text(size: 8.5pt, fill: luma(110), style: "italic")[
+          ↖ This closes a loop we opened in #recalls.
+        ]
+      }
+    },
+  )
+}
+
 // toolbox — the Pólya-style heuristics reference box. Print it once
 // early in the course, then refer back via #heuristic(...) badges.
 #let _heuristics-list = (
