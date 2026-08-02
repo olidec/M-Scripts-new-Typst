@@ -967,7 +967,7 @@
   difficulty: 0,
   time: none,
   hints: (),
-  keep-together: false,
+  keep-together: true,
   // CALCULATOR POLICY -- three states, and the default is silence:
   //   none   no badge at all (every exercise written before this
   //          existed, so nothing already in the course changes)
