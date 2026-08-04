@@ -99,6 +99,41 @@
 ]
 
 #only-theory[
+  #align(center)[
+    #plot(
+      xmin: -2.6, xmax: 1.6, ymin: -0.4, ymax: 4.4,
+      width: 10, height: 6,
+      axis-x-pos: "bottom", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-2, -1, 1), ytick: (1, 2, 3, 4),
+      show-origin: false,
+      (
+        fn: x => x + 1.0, domain: (-1.35, 1.3),
+        stroke: stroke(paint: luma(110), thickness: 0.9pt, dash: "dashed"),
+        label: $y = x + 1$, label-pos: 0.05, label-side: "below-right",
+      ),
+      (
+        fn: x => calc.pow(2.0, x), domain: (-2.4, 1.3),
+        stroke: green.darken(15%) + 1.3pt,
+        label: $2^x$, label-pos: 0.97, label-side: "below-right",
+      ),
+      (
+        fn: x => calc.exp(x), domain: (-2.4, 1.3),
+        stroke: blue + 1.5pt,
+        label: $e^x$, label-pos: 0.97, label-side: "above-left",
+      ),
+      (
+        fn: x => calc.pow(3.0, x), domain: (-2.4, 1.3),
+        stroke: red + 1.3pt,
+        label: $3^x$, label-pos: 0.97, label-side: "above-left",
+      ),
+    )
+  ]
+
+  All three curves pass through $(0, 1)$, and the dashed line is the
+  line of slope $1$ through that point. It cuts $2^x$, it cuts $3^x$,
+  and it is *tangent* to exactly one curve between them.
+
   The search converges on $b approx 2.718$, and the number is $e$.
   This is not a coincidence to be filed away: it is the *reason* $e$
   matters. Among all the exponential functions $b^x$ — a whole

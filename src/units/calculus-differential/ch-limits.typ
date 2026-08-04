@@ -124,6 +124,24 @@
   The graph is the line $y = x + 3$ with a single point punched out of
   it at $(0, 3)$ — and the limit tells us exactly where the missing
   point ought to go.
+
+  #align(center)[
+    #plot(
+      xmin: -3.4, xmax: 2.4, ymin: -0.4, ymax: 5.4,
+      width: 8, height: 4.5,
+      axis-x-pos: "bottom", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-3, -2, -1, 1, 2), ytick: (1, 2, 3, 4, 5),
+      show-origin: false,
+      (fn: x => x + 3.0, domain: (-3.2, -0.05), stroke: blue + 1.3pt),
+      (
+        fn: x => x + 3.0, domain: (0.05, 2.2), stroke: blue + 1.3pt,
+        label: $f(x) = (x^2 + 3 x) / x$,
+        label-pos: 0.95, label-side: "below-right",
+      ),
+      note([$f$ is undefined here], (0.25, 3.15), anchor: "west", size: 8pt),
+    )
+  ]
 ]
 
 == Limits as $x$ Grows Without Bound
@@ -446,6 +464,57 @@
 
   A function is continuous *on an interval* if it is continuous at
   every point of that interval.
+]
+
+#only-theory[
+  #image-grid(
+    3,
+    plot(
+      xmin: -2.4, xmax: 2.4, ymin: -0.4, ymax: 5.4,
+      width: 4.6, height: 3.6,
+      axis-x-pos: "bottom", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (-2, 2), ytick: (3,),
+      show-origin: false,
+      (
+        fn: x => x + 3.0, domain: (-2.2, -0.06),
+        stroke: blue + 1.3pt,
+      ),
+      (
+        fn: x => x + 3.0, domain: (0.06, 2.2),
+        stroke: blue + 1.3pt,
+      ),
+      note([a hole], (0.15, 1.4), anchor: "west", size: 8pt),
+    ),
+    plot(
+      xmin: -2.4, xmax: 2.4, ymin: -2.4, ymax: 2.4,
+      width: 4.6, height: 3.6,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (-2, 2), ytick: (-1, 1),
+      show-origin: false,
+      (fn: x => -1.0, domain: (-2.2, -0.06), stroke: red + 1.3pt),
+      (fn: x => 1.0, domain: (0.06, 2.2), stroke: red + 1.3pt),
+      note([a jump], (0.2, 1.7), anchor: "west", size: 8pt),
+    ),
+    plot(
+      xmin: -2.6, xmax: 2.6, ymin: -3.4, ymax: 3.4,
+      width: 4.6, height: 3.6,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (-2, 2), ytick: (-2, 2),
+      show-origin: false,
+      vline(0.0, stroke: stroke(
+        paint: luma(140), thickness: 0.5pt, dash: "dashed",
+      )),
+      (
+        fn: x => 1.0 / x, domain: (-2.4, -0.35),
+        stroke: rgb("#c94a00") + 1.3pt, samples: 120,
+      ),
+      (
+        fn: x => 1.0 / x, domain: (0.35, 2.4),
+        stroke: rgb("#c94a00") + 1.3pt, samples: 120,
+      ),
+      note([a pole], (0.45, 2.6), anchor: "west", size: 8pt),
+    ),
+  )
 ]
 
 #keybox(title: "The three ways continuity fails")[

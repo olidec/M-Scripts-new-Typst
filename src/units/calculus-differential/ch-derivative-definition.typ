@@ -490,6 +490,37 @@
   $ y = 4 x - 4 quad "and" quad y = -4 x - 4, $
   touching at $(2, 4)$ and $(-2, 4)$ respectively.
 
+  #align(center)[
+    #plot(
+      xmin: -3.6, xmax: 3.6, ymin: -5.6, ymax: 9.6,
+      width: 9, height: 6.5,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-3, -2, -1, 1, 2, 3), ytick: (-4, 4, 8),
+      show-origin: false,
+      (
+        fn: x => x * x, domain: (-3.0, 3.0),
+        stroke: blue + 1.4pt,
+        label: $f(x) = x^2$, label-pos: 0.97, label-side: "left",
+      ),
+      (
+        fn: x => 4.0 * x - 4.0, domain: (-0.3, 3.2),
+        stroke: red + 1.2pt,
+        label: $y = 4 x - 4$, label-pos: 0.95, label-side: "below-right",
+      ),
+      (
+        fn: x => -4.0 * x - 4.0, domain: (-3.2, 0.3),
+        stroke: red + 1.2pt,
+        label: $y = -4 x - 4$, label-pos: 0.95, label-side: "below-left",
+      ),
+      note($P$, (0.0, -4.0), anchor: "north", size: 9pt),
+    )
+  ]
+
+  The picture also explains why there are exactly two: a point below
+  the parabola sees it from outside, and a curve that is convex
+  everywhere admits exactly two tangents through any such point.
+
   #heuristic("introduce notation")
 
   Introducing the unknown $t$ is the whole idea. "Tangent at a point on

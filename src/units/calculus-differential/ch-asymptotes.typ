@@ -269,6 +269,40 @@
   $-16 + 15 = -1$.) The remainder term tends to $0$, so the oblique
   asymptote is
   $ y = x - 4. $
+
+  #align(center)[
+    #plot(
+      xmin: -12.5, xmax: 6.5, ymin: -24.5, ymax: 10.5,
+      width: 11, height: 8,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-12, -8, -4, 4), ytick: (-20, -10, 10),
+      show-origin: false,
+      vline(-4.0, stroke: stroke(
+        paint: luma(120), thickness: 0.7pt, dash: "dashed",
+      )),
+      (
+        fn: x => x - 4.0, domain: (-12.0, 6.0),
+        stroke: stroke(paint: luma(110), thickness: 0.9pt, dash: "dashed"),
+        label: $y = x - 4$, label-pos: 0.97, label-side: "below-right",
+      ),
+      (
+        fn: x => (x * x - 1.0) / (x + 4.0), domain: (-12.0, -5.2),
+        stroke: blue + 1.4pt, samples: 140,
+      ),
+      (
+        fn: x => (x * x - 1.0) / (x + 4.0), domain: (-3.0, 6.0),
+        stroke: blue + 1.4pt, samples: 140,
+        label: $f(x) = (x^2 - 1)/(x + 4)$,
+        label-pos: 0.6, label-side: "right",
+      ),
+      note([$x = -4$], (-4.3, -20.0), anchor: "east", size: 9pt),
+    )
+  ]
+
+  Both branches hug the dashed line far from the origin, and neither
+  goes anywhere near it in the middle. That is exactly what "the
+  difference tends to zero" claims and all that it claims.
 ]
 
 #example(title: "A denominator that never vanishes")[
@@ -417,6 +451,27 @@
   has the horizontal asymptote $y = 0$ and *sits on it* at $x = 0$.
   Worse, $sin(x) slash x$ has the same asymptote and crosses it
   infinitely often.
+
+  #align(center)[
+    #plot(
+      xmin: -6.5, xmax: 6.5, ymin: -0.75, ymax: 0.75,
+      width: 11, height: 4,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-6, -4, -2, 2, 4, 6), ytick: (-0.5, 0.5),
+      show-origin: false,
+      hline(0.0, stroke: stroke(
+        paint: luma(110), thickness: 0.9pt, dash: "dashed",
+      )),
+      (
+        fn: x => x / (x * x + 1.0), domain: (-6.3, 6.3),
+        stroke: blue + 1.4pt, samples: 140,
+        label: $f(x) = x/(x^2 + 1)$,
+        label-pos: 0.93, label-side: "above-right",
+      ),
+      note([$y = 0$], (-6.2, 0.12), anchor: "west", size: 9pt),
+    )
+  ]
 
   *"A function has at most one horizontal asymptote."* False as soon
   as we leave rational functions: the two ends of the graph are two

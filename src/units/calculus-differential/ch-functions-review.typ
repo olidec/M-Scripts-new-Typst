@@ -48,7 +48,8 @@
 ]
 
 #objectives(
-  bfkm[determine the #vocab("domain", "Definitionsbereich", show-de: false) and #vocab("range", "Wertebereich", show-de: false)
+  bfkm[determine the #vocab("domain", "Definitionsbereich",
+    show-de: false) and #vocab("range", "Wertebereich", show-de: false)
     of a function, and explain how you know that nothing has been left
     out],
   bfkm[decide algebraically whether a function is even, odd or neither,
@@ -94,19 +95,19 @@
   - #box[*implicitly*, as the inverse of something else — $y = arcsin(x)$
       says nothing more than "the number whose sine is $x$".]
 
-  Throughout this course we work only with #vocab("real functions", "reelle Funktionen"): both the domain and the range are subsets of
+  Throughout this course we work only with #vocab("real functions",
+  "reelle Funktionen"): both the domain and the range are subsets of
   $RR$.
 ]
 
 #keybox(title: "The families you already know")[
   A #vocab("polynomial", "Polynom") in $x$ is a sum of powers of $x$
   with real coefficients,
-  $
-    p(x) = a_n dot x^n + a_(n-1) dot x^(n-1) + dots.h + a_1 dot x + a_0,
-    quad a_i in RR, quad a_n eq.not 0.
-  $
+  $ p(x) = a_n dot x^n + a_(n-1) dot x^(n-1) + dots.h + a_1 dot x + a_0,
+    quad a_i in RR, quad a_n eq.not 0. $
   The largest exponent $n$ is the #vocab("degree", "Grad") of the
-  polynomial and $a_n$ is its #vocab("leading coefficient", "Leitkoeffizient"). Linear and quadratic functions are the
+  polynomial and $a_n$ is its #vocab("leading coefficient",
+  "Leitkoeffizient"). Linear and quadratic functions are the
   polynomials of degree $1$ and $2$; a non-zero constant function has
   degree $0$.
 
@@ -114,7 +115,8 @@
   quotient of two polynomials, $f(x) = P(x) / Q(x)$.
 
   An #vocab("exponential function", "Exponentialfunktion") has the form
-  $f(x) = b^x$ with $b > 0$, and a #vocab("logarithmic function", "Logarithmusfunktion") the form $f(x) = log_b (x)$ with $b > 0$,
+  $f(x) = b^x$ with $b > 0$, and a #vocab("logarithmic function",
+  "Logarithmusfunktion") the form $f(x) = log_b (x)$ with $b > 0$,
   $b eq.not 1$. Each is the inverse of the other.
 ]
 
@@ -456,6 +458,64 @@
   ))
 ]
 
+#only-theory[
+  #image-grid(
+    2,
+    plot(
+      xmin: -2.8, xmax: 2.8, ymin: -2.6, ymax: 2.6,
+      width: 6, height: 4,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (), ytick: (),
+      show-origin: false,
+      (
+        fn: x => 0.2 * calc.pow(x, 4) - x * x,
+        domain: (-2.6, 2.6), stroke: blue + 1.3pt,
+        label: [even, $a_n > 0$], label-pos: 0.5, label-side: "below",
+      ),
+    ),
+    plot(
+      xmin: -2.8, xmax: 2.8, ymin: -2.6, ymax: 2.6,
+      width: 6, height: 4,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (), ytick: (),
+      show-origin: false,
+      (
+        fn: x => -0.2 * calc.pow(x, 4) + x * x,
+        domain: (-2.6, 2.6), stroke: red + 1.3pt,
+        label: [even, $a_n < 0$], label-pos: 0.5, label-side: "above",
+      ),
+    ),
+    plot(
+      xmin: -2.8, xmax: 2.8, ymin: -2.6, ymax: 2.6,
+      width: 6, height: 4,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (), ytick: (),
+      show-origin: false,
+      (
+        fn: x => 0.2 * calc.pow(x, 3) - x,
+        domain: (-2.9, 2.9), stroke: blue + 1.3pt,
+        label: [odd, $a_n > 0$], label-pos: 0.5, label-side: "below-right",
+      ),
+    ),
+    plot(
+      xmin: -2.8, xmax: 2.8, ymin: -2.6, ymax: 2.6,
+      width: 6, height: 4,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: none, ylabel: none, xtick: (), ytick: (),
+      show-origin: false,
+      (
+        fn: x => -0.2 * calc.pow(x, 3) + x,
+        domain: (-2.9, 2.9), stroke: red + 1.3pt,
+        label: [odd, $a_n < 0$], label-pos: 0.5, label-side: "above-right",
+      ),
+    ),
+  )
+
+  Only the two ends of each graph are being claimed here. What happens
+  in the middle depends on the other coefficients and is not fixed by
+  the degree and the leading coefficient alone.
+]
+
 #example(title: "Reading the ends off the formula")[
   For $p(x) = -2 x^5 + 3 x^3 - x + 7$ the degree is $5$ (odd) and the
   leading coefficient is $a_5 = -2 < 0$. So the graph comes down from
@@ -474,10 +534,8 @@
 #definition(title: "Factored form and multiplicity")[
   A polynomial with zeros $x_1, x_2, dots.h, x_k$ can be written in
   #vocab("factored form", "Produktform") as
-  $
-    p(x) = a dot (x - x_1)^(m_1) dot (x - x_2)^(m_2) dots.h.c
-    (x - x_k)^(m_k),
-  $
+  $ p(x) = a dot (x - x_1)^(m_1) dot (x - x_2)^(m_2) dots.h.c
+    (x - x_k)^(m_k), $
   where $a eq.not 0$ and the exponent $m_i gt.eq 1$ is the
   #vocab("multiplicity", "Vielfachheit") of the zero $x_i$. The degree
   of $p$ is the sum of all the multiplicities,
@@ -504,27 +562,26 @@
   multiplicity $m$ is a shifted, stretched copy of the graph of
   $y = x^m$ — which you have already drawn. Compare the three basic
   shapes:
-
-
-  #fig(
-    plot-graph(
-      (fn: x => x, color: accent),
-      (fn: x => calc.pow(x, 2), color: warn-col),
-      (fn: x => calc.pow(x, 3), color: key-col),
-      xmin: -1.5,
-      xmax: 1.5,
-      ymin: -1.5,
-      ymax: 1.5,
-      grid-step: 1,
-      width: 8,
-      height: 5.5,
-    ),
-    caption: [
-      Multiplicity $1$ ($y = x$), $2$ ($y = x^2$) and $3$ ($y = x^3$)
-      near the origin: cross straight, bounce, cross flat.
-    ],
-  )
 ]
+
+#fig(
+  plot-graph(
+    (fn: x => x, color: accent),
+    (fn: x => calc.pow(x, 2), color: warn-col),
+    (fn: x => calc.pow(x, 3), color: key-col),
+    xmin: -1.5,
+    xmax: 1.5,
+    ymin: -1.5,
+    ymax: 1.5,
+    grid-step: 1,
+    width: 8,
+    height: 5.5,
+  ),
+  caption: [
+    Multiplicity $1$ ($y = x$), $2$ ($y = x^2$) and $3$ ($y = x^3$)
+    near the origin: cross straight, bounce, cross flat.
+  ],
+)
 
 #keybox(title: "Behavior at a zero")[
   Let $x_0$ be a zero of multiplicity $m$.
@@ -571,19 +628,18 @@
   the highest points of the graph, and the dip between them — at
   $x = -0.5$, by symmetry — is the lowest point in that region, with
   $p(-0.5) = -625/64 approx -9.77$.
-
-
-  #fig(plot-graph(
-    x => -0.25 * calc.pow(x - 2, 2) * calc.pow(x + 3, 2),
-    xmin: -5.5,
-    xmax: 4.5,
-    ymin: -12.5,
-    ymax: 2.5,
-    grid-step: 1,
-    width: 11,
-    height: 7,
-  ))
 ]
+
+#fig(plot-graph(
+  x => -0.25 * calc.pow(x - 2, 2) * calc.pow(x + 3, 2),
+  xmin: -5.5,
+  xmax: 4.5,
+  ymin: -12.5,
+  ymax: 2.5,
+  grid-step: 1,
+  width: 11,
+  height: 7,
+))
 
 #warning[
   The last step of the sketching procedure produces a *shape*, not a
@@ -674,10 +730,8 @@
 ][
   Any two choices of multiplicities work, as long as no new zero is
   introduced. For example
-  $
-    p(x) = -(x + 1) dot (x - 4) quad "and" quad
-    q(x) = 1/2 dot (x + 1)^2 dot (x - 4).
-  $
+  $ p(x) = -(x + 1) dot (x - 4) quad "and" quad
+    q(x) = 1/2 dot (x + 1)^2 dot (x - 4). $
   The first is a downward parabola crossing the axis twice; the second
   is a cubic that bounces at $x = -1$ and crosses at $x = 4$. Same
   zeros, entirely different graphs — which is the point: the zeros of a
@@ -736,7 +790,8 @@
 ]
 
 #definition(title: "Composition")[
-  Given two functions $u$ and $v$, the #vocab("composition", "Verkettung") $u compose v$ is the function
+  Given two functions $u$ and $v$, the #vocab("composition",
+  "Verkettung") $u compose v$ is the function
   $ (u compose v)(x) = u(v(x)): $
   apply $v$ first, then apply $u$ to the result. We call $v$ the
   *inner* function and $u$ the *outer* function.
@@ -747,10 +802,8 @@
 
 #example(title: "Order matters")[
   Let $u(x) = x^2$ and $v(x) = x + 3$. Then
-  $
-    (u compose v)(x) = (x + 3)^2, quad
-    (v compose u)(x) = x^2 + 3.
-  $
+  $ (u compose v)(x) = (x + 3)^2, quad
+    (v compose u)(x) = x^2 + 3. $
   These are different functions — one is a shifted parabola, the other
   a raised one. Composition is not commutative, and reading a formula
   correctly means reading it from the inside out.

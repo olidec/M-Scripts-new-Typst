@@ -257,6 +257,31 @@
   is a frown, and that is where a *maximum* sits.
 ]
 
+#only-theory[
+  #align(center)[
+    #plot(
+      xmin: -2.4, xmax: 2.4, ymin: -8.6, ymax: 8.6,
+      width: 9, height: 6,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-2, -1, 1, 2), ytick: (-6, -3, 3, 6),
+      show-origin: false,
+      (
+        fn: x => calc.pow(x, 3), domain: (-2.03, 2.03),
+        stroke: blue + 1.4pt,
+        label: $y = x^3$, label-pos: 0.96, label-side: "left",
+      ),
+      note([$f'' < 0$: concave down], (-0.15, -5.2), anchor: "east", size: 8pt),
+      note([$f'' > 0$: concave up], (0.15, 5.2), anchor: "west", size: 8pt),
+    )
+  ]
+
+  The slope of $y = x^3$ is never negative, so the graph rises
+  throughout — and yet the two halves look quite different. What
+  differs is not whether it rises but how it bends, and that is the
+  information $f''$ carries and $f'$ does not.
+]
+
 #keybox(title: "Second derivative test")[
   Let $x_0$ be a stationary point of $f$, so $f'(x_0) = 0$.
 
@@ -282,6 +307,42 @@
   ($f(x) = x^4$ at the origin, a minimum) or it may not
   ($f(x) = x^3$, a saddle). The two functions are indistinguishable to
   this test and completely different in fact.
+
+  #align(center)[
+    #image-grid(
+      2,
+      plot(
+        xmin: -1.3, xmax: 1.3, ymin: -1.3, ymax: 1.3,
+        width: 5.5, height: 4.5,
+        axis-x-pos: "center", axis-y-pos: "center",
+        xlabel: none, ylabel: none, xtick: (-1, 1), ytick: (-1, 1),
+        show-origin: false,
+        (
+          fn: x => calc.pow(x, 3), domain: (-1.08, 1.08),
+          stroke: blue + 1.4pt,
+          label: $y = x^3$, label-pos: 0.95, label-side: "left",
+        ),
+        note([saddle], (0.1, -0.45), anchor: "west", size: 8pt),
+      ),
+      plot(
+        xmin: -1.3, xmax: 1.3, ymin: -1.3, ymax: 1.3,
+        width: 5.5, height: 4.5,
+        axis-x-pos: "center", axis-y-pos: "center",
+        xlabel: none, ylabel: none, xtick: (-1, 1), ytick: (-1, 1),
+        show-origin: false,
+        (
+          fn: x => calc.pow(x, 4), domain: (-1.06, 1.06),
+          stroke: red + 1.4pt,
+          label: $y = x^4$, label-pos: 0.95, label-side: "left",
+        ),
+        note([minimum], (0.1, -0.45), anchor: "west", size: 8pt),
+      ),
+    )
+  ]
+
+  Both graphs are flat at the origin to second order — $f'(0) = 0$ and
+  $f''(0) = 0$ for each — which is precisely why no test looking only
+  at $f''(0)$ can tell them apart.
 ]
 
 == Points of Inflection

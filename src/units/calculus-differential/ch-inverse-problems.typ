@@ -84,15 +84,17 @@
     align: (left, left),
     stroke: 0.5pt + luma(180),
     inset: 7pt,
-    [*The graph #h(0pt)$#h(0pt)dots.h$*], [*gives the equation(s)*],
+    [*The graph* #sym.dots.h], [*gives the equation(s)*],
 
     [passes through $(p, q)$], [$f(p) = q$],
     [has a zero at $x = p$], [$f(p) = 0$],
     [has slope $m$ at $x = p$], [$f'(p) = m$],
     [has a horizontal tangent at $x = p$], [$f'(p) = 0$],
     [has a local extremum at $(p, q)$], [$f(p) = q$ and $f'(p) = 0$],
-    [has a point of inflection at $(p, q)$], [$f(p) = q$ and $f''(p) = 0$],
-    [touches the $x$\u{2011}axis at $x = p$], [$f(p) = 0$ and $f'(p) = 0$],
+    [has a point of inflection at $(p, q)$],
+    [$f(p) = q$ and $f''(p) = 0$],
+    [touches the $x$\u{2011}axis at $x = p$],
+    [$f(p) = 0$ and $f'(p) = 0$],
     [has the tangent $y = m dot x + b$ at $x = p$],
     [$f(p) = m dot p + b$ and $f'(p) = m$],
   ))
@@ -249,47 +251,39 @@
 
   #auto-parts(
     1,
-    [$
-      #system(
+    [$ #system(
         ($d$, $1$),
         ($a + b + c + d$, $0$),
         ($-a + b - c + d$, $-4$),
         ($8 a + 4 b + 2 c + d$, $-1$),
-      )
-    $],
+      ) $],
     [Each extremum gives two equations — the height and the horizontal
       tangent:
-      $
-        #system(
-          ($a + b + c + d$, $5$),
-          ($-a + b - c + d$, $1$),
-          ($3 a + 2 b + c$, $0$),
-          ($3 a - 2 b + c$, $0$),
-        )
-      $],
+      $ #system(
+        ($a + b + c + d$, $5$),
+        ($-a + b - c + d$, $1$),
+        ($3 a + 2 b + c$, $0$),
+        ($3 a - 2 b + c$, $0$),
+      ) $],
     [The inflection point gives $p(0) = 3$ and $p''(0) = 0$; the
       tangent gives $p(2) = 9$ and $p'(2) = 11$:
-      $
-        #system(
-          ($d$, $3$),
-          ($2 b$, $0$),
-          ($8 a + 4 b + 2 c + d$, $9$),
-          ($12 a + 4 b + c$, $11$),
-        )
-      $],
+      $ #system(
+        ($d$, $3$),
+        ($2 b$, $0$),
+        ($8 a + 4 b + 2 c + d$, $9$),
+        ($12 a + 4 b + c$, $11$),
+      ) $],
     [Tangency to the $x$\u{2011}axis at the origin gives
       $p(0) = 0$ and $p'(0) = 0$. For the second condition, the tangent
       at $Q$ is $y = p(3) + p'(3) dot (x - 3)$; requiring it to pass
       through $(0, 0)$ gives $p(3) - 3 dot p'(3) = 0$, and with
       $p(3) = 9$ this says $p'(3) = 3$:
-      $
-        #system(
-          ($d$, $0$),
-          ($c$, $0$),
-          ($27 a + 9 b$, $9$),
-          ($27 a + 6 b$, $3$),
-        )
-      $],
+      $ #system(
+        ($d$, $0$),
+        ($c$, $0$),
+        ($27 a + 9 b$, $9$),
+        ($27 a + 6 b$, $3$),
+      ) $],
   )
 
   #heuristic("introduce notation")
@@ -324,14 +318,12 @@
   Writing $f(x) = a x^4 + b x^3 + c x^2 + d x + e$, the condition
   $f'(0) = 0$ gives $d = 0$ immediately — the only term of $f'$ without
   a factor of $x$ is the constant $d$. That leaves four unknowns:
-  $
-    #system(
-      ($a + b + c + e$, $0$),
-      ($4 a + 3 b + 2 c$, $0$),
-      ($16 a + 8 b + 4 c + e$, $9$),
-      ($32 a + 12 b + 4 c$, $24$),
-    )
-  $
+  $ #system(
+    ($a + b + c + e$, $0$),
+    ($4 a + 3 b + 2 c$, $0$),
+    ($16 a + 8 b + 4 c + e$, $9$),
+    ($32 a + 12 b + 4 c$, $24$),
+  ) $
   Subtracting the first equation from the third removes $e$ as well,
   giving $15 a + 7 b + 3 c = 9$. Together with the second and fourth
   equations this is a three-by-three system in $a$, $b$, $c$, which
@@ -354,64 +346,63 @@
   factored form from the first chapter: read off the zeros and their
   multiplicities, which fixes everything except the leading
   coefficient, and then use one further point to fix that.
-
-
-  #fig(
-    plot-graph(
-      x => 0.25 * calc.pow(calc.pow(x, 2) - 4, 2),
-      xmin: -3.5,
-      xmax: 3.5,
-      ymin: -1.5,
-      ymax: 6.5,
-      grid-step: 1,
-      width: 8,
-      height: 5,
-    ),
-    caption: [Graph (a).],
-  )
-
-  #fig(
-    plot-graph(
-      x => x * (x - 2),
-      xmin: -2.5,
-      xmax: 4.5,
-      ymin: -2.5,
-      ymax: 4.5,
-      grid-step: 1,
-      width: 8,
-      height: 5,
-    ),
-    caption: [Graph (b).],
-  )
-
-  #fig(
-    plot-graph(
-      x => 0.25 * calc.pow(x + 2, 3) * (x - 1),
-      xmin: -3.5,
-      xmax: 1.5,
-      ymin: -4.5,
-      ymax: 6.5,
-      grid-step: 1,
-      width: 8,
-      height: 5,
-    ),
-    caption: [Graph (c).],
-  )
-
-  #fig(
-    plot-graph(
-      x => -0.5 * calc.pow(x + 1, 2) * (x - 3),
-      xmin: -2.5,
-      xmax: 4.5,
-      ymin: -4.5,
-      ymax: 6.5,
-      grid-step: 1,
-      width: 8,
-      height: 5,
-    ),
-    caption: [Graph (d).],
-  )
 ]
+
+#fig(
+  plot-graph(
+    x => 0.25 * calc.pow(calc.pow(x, 2) - 4, 2),
+    xmin: -3.5,
+    xmax: 3.5,
+    ymin: -1.5,
+    ymax: 6.5,
+    grid-step: 1,
+    width: 8,
+    height: 5,
+  ),
+  caption: [Graph (a).],
+)
+
+#fig(
+  plot-graph(
+    x => x * (x - 2),
+    xmin: -2.5,
+    xmax: 4.5,
+    ymin: -2.5,
+    ymax: 4.5,
+    grid-step: 1,
+    width: 8,
+    height: 5,
+  ),
+  caption: [Graph (b).],
+)
+
+#fig(
+  plot-graph(
+    x => 0.25 * calc.pow(x + 2, 3) * (x - 1),
+    xmin: -3.5,
+    xmax: 1.5,
+    ymin: -4.5,
+    ymax: 6.5,
+    grid-step: 1,
+    width: 8,
+    height: 5,
+  ),
+  caption: [Graph (c).],
+)
+
+#fig(
+  plot-graph(
+    x => -0.5 * calc.pow(x + 1, 2) * (x - 3),
+    xmin: -2.5,
+    xmax: 4.5,
+    ymin: -4.5,
+    ymax: 6.5,
+    grid-step: 1,
+    width: 8,
+    height: 5,
+  ),
+  caption: [Graph (d).],
+)
 
 #ex(
   difficulty: 2,
@@ -486,10 +477,8 @@
   has a local maximum or minimum at $P = (2, 1)$.
 ][
   Split the fraction first:
-  $
-    f(x) = a/b dot x + 1/(b dot x), quad "so" quad
-    f'(x) = a/b - 1/(b dot x^2).
-  $
+  $ f(x) = a/b dot x + 1/(b dot x), quad "so" quad
+    f'(x) = a/b - 1/(b dot x^2). $
 
   The horizontal tangent gives $f'(2) = 0$:
   $ a/b - 1/(4 b) = 0 quad ==> quad a = 1/4, $
@@ -524,19 +513,15 @@
   $x$\u{2011}axis at $x = 1$.
 ][
   Divide term by term:
-  $
-    f(x) = x + a + b/x + c/x^2, quad
-    f'(x) = 1 - b/x^2 - (2 c)/x^3.
-  $
+  $ f(x) = x + a + b/x + c/x^2, quad
+    f'(x) = 1 - b/x^2 - (2 c)/x^3. $
 
   The three conditions:
-  $
-    #system(
-      ($-1 + a - b + c$, $-2$),
-      ($1 - b + 2 c$, $-1$),
-      ($1 + a + b + c$, $0$),
-    )
-  $
+  $ #system(
+    ($-1 + a - b + c$, $-2$),
+    ($1 - b + 2 c$, $-1$),
+    ($1 + a + b + c$, $0$),
+  ) $
   Subtracting the first equation from the third gives $2 b = 0$, so
   $b = 0$. The second then gives $2 c = -2$, so $c = -1$, and the third
   gives $a = 0$.
@@ -580,6 +565,46 @@
   The vertices of this family of parabolas trace out — another
   parabola. Every member of the family has its lowest point on that
   single curve.
+
+  #align(center)[
+    #plot(
+      xmin: -5.5, xmax: 5.5, ymin: -2.5, ymax: 10.5,
+      width: 11, height: 7,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-4, -2, 2, 4), ytick: (2, 4, 6, 8),
+      show-origin: false,
+      (
+        fn: x => x * x + 4.0 * x + 4.0, domain: (-4.5, 0.5),
+        stroke: blue.lighten(40%) + 1pt,
+      ),
+      (
+        fn: x => x * x + 2.0 * x + 4.0, domain: (-3.5, 1.5),
+        stroke: blue.lighten(20%) + 1pt,
+      ),
+      (
+        fn: x => x * x + 4.0, domain: (-2.5, 2.5),
+        stroke: blue + 1pt,
+      ),
+      (
+        fn: x => x * x - 2.0 * x + 4.0, domain: (-1.5, 3.5),
+        stroke: blue.lighten(20%) + 1pt,
+      ),
+      (
+        fn: x => x * x - 4.0 * x + 4.0, domain: (-0.5, 4.5),
+        stroke: blue.lighten(40%) + 1pt,
+      ),
+      (
+        fn: x => 4.0 - x * x, domain: (-2.5, 2.5),
+        stroke: red + 1.5pt,
+        label: $y = 4 - x^2$, label-pos: 0.97, label-side: "below-right",
+      ),
+    )
+  ]
+
+  Five members of the family are drawn, for
+  $t = -2, -1, 0, 1, 2$. The red curve is not one of them: it is the
+  path traced by their vertices.
 ]
 
 #only-theory[
@@ -621,20 +646,16 @@
     [A simple zero at $x = 0$ and a double zero at $x = a$. The graph
       crosses at the origin and bounces at $a$.],
     [By the product rule,
-      $
-        f_a'(x) = (x - a)^2 + x dot 2 dot (x - a)
-        = (x - a) dot (3 x - a),
-      $
+      $ f_a'(x) = (x - a)^2 + x dot 2 dot (x - a)
+        = (x - a) dot (3 x - a), $
       so the stationary points are $x = a/3$ and $x = a$. Since
       $a > 0$ we have $a/3 < a$, and the sign of $f_a'$ runs
       $+, -, +$ across them: a local maximum at $x = a/3$ and a local
       minimum at $x = a$ (which is the double zero, at height $0$).],
     [$a/3 = 3$, so $a = 9$.],
     [The maximum is at $x = a/3$, where
-      $
-        y = a/3 dot (a/3 - a)^2 = a/3 dot (4 a^2)/9
-        = (4 a^3)/27.
-      $
+      $ y = a/3 dot (a/3 - a)^2 = a/3 dot (4 a^2)/9
+        = (4 a^3)/27. $
       From $x = a/3$ we get $a = 3 x$, and substituting:
       $ y = (4 dot 27 x^3)/27 = 4 x^3. $
       So every local maximum in this family lies on the cubic
@@ -650,10 +671,8 @@
   has slope $m = 5$ at the point $P = (pi/6, sqrt(3))$.
 ][
   Two conditions, two unknowns. The point condition:
-  $
-    f(pi/6) = a dot sin(pi/3) + b dot cos(pi/6)
-    = a dot sqrt(3)/2 + b dot sqrt(3)/2 = sqrt(3),
-  $
+  $ f(pi/6) = a dot sin(pi/3) + b dot cos(pi/6)
+    = a dot sqrt(3)/2 + b dot sqrt(3)/2 = sqrt(3), $
   so $a + b = 2$ after dividing by $sqrt(3)/2$.
 
   The slope condition, with

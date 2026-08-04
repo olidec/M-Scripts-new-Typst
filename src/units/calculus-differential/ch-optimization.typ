@@ -149,6 +149,41 @@
   *7. Answer.* With $x = 400$ we get $y = 400$: the corral is a
   *square* of side $400$ m, with area
   $ A = #num(160000) " m"^2. $
+
+  #align(center)[
+    #plot(
+      xmin: -150, xmax: 950, ymin: -100000, ymax: 190000,
+      width: 10, height: 6,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $A$,
+      xtick: (400, 800), ytick: (100000, 160000),
+      show-origin: false,
+      fill-area(
+        x => 800.0 * x - x * x,
+        domain: (0.0, 800.0),
+        color: green.lighten(80%),
+      ),
+      (
+        fn: x => 800.0 * x - x * x, domain: (-100.0, 900.0),
+        stroke: blue + 1.4pt,
+        label: $A(x) = 800 x - x^2$,
+        label-pos: 0.06, label-side: "below-right",
+      ),
+      vline(0.0, stroke: stroke(
+        paint: luma(130), thickness: 0.5pt, dash: "dotted",
+      )),
+      vline(800.0, stroke: stroke(
+        paint: luma(130), thickness: 0.5pt, dash: "dotted",
+      )),
+      note([model domain], (400.0, 30000.0), anchor: "center", size: 8pt),
+    )
+  ]
+
+  The shaded strip is step 4 made visible. The formula
+  $800 x - x^2$ is perfectly happy outside the dotted lines and
+  describes no corral there — for $x < 0$ or $x > 800$ it returns a
+  negative area, which is the model telling you it has been asked a
+  question it cannot answer.
 ]
 
 #remark[
