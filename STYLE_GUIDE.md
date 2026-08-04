@@ -726,3 +726,143 @@ Follow the conventions in STYLE_GUIDE.md exactly, especially the
 multiplication-dot rules, the subscript/superscript parenthesization
 rule, the per-unit directory layout, and the images/ convention. Prefer
 American English."_
+
+# Vectors unit — notation and figure conventions
+
+_Append to `STYLE_GUIDE.md` as a subsection of §6 (formula conventions),
+with the figure part folded into §7._
+
+## Source of truth
+
+Students carry **Wetzel, _Formula Collection Mathematics_, English
+edition** (`formelsammlung.ch`, ISBN 978-3-9523907-1-9 for the German;
+the English edition is the one in use). §12 _Vector Geometry_ is the
+relevant chapter. Where the booklet and the old LaTeX notes disagree,
+the booklet wins — students have it in the exam and the notes they do
+not.
+
+Two deliberate departures from the booklet are recorded below (point
+notation, general circle form); both are consistency decisions with the
+rest of the course, and both get an explicit remark in the text so
+students can read the booklet's form too.
+
+## Notation
+
+| Object                                       | House form                                                           | Note                                                                                                                                                                                                         |
+| -------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Point coordinates                            | `$A = (2, -1)$`                                                      | **Departs from the booklet**, which writes `A(2/-1)`. Commas are used everywhere else in the course and match GeoGebra. Flag the slash form once, in `ch-vectors-intro`.                                     |
+| Line                                         | `$g$`, `$g_1$`, `$g_2$`                                              | Booklet convention; replaces `l` from the old notes.                                                                                                                                                         |
+| Plane                                        | `$E$`, `$E_1$`, `$E_2$`                                              | Unchanged.                                                                                                                                                                                                   |
+| Line parameter                               | `$t$`; second line `$s$`, third `$u$`                                | **Departs from the booklet**, which writes `$tilde(t)$`. Distinct letters read better than tilded ones. Remark once that other texts use $tilde(t)$.                                                         |
+| Plane parameters                             | `$t$` and `$s$`                                                      | As in the booklet.                                                                                                                                                                                           |
+| Angle between two lines / two planes         | `$phi.alt$`                                                          | Booklet convention. **Not** `$gamma$` — that is the triangle-vertex angle in the trigonometry unit and the collision is worth avoiding.                                                                      |
+| Angle between line and plane                 | `$alpha$`                                                            | Booklet convention.                                                                                                                                                                                          |
+| Vector components                            | `$a_x, a_y, a_z$`                                                    | Booklet convention; replaces the old notes' mix of `$u_1, u_2$` and `$x_a, y_a, z_a$`.                                                                                                                       |
+| Magnitude                                    | `$abs(arrow(a))$`; also `$r_A = O A$` for a position vector's length | Booklet allows the bare letter for the length.                                                                                                                                                               |
+| Unit vector in the direction of `$arrow(a)$` | `$arrow(e)_a$`                                                       | Booklet convention.                                                                                                                                                                                          |
+| Basis vectors                                | `$arrow(e)_x, arrow(e)_y, arrow(e)_z$`                               | Restore these — they were commented out of the LaTeX source but Exercise 53 depends on them.                                                                                                                 |
+| Direction vector                             | `$arrow(v)$`                                                         | Used in the distance formula too: `$d(P, g) = abs(arrow(v) times arrow(A P)) slash abs(arrow(v))$`, not `$arrow(A B)$`.                                                                                      |
+| Trace points                                 | `$S_x$, $S_y$, $S_z$`                                                | **The subscript names the coordinate that vanishes**, so `$S_z$` lies in the $x y$‑plane. Verified against the booklet's figure (p. 34). The old notes' `= S_1, S_2, S_3` aliases are redundant — drop them. |
+| Circle                                       | center `$M = (u, v)$`, radius `$r$`                                  | Booklet letters for the center, house commas.                                                                                                                                                                |
+| Sphere                                       | center `$M = (u, v, w)$`, radius `$R$`                               | Capital `$R$` for the sphere, per the booklet.                                                                                                                                                               |
+| General circle form                          | `$x^2 + y^2 + D x + E y + F = 0$`                                    | **Departs from the booklet** (`$a x + b y + c$`). Kept because it matches the general-quadratic notation used in the conic sections unit.                                                                    |
+| General sphere form                          | `$x^2 + y^2 + z^2 + D x + E y + F z + G = 0$`                        | Same reasoning.                                                                                                                                                                                              |
+| Set relations                                | `$subset$`, `$inter$`                                                | As already established in the stochastics units.                                                                                                                                                             |
+
+**General principle:** mixing notations is treated as a feature, not a
+defect. Students will meet several conventions across the booklet, the
+German Matura original, and other sources, and being unable to read a
+formula because the letters differ is itself the failure mode worth
+inoculating against. Every departure above is named explicitly in the
+text where it first matters, in a `remark()`, rather than silently.
+
+## What the booklet already contains (so it can be _used_, not derived)
+
+Confirmed present in §12 and the circle/sphere pages, which is why each
+is in scope for the unit rather than treated as enrichment:
+
+- Vector projection: decomposition of a vector into components parallel
+  and perpendicular to another.
+- Scalar triple product as a volume — the tool for coplanarity tests and
+  pyramid/parallelepiped volumes.
+- Distance between two skew lines.
+- Rotation of a 2D vector through an angle (a rotation matrix in
+  disguise — the graphics chapter leans on this).
+- Tangent to a circle at a point; tangent plane to a sphere at a point.
+  SPF Lehrplan 2.3 names _Tangentenprobleme_ explicitly, so
+  `ch-circles-spheres` must cover them.
+- Angle-bisector planes, via `$H_1 = plus.minus H_2$` on the Hesse normal
+  form written as a function.
+- Midpoint, centroid, intercept form of a plane, normal form
+  `$arrow(n) dot (arrow(r) - arrow(r)_A) = 0$`.
+
+The Hesse normal form is written in the booklet as a _function_
+`$H(x, y, z)$`, not just as an equation. Worth mirroring — it is what
+makes the angle-bisector construction fall out for free.
+
+## Calculator and formula-booklet policy
+
+- The unit is taught **with minimal calculator use**. Default every
+  `exercise()` to `calculator: false`; reserve `calculator: true` for the
+  genuinely decimal problems (ramp, boat, direction angles).
+- Exercise numbers must be **engineered for exact arithmetic**: integer
+  vector components with integer magnitudes, and dot products whose
+  cosines land on $0$, $plus.minus 1/2$, $plus.minus sqrt(2)/2$,
+  $plus.minus sqrt(3)/2$. Inherited exercises whose answers are
+  calculator artifacts ($5.91 degree$, $65.44 degree$) get renumbered or
+  reworked.
+- Leaving an answer as `$cos phi.alt = -4 slash sqrt(65)$` is a **correct
+  final answer**, not a stalled one. State this early and repeat it — it
+  is the same habit as leaving $2 sqrt(13)$ rather than $7.211$.
+- No separate formula-sheet build target. Instead, results that live in
+  the booklet get a marker on their `keybox`, so students learn which
+  formulas to _look up_ and which to _know cold_. Know cold: the dot
+  product, the parametric line equation, the normal form. Look up: the
+  Hesse normal form, the skew-line distance, the triple product.
+
+## Figures
+
+Drawn natively via `vec-figures.typ` (currently a unit-local module; fold
+into `preamble.typ` once stable). No cetz, no packages, no image files
+except the right-hand rule.
+
+- **Projection:** cabinet / Schrägbild. $y$ right and true length, $z$ up
+  and true length, $x$ toward the viewer at `alpha` foreshortened by `k`.
+  **House default: $alpha = 45 degree$, $k = 1 slash sqrt(2) approx 0.707$.**
+  Chosen so figures are reproducible on 5 mm graph paper exactly: two grid
+  squares along $y$ and $z$, one grid-square _diagonal_ along $x$. Say this
+  out loud in `ch-vectors-intro` — it converts the drawing convention into
+  a rule students can follow with a ruler.
+- **Right angles in 3D** are drawn at their _projected_ size, as in a
+  hand sketch. Where a right angle can be marked against more than one
+  in-plane direction, mark it against the one that projects closest to
+  perpendicular — against a horizontal plane, that means the $y$-direction,
+  not the $x$-direction.
+- **Labels** are centered on their anchor. Vector and segment labels sit at
+  a fraction along the shaft (`anchor:`, default 0.78 — near the arrowhead)
+  and are pushed perpendicular to the shaft, on the side facing away from
+  the middle of the figure. Point labels are pushed radially outward.
+  Manual `off:` is a last resort, needed mainly when two labeled objects
+  lie on the same ray from the figure's centre (axis tip and axis
+  intercept; cube vertices $A$/$D$ and $F$/$G$).
+- **Right angles:** quarter-arc with a dot inside it — `s-arc(right: true)`.
+  This is the booklet's mark. Not a corner bracket.
+- **Coordinate planes:** shaded light gray in the first octant —
+  `space3d(ground: true)`. Also the booklet's convention, and it is what
+  makes trace points readable.
+- **Two scales.** `PRINT-UNIT` (0.62 cm per world unit) for figures
+  students only read; `SHEET-UNIT` (1 cm) with `grid: true` for figures
+  they draw _into_. At 1 cm per unit the printed gridlines fall 5 mm
+  apart, so counting squares on the sheet and counting squares on their
+  own paper give the same answer — which is the whole point of pinning
+  $k = 1 slash sqrt(2)$.
+- **Gridlines are screen-space** horizontal and vertical rules, not a
+  projected world grid: they exist to match squared paper, not the axes.
+  They align themselves so the origin lands on an intersection. Draw
+  order is shaded planes → grid → axes.
+- **Bounds:** as in §6, prefer `.5` endpoints for `vplane`.
+- Every coordinate inside `vec-figures.typ` is a **bare float in points**;
+  lengths appear only at the `place()` and `stroke` boundary. Two bugs
+  have already come from breaking this. New helpers must follow it, and
+  any argument a caller would naturally write as a length (`size`, `r`)
+  gets normalized at the top of the function.
