@@ -1755,9 +1755,9 @@
 //  sheet.
 // ════════════════════════════════════════════════════════════
 #import "@preview/simple-plot:1.0.0": (
-  data, hline, limit-schema, line-plot, parametric, plot, plot-rational,
-  reset-plot-defaults, riemann-sum, scatter, set-plot-defaults, vline,
-  volume-of-revolution,
+  data, fill-area, hline, limit-schema, line-plot, note, parametric, plot,
+  plot-rational, reset-plot-defaults, riemann-sum, scatter, set-plot-defaults,
+  vline, volume-of-revolution, plot, area-between, note,
 )
 
 #let _plot-colors = (accent, warn-col, def-col, ex-col, ai-col, expl-col)
