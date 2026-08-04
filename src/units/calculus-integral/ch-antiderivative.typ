@@ -124,6 +124,43 @@
   does not know about $C$. Sketching an antiderivative from the graph
   of $f$ — which you did in the rate-of-change chapter — produces one
   member of this family, and which one you drew was never determined.
+
+  #align(center)[
+    #plot(
+      xmin: -2.4, xmax: 2.4, ymin: -4.9, ymax: 4.9,
+      width: 9, height: 6,
+      axis-x-pos: "center", axis-y-pos: "center",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (-2, -1, 1, 2), ytick: (-4, -2, 2, 4),
+      show-origin: false,
+      (
+        fn: x => calc.pow(x, 3) / 3.0 + 2.0, domain: (-2.0, 2.0),
+        stroke: blue.lighten(45%) + 1.1pt,
+      ),
+      (
+        fn: x => calc.pow(x, 3) / 3.0 + 1.0, domain: (-2.0, 2.0),
+        stroke: blue.lighten(25%) + 1.1pt,
+      ),
+      (
+        fn: x => calc.pow(x, 3) / 3.0, domain: (-2.0, 2.0),
+        stroke: blue + 1.4pt,
+        label: $F(x) = 1/3 x^3$, label-pos: 0.97, label-side: "right",
+      ),
+      (
+        fn: x => calc.pow(x, 3) / 3.0 - 1.0, domain: (-2.0, 2.0),
+        stroke: blue.lighten(25%) + 1.1pt,
+      ),
+      (
+        fn: x => calc.pow(x, 3) / 3.0 - 2.0, domain: (-2.0, 2.0),
+        stroke: blue.lighten(45%) + 1.1pt,
+      ),
+    )
+  ]
+
+  Five members of the family of antiderivatives of $f(x) = x^2$. At
+  any fixed $x$ all five have exactly the same slope, because that
+  slope is $x^2$ and $x^2$ knows nothing about $C$. Sliding a curve
+  vertically never changes a single one of its tangents.
 ]
 
 == Notation

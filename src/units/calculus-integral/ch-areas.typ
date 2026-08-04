@@ -83,8 +83,52 @@
   $f(x) = x dot (1/2 x^3 - 2 x^2 + 4)$, and the cubic factor has the
   root $x = 2$; dividing it out leaves $x^2 - 2 x - 4$. So the four
   zeros are
-  $ x = 1 - sqrt(5) approx -1.236, quad 0, quad 2, quad
-    x = 1 + sqrt(5) approx 3.236. $
+  $
+    x = 1 - sqrt(5) approx -1.236, quad 0, quad 2, quad
+    x = 1 + sqrt(5) approx 3.236.
+  $
+
+  #align(center)[
+    #plot(
+      xmin: -1.6,
+      xmax: 3.6,
+      ymin: -2.6,
+      ymax: 3.4,
+      width: 11,
+      height: 6,
+      axis-x-pos: "center",
+      axis-y-pos: "center",
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (-1, 1, 2, 3),
+      ytick: (-2, -1, 1, 2, 3),
+      show-origin: false,
+      fill-area(
+        x => 0.5 * calc.pow(x, 4) - 2 * calc.pow(x, 3) + 4 * x,
+        domain: (-1.2361, 0.0),
+        color: red.lighten(78%),
+      ),
+      fill-area(
+        x => 0.5 * calc.pow(x, 4) - 2 * calc.pow(x, 3) + 4 * x,
+        domain: (0.0, 2.0),
+        color: green.lighten(75%),
+      ),
+      fill-area(
+        x => 0.5 * calc.pow(x, 4) - 2 * calc.pow(x, 3) + 4 * x,
+        domain: (2.0, 3.2361),
+        color: red.lighten(78%),
+      ),
+      (
+        fn: x => 0.5 * calc.pow(x, 4) - 2 * calc.pow(x, 3) + 4 * x,
+        domain: (-1.45, 3.45),
+        stroke: blue + 1.3pt,
+        samples: 120,
+      ),
+      note($-1.6$, (-0.62, -1.0), anchor: "center", size: 9pt),
+      note($+3.2$, (1.0, 1.1), anchor: "center", size: 9pt),
+      note($-1.6$, (2.62, -1.0), anchor: "center", size: 9pt),
+    )
+  ]
 
   Integrating across the whole span:
   $ integral_(-1.236)^(3.236) f(x) dif x = 0. $
@@ -173,8 +217,10 @@
   If both graphs lie above the axis the argument is immediate: the
   region between them is what is left when the area under $g$ is
   removed from the area under $f$, so
-  $ A = integral_a^b f(x) dif x - integral_a^b g(x) dif x
-      = integral_a^b (f(x) - g(x)) dif x. $
+  $
+    A = integral_a^b f(x) dif x - integral_a^b g(x) dif x
+    = integral_a^b (f(x) - g(x)) dif x.
+  $
 
   What if part of the region lies below the axis, where that picture
   fails? Shift *both* curves upwards by a constant $c$ large enough to
@@ -216,9 +262,49 @@
   $(1/4)^2 = 0.0625$. The root is on top.
 
   *Integrate.*
-  $ A = integral_0^1 (sqrt(x) - x^2) dif x
+  $
+    A = integral_0^1 (sqrt(x) - x^2) dif x
     = [2/3 x^(3/2) - 1/3 x^3]_0^1
-    = 2/3 - 1/3 = 1/3. $
+    = 2/3 - 1/3 = 1/3.
+  $
+
+  #align(center)[
+    #plot(
+      xmin: -0.1,
+      xmax: 1.3,
+      ymin: -0.1,
+      ymax: 1.3,
+      width: 6.5,
+      height: 6,
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (0.5, 1),
+      ytick: (0.5, 1),
+      show-origin: true,
+      area-between(
+        x => calc.sqrt(x),
+        x => x * x,
+        domain: (0.0, 1.0),
+        color: green.lighten(75%),
+      ),
+      (
+        fn: x => calc.sqrt(x),
+        domain: (0.0, 1.25),
+        stroke: blue + 1.3pt,
+        label: $y = sqrt(x)$,
+        label-pos: 1,
+        label-side: "below-right",
+      ),
+      (
+        fn: x => x * x,
+        domain: (0.0, 1.13),
+        stroke: red + 1.3pt,
+        label: $y = x^2$,
+        label-pos: 0.95,
+        label-side: "above-left",
+      ),
+    )
+  ]
 ]
 
 #example(title: "A region below the axis")[
@@ -228,9 +314,51 @@
   Setting $-x^2 = x - 2$ gives $x^2 + x - 2 = 0$, so $x = -2$ and
   $x = 1$. Testing $x = 0$: the parabola gives $0$, the line gives
   $-2$, so the parabola is upper.
-  $ A = integral_(-2)^1 (-x^2 - (x - 2)) dif x
+  $
+    A = integral_(-2)^1 (-x^2 - (x - 2)) dif x
     = [-1/3 x^3 - 1/2 x^2 + 2 x]_(-2)^1
-    = 7/6 - (-10/3) = 9/2. $
+    = 7/6 - (-10/3) = 9/2.
+  $
+  #align(center)[
+    #plot(
+      xmin: -2.6,
+      xmax: 1.6,
+      ymin: -4.6,
+      ymax: 1.4,
+      width: 8,
+      height: 6,
+      axis-x-pos: "center",
+      axis-y-pos: "center",
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (-2, -1, 1),
+      ytick: (-4, -3, -2, -1, 1),
+      show-origin: false,
+      area-between(
+        x => -x * x,
+        x => x - 2.0,
+        domain: (-2.0, 1.0),
+        color: orange.lighten(72%),
+      ),
+      (
+        fn: x => -x * x,
+        domain: (-2.1, 1.2),
+        stroke: blue + 1.3pt,
+        label: $y = -x^2$,
+        label-pos: 0.13,
+        label-side: "left",
+      ),
+      (
+        fn: x => x - 2.0,
+        domain: (-2.4, 1.45),
+        stroke: red + 1.3pt,
+        label: $y = x - 2$,
+        label-pos: 1,
+        label-side: "below-right",
+      ),
+    )
+  ]
+
   Both curves spend most of this interval below the axis, and it made
   no difference at all.
 ]
@@ -268,8 +396,10 @@
       $ A = integral_0^1 (sqrt(x) - x^2) dif x = 1/3. $],
     [Meet at $x approx 0.1586$ and $x approx 3.1462$; the logarithm is
       upper between them.
-      $ A = integral_(0.1586)^(3.1462) (ln(x) - (x - 2)) dif x
-        approx 1.95. $],
+      $
+        A = integral_(0.1586)^(3.1462) (ln(x) - (x - 2)) dif x
+        approx 1.95.
+      $],
     [Meet at $x approx 1.725$ and $x approx 9.275$; the line is upper
       between them. Note that the vertical asymptote at $x = 1$ lies
       *outside* the interval, which is what makes the region finite.
@@ -313,8 +443,10 @@
   Find the area enclosed by $y = x^3 - 2 x^2$ and $y = 2 x^2 - 3 x$.
 
   Setting them equal:
-  $ x^3 - 4 x^2 + 3 x = 0 quad ==> quad
-    x dot (x - 1) dot (x - 3) = 0, $
+  $
+    x^3 - 4 x^2 + 3 x = 0 quad ==> quad
+    x dot (x - 1) dot (x - 3) = 0,
+  $
   so the curves meet at $x = 0$, $x = 1$ and $x = 3$. Three
   intersection points means two regions, and the curves exchange
   places at $x = 1$.
@@ -323,9 +455,66 @@
   $-1$. So on $(0, 1)$ the *cubic* is upper. Testing $x = 2$: the
   cubic gives $0$, the parabola gives $2$, so on $(1, 3)$ the
   *parabola* is upper.
-  $ A &= integral_0^1 (x^3 - 4 x^2 + 3 x) dif x
-      + integral_1^3 (-(x^3 - 4 x^2 + 3 x)) dif x \
-    &= 5/12 + 8/3 = 37/12 approx 3.08. $
+  $
+    A & = integral_0^1 (x^3 - 4 x^2 + 3 x) dif x
+        + integral_1^3 (-(x^3 - 4 x^2 + 3 x)) dif x \
+      & = 5/12 + 8/3 = 37/12 approx 3.08.
+  $
+
+  #align(center)[
+    #plot(
+      xmin: -0.4,
+      xmax: 3.6,
+      ymin: -2.6,
+      ymax: 10.6,
+      width: 10,
+      height: 6.5,
+      axis-x-pos: "center",
+      axis-y-pos: "center",
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (1, 2, 3),
+      ytick: (-2, 2, 4, 6, 8, 10),
+      show-origin: false,
+      area-between(
+        x => calc.pow(x, 3) - 2 * x * x,
+        x => 2 * x * x - 3 * x,
+        domain: (0.0, 1.0),
+        color: green.lighten(75%),
+      ),
+      area-between(
+        x => 2 * x * x - 3 * x,
+        x => calc.pow(x, 3) - 2 * x * x,
+        domain: (1.0, 3.0),
+        color: orange.lighten(72%),
+      ),
+      vline(1.0, stroke: stroke(
+        paint: luma(130),
+        thickness: 0.5pt,
+        dash: "dotted",
+      )),
+      (
+        fn: x => calc.pow(x, 3) - 2 * x * x,
+        domain: (-0.3, 3.05),
+        stroke: blue + 1.3pt,
+        label: $#h(.2cm)y = x^3 - 2 x^2$,
+        label-pos: 0.9,
+        label-side: "right",
+      ),
+      (
+        fn: x => 2 * x * x - 3 * x,
+        domain: (-0.3, 3.05),
+        stroke: red + 1.3pt,
+        label: $y = 2 x^2 - 3 x#h(.2cm)$,
+        label-pos: 0.9,
+        label-side: "left",
+      ),
+    )
+  ]
+
+  The two regions are shaded differently on purpose: the curves change
+  places at the dotted line, so the integrand $f - g$ changes sign
+  there and the two pieces must be handled separately.
 
   Had we integrated $x^3 - 4 x^2 + 3 x$ straight through from $0$ to
   $3$, the answer would have been $5/12 - 8/3 = -9/4$ — negative,
@@ -360,13 +549,17 @@
   The domain is $x gt.eq 0$, and the zeros are $x = 0$ and $x = a$.
   Between them $f$ is positive, so no splitting is needed. Writing the
   integrand as $a dot x^(1/2) - x^(3/2)$:
-  $ integral_0^a (a x^(1/2) - x^(3/2)) dif x
+  $
+    integral_0^a (a x^(1/2) - x^(3/2)) dif x
     = [2/3 a x^(3/2) - 2/5 x^(5/2)]_0^a
     = (2/3 - 2/5) dot a^(5/2)
-    = 4/15 dot a^(5/2). $
+    = 4/15 dot a^(5/2).
+  $
   Setting this equal to $64.8$:
-  $ a^(5/2) = 64.8 dot 15/4 = 243 quad ==> quad
-    a = 243^(2/5) = (3^5)^(2/5) = 9. $
+  $
+    a^(5/2) = 64.8 dot 15/4 = 243 quad ==> quad
+    a = 243^(2/5) = (3^5)^(2/5) = 9.
+  $
 
   #heuristic("introduce notation")
 
@@ -394,8 +587,10 @@
   $x = root(3, 4) approx 1.587$. On that interval $g$ is above $f$.
 
   *Total area.*
-  $ A = integral_0^(root(3, 4)) (2 sqrt(x) - x^2) dif x
-    = [4/3 x^(3/2) - 1/3 x^3]_0^(root(3, 4)) = 4/3. $
+  $
+    A = integral_0^(root(3, 4)) (2 sqrt(x) - x^2) dif x
+    = [4/3 x^(3/2) - 1/3 x^3]_0^(root(3, 4)) = 4/3.
+  $
 
   *Halving.* We need $k$ with
   $ integral_0^k (2 sqrt(x) - x^2) dif x = 2/3, $
@@ -441,9 +636,74 @@
 
       So the region runs from $0$ to $4$, with its lower boundary
       changing at $x approx 1.236$ from $g$ to the tangent:
-      $ A = integral_0^1.236 (1/4 x^2 + x^2) dif x
-          + integral_1.236^4 (1/4 x^2 - (2 x - 4)) dif x. $
-      Evaluating, $0.787 + 1.760 approx 2.55$.],
+      $
+        A = integral_0^1.236 (1/4 x^2 + x^2) dif x
+        + integral_1.236^4 (1/4 x^2 - (2 x - 4)) dif x.
+      $
+      Evaluating, $0.787 + 1.760 approx 2.55$.
+
+      #align(center)[
+        #plot(
+          xmin: -0.4,
+          xmax: 4.6,
+          ymin: -4.6,
+          ymax: 4.6,
+          width: 9,
+          height: 6.5,
+          axis-x-pos: "center",
+          axis-y-pos: "center",
+          xlabel: $x$,
+          ylabel: $y$,
+          xtick: (1, 2, 3, 4),
+          ytick: (-4, -2, 2, 4),
+          show-origin: false,
+          area-between(
+            x => 0.25 * x * x,
+            x => -x * x,
+            domain: (0.0, 1.2361),
+            color: green.lighten(75%),
+          ),
+          area-between(
+            x => 0.25 * x * x,
+            x => 2.0 * x - 4.0,
+            domain: (1.2361, 4.0),
+            color: green.lighten(75%),
+          ),
+          vline(1.2361, stroke: stroke(
+            paint: luma(130),
+            thickness: 0.5pt,
+            dash: "dotted",
+          )),
+          (
+            fn: x => 0.25 * x * x,
+            domain: (-0.35, 4.25),
+            stroke: blue + 1.3pt,
+            label: $f(x) = 1/4 x^2$,
+            label-pos: 0.97,
+            label-side: "left",
+          ),
+          (
+            fn: x => -x * x,
+            domain: (-0.35, 2.1),
+            stroke: red + 1.3pt,
+            label: $g(x) = -x^2$,
+            label-pos: 0.9,
+            label-side: "right",
+          ),
+          (
+            fn: x => 2.0 * x - 4.0,
+            domain: (0.0, 4.25),
+            stroke: rgb("#c94a00") + 1.3pt,
+            label: $t(x) = 2 x - 4$,
+            label-pos: 0.97,
+            label-side: "below-right",
+          ),
+        )
+      ]
+
+      The dotted line marks where the lower boundary changes from the
+      parabola $g$ to the tangent $t$ — which is the only genuinely
+      difficult step in the problem.],
   )
 
   #heuristic("draw a picture")

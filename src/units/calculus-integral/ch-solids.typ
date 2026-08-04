@@ -93,6 +93,40 @@
 
   That sum is a Riemann sum — of the function $pi dot f^2$. Letting
   $n -> oo$ turns it into an integral.
+
+  #align(center)[
+    #plot(
+      xmin: -0.4, xmax: 3.4, ymin: -2.6, ymax: 2.6,
+      width: 10, height: 5.5,
+      axis-x-pos: "center", axis-y-pos: "left",
+      xlabel: $x$, ylabel: $y$,
+      xtick: (1, 2, 3), ytick: (-2, -1, 1, 2),
+      show-origin: false,
+      area-between(
+        x => 0.4 * x + 1.0,
+        x => -0.4 * x - 1.0,
+        domain: (1.75, 2.05),
+        color: rgb("#c94a00").lighten(55%),
+      ),
+      (
+        fn: x => 0.4 * x + 1.0, domain: (0.0, 3.2),
+        stroke: blue + 1.4pt,
+        label: $f(x)$, label-pos: 0.97, label-side: "above-left",
+      ),
+      (
+        fn: x => -0.4 * x - 1.0, domain: (0.0, 3.2),
+        stroke: stroke(paint: blue.lighten(50%), thickness: 1pt, dash: "dashed"),
+        label: $-f(x)$, label-pos: 0.97, label-side: "below-left",
+      ),
+      note([radius $f(x)$], (2.1, 0.9), anchor: "west", size: 8pt),
+      note([thickness $Delta x$], (1.9, -1.9), anchor: "center", size: 8pt),
+    )
+  ]
+
+  The dashed curve is the reflection of $f$ in the axis — it is not a
+  second function, it is the far side of the same solid seen in cross
+  section. The shaded strip is one disc: a circle of radius $f(x)$,
+  seen edge-on, with thickness $Delta x$.
 ]
 
 #keybox(title: "Volume of a solid of revolution")[

@@ -130,6 +130,49 @@
   $n$ strips of equal width
   $ Delta x = (b - a) / n. $
   On each strip, replace the curve by a horizontal line — a rectangle.
+  #align(center)[
+    #plot(
+      xmin: -0.2,
+      xmax: 3.5,
+      ymin: 0,
+      ymax: 9.8,
+      width: 11,
+      height: 6.5,
+      axis-x-pos: "bottom",
+      axis-y-pos: "left",
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (1, 2, 3),
+      ytick: (2, 4, 6, 8),
+      show-origin: false,
+      riemann-sum(
+        x => x * x,
+        domain: (0.0, 3.0),
+        n: 6,
+        method: "right",
+        color: blue.lighten(80%),
+        stroke: blue.darken(10%) + 0.6pt,
+        show-points: true,
+        point-color: rgb("#c94a00"),
+        point-size: 0.07,
+        point-label: none,
+        show-dx: true,
+        dx-rect: 2,
+        dx-label: $Delta x$,
+        show-xi: true,
+      ),
+      (
+        fn: x => x * x,
+        domain: (0.0, 3.1),
+        stroke: blue + 1.5pt,
+        label: $f(x) = x^2$,
+        label-pos: 1.0,
+        label-side: "left",
+      ),
+    )
+  ]
+
+
   There is a choice about how high to make each rectangle, and two
   choices are especially useful:
 
@@ -161,15 +204,100 @@
 #example(title: "Four strips under a parabola")[
   Estimate the area under $f(x) = x^2$ from $0$ to $1$ using four
   strips.
+  #image-grid(
+    2,
+    plot(
+      xmin: 0,
+      xmax: 1.1,
+      ymin: 0,
+      ymax: 1.1,
+      width: 5,
+      height: 5,
+      axis-x-pos: "bottom",
+      axis-y-pos: "left",
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (1 / 4, 1 / 2, 3 / 4, 1),
+      ytick: (1 / 2, 1),
+      show-origin: false,
+      riemann-sum(
+        x => x * x,
+        domain: (0.0, 1.0),
+        n: 4,
+        method: "left",
+        color: green.lighten(80%),
+        stroke: green.darken(10%) + 0.6pt,
+        show-points: true,
+        point-color: rgb("#c94a00"),
+        point-size: 0.07,
+        point-label: none,
+        // show-dx: true,
+        dx-rect: 2,
+        dx-label: $Delta x$,
+        // show-xi: true,
+      ),
+      (
+        fn: x => x * x,
+        domain: (0.0, 3.1),
+        stroke: blue + 1.5pt,
+        label: $f(x) = x^2$,
+        label-pos: 1.0,
+        label-side: "left",
+      ),
+    ),
+    plot(
+      xmin: 0,
+      xmax: 1.1,
+      ymin: 0,
+      ymax: 1.1,
+      width: 5,
+      height: 5,
+      axis-x-pos: "bottom",
+      axis-y-pos: "left",
+      xlabel: $x$,
+      ylabel: $y$,
+      xtick: (1 / 4, 1 / 2, 3 / 4, 1),
+      ytick: (1 / 2, 1),
+      show-origin: false,
+      riemann-sum(
+        x => x * x,
+        domain: (0.0, 1.0),
+        n: 4,
+        method: "right",
+        color: blue.lighten(80%),
+        stroke: blue.darken(10%) + 0.6pt,
+        show-points: true,
+        point-color: rgb("#c94a00"),
+        point-size: 0.07,
+        point-label: none,
+        // show-dx: true,
+        dx-rect: 2,
+        dx-label: $Delta x$,
+        // show-xi: true,
+      ),
+      (
+        fn: x => x * x,
+        domain: (0.0, 3.1),
+        stroke: blue + 1.5pt,
+        label: $f(x) = x^2$,
+        label-pos: 1.0,
+        label-side: "left",
+      ),
+    ),
+  )
+
+
 
   Here $Delta x = 1/4$, and the strips are
   $[0, 1/4]$, $[1/4, 1/2]$, $[1/2, 3/4]$, $[3/4, 1]$. Since $f$ is
   increasing, its smallest value on each strip is at the left end and
   its largest at the right end:
-  $ L_4 &= 1/4 dot (0^2 + (1/4)^2 + (1/2)^2 + (3/4)^2)
-      = 7/32 = 0.21875, \
-    U_4 &= 1/4 dot ((1/4)^2 + (1/2)^2 + (3/4)^2 + 1^2)
-      = 15/32 = 0.46875. $
+  $
+    L_4 & = 1/4 dot (0^2 + (1/4)^2 + (1/2)^2 + (3/4)^2)
+          = 7/32 = 0.21875, \
+    U_4 & = 1/4 dot ((1/4)^2 + (1/2)^2 + (3/4)^2 + 1^2)
+          = 15/32 = 0.46875.
+  $
   So the area is somewhere between $0.219$ and $0.469$. That is a
   wide bracket and not yet worth much — but it is a *guarantee*,
   which no single estimate would be.
@@ -183,8 +311,10 @@
 
 #keybox(title: "The gap closes")[
   For a function that is increasing (or decreasing) on $[a, b]$,
-  $ U_n - L_n = abs(f(b) - f(a)) dot Delta x
-    = abs(f(b) - f(a)) dot (b - a) / n. $
+  $
+    U_n - L_n = abs(f(b) - f(a)) dot Delta x
+    = abs(f(b) - f(a)) dot (b - a) / n.
+  $
   The right-hand side tends to $0$ as $n -> oo$, whatever the
   function. So the lower and upper sums are squeezed together, and any
   number trapped between them for every $n$ is unique.
@@ -199,8 +329,10 @@
 ]
 
 #keybox(title: "Two sum formulas")[
-  $ sum_(k = 1)^n k = (n dot (n + 1)) / 2, quad
-    sum_(k = 1)^n k^2 = (n dot (n + 1) dot (2 n + 1)) / 6. $
+  $
+    sum_(k = 1)^n k = (n dot (n + 1)) / 2, quad
+    sum_(k = 1)^n k^2 = (n dot (n + 1) dot (2 n + 1)) / 6.
+  $
   The first is the arithmetic series you met in the sequences unit.
 ]
 
@@ -210,10 +342,12 @@
 
   With $Delta x = 1/n$, the right end of strip $k$ is at $x = k slash n$,
   and $f$ is increasing, so
-  $ U_n = sum_(k = 1)^n (k/n) dot 1/n
+  $
+    U_n = sum_(k = 1)^n (k/n) dot 1/n
     = 1/n^2 sum_(k = 1)^n k
     = 1/n^2 dot (n dot (n + 1)) / 2
-    = (n + 1) / (2 n). $
+    = (n + 1) / (2 n).
+  $
   Now let $n -> oo$:
   $ lim_(n -> oo) (n + 1) / (2 n) = 1/2. $
   The same computation with left endpoints gives
@@ -224,9 +358,11 @@
 
 #example(title: "The area under a parabola, exactly")[
   Now $f(x) = x^2$ on $[0, 1]$, where no elementary formula exists.
-  $ U_n = sum_(k = 1)^n (k/n)^2 dot 1/n
+  $
+    U_n = sum_(k = 1)^n (k/n)^2 dot 1/n
     = 1/n^3 sum_(k = 1)^n k^2
-    = 1/n^3 dot (n (n + 1) (2 n + 1)) / 6. $
+    = 1/n^3 dot (n (n + 1) (2 n + 1)) / 6.
+  $
   Multiplying out and dividing through by $n^3$:
   $ U_n = 1/3 + 1/(2 n) + 1/(6 n^2). $
   The corresponding lower sum comes out as
@@ -251,11 +387,12 @@
   side is $1 dot 2 dot 3 slash 6 = 1$. They agree.
 
   *Induction step.* Assume the formula holds for some $n$. Then
-  $ sum_(k = 1)^(n + 1) k^2
-    &= (n (n + 1) (2 n + 1)) / 6 + (n + 1)^2 \
-    &= (n + 1) dot ((n (2 n + 1)) / 6 + (n + 1)) \
-    &= (n + 1) dot (2 n^2 + n + 6 n + 6) / 6 \
-    &= ((n + 1) (n + 2) (2 n + 3)) / 6, $
+  $
+    sum_(k = 1)^(n + 1) k^2 & = (n (n + 1) (2 n + 1)) / 6 + (n + 1)^2 \
+                            & = (n + 1) dot ((n (2 n + 1)) / 6 + (n + 1)) \
+                            & = (n + 1) dot (2 n^2 + n + 6 n + 6) / 6 \
+                            & = ((n + 1) (n + 2) (2 n + 3)) / 6,
+  $
   where the last step factors $2 n^2 + 7 n + 6$. And
   $(n + 1)(n + 2)(2 n + 3)$ is exactly the original formula with $n$
   replaced by $n + 1$, since $2(n + 1) + 1 = 2 n + 3$. So the formula
@@ -274,8 +411,10 @@
   Let $f$ be continuous on $[a, b]$. The
   #vocab("definite integral", "bestimmtes Integral") of $f$ from $a$
   to $b$ is the common limit of the lower and upper sums:
-  $ integral_a^b f(x) dif x
-    = lim_(n -> oo) sum_(k = 1)^n f(x_k^*) dot Delta x. $
+  $
+    integral_a^b f(x) dif x
+    = lim_(n -> oo) sum_(k = 1)^n f(x_k^*) dot Delta x.
+  $
   For a continuous function this limit always exists, and does not
   depend on which point $x_k^*$ is chosen in each strip.
 
@@ -321,14 +460,16 @@
 
 #keybox(title: "Properties of the definite integral")[
   For continuous $f$ and $g$ and constants $k$:
-  $ integral_a^b (f(x) + g(x)) dif x
-      &= integral_a^b f(x) dif x + integral_a^b g(x) dif x, \
+  $
+    integral_a^b (f(x) + g(x)) dif x
+    &= integral_a^b f(x) dif x + integral_a^b g(x) dif x, \
     integral_a^b k dot f(x) dif x
-      &= k dot integral_a^b f(x) dif x, \
+    &= k dot integral_a^b f(x) dif x, \
     integral_a^b f(x) dif x + integral_b^c f(x) dif x
-      &= integral_a^c f(x) dif x, \
+    &= integral_a^c f(x) dif x, \
     integral_a^a f(x) dif x &= 0, \
-    integral_b^a f(x) dif x &= - integral_a^b f(x) dif x. $
+    integral_b^a f(x) dif x &= - integral_a^b f(x) dif x.
+  $
   The third is additivity: two adjacent regions make one region. The
   last is a convention, and a sensible one — reversing the direction
   of travel reverses the sign.
@@ -348,8 +489,10 @@
   ),
 )[
   Given that
-  $ integral_0^2 h(x) dif x = -2 quad "and" quad
-    integral_2^5 h(x) dif x = 6, $
+  $
+    integral_0^2 h(x) dif x = -2 quad "and" quad
+    integral_2^5 h(x) dif x = 6,
+  $
   deduce the value of
   #auto-parts(
     2,
@@ -475,17 +618,23 @@
 ][
   With $Delta x = 1 slash n$ and $f$ increasing on $[0, 1]$, the
   upper sum takes right endpoints:
-  $ U_n = sum_(k = 1)^n (k/n)^3 dot 1/n
+  $
+    U_n = sum_(k = 1)^n (k/n)^3 dot 1/n
     = 1/n^4 sum_(k = 1)^n k^3
     = 1/n^4 dot (n^2 (n + 1)^2) / 4
-    = ((n + 1)^2) / (4 n^2). $
+    = ((n + 1)^2) / (4 n^2).
+  $
   Expanding,
-  $ U_n = (n^2 + 2 n + 1) / (4 n^2)
-    = 1/4 + 1/(2 n) + 1/(4 n^2) --> 1/4. $
+  $
+    U_n = (n^2 + 2 n + 1) / (4 n^2)
+    = 1/4 + 1/(2 n) + 1/(4 n^2) --> 1/4.
+  $
   The lower sum uses left endpoints, which is the same computation
   with the index running from $0$ to $n - 1$:
-  $ L_n = ((n - 1)^2) / (4 n^2)
-    = 1/4 - 1/(2 n) + 1/(4 n^2) --> 1/4. $
+  $
+    L_n = ((n - 1)^2) / (4 n^2)
+    = 1/4 - 1/(2 n) + 1/(4 n^2) --> 1/4.
+  $
   Both limits are $1/4$, and the gap $U_n - L_n = 1 slash n$ closes,
   so the integral is $1/4$.
 
