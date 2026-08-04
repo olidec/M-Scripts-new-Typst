@@ -36,6 +36,8 @@ KNOWN = set(
     left right lr mid slash
     NN ZZ QQ RR CC Re Im Arg conj cis num system
     underbrace overbrace overline underline hat bar tilde vec dot.double
+    cases mat vec binom cal bb frak sans serif upright italic bold
+    compose dif
     """.split()
 )
 
