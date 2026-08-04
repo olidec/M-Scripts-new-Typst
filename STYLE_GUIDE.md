@@ -20,7 +20,7 @@ unit as Project Knowledge.
   - Practical rule of thumb: if a topic is SPF-only, wrap it in
     `#only-high[...]` (theory) or pass `level: "high"` to `exercise()`.
     Shared topics need no wrapping at all — that's the default.
-  - In practice, GLF and SPF year 1 use *largely the same chapter list* —
+  - In practice, GLF and SPF year 1 use _largely the same chapter list_ —
     the extra SPF depth mostly lives as `#only-high[...]` content inside
     shared chapters, not as separate chapters taught earlier. Don't assume
     a topic listed as "SPF year 1" in the Lehrplan means SPF gets a whole
@@ -55,12 +55,11 @@ unit as Project Knowledge.
 Exponent-law arithmetic (integer/negative/fractional exponent laws, the
 two derivation investigations) was originally drafted as part of
 `ch-algebra-foundations`, on the reasoning that it's a general algebra
-skill rather than specifically about power *functions*. That turned out
+skill rather than specifically about power _functions_. That turned out
 to be wrong once `ch-powers` itself turned out to be SPF-year-1-only
-(GLF Lehrplan explicitly places "Potenz- und Logarithmengesetze" in
-2. Klasse, not 1. Klasse) — `only-high[...]` only suppresses content
-*within* a chapter both tracks read the same year; it can't let GLF pick
-the content back up in a *different* year, since GLF's year-2 main file
+(GLF Lehrplan explicitly places "Potenz- und Logarithmengesetze" in 2. Klasse, not 1. Klasse) — `only-high[...]` only suppresses content
+_within_ a chapter both tracks read the same year; it can't let GLF pick
+the content back up in a _different_ year, since GLF's year-2 main file
 can't cherry-pick just the `only-high` parts of a chapter it would
 otherwise be re-reading in full. The only mechanism that supports "GLF
 sees this content later" is chapter-level exclusion — a separate file,
@@ -69,9 +68,9 @@ material moved out of `ch-algebra-foundations` and became the opening
 section of `ch-powers` instead, gated the same SPF-year-1/GLF-year-2 way
 as the rest of that chapter.
 
-## 2. Pedagogical philosophy (drives *what* gets written, not just *how*)
+## 2. Pedagogical philosophy (drives _what_ gets written, not just _how_)
 
-Core conviction: *access to knowledge is not the same as knowledge.* Six
+Core conviction: _access to knowledge is not the same as knowledge._ Six
 challenges the materials are designed around:
 
 1. **Countering fatalism about math ability** — levels-of-abstraction
@@ -80,7 +79,7 @@ challenges the materials are designed around:
    ("grade the AI," "catch the false proof"), never open-ended
    "solve this for me" prompts.
 3. **Managing laptop/concentration issues** — short work sprints with
-   visible deliverables; regulate *mode* of device use, not medium.
+   visible deliverables; regulate _mode_ of device use, not medium.
 4. **Curiosity vs. grade-chasing** — ungraded explorations that
    explicitly promise to resurface on a graded exam; grade the oral
    defense of open work, not just the artifact.
@@ -88,11 +87,11 @@ challenges the materials are designed around:
    explicitly so "being stuck" comes with a repertoire of moves.
 6. **Look-aheads** — spiral the curriculum forward: a special case
    students already grasp intuitively (natural-number powers before
-   power *functions*; eyeballing a parabola's steepness before formal
+   power _functions_; eyeballing a parabola's steepness before formal
    derivatives) gets named and connected explicitly to the topic that
    will formalize it later, so that later lesson lands as recognition
    ("oh, this is that thing again, properly") rather than pure novelty.
-   Distinct from an *exploration* (guided discovery of something new
+   Distinct from an _exploration_ (guided discovery of something new
    right now) — a look-ahead's job is to plant a flag students will
    recognize when they reach it, sometimes chapters or even years
    later. Use `look-ahead(preview:)` in `preamble.typ`, and name the
@@ -101,7 +100,7 @@ challenges the materials are designed around:
    "see Chapter 6" would silently go stale the moment content is
    reordered.
 
-A structural corollary worth naming: the same *template* should recur
+A structural corollary worth naming: the same _template_ should recur
 across function-family chapters (linear, quadratic, power, exponential,
 ...) — investigate, classify, transform, model — so that once a student
 has been through one such chapter, the shape of the next one is already
@@ -123,8 +122,8 @@ proposed and when the relevant chapter actually gets written:
 ## 3. Directory architecture
 
 The project spans multiple units across multiple years and two levels, so
-source is organized by *topic*, and separately, reading order is organized
-by *year*. A chapter file never knows what year or level it will be read
+source is organized by _topic_, and separately, reading order is organized
+by _year_. A chapter file never knows what year or level it will be read
 in — that's decided entirely by whichever `main-*.typ` or `years/*.typ`
 file includes it.
 
@@ -243,7 +242,7 @@ than a bare filename — the same class of bug, one more place it bites.
 
 ### Numbering-scope note
 
-`ex-counter` is global *to whatever gets compiled together*, not global
+`ex-counter` is global _to whatever gets compiled together_, not global
 across the whole project. A unit's own `solutions-basic.typ` numbers
 exercises starting at 1 for that compilation; a year-level binder that
 also includes that unit will very likely show different exercise numbers
@@ -263,11 +262,13 @@ how many directory levels deep the importing file sits — see §3).
 file** — `main-basic.typ`, `main-high.typ`, `exercises-basic.typ`,
 `exercises-high.typ`, `solutions-basic.typ`, `solutions-high.typ` —
 right after the import:
+
 ```typst
 #import "../../common/preamble.typ": *
 #set-subject-name("Algebra & Functions")
 #set-level("basic")
 ```
+
 The header shows whichever name that document's own call declared;
 there is no global default tied to any particular unit (the fallback,
 `"Untitled Unit"`, is a deliberately obvious placeholder rather than a
@@ -278,29 +279,29 @@ them — the call has to be repeated in each one, not just the first.
 Year-level binders (`years/*.typ`) don't need this: the header there is
 driven by each `register_chapters` entry's `part` label instead (§3).
 
-| Environment | Purpose | Suppressed in |
-|---|---|---|
-| `theorem(title:)`, `definition(title:)`, `example(title:)`, `remark()`, `warning()`, `proof()` | Standard theory boxes | sheet + solutions mode |
-| `keybox(title:)` | Highlighted key idea/formula, no counter | sheet + solutions mode |
-| `quotebox()` | Neutral gray callout for stories/quotations | sheet + solutions mode |
-| `only-theory[...]` | Prose/headings that vanish on the exercise sheet | sheet + solutions mode |
-| `only-high[...]` / `only-basic[...]` | SPF-only / GLF-only theory | opposite level, + sheet/solutions |
-| `exercise(chapter:, level:, difficulty:, time:, hints:)[question][solution]` | The core exercise environment | — (renders differently per mode) |
-| `print-hints()` | Prints staged hints; call **once per chapter, before solutions exist anywhere** | sheet mode |
-| `ai-box(role:, on-sheet:)[...]` | Role-constrained AI task (roles: Explainer / Checker / Generator / Tutor) | solutions mode always; sheet unless `on-sheet: true` |
-| `exploration(title:)[...]` | Ungraded discovery task; auto-appends "one exam problem may grow out of this" | sheet + solutions mode |
-| `look-ahead(title:, preview:)[...]` | Names a known special case as an instance of a topic covered formally later; `preview:` names the destination topic | sheet + solutions mode |
-| `toolbox()` / `heuristic("...")` | Pólya-style problem-solving moves; print `toolbox()` once early, then badge solutions with `heuristic(...)` | sheet + solutions mode |
-| `known-techniques(title:, ..items)` | Running "here's your toolkit so far" recap of specific methods (e.g. equation-solving techniques); call again with a growing list as new methods get taught, under its own `==` heading (a checkpoint moment, not an aside) — pair with a short refresher exercise | sheet + solutions mode |
-| `objectives(..items)` with `obj(bfkm:, level:)[...]` / `bfkm(level:)[...]` | Chapter-opening learning-objectives box tied to the Lehrplan; `bfkm[...]` items get a BfKM badge + auto-legend; `level:` filters items per document like `exercise()`'s `level:` | sheet + solutions mode |
-| `vocab(en, de, show-de:)` / `print-vocab()` | Immersion glossary: mark a term inline (bold EN + small gray "(dt. _DE_)"), collect it, print alphabetized EN–DE table once at chapter end; dedupes by English term | inline rendering everywhere; recording + table suppressed in sheet + solutions mode |
-| `num(x)` | Swiss number formatting `12'345.5` — safe in text AND math mode (see §6; never type `'` in math yourself) | — |
-| `abstraction-ladder(l0:, l1:, l2:, l3:)` | Situation → Data → Pattern → Formula figure; use whenever a situation is formalized | (figure suppressed like other `only-theory` content) |
-| `data-table(columns:, ...)` | Worksheet-style fill-in table | — |
-| `system(..eqs)` | System of equations, bounded by vertical bars, aligned at `=`; `eqs` are `($lhs$, $rhs$)` tuples, any number of rows — see §6 for the full explanation and the `#` sigil requirement | — |
-| `dot-triangle`, `domino-row`, `koch-star`, `nested-squares` | Native-shape figures (no external packages) | wrapped in `only-theory` |
-| `register_chapters(...)` / `include_chapters()` | Chapter registry; supports an optional `part` for multi-unit documents (see §3) | — |
-| `part-divider(title)` | Full-page divider between parts in a multi-unit document; called automatically by `include_chapters()` | — |
+| Environment                                                                                    | Purpose                                                                                                                                                                                                                                                            | Suppressed in                                                                       |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `theorem(title:)`, `definition(title:)`, `example(title:)`, `remark()`, `warning()`, `proof()` | Standard theory boxes                                                                                                                                                                                                                                              | sheet + solutions mode                                                              |
+| `keybox(title:)`                                                                               | Highlighted key idea/formula, no counter                                                                                                                                                                                                                           | sheet + solutions mode                                                              |
+| `quotebox()`                                                                                   | Neutral gray callout for stories/quotations                                                                                                                                                                                                                        | sheet + solutions mode                                                              |
+| `only-theory[...]`                                                                             | Prose/headings that vanish on the exercise sheet                                                                                                                                                                                                                   | sheet + solutions mode                                                              |
+| `only-high[...]` / `only-basic[...]`                                                           | SPF-only / GLF-only theory                                                                                                                                                                                                                                         | opposite level, + sheet/solutions                                                   |
+| `exercise(chapter:, level:, difficulty:, time:, hints:)[question][solution]`                   | The core exercise environment                                                                                                                                                                                                                                      | — (renders differently per mode)                                                    |
+| `print-hints()`                                                                                | Prints staged hints; call **once per chapter, before solutions exist anywhere**                                                                                                                                                                                    | sheet mode                                                                          |
+| `ai-box(role:, on-sheet:)[...]`                                                                | Role-constrained AI task (roles: Explainer / Checker / Generator / Tutor)                                                                                                                                                                                          | solutions mode always; sheet unless `on-sheet: true`                                |
+| `exploration(title:)[...]`                                                                     | Ungraded discovery task; auto-appends "one exam problem may grow out of this"                                                                                                                                                                                      | sheet + solutions mode                                                              |
+| `look-ahead(title:, preview:)[...]`                                                            | Names a known special case as an instance of a topic covered formally later; `preview:` names the destination topic                                                                                                                                                | sheet + solutions mode                                                              |
+| `toolbox()` / `heuristic("...")`                                                               | Pólya-style problem-solving moves; print `toolbox()` once early, then badge solutions with `heuristic(...)`                                                                                                                                                        | sheet + solutions mode                                                              |
+| `known-techniques(title:, ..items)`                                                            | Running "here's your toolkit so far" recap of specific methods (e.g. equation-solving techniques); call again with a growing list as new methods get taught, under its own `==` heading (a checkpoint moment, not an aside) — pair with a short refresher exercise | sheet + solutions mode                                                              |
+| `objectives(..items)` with `obj(bfkm:, level:)[...]` / `bfkm(level:)[...]`                     | Chapter-opening learning-objectives box tied to the Lehrplan; `bfkm[...]` items get a BfKM badge + auto-legend; `level:` filters items per document like `exercise()`'s `level:`                                                                                   | sheet + solutions mode                                                              |
+| `vocab(en, de, show-de:)` / `print-vocab()`                                                    | Immersion glossary: mark a term inline (bold EN + small gray "(dt. _DE_)"), collect it, print alphabetized EN–DE table once at chapter end; dedupes by English term                                                                                                | inline rendering everywhere; recording + table suppressed in sheet + solutions mode |
+| `num(x)`                                                                                       | Swiss number formatting `12'345.5` — safe in text AND math mode (see §6; never type `'` in math yourself)                                                                                                                                                          | —                                                                                   |
+| `abstraction-ladder(l0:, l1:, l2:, l3:)`                                                       | Situation → Data → Pattern → Formula figure; use whenever a situation is formalized                                                                                                                                                                                | (figure suppressed like other `only-theory` content)                                |
+| `data-table(columns:, ...)`                                                                    | Worksheet-style fill-in table                                                                                                                                                                                                                                      | —                                                                                   |
+| `system(..eqs)`                                                                                | System of equations, bounded by vertical bars, aligned at `=`; `eqs` are `($lhs$, $rhs$)` tuples, any number of rows — see §6 for the full explanation and the `#` sigil requirement                                                                               | —                                                                                   |
+| `dot-triangle`, `domino-row`, `koch-star`, `nested-squares`                                    | Native-shape figures (no external packages)                                                                                                                                                                                                                        | wrapped in `only-theory`                                                            |
+| `register_chapters(...)` / `include_chapters()`                                                | Chapter registry; supports an optional `part` for multi-unit documents (see §3)                                                                                                                                                                                    | —                                                                                   |
+| `part-divider(title)`                                                                          | Full-page divider between parts in a multi-unit document; called automatically by `include_chapters()`                                                                                                                                                             | —                                                                                   |
 
 **Exercise difficulty & pacing:** every `exercise()` can carry
 `difficulty: 1–3` (dot rating, shown in notes AND on the sheet),
@@ -317,7 +318,7 @@ können" formulations, and tag every item that implements a
 Lehrplan-BfKM competency with `bfkm[...]` — the box doubles as the
 coverage audit trail against the official curriculum. Items exclusive
 to one level take `obj(level: "high")[...]` (or `"basic"`) inside the
-*same* call — don't wrap the whole box in `only-high[...]`; one call
+_same_ call — don't wrap the whole box in `only-high[...]`; one call
 serves both documents. `obj()`/`bfkm()` return plain dictionaries and
 are only meaningful inside `objectives(...)` — never use them bare in
 prose.
@@ -331,7 +332,7 @@ mentions: plain text, or `show-de: false` to keep the bold without
 repeating the gloss — duplicates are harmless either way, since
 `print-vocab()` dedupes by English term. Pick the German term your
 students will actually meet in other subjects and German references
-(e.g. *Nullstelle*, not a literal translation of "root").
+(e.g. _Nullstelle_, not a literal translation of "root").
 `chapter-template` resets both the hint and vocab stores at chapter
 start, so a forgotten `print-*()` call costs that chapter its own
 printout but can never leak entries into the next chapter.
@@ -346,12 +347,12 @@ printout but can never leak entries into the next chapter.
   solutions booklets below: sheet mode respects `level:` like every
   other mode (the old show-everything override is gone), so each
   sheet's exercise numbering matches its level's solutions booklet —
-  but only if it reads its chapter list from the *matching* main file
+  but only if it reads its chapter list from the _matching_ main file
   via `read-chapter-files(from:)`. This also fixes chapter selection:
   the GLF sheet no longer carries pages for chapters GLF doesn't read
   that year (e.g. `ch-powers` in year 1). Each sheet page shows a
   "Foundations"/"Advanced" tag next to the exercise number so the two
-  printed stacks stay tellable apart. *Migration:* rename an existing
+  printed stacks stay tellable apart. _Migration:_ rename an existing
   `exercises.typ` to `exercises-high.typ`, pass
   `level: "high"` explicitly to `exercise-sheet-template.with(...)`,
   and add `exercises-basic.typ` as its sibling.
@@ -365,7 +366,8 @@ printout but can never leak entries into the next chapter.
 ## 6. Typst formula conventions (house style)
 
 **Multiplication dots** — insert an explicit `dot` in exactly these cases,
-and *only* these cases:
+and _only_ these cases:
+
 - Two adjacent variables/algebraic symbols: `a b` → `a dot b`,
   `a_1 q^(n-1)` → `a_1 dot q^(n-1)`.
 - A number or variable directly touching a parenthesis (either order):
@@ -375,6 +377,7 @@ and *only* these cases:
   `(a - 4) dot (3 a + 1)`.
 
 **Never** add a dot for:
+
 - A plain coefficient directly before a bare variable: `5n`, `2 a_1`,
   `3 n^2` stay as-is (standard convention).
 - A number/variable before a **function keyword** (`sqrt`, `log`, `sin`,
@@ -395,17 +398,19 @@ no surrounding parentheses.
 **Numbers — Swiss formatting via `num()`** — house convention is the
 Swiss format: apostrophe as thousands separator, period as decimal
 separator (`1'000`, `12'345.5`). **Never type the apostrophe by hand in
-math mode** — `$12'000$` parses the `'` as a *prime* and renders
+math mode** — `$12'000$` parses the `'` as a _prime_ and renders
 12′000. Always go through the `num()` helper in `preamble.typ`, which
 builds the grouped number as a plain string in code mode (string
 content interpolated into math is inserted as literal text, so the
 apostrophe arrives as a character, not math syntax). It works
 identically in text and math mode:
+
 ```typst
 The population reached #num(86402) by 1950.        // text mode
 $ s_(100) = #num(338350) $                          // math mode
 #num(12345.5)                                       // → 12'345.5
 ```
+
 Grouping starts at 4 digits (`1000` → `1'000`); the decimal part is
 never grouped. Don't pass years or other label-like numbers (2026,
 postal codes) through `num()` — grouping is for quantities, not names.
@@ -440,9 +445,11 @@ looks bad stranded on its own line).
 2-tuple `($lhs$, $rhs$)`. It renders every system — whether a fully
 displayed block or a compact item inside an exercise's `parts()` —
 bounded by vertical bars, one equation per row, aligned at `=`:
+
 ```typst
 $ #system(($5x + 3y$, $9$), ($2x - 4y$, $14$)) $
 ```
+
 Works for any number of equations (2, 3, or more — not just square
 systems). Note the `#` sigil: per Typst's own math documentation, a
 `#`-prefixed call is a normal code-mode function call even when
@@ -451,7 +458,7 @@ code-mode tuple syntax rather than math mode's comma/semicolon-merging
 rules — which is exactly what's needed, since each argument is a
 genuine 2-element tuple, not just juxtaposed math content. Unlike the
 original "reserve this for displayed blocks only" guidance, the
-house decision is now to use it for *every* system, including compact
+house decision is now to use it for _every_ system, including compact
 exercise items — the visual weight is worth it for clearly signaling
 "this is a system," even in a short list.
 
@@ -464,6 +471,99 @@ system Typst can't express as clean tuples (e.g. an equation with its
 own internal alignment), fall back to writing `mat(delim: "|", ...)`
 by hand at that one call site — `system()` covers the common case, not
 every conceivable one.
+
+# Vectors unit — notation and figure conventions
+
+_Append to `STYLE_GUIDE.md` as a subsection of §6 (formula conventions),
+with the figure part folded into §7._
+
+## Source of truth
+
+Students carry **Wetzel, _Formula Collection Mathematics_, English
+edition** (`formelsammlung.ch`, ISBN 978-3-9523907-1-9 for the German;
+the English edition is the one in use). §12 _Vector Geometry_ is the
+relevant chapter. Where the booklet and the old LaTeX notes disagree,
+the booklet wins — students have it in the exam and the notes they do
+not.
+
+Two deliberate departures from the booklet are recorded below (point
+notation, general circle form); both are consistency decisions with the
+rest of the course, and both get an explicit remark in the text so
+students can read the booklet's form too.
+
+## Notation
+
+| Object                                     | House form                                                         | Note                                                                                                                                                                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Point coordinates                          | `$A = (2, -1)$`                                                    | **Departs from the booklet**, which writes `A(2/-1)`. Commas are used everywhere else in the course and match GeoGebra. Flag the slash form once, in `ch-vectors-intro`.                                     |
+| Line                                       | `$g$`, `$g_1$`, `$g_2$`                                            | Booklet convention; replaces `l` from the old notes.                                                                                                                                                         |
+| Plane                                      | `$E$`, `$E_1$`, `$E_2$`                                            | Unchanged.                                                                                                                                                                                                   |
+| Line parameter                             | `$t$`; second line `$s$`, third `$u$`                              | **Departs from the booklet**, which writes `$tilde(t)$`. Distinct letters read better than tilded ones. Remark once that other texts use $tilde(t)$.                                                         |
+| Plane parameters                           | `$t$` and `$s$`                                                    | As in the booklet.                                                                                                                                                                                           |
+| Angle between two lines / two planes       | `$phi.alt$`                                                        | Booklet convention. **Not** `$gamma$` — that is the triangle-vertex angle in the trigonometry unit and the collision is worth avoiding.                                                                      |
+| Angle between line and plane               | `$alpha$`                                                          | Booklet convention.                                                                                                                                                                                          |
+| Vector components                          | `$a_x, a_y, a_z$`                                                  | Booklet convention; replaces the old notes' mix of `$u_1, u_2$` and `$x_a, y_a, z_a$`.                                                                                                                       |
+| Magnitude                                  | `$abs(vec(a))$`; also `$r_A = O A$` for a position vector's length | Booklet allows the bare letter for the length.                                                                                                                                                               |
+| Unit vector in the direction of `$vec(a)$` | `$vec(e)_a$`                                                       | Booklet convention.                                                                                                                                                                                          |
+| Basis vectors                              | `$vec(e)_x, vec(e)_y, vec(e)_z$`                                   | Restore these — they were commented out of the LaTeX source but Exercise 53 depends on them.                                                                                                                 |
+| Direction vector                           | `$vec(v)$`                                                         | Used in the distance formula too: `$d(P, g) = abs(vec(v) times arrow(A P)) slash abs(vec(v))$`, not `$arrow(A B)$`.                                                                                          |
+| Trace points                               | `$S_x$, $S_y$, $S_z$`                                              | **The subscript names the coordinate that vanishes**, so `$S_z$` lies in the $x y$‑plane. Verified against the booklet's figure (p. 34). The old notes' `= S_1, S_2, S_3` aliases are redundant — drop them. |
+| Circle                                     | center `$M = (u, v)$`, radius `$r$`                                | Booklet letters for the center, house commas.                                                                                                                                                                |
+| Sphere                                     | center `$M = (u, v, w)$`, radius `$R$`                             | Capital `$R$` for the sphere, per the booklet.                                                                                                                                                               |
+| General circle form                        | `$x^2 + y^2 + D x + E y + F = 0$`                                  | **Departs from the booklet** (`$a x + b y + c$`). Kept because it matches the general-quadratic notation used in the conic sections unit.                                                                    |
+| General sphere form                        | `$x^2 + y^2 + z^2 + D x + E y + F z + G = 0$`                      | Same reasoning.                                                                                                                                                                                              |
+| Set relations                              | `$subset$`, `$inter$`                                              | As already established in the stochastics units.                                                                                                                                                             |
+
+**General principle:** mixing notations is treated as a feature, not a
+defect. Students will meet several conventions across the booklet, the
+German Matura original, and other sources, and being unable to read a
+formula because the letters differ is itself the failure mode worth
+inoculating against. Every departure above is named explicitly in the
+text where it first matters, in a `remark()`, rather than silently.
+
+## What the booklet already contains (so it can be _used_, not derived)
+
+Confirmed present in §12 and the circle/sphere pages, which is why each
+is in scope for the unit rather than treated as enrichment:
+
+- Vector projection: decomposition of a vector into components parallel
+  and perpendicular to another.
+- Scalar triple product as a volume — the tool for coplanarity tests and
+  pyramid/parallelepiped volumes.
+- Distance between two skew lines.
+- Rotation of a 2D vector through an angle (a rotation matrix in
+  disguise — the graphics chapter leans on this).
+- Tangent to a circle at a point; tangent plane to a sphere at a point.
+  SPF Lehrplan 2.3 names _Tangentenprobleme_ explicitly, so
+  `ch-circles-spheres` must cover them.
+- Angle-bisector planes, via `$H_1 = plus.minus H_2$` on the Hesse normal
+  form written as a function.
+- Midpoint, centroid, intercept form of a plane, normal form
+  `$vec(n) dot (vec(r) - vec(r)_A) = 0$`.
+
+The Hesse normal form is written in the booklet as a _function_
+`$H(x, y, z)$`, not just as an equation. Worth mirroring — it is what
+makes the angle-bisector construction fall out for free.
+
+## Calculator and formula-booklet policy
+
+- The unit is taught **with minimal calculator use**. Default every
+  `exercise()` to `calculator: false`; reserve `calculator: true` for the
+  genuinely decimal problems (ramp, boat, direction angles).
+- Exercise numbers must be **engineered for exact arithmetic**: integer
+  vector components with integer magnitudes, and dot products whose
+  cosines land on $0$, $plus.minus 1/2$, $plus.minus sqrt(2)/2$,
+  $plus.minus sqrt(3)/2$. Inherited exercises whose answers are
+  calculator artifacts ($5.91 degree$, $65.44 degree$) get renumbered or
+  reworked.
+- Leaving an answer as `$cos phi.alt = -4 slash sqrt(65)$` is a **correct
+  final answer**, not a stalled one. State this early and repeat it — it
+  is the same habit as leaving $2 sqrt(13)$ rather than $7.211$.
+- No separate formula-sheet build target. Instead, results that live in
+  the booklet get a marker on their `keybox`, so students learn which
+  formulas to _look up_ and which to _know cold_. Know cold: the dot
+  product, the parametric line equation, the normal form. Look up: the
+  Hesse normal form, the skew-line distance, the triple product.
 
 ## 7. Images and graphics
 
@@ -514,12 +614,14 @@ hard to catch later. Good: `linear-transformation-example.png`,
 **Using `fig()`:** `preamble.typ` provides `fig(body, caption:)` to center
 a figure and add an optional caption below it — but it takes an
 **already-loaded image**, not a filename:
+
 ```typst
 #fig(image("images/linear-transformation-example.png", width: 80%))
 #fig(image("images/quadratic-vertex-sketch.svg", width: 60%), caption: [
   Shifting the parabola 2 units left and 1 unit up.
 ])
 ```
+
 The `#image(...)` call has to be written directly in the chapter file
 itself, not inside `fig()`. An earlier version of `fig()` tried to take a
 bare filename and hardcode the `"images/"` prefix internally — that
@@ -527,6 +629,27 @@ doesn't work, for the same path-resolution reason covered in §3: since
 `fig()` is defined in `preamble.typ` (in `src/common/`), an `#image(...)`
 call written inside it would always look in `src/common/images/`, never
 the calling chapter's own `images/` folder.
+
+## Figures
+
+Drawn natively via `vec-figures.typ` (currently a unit-local module; fold
+into `preamble.typ` once stable). No cetz, no packages, no image files
+except the right-hand rule.
+
+- **Projection:** cabinet / Schrägbild. $y$ right and true length, $z$ up
+  and true length, $x$ toward the viewer at `alpha` foreshortened by `k`.
+  Defaults pending the test sheet.
+- **Right angles:** quarter-arc with a dot inside it — `s-arc(right: true)`.
+  This is the booklet's mark. Not a corner bracket.
+- **Coordinate planes:** shaded light gray in the first octant —
+  `space3d(ground: true)`. Also the booklet's convention, and it is what
+  makes trace points readable.
+- **Bounds:** as in §6, prefer `.5` endpoints for `vplane`.
+- Every coordinate inside `vec-figures.typ` is a **bare float in points**;
+  lengths appear only at the `place()` and `stroke` boundary. Two bugs
+  have already come from breaking this. New helpers must follow it, and
+  any argument a caller would naturally write as a length (`size`, `r`)
+  gets normalized at the top of the function.
 
 ## 8. Build system
 
@@ -578,9 +701,9 @@ is unit/year-aware:
   standalone-file compile does **not** reflect that chapter's real
   heading number; use `Build Unit... → chapters` for that.
 - `.gitignore` excludes `dist/` wholesale and the transient `_wrapper-*.typ`
-  files, but deliberately does *not* blanket-ignore `*.pdf` (reference
+  files, but deliberately does _not_ blanket-ignore `*.pdf` (reference
   PDFs kept in the repo, e.g. the Lehrplan documents, should stay
-  tracked) and does *not* ignore `.vscode/settings.json` /
+  tracked) and does _not_ ignore `.vscode/settings.json` /
   `.vscode/tasks.json` (shared project config, not personal preference).
 
 ## 9. What to upload to a new project
@@ -597,9 +720,9 @@ is unit/year-aware:
    if the new project will also handle tooling questions
 
 Project-level custom instructions (short version, paste into the
-project's "instructions" field): *"Multi-unit Swiss Gymnasium math course
+project's "instructions" field): _"Multi-unit Swiss Gymnasium math course
 materials, GLF (Foundations) and SPF (Advanced) levels, written in Typst.
 Follow the conventions in STYLE_GUIDE.md exactly, especially the
 multiplication-dot rules, the subscript/superscript parenthesization
 rule, the per-unit directory layout, and the images/ convention. Prefer
-American English."*
+American English."_
