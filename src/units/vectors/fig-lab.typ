@@ -1,20 +1,18 @@
 // ════════════════════════════════════════════════════════════
-//  fig-lab.typ — visual test sheet for vec-figures.typ
+//  fig-lab.typ — visual test sheet for vec-figures.typ  (v4)
 // ════════════════════════════════════════════════════════════
-//
-//  Put this and vec-figures.typ in  src/units/vectors/  and compile:
 //
 //      typst compile --root . src/units/vectors/fig-lab.typ
 //
-//  (--root matters, per STYLE_GUIDE §8 — without it the
-//  ../../common/preamble.typ import is rejected.)
-//
-//  Each panel is captioned with what to look for. Mark up the PDF
-//  or just tell me which numbers are wrong and I will retune.
+//  NOTE ON YOUR v3 EDITS: nearly all the manual `off:` values you
+//  added have been DELETED, not kept. Labels are now centered on an
+//  anchor near the arrowhead and pushed perpendicular to the shaft
+//  automatically, so those offsets would double up. Panels 1.1–1.4
+//  therefore need a fresh look even though you had them right.
 // ════════════════════════════════════════════════════════════
 
 #import "../../common/preamble.typ": *
-#import "vec-figures.typ": *
+#import "/src/common/vec-figures.typ": *
 
 #set page(paper: "a4", margin: 2cm, numbering: "1")
 #set text(font: "Helvetica Neue", size: 10pt)
@@ -50,32 +48,35 @@
 
 = 1 · The 2D plane
 
+All four panels below use *no manual label offsets at all*. If a label
+still lands badly, that is a defect in the automatic rule and I would
+rather fix the rule than paper over it with an offset.
+
 == 1.1 A vector in standard position, and the same vector moved
 
 #vplane(
-  s-vec(to: (3, 2), label: $vec(v)$),
-  s-vec(from: (1, -1), to: (4, 1), label: $vec(v)$, color: ex-col, dashed: true),
+  s-vec(to: (3, 2), label: $arrow(v)$),
+  s-vec(
+    from: (1, -1),
+    to: (4, 1),
+    label: $arrow(v)$,
+    color: ex-col,
+    dashed: true,
+  ),
   xmin: -0.5,
   xmax: 5.5,
   ymin: -1.5,
   ymax: 3.5,
 )
 
-#check[
-  *Look for:* arrowheads that sit exactly on $(3,2)$ and $(4,1)$ with no
-  overshoot; labels clear of the arrow shaft; the dashed copy visibly
-  parallel and the same length. Tick numerals on both axes, none at the
-  origin.
-]
-
 == 1.2 Two points and the vector between them
 
 #vplane(
-  s-pt((1, 1), label: $A$, off: (-14pt, 2pt)),
-  s-pt((5, 3), label: $B$, off: (5pt, -4pt)),
+  s-pt((1, 1), label: $A$),
+  s-pt((5, 3), label: $B$),
   s-vec(from: (1, 1), to: (5, 3), label: $arrow(A B)$),
-  s-vec(to: (1, 1), label: $vec(r)_A$, color: ex-col, off: (-2pt, 4pt)),
-  s-vec(to: (5, 3), label: $vec(r)_B$, color: ex-col, off: (2pt, 8pt)),
+  s-vec(to: (1, 1), label: $arrow(r)_A$, color: ex-col),
+  s-vec(to: (5, 3), label: $arrow(r)_B$, color: ex-col, anchor: 0.55),
   xmin: -0.5,
   xmax: 6.5,
   ymin: -0.5,
@@ -83,10 +84,11 @@
 )
 
 #check[
-  *Look for:* three arrows meeting cleanly at $A$ and $B$; the two
-  position-vector labels not colliding with $arrow(A B)$. This is the
-  figure that carries "endpoint minus starting point," so the triangle
-  must read at a glance.
+  $arrow(r)_B$ is pulled back to `anchor: 0.55` so it does not crowd $B$;
+  everything else is automatic. Check the two position-vector labels land
+  on opposite sides of their shafts — the auto rule should push $arrow(r)_A$
+  one way and $arrow(r)_B$ the other, since they lie on opposite sides of
+  the figure's middle.
 ]
 
 == 1.3 Addition: triangle rule and parallelogram rule
@@ -95,10 +97,19 @@
   columns: (1fr, 1fr),
   column-gutter: 8pt,
   vplane(
-    s-vec(to: (3, 1), label: $vec(u)$, off: (0pt, 4pt)),
-    s-vec(from: (3, 1), to: (4, 4), label: $vec(v)$, color: warn-col),
-    s-vec(to: (4, 4), label: $vec(u) + vec(v)$, color: def-col, off: (-30pt, -4pt)),
-    xmin: -0.5, xmax: 5.5, ymin: -0.5, ymax: 4.5, unit: 0.68cm,
+    s-vec(to: (3, 1), label: $arrow(u)$),
+    s-vec(from: (3, 1), to: (4, 4), label: $arrow(v)$, color: warn-col),
+    s-vec(
+      to: (4, 4),
+      label: $arrow(u) + arrow(v)$,
+      color: def-col,
+      anchor: 0.5,
+    ),
+    xmin: -0.5,
+    xmax: 5.5,
+    ymin: -0.5,
+    ymax: 4.5,
+    unit: 0.68cm,
   ),
   vplane(
     s-poly(
@@ -107,25 +118,28 @@
       stroke-color: luma(180),
       dashed: true,
     ),
-    s-vec(to: (3, 1), label: $vec(u)$, off: (0pt, 4pt)),
-    s-vec(to: (1, 3), label: $vec(v)$, color: warn-col, off: (-16pt, -2pt)),
-    s-vec(to: (4, 4), label: $vec(u) + vec(v)$, color: def-col, off: (-30pt, -4pt)),
-    xmin: -0.5, xmax: 5.5, ymin: -0.5, ymax: 4.5, unit: 0.68cm,
+    s-vec(to: (3, 1), label: $arrow(u)$),
+    s-vec(to: (1, 3), label: $arrow(v)$, color: warn-col),
+    s-vec(
+      to: (4, 4),
+      label: $arrow(u) + arrow(v)$,
+      color: def-col,
+      anchor: 0.55,
+    ),
+    xmin: -0.5,
+    xmax: 5.5,
+    ymin: -0.5,
+    ymax: 4.5,
+    unit: 0.68cm,
   ),
 )
-
-#check[
-  *Look for:* the shaded parallelogram sitting *behind* all three arrows,
-  not over them. If the fill covers an arrow the draw order is wrong and
-  I need to know.
-]
 
 == 1.4 Scalar multiples
 
 #vplane(
-  s-vec(to: (2, 1), label: $vec(u)$, off: (0pt, 3pt)),
-  s-vec(to: (4, 2), label: $2 vec(u)$, color: def-col, off: (2pt, -14pt)),
-  s-vec(to: (-2, -1), label: $-vec(u)$, color: warn-col, off: (-18pt, 2pt)),
+  s-vec(to: (4, 2), label: $2 arrow(u)$, color: def-col),
+  s-vec(to: (2, 1), label: $arrow(u)$),
+  s-vec(to: (-2, -1), label: $-arrow(u)$, color: warn-col),
   xmin: -3.5,
   xmax: 5.5,
   ymin: -2.5,
@@ -133,9 +147,10 @@
 )
 
 #check[
-  *Look for:* $vec(u)$ drawn *on top of* $2vec(u)$ (shorter arrow visible
-  against the longer one), and the negative multiple pointing back through
-  the origin.
+  $2arrow(u)$ is now declared *first* so the shorter $arrow(u)$ draws on top
+  of it. All three labels sit on the same side of the common line, which
+  is what the auto rule does when everything is collinear — tell me if you
+  would rather alternate them.
 ]
 
 == 1.5 Angle between two vectors, and a right angle
@@ -144,27 +159,38 @@
   columns: (1fr, 1fr),
   column-gutter: 8pt,
   vplane(
-    s-vec(to: (4, 1), label: $vec(a)$, off: (0pt, 4pt)),
-    s-vec(to: (1, 3), label: $vec(b)$, color: warn-col, off: (-14pt, -2pt)),
+    s-vec(to: (4, 1), label: $arrow(a)$),
+    s-vec(to: (1, 3), label: $arrow(b)$, color: warn-col),
     s-arc(vertex: (0, 0), from: (4, 1), to: (1, 3), r: 20pt, label: $phi.alt$),
-    xmin: -0.5, xmax: 4.5, ymin: -0.5, ymax: 3.5, unit: 0.72cm,
+    xmin: -0.5,
+    xmax: 4.5,
+    ymin: -0.5,
+    ymax: 3.5,
+    unit: 0.72cm,
   ),
   vplane(
-    s-vec(to: (3, 1), label: $vec(a)$, off: (0pt, 4pt)),
-    s-vec(to: (-1, 3), label: $vec(b)$, color: warn-col, off: (-16pt, 0pt)),
+    s-vec(to: (3, 1), label: $arrow(a)$),
+    s-vec(to: (-1, 3), label: $arrow(b)$, color: warn-col),
     s-arc(
-      vertex: (0, 0), from: (3, 1), to: (-1, 3),
-      r: 16pt, right: true, color: warn-col,
+      vertex: (0, 0),
+      from: (3, 1),
+      to: (-1, 3),
+      r: 16pt,
+      right: true,
+      color: warn-col,
     ),
-    xmin: -2.5, xmax: 4.5, ymin: -0.5, ymax: 3.5, unit: 0.72cm,
+    xmin: -2.5,
+    xmax: 4.5,
+    ymin: -0.5,
+    ymax: 3.5,
+    unit: 0.72cm,
   ),
 )
 
 #check[
-  *Look for:* the arc opening on the *inside* of the two arrows (not the
-  reflex side), $phi.alt$ sitting on the bisector, and the right-angle mark
-  reading as the booklet's quarter-arc-plus-dot — dot centered inside the
-  arc, neither crowding the vertex nor sitting outside it.
+  *The main test of the new rule.* Both vector labels should now sit on
+  the far side of their arrows, outside the angle, near the arrowheads —
+  with $phi.alt$ alone in the wedge between them.
 ]
 
 = 2 · The 3D scene
@@ -172,151 +198,222 @@
 == 2.1 Axes, a point, its position vector, and the drop to the base plane
 
 #space3d(
-  s-vec(to: (3, 4, 3), label: $vec(r)_P$, off: (-24pt, -6pt)),
-  s-pt((3, 4, 3), label: $P$, off: (5pt, -14pt)),
+  s-vec(to: (3, 4, 3), label: $arrow(r)_P$, anchor: 0.5),
+  s-pt((3, 4, 3), label: $P$),
   s-seg(from: (3, 4, 0), to: (3, 4, 3), dashed: true, color: luma(150)),
   s-seg(from: (3, 0, 0), to: (3, 4, 0), dashed: true, color: luma(150)),
   s-seg(from: (0, 4, 0), to: (3, 4, 0), dashed: true, color: luma(150)),
-  s-pt((3, 4, 0), label: $P'$, off: (4pt, 2pt), r: 1.8pt),
+  s-pt((3, 4, 0), label: $P'$, r: 1.8pt),
   axis-len: (4.2, 5.2, 4),
 )
 
 #check[
-  *This is the single most important panel.* Everything else in the unit
-  is drawn on top of these axes. Check: does the $x$-axis run down-left at
-  a believable angle? Is the foreshortening ($k=0.5$) enough that a cube
-  looks like a cube rather than a slab? Are the unit dots on the axes
-  visible but not noisy? Tell me if you would rather have short tick
-  strokes than dots.
+  Now drawn at the projection you chose: $alpha = 45 degree$,
+  $k = 1 slash sqrt(2)$. $arrow(r)_P$ is at `anchor: 0.5` per your note.
 ]
 
-== 2.2 The same scene at three projection settings
-
-#grid(
-  columns: (1fr, 1fr, 1fr),
-  column-gutter: 4pt,
-  align(center)[
-    #space3d(
-      s-vec(to: (3, 4, 3)), s-pt((3, 4, 3)),
-      axis-len: (4, 5, 4), alpha: 30deg, k: 0.5, unit: 0.5cm,
-    )
-    #text(size: 8pt, fill: luma(110))[`alpha: 30deg, k: 0.5`]
-  ],
-  align(center)[
-    #space3d(
-      s-vec(to: (3, 4, 3)), s-pt((3, 4, 3)),
-      axis-len: (4, 5, 4), alpha: 42deg, k: 0.5, unit: 0.5cm,
-    )
-    #text(size: 8pt, fill: luma(110))[`alpha: 42deg, k: 0.5` (default)]
-  ],
-  align(center)[
-    #space3d(
-      s-vec(to: (3, 4, 3)), s-pt((3, 4, 3)),
-      axis-len: (4, 5, 4), alpha: 45deg, k: 0.7, unit: 0.5cm,
-    )
-    #text(size: 8pt, fill: luma(110))[`alpha: 45deg, k: 0.7`]
-  ],
-)
-
-#check[
-  *Pick one.* Whichever you choose becomes the default for the whole unit,
-  including every exercise that asks students to sketch — so it should
-  match what you draw on the board.
-]
-
-== 2.3 A line in space with its trace points
-
-#space3d(
-  ..line3((5, 4, -15), (5, -1, 3), tmin: 2.6, tmax: 4.4),
-  s-pt((15, 2, -9), label: $S_z$, off: (4pt, 2pt), color: warn-col),
-  axis-len: (6, 6, 5),
-  unit: 0.42cm,
-)
-
-#check[
-  *Look for:* nothing here is expected to be beautiful yet — this panel
-  exists to check that `line3` clips sensibly and that a scene whose
-  points run well outside the axis box still sizes its canvas correctly
-  (no clipped arrowheads, no runaway page width).
-]
-
-== 2.4 A plane: intercept triangle and parallelogram patch
+== 2.2 The chosen projection at graph-paper scale
 
 #grid(
   columns: (1fr, 1fr),
-  column-gutter: 8pt,
+  column-gutter: 10pt,
+  align(center)[
+    #space3d(
+      s-vec(to: (2, 3, 2), label: $arrow(r)_A$, anchor: 0.55),
+      s-pt((2, 3, 2), label: $A$),
+      axis-len: (3.5, 4.5, 3.5),
+      unit: 1cm,
+    )
+    #text(size: 8pt, fill: luma(110))[`unit: 1cm` — one square = 1 unit]
+  ],
+  align(center)[
+    #space3d(
+      s-vec(to: (2, 3, 2), label: $arrow(r)_A$, anchor: 0.55),
+      s-pt((2, 3, 2), label: $A$),
+      axis-len: (3.5, 4.5, 3.5),
+      unit: 0.62cm,
+    )
+    #text(size: 8pt, fill: luma(110))[`unit: 0.62cm` — print default]
+  ],
+)
+
+#check[
+  At `unit: 1cm` the figure is *literally reproducible on 5 mm paper*: two
+  squares along $y$ and $z$, one square diagonal along $x$. That is exactly
+  where $k = 1 slash sqrt(2)$ comes from, and it is worth saying out loud in
+  `ch-vectors-intro` — it turns "here is how we draw 3D" into a rule
+  students can follow with a ruler. Question: should the printed figures
+  use `unit: 1cm` too, so students can measure them against their own
+  sketches, or stay compact at `0.62cm`?
+]
+
+== 2.3 A line: point, direction vector, and the line itself
+
+#space3d(
+  ..line3((1, 1, 1), (1, 3, 2), tmin: -0.45, tmax: 1.2, color: luma(120)),
+  s-vec(to: (1, 1, 1), label: $arrow(r)_A$, color: ex-col, anchor: 0.55),
+  s-vec(from: (1, 1, 1), to: (2, 4, 3), label: $arrow(v)$, color: warn-col),
+  s-pt((1, 1, 1), label: $A$),
+  s-txt(
+    (2.2, 4.6, 3.4),
+    text(style: "italic", weight: "bold")[g],
+    off: (12pt, 2pt),
+  ),
+  axis-len: (4, 5.5, 4.5),
+)
+
+#check[
+  $g: arrow(r) = (1, 1, 1) + t dot (1, 3, 2)$ — direction skew to all three
+  axes, as you asked. My previous pick had a direction vector that ran
+  almost flat across the page, which made it read as a special case rather
+  than a general line. This is the figure `ch-lines` actually needs:
+  anchor point, direction vector, and the line through them.
+]
+
+== 2.4 A plane: intercept triangle and parametric patch
+
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 14pt,
   align(center)[
     #space3d(
       ..plane-intercepts(4, 5, 3),
-      s-pt((4, 0, 0), label: $S_x$, off: (-16pt, 4pt), r: 1.8pt),
-      s-pt((0, 5, 0), label: $S_y$, off: (3pt, 2pt), r: 1.8pt),
-      s-pt((0, 0, 3), label: $S_z$, off: (-16pt, -6pt), r: 1.8pt),
-      axis-len: (5, 6, 4), unit: 0.5cm,
+      s-pt((4, 0, 0), label: $S_x$, off: (13pt, 9pt), r: 1.8pt),
+      s-pt((0, 5, 0), label: $S_y$, off: (6pt, 12pt), r: 1.8pt),
+      s-pt((0, 0, 3), label: $S_z$, off: (-14pt, -4pt), r: 1.8pt),
+      axis-len: (5.5, 6.5, 4.2),
+      unit: 0.6cm,
     )
     #text(size: 8pt, fill: luma(110))[intercept form]
   ],
   align(center)[
     #space3d(
-      ..plane-patch((1, 2, 1), (2, 0, 1), (0, 2, 1), lo: -0.8, hi: 1.8),
-      s-vec(from: (1, 2, 1), to: (3, 2, 2), color: warn-col, label: $vec(u)$),
-      s-vec(from: (1, 2, 1), to: (1, 4, 2), color: def-col, label: $vec(v)$),
-      s-pt((1, 2, 1), label: $A$, off: (-13pt, 0pt)),
-      axis-len: (4, 6, 4), unit: 0.5cm,
+      ..plane-patch((1, 2, 1), (2, 0, 1), (0, 2, 1), lo: -1, hi: 2.2),
+      s-vec(from: (1, 2, 1), to: (3, 2, 2), color: warn-col, label: $arrow(u)$),
+      s-vec(from: (1, 2, 1), to: (1, 4, 2), color: def-col, label: $arrow(v)$),
+      s-pt((1, 2, 1), label: $A$),
+      axis-len: (4, 6, 4.5),
+      unit: 0.6cm,
     )
     #text(size: 8pt, fill: luma(110))[parametric form]
   ],
 )
 
 #check[
-  *Look for:* the translucent fill — do the axes show through it? If the
-  `.transparentize()` call failed you will see an opaque green patch
-  hiding whatever is behind it, and I will swap in a flat light color.
-  Also: are the two direction arrows readable *on* the patch?
+  Bigger `unit`, more padding, wider gutter, and the three intercept
+  labels moved off the axis lines by hand — the auto rule pushes them
+  radially outward, which for $S_x$ means straight into the $x$ label,
+  since the intercept and the axis tip lie on the same ray. That is a
+  known limit of the outward rule and the reason manual `off:` still
+  exists. Confirm the axes now read through the shading rather than
+  under it.
 ]
 
 == 2.5 Normal vector on a plane
 
 #space3d(
   ..plane-patch((2, 2.5, 1), (2, 0, 0), (0, 2, 0), lo: -1, hi: 1),
-  s-vec(from: (2, 2.5, 1), to: (2, 2.5, 3.5), color: warn-col, label: $vec(n)$),
-  s-pt((2, 2.5, 1), label: $A$, off: (-13pt, 4pt)),
+  s-vec(
+    from: (2, 2.5, 1),
+    to: (2, 2.5, 3.5),
+    color: warn-col,
+    label: $arrow(n)$,
+  ),
+  s-pt((2, 2.5, 1), label: $A$),
   s-arc(
-    vertex: (2, 2.5, 1), from: (2, 2.5, 3.5), to: (4, 2.5, 1),
-    r: 13pt, right: true, color: warn-col,
+    vertex: (2, 2.5, 1),
+    from: (2, 2.5, 3.5),
+    to: (2, 4.5, 1),
+    r: 13pt,
+    right: true,
+    color: warn-col,
   ),
   axis-len: (4.5, 5.5, 4.5),
+  unit: 0.6cm,
+)
+
+#check[
+  The right angle is now marked against the *$y$-direction* in the plane
+  instead of the $x$-direction. Since $y$ projects horizontally and
+  $arrow(n)$ projects vertically, the mark comes out at a true $90 degree$
+  on the page and the arc is a proper quarter — your point exactly. Worth
+  writing into the style guide as a rule: *mark a right angle against
+  whichever in-plane direction projects closest to perpendicular.*
+]
+
+== 2.6 Shaded coordinate planes and trace points
+
+#space3d(
+  ..line3((3, 2, -2), (-1, -1, 2), tmin: 0.3, tmax: 3.3, color: def-col),
+  s-pt((2, 1, 0), label: $S_z$, color: warn-col, r: 2pt),
+  s-pt((1, 0, 2), label: $S_y$, color: warn-col, r: 2pt),
+  s-pt((0, -1, 4), label: $S_x$, color: warn-col, r: 2pt),
+  ground: true,
+  ground-lo: (0, -1.6, 0),
+  axis-len: (4, 4.5, 6),
   unit: 0.55cm,
 )
 
 #check[
-  *Look for:* the right-angle mark reading as a right angle *in the
-  projection*, which is what a hand-drawn figure does too. It will not sit
-  at 90° on the page — confirm it still reads correctly to you.
+  New line: $arrow(r) = (3, 2, -2) + t dot (-1, -1, 2)$, giving
+  $S_z (2, 1, 0)$, $S_y (1, 0, 2)$, $S_x (0, -1, 4)$ — all three now on a
+  shaded face.
+
+  Getting all three onto the shading needed the $y$-shading extended to
+  $y = -1.6$, and that is forced, not cosmetic: *a line meets the boundary
+  of a convex region in at most two points*, and the first octant is
+  convex — so at most two of a line's three trace points can ever have all
+  coordinates non-negative. Worth a `remark()` in `ch-lines`; students who
+  expect three tidy first-octant answers are expecting something
+  impossible.
 ]
 
-== 2.6 Shaded coordinate planes, and a line's trace points
+== 2.7 Figures students draw into: `SHEET-UNIT` + `grid: true`
 
 #space3d(
-  ..line3((1, -3, 3), (1, 1, -3), tmin: -0.6, tmax: 2.4, color: def-col),
-  s-pt((2, -2, 0), label: $S_z$, off: (4pt, 4pt), color: warn-col, r: 2pt),
-  s-pt((0, -4, 6), label: $S_x$, off: (-16pt, -6pt), color: warn-col, r: 2pt),
-  s-pt((4, 0, -6), label: $S_y$, off: (4pt, 2pt), color: warn-col, r: 2pt),
-  ground: true,
-  axis-len: (4.5, 5, 6),
-  unit: 0.5cm,
+  s-pt((3, 2, 0), label: $S_z$, color: warn-col, r: 2pt),
+  grid: true,
+  unit: SHEET-UNIT,
+  axis-len: (3.5, 4.5, 3.5),
 )
 
 #check[
-  *This is the trace-point figure*, drawn from a real line
-  ($vec(r) = (1, -3, 3) + t dot (1, 1, -3)$, your Exercise 41a), so the
-  three marked points are the actual answers. Check that the shading
-  makes it obvious *which plane each $S$ lies in* — that is the whole job
-  of the gray. If the octant faces are too dark, too light, or the wrong
-  size against the axes, say so: `ground-frac` and `ground-fill` are the
-  knobs.
+  *For exercises where the construction happens on the sheet.* One world
+  unit is 1 cm and the printed gridlines are 5 mm apart, so a student
+  extending this figure by hand counts squares exactly as they would on
+  their own paper — two squares along $y$ and $z$, one square diagonal
+  along $x$.
 
-  Also confirm the naming reads correctly here: the subscript is the
-  coordinate that *vanishes*, so $S_z$ sits in the $x y$‑plane.
+  The grid is deliberately *screen-space* horizontal and vertical rules,
+  not a projected world grid: it has to match the paper, not the axes.
+  It aligns itself so the origin always falls on an intersection.
+
+  Two things to judge: is `luma(222)` at `0.4pt` faint enough to sit
+  behind a drawing without competing with it, and does the grid want to
+  extend to the edge of the figure as here, or stop at the axes?
+]
+
+== 2.8 The same grid under a trace-point figure
+
+#space3d(
+  ..line3((3, 2, -2), (-1, -1, 2), tmin: 0.3, tmax: 3.3, color: def-col),
+  s-pt((2, 1, 0), label: $S_z$, color: warn-col, r: 2pt),
+  s-pt((1, 0, 2), label: $S_y$, color: warn-col, r: 2pt),
+  s-pt((0, -1, 4), label: $S_x$, color: warn-col, r: 2pt),
+  grid: true,
+  axis-len: (4, 4.5, 6),
+  unit: 0.72cm,
+)
+
+#check[
+  Panel 2.6 with the grid on and *the shading removed*, following your
+  observation. I have written it into the style guide as a rule rather
+  than a preference: *grid or shading, never both.* They are two
+  answers to the same question — "which plane is that point in?" — and
+  running both means two competing depth cues over the same region. The
+  shading is the better cue when the figure is simple and the octant
+  reading is the whole point; the grid is better when the figure is busy,
+  because it also tells you *how far*, not just *where*.
 ]
 
 = 3 · Cubes (Chapter 0 — spatial reasoning)
@@ -326,11 +423,12 @@
 #cube(a: 4)
 
 #check[
-  *Look for:* three dashed edges meeting at $D$, all eight labels legible
-  and outside the body, and the whole thing reading unambiguously as a
-  cube. Also check the letter placement against your own convention — I
-  used bottom $A B C D$ counterclockwise from above, top $E F G H$
-  directly above.
+  Vertex labels retuned to your list: $A$ further left, $D$ left and up,
+  $E$ further left, $F$ right and down, the rest as they were. They are
+  hand-placed rather than pushed radially outward, because $A$/$D$ and
+  $F$/$G$ each sit on the *same ray* from the cube's centre — a pure
+  outward rule sends $D$'s label straight at $A$, which is what went
+  wrong the first time.
 ]
 
 == 3.2 Two points on edges, and the line through them
@@ -339,8 +437,18 @@
 
 #cube(
   a: 4,
-  s-pt(edge-pt(V.A, V.E, 0.35), label: [*A*], off: (5pt, -4pt), color: warn-col),
-  s-pt(edge-pt(V.C, V.G, 0.75), label: [*B*], off: (-14pt, -6pt), color: warn-col),
+  s-pt(
+    edge-pt(V.A, V.E, 0.35),
+    label: [*P*],
+    off: (-15pt, 2pt),
+    color: warn-col,
+  ),
+  s-pt(
+    edge-pt(V.C, V.G, 0.75),
+    label: [*Q*],
+    off: (15pt, -2pt),
+    color: warn-col,
+  ),
   s-seg(
     from: edge-pt(V.A, V.E, 0.35),
     to: edge-pt(V.C, V.G, 0.75),
@@ -351,71 +459,101 @@
 )
 
 #check[
-  *This is your Cube-Lines worksheet.* The production version prints the
-  cube with the two marked points and *no* connecting line — students draw
-  it. So what matters here is that the marked points sit visibly *on* the
-  edges and that the cube is big enough to draw inside. Is 4 units at
-  `unit: 0.62cm` the right printed size, or should the worksheet cubes be
-  larger?
+  Labels pushed clear of the body. Renamed to $P$ and $Q$ so they cannot
+  be confused with the cube's own vertices $A$ and $C$, which is a live
+  risk on a worksheet where both sets of letters appear. Your original
+  sheet uses $A$ and $B$ for the marked points on an unlabeled cube — fine
+  there, but once the cube is lettered the two schemes collide.
 ]
 
 == 3.3 A plane section through three edge points
 
 #let P1 = edge-pt(V.A, V.B, 0.5)
-#let P2 = edge-pt(V.B, V.F, 0.5)
+#let P2 = edge-pt(V.B, V.F, 0.7)
 #let P3 = edge-pt(V.G, V.H, 0.5)
 
 #cube(
   a: 4,
   s-poly(
-    (P1, P2, edge-pt(V.F, V.G, 1.0), P3, edge-pt(V.H, V.E, 0.5), edge-pt(V.E, V.A, 1.0)),
+    (
+      P1,
+      P2,
+      edge-pt(V.F, V.G, 1.0),
+      P3,
+      edge-pt(V.H, V.E, 0.5),
+      edge-pt(V.E, V.A, 1.0),
+    ),
     fill: rgb("#f1eff9"),
     stroke-color: ai-col,
     width: 1.1pt,
   ),
-  s-pt(P1, label: [*W*], off: (2pt, 5pt), color: ai-col, r: 1.8pt),
-  s-pt(P2, label: [*Y*], off: (5pt, -4pt), color: ai-col, r: 1.8pt),
-  s-pt(P3, label: [*Z*], off: (-14pt, -10pt), color: ai-col, r: 1.8pt),
+  s-pt(P1, label: [*W*], off: (2pt, 12pt), color: ai-col, r: 1.8pt),
+  s-pt(P2, label: [*Y*], off: (13pt, 2pt), color: ai-col, r: 1.8pt),
+  s-pt(P3, label: [*Z*], off: (-4pt, -13pt), color: ai-col, r: 1.8pt),
   labels: false,
 )
-
-#check[
-  *This is your Cube-Sections worksheet.* The polygon here is a guess at a
-  plausible section, not a computed one — I will generate real sections
-  from actual plane equations once the projection settings are locked.
-  What I need from this panel: does a filled section polygon sitting over
-  dashed hidden edges look right, or should the section be outline-only so
-  the cube stays readable?
-]
 
 == 3.4 Cube with axes — the bridge from Chapter 0 to coordinates
 
 #space3d(
   ..cube-edges(a: 4, labels: true),
-  s-vec(to: (4, 4, 4), color: warn-col, label: $vec(r)_F$, off: (-24pt, 4pt)),
+  s-vec(to: (4, 4, 4), color: warn-col, label: $arrow(r)_F$, anchor: 0.55),
   axis-len: (5.5, 6, 5.5),
-  unit: 0.55cm,
+  unit: 0.58cm,
+)
+
+== 3.5 A worksheet cube, at sheet scale with a grid
+
+#cube(
+  a: 4,
+  grid: true,
+  unit: SHEET-UNIT,
+  s-pt(
+    edge-pt(V.A, V.B, 0.5),
+    label: [*W*],
+    off: (2pt, 12pt),
+    color: warn-col,
+    r: 2pt,
+  ),
+  s-pt(
+    edge-pt(V.B, V.F, 0.7),
+    label: [*Y*],
+    off: (13pt, 2pt),
+    color: warn-col,
+    r: 2pt,
+  ),
+  s-pt(
+    edge-pt(V.G, V.H, 0.5),
+    label: [*Z*],
+    off: (-4pt, -13pt),
+    color: warn-col,
+    r: 2pt,
+  ),
+  labels: false,
 )
 
 #check[
-  *Look for:* the cube sitting in the corner of the axes with the axes
-  still visible. This is the panel that does the actual pedagogical work
-  of Chapter 0 → Chapter 1: the same cube students shaded by eye, now with
-  coordinates on it.
+  This is what a Cube-Sections task would actually look like on the page:
+  three marked points, no section drawn, a grid to construct against.
+  Compare the size against your existing worksheet — at `SHEET-UNIT` the
+  cube is 4 cm on a side before foreshortening. Big enough to draw in?
+
+  $Y$ has moved off the midpoint of $B F$, which is the bug you caught.
+  Under our projection the midpoint of $B F$ lands *exactly* on the
+  midpoint of the hidden edge $C D$, so the marked point genuinely belongs
+  to two edges as far as the reader can tell. `check-projection.py`
+  reproduces it and now guards every figure of this kind — the same fix is
+  applied in 3.3.
 ]
 
-= 4 · Things not yet built
+= 4 · Still to build
 
-Tell me which of these the unit actually needs and I will add them:
-
-- *Force / ramp diagrams* — an inclined plane with a weight vector
-  resolved into components. Needed for the ramp and boat problems.
-- *The right-hand rule.* Hard to draw natively; this is my one candidate
-  for an actual image file.
-- *The two-lines classification quartet* (identical / parallel /
-  intersecting / skew) — four small 3D panels side by side.
-- *A flowchart helper* for the classification algorithm, or keep the
-  existing exported PDF.
-- *Angle between a line and a plane* — plane patch, line piercing it,
-  normal, and two marked angles $alpha$ and $gamma$.
+- *Force / ramp diagram* — inclined plane, weight vector resolved into
+  components. Needed for the ramp and boat problems.
+- *The right-hand rule* — my one candidate for an actual image file.
+- *The two-lines quartet* — identical / parallel / intersecting / skew,
+  four small 3D panels side by side.
+- *Angle between a line and a plane* — patch, piercing line, normal,
+  and both $alpha$ and $phi.alt$ marked.
 - *Plumb line onto a plane* — point, foot, reflected point.
+- *Classification flowchart*, or keep the existing exported PDF.
