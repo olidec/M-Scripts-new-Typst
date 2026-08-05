@@ -64,7 +64,11 @@
 
   #fig(
     vplane(
-      s-poly(disc(3.5, 1.0, 1.0), fill: rgb("#e9eef7"), stroke-color: luma(150)),
+      s-poly(
+        disc(3.5, 1.0, 1.0),
+        fill: rgb("#e9eef7"),
+        stroke-color: luma(150),
+      ),
       s-seg(from: (-1, 0), to: (8, 0), color: luma(110), width: 1.1pt),
       s-seg(from: (0.8, -0.4), to: (0.8, 2.6), color: def-col, width: 1.1pt),
       s-seg(from: (0, 1), to: (2.55, 1.31), color: accent, width: 1.1pt),
@@ -73,8 +77,13 @@
       s-pt((2.55, 1.31), r: 2.2pt, color: warn-col),
       s-txt((0.8, 2.6), text(size: 8pt)[image plane], off: (0pt, -10pt)),
       s-txt((6.5, 0), text(size: 8pt)[floor], off: (0pt, 11pt)),
-      xmin: -1.5, xmax: 8.5, ymin: -0.5, ymax: 3.0,
-      unit: 0.72cm, grid: false, axes: false,
+      xmin: -1.5,
+      xmax: 8.5,
+      ymin: -0.5,
+      ymax: 3.0,
+      unit: 0.72cm,
+      grid: false,
+      axes: false,
     ),
     caption: [Side view. One ray leaves the eye $E$, passes through one
       pixel of the image plane, and stops at the first thing it meets.],
@@ -133,8 +142,10 @@
   $ abs(arrow(w) + t dot arrow(d))^2 = R^2. $
   Expanding the square with the dot product, and using
   $arrow(d) dot arrow(d) = 1$:
-  $ t^2 + 2 (arrow(w) dot arrow(d)) t
-    + (abs(arrow(w))^2 - R^2) = 0. $
+  $
+    t^2 + 2 (arrow(w) dot arrow(d)) t
+    + (abs(arrow(w))^2 - R^2) = 0.
+  $
 
   An ordinary quadratic. Its discriminant decides everything:
   negative and the ray misses, zero and it grazes the silhouette,
@@ -189,9 +200,20 @@
       s-seg(from: (-1, 0), to: (8, 0), color: luma(110), width: 1.2pt),
       s-vec(from: (3.5, 0), to: (3.5, 2.4), label: $hat(n)$, color: warn-col),
       s-vec(from: (3.5, 0), to: (5.2, 2.4), label: $hat(s)$, color: accent),
-      s-arc(vertex: (3.5, 0), from: (3.5, 2.4), to: (5.2, 2.4), r: 30pt, label: $phi.alt$),
-      xmin: -1.5, xmax: 8.5, ymin: -0.5, ymax: 3.0,
-      unit: 0.68cm, grid: false, axes: false,
+      s-arc(
+        vertex: (3.5, 0),
+        from: (3.5, 2.4),
+        to: (5.2, 2.4),
+        r: 30pt,
+        label: $phi.alt$,
+      ),
+      xmin: -1.5,
+      xmax: 8.5,
+      ymin: -0.5,
+      ymax: 3.0,
+      unit: 0.68cm,
+      grid: false,
+      axes: false,
     ),
     caption: [Face the light squarely and $phi.alt = 0$, so the
       brightness is $1$. Turn away and it falls off as $cos phi.alt$.],
@@ -233,16 +255,37 @@
 
   #fig(
     vplane(
-      s-poly(disc(3.5, 1.0, 1.0), fill: rgb("#e9eef7"), stroke-color: luma(150)),
+      s-poly(
+        disc(3.5, 1.0, 1.0),
+        fill: rgb("#e9eef7"),
+        stroke-color: luma(150),
+      ),
       s-seg(from: (-1, 0), to: (8, 0), color: luma(110), width: 1.1pt),
-      s-seg(from: (1.6, 0), to: (3.1, 2.6), color: accent, width: 1.1pt, dashed: true),
-      s-seg(from: (5.6, 0), to: (7.1, 2.6), color: def-col, width: 1.1pt, dashed: true),
+      s-seg(
+        from: (1.6, 0),
+        to: (3.1, 2.6),
+        color: accent,
+        width: 1.1pt,
+        dashed: true,
+      ),
+      s-seg(
+        from: (5.6, 0),
+        to: (7.1, 2.6),
+        color: def-col,
+        width: 1.1pt,
+        dashed: true,
+      ),
       s-pt((1.6, 0), r: 2.2pt, color: accent),
       s-pt((5.6, 0), r: 2.2pt, color: def-col),
       s-txt((1.6, 0), text(size: 8pt)[blocked], off: (-4pt, 12pt)),
       s-txt((5.6, 0), text(size: 8pt)[lit], off: (2pt, 12pt)),
-      xmin: -1.5, xmax: 8.5, ymin: -0.5, ymax: 3.0,
-      unit: 0.72cm, grid: false, axes: false,
+      xmin: -1.5,
+      xmax: 8.5,
+      ymin: -0.5,
+      ymax: 3.0,
+      unit: 0.72cm,
+      grid: false,
+      axes: false,
     ),
     caption: [Two floor points and their shadow rays. The left one
       meets the sphere on the way; the right one does not.],
@@ -271,8 +314,10 @@
 
   The new direction is the reflection formula from the chapter on
   vector geometry:
-  $ arrow(d)' = arrow(d)
-    - 2 dot (arrow(d) dot arrow(n)) / abs(arrow(n))^2 dot arrow(n). $
+  $
+    arrow(d)' = arrow(d)
+    - 2 dot (arrow(d) dot arrow(n)) / abs(arrow(n))^2 dot arrow(n).
+  $
 
   *Example.* A ray with direction $vec(0, 4, -1)$ strikes the floor
   $z = 0$, whose normal is $vec(0, 0, 1)$. Then
@@ -490,8 +535,10 @@
       Pythagoras the total length is unchanged.],
     [Substituting $(0, -1 + 4u, u)$ into
       $x^2 + y^2 + (z - 1)^2 = 1$:
-      $ (4u - 1)^2 + (u - 1)^2 = 1
-        quad arrow.r.double quad 17u^2 - 10u + 1 = 0. $
+      $
+        (4u - 1)^2 + (u - 1)^2 = 1
+        quad arrow.r.double quad 17u^2 - 10u + 1 = 0.
+      $
       The discriminant is $100 - 68 = 32 > 0$, so yes — the reflected
       ray does strike the sphere, at
       $u = (5 plus.minus 2 sqrt(2)) slash 17$, taking the smaller
