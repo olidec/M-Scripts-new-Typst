@@ -858,8 +858,22 @@ except the right-hand rule.
   $k = 1 slash sqrt(2)$.
 - **Gridlines are screen-space** horizontal and vertical rules, not a
   projected world grid: they exist to match squared paper, not the axes.
-  They align themselves so the origin lands on an intersection. Draw
-  order is shaded planes → grid → axes.
+  They align themselves so the origin lands on an intersection.
+- **Grid or shaded planes, never both.** Both answer the same question —
+  _which plane is that point in?_ — so running them together puts two
+  competing depth cues over one region. Prefer shading when the figure is
+  simple and the octant reading is the point; prefer the grid when the
+  figure is busy, since it also says _how far_, not just _where_.
+- **Check every 3D figure for projected coincidences** with
+  `check-projection.py` before committing it. Because $k cos 45 degree =
+  k sin 45 degree = 1 slash 2$ exactly, the projection is
+  $(x, y, z) arrow.r.bar (y - x slash 2, x slash 2 - z)$, so lattice
+  points land on a half-integer screen lattice and collisions are the
+  generic case, not a rare accident. The dangerous one is a marked point
+  landing _on an edge it does not belong to_: the midpoint of $B F$
+  projects onto the midpoint of the hidden edge $C D$, so a student asked
+  to construct through it cannot tell which edge was meant. Moving the
+  point off the midpoint fixes it.
 - **Bounds:** as in §6, prefer `.5` endpoints for `vplane`.
 - Every coordinate inside `vec-figures.typ` is a **bare float in points**;
   lengths appear only at the `place()` and `stroke` boundary. Two bugs
