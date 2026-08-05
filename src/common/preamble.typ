@@ -40,6 +40,7 @@
 //    exercise(difficulty: 1–3, time: "20 min", hints: (...))
 //    print-hints()        — call before print-solutions()
 //    ai-box(role: ...)    — AI task with a defined role
+//    sim-box(notebook: ..., data: ...) — pointer to a Jupyter notebook; hidden on sheets by default
 //    exploration(...)     — ungraded discovery task
 //    toolbox() / heuristic("...") — Pólya heuristics + inline badges
 //    abstraction-ladder(l0:, l1:, l2:, l3:) — formalization figure
@@ -101,6 +102,8 @@
 #let expl-bg = rgb("#f0f2fb")   // pale periwinkle fill
 #let ai-col = rgb("#5a4d9e")   // violet-periwinkle (AI tasks)
 #let ai-bg = rgb("#f1eff9")   // pale violet fill
+#let sim-col = rgb("#2a6f7f") //   slate teal (notebooks / simulation)
+#let sim-bg = rgb("#eaf2f4") //   pale teal fill
 #let ex-col = rgb("#7d8a83")   // muted gray-green (examples)
 #let ex-bg = rgb("#f5f6f5")   // near-white gray fill
 #let goal-col = rgb("#3d6b52")   // soft forest (learning objectives)
@@ -564,6 +567,59 @@
     },
   )
 }
+
+
+// sim-box — points at a Jupyter notebook that does something the page
+// cannot: simulate, animate, or draw a picture out of the chapter's
+// own numbers. The box carries the filename and a short description
+// of what the notebook is for; it never carries the code itself,
+// because code that is printed but not run is worth very little.
+//
+// FILE LAYOUT. Notebooks live in <unit>/notebooks/ and their data in
+// <unit>/data/. build.sh's build_assets() copies both into
+// dist/<unit>/, and the JupyterLite target flattens them into one
+// folder per unit so that a bare pd.read_csv("thing.csv") resolves.
+// The notebook: and data: arguments are therefore bare filenames, not
+// paths — the box must not encode a directory structure that the
+// delivery route is free to change.
+//
+// VISIBILITY. Hidden in the solutions booklet always: a solutions
+// booklet is answers, and a notebook has no answer. Hidden on the
+// exercise sheet unless on-sheet: true, because the sheet is what
+// students work on away from a computer. Pass on-sheet: true only
+// when the task genuinely requires the notebook to be in front of
+// them while they work.
+#let sim-box(
+  notebook: none,
+  data: none,
+  title: none,
+  on-sheet: false,
+  body,
+) = context {
+  if _sol-mode.get() { return }
+  if _ex-mode.get() and not on-sheet { return }
+  _bar-box(
+    bar-color: sim-col,
+    fill-color: sim-bg,
+    label: "Notebook",
+    title: title,
+    {
+      if notebook != none {
+        text(size: 9pt, fill: sim-col)[
+          #raw(notebook)#if data != none [ #h(6pt) · #h(6pt) data: #raw(data)]
+        ]
+        v(3pt)
+      }
+      body
+      v(4pt)
+      text(size: 8.5pt, fill: luma(110), style: "italic")[
+        Runs in the browser — nothing to install, and no exam question
+        depends on it.
+      ]
+    },
+  )
+}
+
 
 // exploration — an ungraded in-class discovery task. The footer line
 // states the deal explicitly: one exam problem will grow out of it.
