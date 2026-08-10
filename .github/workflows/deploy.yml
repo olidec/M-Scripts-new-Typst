@@ -1,0 +1,96 @@
+name: Build and publish course site
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**.md"]
+  # Flipping a class from `main` to a snapshot tag is a manifest edit,
+  # so it deploys automatically. This is here for the case where you
+  # push a tag and want the frozen build available immediately.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: worktrees are created at tags that are not
+          # reachable from a shallow clone.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r site/requirements.txt
+
+      - name: Cache Typst binaries and package downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/typst-bin
+            ~/.cache/typst
+          key: typst-${{ runner.os }}-${{ hashFiles('**/.typst-version') }}
+          restore-keys: typst-${{ runner.os }}-
+
+      - name: Build every pinned ref
+        run: |
+          chmod +x site/build-refs.sh build.sh
+          ./site/build-refs.sh _site .refs
+
+      - name: Generate pages
+        run: python3 site/build_site.py --refs-dir .refs --site _site
+
+      - name: Encrypt protected pages
+        env:
+          CLASS_PASSWORDS: ${{ secrets.CLASS_PASSWORDS }}
+        run: |
+          set -euo pipefail
+          if [ ! -s _site/_encrypt.json ] || [ "$(jq length _site/_encrypt.json)" = "0" ]; then
+            echo "nothing to encrypt"; rm -f _site/_encrypt.json; exit 0
+          fi
+          if [ -z "${CLASS_PASSWORDS:-}" ]; then
+            echo "::error::_encrypt.json lists protected pages but the"
+            echo "::error::CLASS_PASSWORDS secret is not set. Refusing to"
+            echo "::error::publish those pages in the clear."
+            exit 1
+          fi
+          tmp="$(mktemp -d)"
+          jq -r '.[] | [.path, .class_id] | @tsv' _site/_encrypt.json |
+          while IFS=$'\t' read -r path cid; do
+            pw="$(printf '%s' "$CLASS_PASSWORDS" | jq -r --arg k "$cid" '.[$k] // empty')"
+            if [ -z "$pw" ]; then
+              echo "::error::no password in CLASS_PASSWORDS for class '$cid'"
+              exit 1
+            fi
+            npx --yes staticrypt "_site/$path" --password "$pw" -d "$tmp"
+            mv "$tmp/$(basename "$path")" "_site/$path"
+            echo "encrypted _site/$path"
+          done
+          rm -rf "$tmp"
+          rm -f _site/_encrypt.json
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

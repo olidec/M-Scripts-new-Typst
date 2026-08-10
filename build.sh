@@ -56,10 +56,12 @@
 #      list in that level's main-*.typ, matched to outline entries BY
 #      TITLE, so a preface or appendix heading that is not a registered
 #      chapter is skipped rather than shifting every filename by one.
-#      That parsing assumes the project convention of one entry per
-#      line, each trimmed line starting with ("  — exactly how every
-#      main-*.typ file in this project is written. If you reformat an
-#      entry onto multiple lines, the splitter won't see it.
+#      That parsing no longer depends on how register_chapters(...) is
+#      formatted: entries are matched across newlines inside the call,
+#      so typstyle reflowing a long entry onto four lines is fine. It
+#      does still require each entry to be a literal ("Title", "/root/
+#      absolute/path") pair — a #let shortcut for the directory is not
+#      evaluated and will not be seen.
 #    * The splitter needs Python with pypdf. If a .venv/ exists at the
 #      project root it is used automatically; otherwise python3 from
 #      PATH. Set PYTHON_BIN to override either.
@@ -253,6 +255,7 @@ build_chapters() {
   local unit="$1"
   local dir="$UNITS_DIR/$unit"
   local level main pdf
+  local split_failed=0
 
   check_splitter
 
@@ -280,8 +283,24 @@ build_chapters() {
       compile "$main" "$pdf"
     fi
 
-    "$PYTHON_BIN" "$SPLITTER" "$main" "$pdf" "$DIST_DIR/$unit" "$level"
+    # `set -e` would otherwise abandon the whole build the moment the
+    # splitter reports a problem for ONE level -- so a mismatched
+    # heading in main-basic.typ would silently cost you the Advanced
+    # chapter PDFs as well. The splitter exits non-zero when any
+    # registered chapter could not be located in the PDF outline (it
+    # prints an outline-vs-sources table saying which), so surface that
+    # loudly and carry on to the next level.
+    if ! "$PYTHON_BIN" "$SPLITTER" "$main" "$pdf" "$DIST_DIR/$unit" \
+      "$level"; then
+      echo "  (warning: chapter split incomplete for $level — see above)"
+      split_failed=1
+    fi
   done
+
+  if [[ "$split_failed" -eq 1 ]]; then
+    echo "  (chapter split finished with errors; the full books in" \
+      "$DIST_DIR/$unit are unaffected)"
+  fi
 }
 
 build_assets() {
