@@ -944,21 +944,74 @@
 //  sub-items, kept under its original name so existing chapter
 //  files keep working unmodified.)
 //
-//  row-gutter defaults to 1em rather than a tighter value because
+//  Row spacing defaults to 1em rather than a tighter value because
 //  most math-course content is fraction-heavy, and a fraction is
 //  visually much taller than a line of plain text (numerator,
 //  fraction bar, denominator all stacked) — a gutter tuned for
 //  short plain-text items reads as cramped once fractions show up,
-//  which in practice is most of the time here. Override per call
-//  for anything that wants tighter or looser spacing:
-//    #parts(3, row-gutter: 1.6em, ...)   // extra room, tall content
-//    #parts(4, row-gutter: 0.5em, ...)   // compact, short plain text
+//  which in practice is most of the time here.
+//
+//  VERTICAL SPACE — `space:`
+//  Two-line items (a `cases(...)` recursion, a stacked system, a
+//  fraction over a fraction) are taller again, and at the default
+//  gutter consecutive rows very nearly touch. Ask for more room by
+//  name rather than by remembering a length:
+//
+//    #auto-parts(2, space: "roomy", ...)   // 1.6em — cases(), systems
+//    #auto-parts(2, space: "airy",  ...)   // 2.2em — the worst cases
+//    #auto-parts(4, space: "tight", ...)   // 0.5em — short plain text
+//
+//  Naming the presets (rather than sprinkling raw lengths through
+//  the chapters) is what keeps a "roomy" set of recursions looking
+//  the same in ch-basics as in ch-geometric: change the table below
+//  once and every call that asked for "roomy" follows.
+//
+//  `space:` also accepts a bare length for a genuine one-off
+//  (`space: 1.3em`), and the older `row-gutter:` argument still
+//  works and still wins over everything — no existing call site
+//  changes behavior.
+//
+//  RESOLUTION ORDER, highest priority first:
+//    1. row-gutter: <length>   explicit, on this call
+//    2. space: <name|length>   on this call
+//    3. space: on the enclosing exercise()   (see `space:` there)
+//    4. "normal" (1em)
 // ────────────────────────────────────────────────────────────
-#let parts(cols, ..items, row-gutter: 1em, column-gutter: 1.2em) = {
+
+#let _part-gutters = (
+  tight: 0.5em,
+  normal: 1em,
+  roomy: 1.6em,
+  airy: 2.2em,
+)
+
+// Set by exercise(`space:`) so that ONE declaration on the exercise
+// covers both the question's parts() call and the solution's, which
+// is where the two used to drift apart. Default `auto` means "no
+// enclosing exercise asked for anything".
+#let _part-space = state("part-space", auto)
+
+#let _resolve-gutter(row-gutter, space) = {
+  if row-gutter != auto { return row-gutter }
+  let key = if space != auto { space } else { _part-space.get() }
+  if key == auto { return _part-gutters.normal }
+  if type(key) == str {
+    return _part-gutters.at(key, default: _part-gutters.normal)
+  }
+  key // a bare length passed through space:
+}
+
+#let parts(
+  cols,
+  ..items,
+  row-gutter: auto,
+  column-gutter: 1.2em,
+  space: auto,
+) = context {
   let col-spec = range(cols).map(_ => 1fr)
   grid(
     columns: col-spec,
-    row-gutter: row-gutter,
+    row-gutter: _resolve-gutter(row-gutter, space),
     column-gutter: column-gutter,
     ..items.pos(),
   )
@@ -984,13 +1037,19 @@
 // start: lets the lettering continue from a later point (e.g.
 // start: 4 begins at "(e)") if a single exercise splits its items
 // across more than one auto-parts() call.
+//
+// space: / row-gutter: are handed straight to parts() — see the
+// resolution order documented there. Note that a `space:` set on
+// the enclosing exercise() reaches this call without being repeated,
+// which is the point: question and solution then cannot disagree.
 #let _letters = "abcdefghijklmnopqrstuvwxyz".clusters()
 
 #let auto-parts(
   cols,
   ..items,
-  row-gutter: 1em,
+  row-gutter: auto,
   column-gutter: 1.2em,
+  space: auto,
   start: 0,
 ) = {
   let labeled = items
@@ -999,7 +1058,13 @@
     .map(((i, item)) => {
       [(#_letters.at(i + start)) #item]
     })
-  parts(cols, ..labeled, row-gutter: row-gutter, column-gutter: column-gutter)
+  parts(
+    cols,
+    ..labeled,
+    row-gutter: row-gutter,
+    column-gutter: column-gutter,
+    space: space,
+  )
 }
 
 // system — displays a system of equations, one per row, aligned at
@@ -1108,6 +1173,17 @@
   time: none,
   hints: (),
   keep-together: true,
+  // PART SPACING -- "tight" / "normal" / "roomy" / "airy", or a bare
+  // length. Declared here, it reaches every parts() and auto-parts()
+  // inside BOTH the question and the solution, so the two can't drift
+  // apart -- which is the failure mode of setting it on each call.
+  // A space: or row-gutter: written on an individual parts() call
+  // still overrides this for that call. Default auto = leave it to
+  // parts()'s own default (1em), so nothing already written moves.
+  //
+  // Reach for "roomy" whenever the items are two lines tall:
+  // cases() recursions, systems, stacked fractions.
+  space: auto,
   // CALCULATOR POLICY -- three states, and the default is silence:
   //   none   no badge at all (every exercise written before this
   //          existed, so nothing already in the course changes)
@@ -1150,6 +1226,20 @@
   // returns before stepping and never consumes a number.
   context {
     let n = ex-counter.get().first()
+
+    // The update/restore pair brackets whichever of body/solution
+    // this rendering mode emits, so a parts()/auto-parts() inside
+    // picks the value up from _part-space without being told.
+    // Restoring to `auto` rather than to the previous value is safe
+    // because nothing else ever writes this state and exercises
+    // never nest -- and it avoids a read-then-write on the same
+    // state, which is the pattern that makes layout convergence
+    // fragile.
+    let sp(c) = if space == auto { c } else {
+      _part-space.update(space)
+      c
+      _part-space.update(auto)
+    }
 
     let dot(filled) = box(baseline: 15%, circle(
       radius: 2.3pt,
@@ -1253,7 +1343,7 @@
       // same object seen twice.
       line(length: 100%, stroke: 2.5pt + task-col)
       v(1.2em)
-      body
+      sp(body)
       // Effort note intentionally omitted here: it's a note to a
       // student reading the chapter alongside the exercise ("you're
       // not behind schedule"), not something that belongs on a
@@ -1281,11 +1371,11 @@
         #ex-header(task-col, none)
         #if _sol-show-questions.get() [
           #v(0.2em)
-          #block(text(size: 9pt, fill: luma(110), body))
+          #block(text(size: 9pt, fill: luma(110), sp(body)))
           #v(0.2em)
           #line(length: 100%, stroke: 0.3pt + luma(200))
         ]
-        #solution
+        #sp(solution)
       ]
     } else {
       // ── CHAPTER / MAIN MODE ──────────────────────────────────
@@ -1312,7 +1402,7 @@
         ),
       )[
         #ex-header(task-col, effort-note)
-        #body
+        #sp(body)
       ]
       v(0.4em)
       if hints.len() > 0 {

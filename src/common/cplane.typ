@@ -24,6 +24,24 @@
 //  to generalize the axis labels (currently Re/Im) rather than
 //  fork the file.
 //
+//  UPDATE (conic sections): that signal arrived, and the file was
+//  NOT forked. x-label:/y-label: were already parameters, so
+//  conic-figures.typ simply binds
+//      #let xyplane = cplane.with(x-label: $x$, y-label: $y$)
+//  and every cp-* helper is reused as-is. Two things did have to
+//  change here, both general rather than conic-specific:
+//
+//    * show-axes: false, for figures that are diagrams IN a plane
+//      rather than diagrams OF a plane -- the edge-on cone profile
+//      in ch-slicing carries no coordinate system at all.
+//    * cp-line now clips properly (see the note on that function).
+//      The old clamp was wrong for any line leaving the box through
+//      a side rather than through a corner, and it silently changed
+//      the line's SLOPE. That is a bug fix, not a new feature, and
+//      it alters one existing figure in ch-loci (the bisector
+//      b = -3a + 4) -- for the better; check that page after
+//      rebuilding.
+//
 //  WHY NOT simple-plot: these figures need arbitrary text
 //  annotation at arbitrary points, shaded half-planes and sectors,
 //  open-vs-closed boundary markers, and angle arcs. simple-plot is
@@ -112,6 +130,7 @@
   ymax: 4.5,
   show-grid: true,
   show-ticks: true,
+  show-axes: true,
   x-label: cp-re-label,
   y-label: cp-im-label,
 ) = {
@@ -136,22 +155,36 @@
     }
   }
 
-  cetz.draw.line(
-    (x: xmn, y: 0.0),
-    (x: xmx, y: 0.0),
-    stroke: cp-axis-stroke,
-    mark: (end: "straight"),
-  )
-  cetz.draw.line(
-    (x: 0.0, y: ymn),
-    (x: 0.0, y: ymx),
-    stroke: cp-axis-stroke,
-    mark: (end: "straight"),
-  )
-  cetz.draw.content((x: xmx, y: 0.0), x-label, anchor: "north-west", padding: 4pt)
-  cetz.draw.content((x: 0.0, y: ymx), y-label, anchor: "south-east", padding: 4pt)
+  if show-axes {
+    cetz.draw.line(
+      (x: xmn, y: 0.0),
+      (x: xmx, y: 0.0),
+      stroke: cp-axis-stroke,
+      mark: (end: "straight"),
+    )
+    cetz.draw.line(
+      (x: 0.0, y: ymn),
+      (x: 0.0, y: ymx),
+      stroke: cp-axis-stroke,
+      mark: (end: "straight"),
+    )
+    cetz.draw.content(
+      (x: xmx, y: 0.0),
+      x-label,
+      anchor: "north-west",
+      padding: 4pt,
+    )
+    cetz.draw.content(
+      (x: 0.0, y: ymx),
+      y-label,
+      anchor: "south-east",
+      padding: 4pt,
+    )
+  }
 
-  if show-ticks {
+  // Ticks are marks ON the axes, so they follow show-axes: asking for
+  // ticks without axes is a caller mistake, not a third layout.
+  if show-axes and show-ticks {
     for k in xs {
       if k == 0 { continue }
       cetz.draw.line(
@@ -222,6 +255,7 @@
   ymax: 4.5,
   show-grid: true,
   show-ticks: true,
+  show-axes: true,
   x-label: cp-re-label,
   y-label: cp-im-label,
   length: 0.75cm,
@@ -237,6 +271,7 @@
         ymax: ymax,
         show-grid: show-grid,
         show-ticks: show-ticks,
+        show-axes: show-axes,
         x-label: x-label,
         y-label: y-label,
       )
@@ -326,6 +361,18 @@
 
 // An infinite line, given as a point and a direction, clipped to the
 // stated bounds. Pass the SAME bounds as the enclosing cplane() call.
+//
+// WHY A REAL CLIP AND NOT A CLAMP: the first version of this function
+// walked a long way along the direction vector and then clamped the
+// endpoint's two coordinates back into the box independently. That is
+// only correct when the line happens to leave through a CORNER. A line
+// leaving through the top and the right, say, gets its x pulled back
+// to xmax and its y pulled back to ymax separately -- landing on the
+// corner, which is not on the line. The drawn segment then has the
+// wrong slope, and nothing about it looks broken, which is the worst
+// kind of figure bug. The slab (Liang-Barsky) clip below intersects
+// the parameter intervals in which the point stays inside each of the
+// two slabs, so both endpoints are on the line by construction.
 #let cp-line(
   through: (0, 0),
   direction: (1, 0),
@@ -338,25 +385,42 @@
 ) = {
   let (px, py) = (float(through.at(0)), float(through.at(1)))
   let (dx, dy) = (float(direction.at(0)), float(direction.at(1)))
-  // Longest parameter the box can possibly need, then clamp the
-  // endpoints back inside it. Crude but exact enough for a diagram,
-  // and it avoids a full Liang-Barsky clip for four lines of gain.
-  let span = calc.max(
-    float(xmax) - float(xmin),
-    float(ymax) - float(ymin),
-  ) * 2
-  let n = calc.max(calc.sqrt(dx * dx + dy * dy), 1e-9)
-  let (ux, uy) = (dx / n, dy / n)
-  let clamp(v, lo, hi) = calc.max(lo, calc.min(hi, v))
-  let p1 = (
-    clamp(px - span * ux, float(xmin), float(xmax)),
-    clamp(py - span * uy, float(ymin), float(ymax)),
+  let (x0, x1) = (float(xmin), float(xmax))
+  let (y0, y1) = (float(ymin), float(ymax))
+  let tlo = -1e9
+  let thi = 1e9
+
+  // Horizontal slab x0 <= px + t*dx <= x1.
+  if calc.abs(dx) < 1e-12 {
+    // Direction is vertical: either the whole line is inside the
+    // slab or none of it is.
+    if px < x0 or px > x1 { return }
+  } else {
+    let ta = (x0 - px) / dx
+    let tb = (x1 - px) / dx
+    tlo = calc.max(tlo, calc.min(ta, tb))
+    thi = calc.min(thi, calc.max(ta, tb))
+  }
+
+  // Vertical slab y0 <= py + t*dy <= y1.
+  if calc.abs(dy) < 1e-12 {
+    if py < y0 or py > y1 { return }
+  } else {
+    let ta = (y0 - py) / dy
+    let tb = (y1 - py) / dy
+    tlo = calc.max(tlo, calc.min(ta, tb))
+    thi = calc.min(thi, calc.max(ta, tb))
+  }
+
+  // Empty intersection: the line misses the box entirely.
+  if thi <= tlo { return }
+
+  cp-segment(
+    (px + tlo * dx, py + tlo * dy),
+    (px + thi * dx, py + thi * dy),
+    color: color,
+    dashed: dashed,
   )
-  let p2 = (
-    clamp(px + span * ux, float(xmin), float(xmax)),
-    clamp(py + span * uy, float(ymin), float(ymax)),
-  )
-  cp-segment(p1, p2, color: color, dashed: dashed)
 }
 
 // A ray from z0 in direction phi. open: true marks the excluded
