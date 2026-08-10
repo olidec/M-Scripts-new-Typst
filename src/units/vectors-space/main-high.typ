@@ -31,10 +31,10 @@
   ("Circles", "/src/units/vectors-space/ch-circles-spheres"),
   ("Geometry", "/src/units/vectors-space/ch-vector-geometry"),
   ("Graphics", "/src/units/vectors-space/ch-graphics"),
+  ("Review", "/src/units/vectors-space/ch-review"),
   // Uncomment as chapters are finished (commented lines are safely
   // invisible to both text parsers — they don't start with `("` ):
   //
-  // ("Review", "/src/units/vectors-space/ch-review"),
   //
   // ch-circles-spheres above is SPF-only: it appears in this file and
   // NOT in main-basic.typ. Everything else matches Part A's pattern of

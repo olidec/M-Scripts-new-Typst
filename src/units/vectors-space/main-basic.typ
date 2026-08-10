@@ -33,10 +33,10 @@
   ("Distances", "/src/units/vectors-space/ch-distances"),
   ("Geometry", "/src/units/vectors-space/ch-vector-geometry"),
   ("Graphics", "/src/units/vectors-space/ch-graphics"),
+  ("Review", "/src/units/vectors-space/ch-review"),
   // Uncomment as chapters are finished (commented lines are safely
   // invisible to both text parsers — they don't start with `("` ):
   //
-  // ("Review", "/src/units/vectors-space/ch-review"),
   //
   // ch-circles-spheres is SPF-only and is registered in main-high.typ
   // alone. Do not add it here.
