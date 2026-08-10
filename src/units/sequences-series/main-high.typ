@@ -11,15 +11,28 @@
 #import "../../common/preamble.typ": *
 
 // ── Level switch: Advanced ───────────────────────────────────
+#set-subject-name("Sequences & Series")
 #set-level("high")
 
 // ── Chapter list (single source of truth) ────────────────────
 #register_chapters(
-  ("Basics of Sequences and Series",         "/src/units/sequences-series/ch-basics"),
-  ("Arithmetic Sequences and Series",        "/src/units/sequences-series/ch-arithmetic"),
-  ("Higher-Order Arithmetic Sequences",      "/src/units/sequences-series/ch-higher-order"),
-  ("Geometric Sequences and Series",         "/src/units/sequences-series/ch-geometric"),
-  ("Mathematical Proofs and Induction",      "/src/units/sequences-series/ch-proofs"),
+  ("Basics of Sequences and Series", "/src/units/sequences-series/ch-basics"),
+  (
+    "Arithmetic Sequences and Series",
+    "/src/units/sequences-series/ch-arithmetic",
+  ),
+  (
+    "Higher-Order Arithmetic Sequences",
+    "/src/units/sequences-series/ch-higher-order",
+  ),
+  (
+    "Geometric Sequences and Series",
+    "/src/units/sequences-series/ch-geometric",
+  ),
+  (
+    "Mathematical Proofs and Induction",
+    "/src/units/sequences-series/ch-proofs",
+  ),
 )
 
 // ── Base typography ──────────────────────────────────────────
