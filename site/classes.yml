@@ -20,7 +20,7 @@ site:
   # Leave empty for a user/organization Pages site or a custom
   # domain.  For a project site (user.github.io/REPO) set this to
   # "/REPO" — every generated link is prefixed with it.
-  base_path: ""
+  site.base_path: "/M-Scripts-new-Typst"
   footer: "Materials are typeset in Typst. Report errors to your teacher."
 
 # ---- unit display names -------------------------------------
@@ -110,7 +110,7 @@ classes:
     name: "4a — Grundlagenfach"
     level: basic
     slug: 4a-glf-x7k2p
-    ref: main
+    ref: snap/2026-hs
     protect: [] # nothing encrypted on run one
     years:
       y3: [probabilities-combinatorics]
