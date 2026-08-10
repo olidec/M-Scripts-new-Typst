@@ -66,3 +66,6 @@ desktop.ini
 src/common/test.typ
 src/common/smoke-figures.typ
 src/common/palette-test.typ
+
+_site/
+.refs/
