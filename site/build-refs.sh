@@ -32,6 +32,14 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 mkdir -p "$SITE" "$REFS" "$TYPST_CACHE"
 
+# A unit that does not compile is a content problem, not a reason to
+# withhold every other class's materials. Failures are collected here and
+# reported at the end; the units that did build still get published, and
+# build_site.py separately warns that the broken one is missing from the
+# class pages. Set STRICT_BUILD=1 to make any failure abort instead.
+FAILED_LOG="$(mktemp)"
+trap 'rm -f "$FAILED_LOG"' EXIT
+
 # Prefer the project virtualenv, exactly as build.sh does, so these
 # scripts behave the same whether or not the venv happens to be active
 # in the shell you launched them from. CI has no .venv and falls through
@@ -122,7 +130,12 @@ while IFS=$'\t' read -r slug ref units; do
         echo "  (skip: $unit does not exist at $ref)"
         continue
       }
-      ./build.sh unit "$unit" all
+      if ! ./build.sh unit "$unit" all; then
+        echo "$ref  $unit" >> "$FAILED_LOG"
+        echo "::warning::$unit failed to compile at $ref and will be" \
+          "missing from the site"
+        continue
+      fi
       # Per-chapter PDFs are a convenience; a failure here must not
       # cost us the notes, sheets and solutions already built.
       ./build.sh unit "$unit" chapters \
@@ -138,4 +151,16 @@ while IFS=$'\t' read -r slug ref units; do
   fi
 done < <("$PY" site/build_site.py --plan)
 
-echo "Refs built."
+if [[ -s "$FAILED_LOG" ]]; then
+  echo
+  echo "These units failed to compile and are absent from the site:"
+  sed 's/^/  /' "$FAILED_LOG"
+  echo
+  if [[ -n "${STRICT_BUILD:-}" ]]; then
+    echo "STRICT_BUILD is set — treating this as a build failure."
+    exit 1
+  fi
+  echo "Everything else was published. Fix the above and push again."
+else
+  echo "Refs built."
+fi
