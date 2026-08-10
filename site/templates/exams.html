@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Exam dates{% endblock %}
+{% block content %}
+{% if cls.exams %}
+<table class="exams">
+  <thead>
+    <tr><th scope="col">Date</th><th scope="col">Assessment</th><th scope="col">Scope</th></tr>
+  </thead>
+  <tbody>
+  {% for e in cls.exams %}
+    <tr>
+      <td class="date">{{ e.date }}</td>
+      <td>{{ e.title }}{% if e.note %}<span class="sub">{{ e.note }}</span>{% endif %}</td>
+      <td class="scope">{{ e.topics or "—" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">No dates set yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{% block title %}{{ cls.name }}{% endblock %} — {{ site.title }}</title>
+<link rel="stylesheet" href="{{ base }}/static/style.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">{{ site.title }}</p>
+  <h1>{{ cls.name }}</h1>
+  <p class="stamp">
+    <span class="chip">{{ cls.level_label }}</span>
+    <span class="chip {% if cls.frozen %}chip-frozen{% else %}chip-live{% endif %}">{{ cls.ref }}</span>
+    {% if cls.frozen %}
+    <span class="note">Frozen version — the same files you worked with in class.</span>
+    {% else %}
+    <span class="note">Current version — updated as the course runs.</span>
+    {% endif %}
+  </p>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  {% for href, label in tabs %}
+  <a href="{{ href }}"{% if href == active %} class="on" aria-current="page"{% endif %}>{{ label }}</a>
+  {% endfor %}
+</nav>
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer>
+  <p>{{ site.footer }}</p>
+</footer>
+</body>
+</html>

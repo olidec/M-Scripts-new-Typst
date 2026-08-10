@@ -1,0 +1,9 @@
+# Dependencies for the site generator.
+#   .venv/bin/python3 -m pip install -r site/requirements.txt
+#
+# pypdf is what tools/split-chapters.py needs for per-chapter PDFs; it is
+# listed here so one install covers both the site and the existing build.
+jinja2>=3.1
+pyyaml>=6.0
+markdown>=3.5
+pypdf>=4.0

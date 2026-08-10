@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+{% if cls.admin_html %}
+<div class="prose">
+{{ cls.admin_html | safe }}
+</div>
+{% else %}
+<p class="empty">Nothing posted yet. Course information and announcements will
+appear here.</p>
+{% endif %}
+{% endblock %}

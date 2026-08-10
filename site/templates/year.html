@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ year_label }}{% endblock %}
+{% block content %}
+{% for u in units %}
+<section class="unit">
+  <h2>{{ u.title }}</h2>
+
+  {% if u.docs %}
+  <ul class="files">
+  {% for d in u.docs %}
+    <li><a href="{{ d.href }}"><span class="badge">{{ d.badge }}</span><span class="name">{{ d.label }}</span><span class="size">{{ d.size }}</span></a></li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if u.chapters %}
+  <details>
+    <summary>Single chapters ({{ u.chapters | length }})</summary>
+    <ul class="files chapters">
+    {% for d in u.chapters %}
+      <li><a href="{{ d.href }}"><span class="badge">{{ loop.index }}</span><span class="name">{{ d.label }}</span><span class="size">{{ d.size }}</span></a></li>
+    {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+
+  {% if u.assets %}
+  <details>
+    <summary>Notebooks and data ({{ u.assets | length }})</summary>
+    <ul class="files chapters">
+    {% for d in u.assets %}
+      <li><a href="{{ d.href }}"><span class="badge">{{ d.badge }}</span><span class="name">{{ d.label }}</span><span class="size">{{ d.size }}</span></a></li>
+    {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+</section>
+{% endfor %}
+{% endblock %}

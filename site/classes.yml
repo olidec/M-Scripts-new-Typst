@@ -1,0 +1,120 @@
+# ============================================================
+#  classes.yml — the single source of truth for the website.
+#
+#  Everything else is derived: the generator reads this file,
+#  looks at what the Typst build actually produced, and writes
+#  one page per class.  No PDF is ever committed to git.
+#
+#  To take a snapshot at the end of a semester:
+#      git tag snap/2026-hs
+#      git push --tags
+#  then change that class's `ref:` from `main` to `snap/2026-hs`.
+#  Its pages are frozen from that moment on, but stay reproducible
+#  because they are rebuilt from the tag on every deploy.
+# ============================================================
+
+site:
+  title: "Mathematics — Gymnasium Muttenz"
+  subtitle: "Lecture notes, exercises and solutions"
+  teacher: "DC"
+  # Leave empty for a user/organization Pages site or a custom
+  # domain.  For a project site (user.github.io/REPO) set this to
+  # "/REPO" — every generated link is prefixed with it.
+  base_path: ""
+  footer: "Materials are typeset in Typst. Report errors to your teacher."
+
+# ---- unit display names -------------------------------------
+# Keys are the folder names under src/units/.  A unit that is not
+# listed here still works; its folder name is title-cased instead.
+units:
+  algebra-functions:
+    title: "Algebra and Functions"
+  trigonometry:
+    title: "Trigonometry"
+  descriptive-statistics:
+    title: "Descriptive Statistics"
+  probabilities-combinatorics:
+    title: "Probability and Combinatorics"
+  distributions:
+    title: "Random Variables and Distributions"
+  inferential-statistics:
+    title: "Inferential Statistics"
+  vectors:
+    title: "Vectors"
+  vectors-space:
+    title: "Vectors in Space"
+  calculus-differential:
+    title: "Differential Calculus"
+  calculus-integral:
+    title: "Integral Calculus"
+  sequences-series:
+    title: "Sequences and Series"
+  complex-numbers:
+    title: "Complex Numbers"
+  conic-sections:
+    title: "Conic Sections"
+
+# ---- year labels --------------------------------------------
+years:
+  y1: "1st Grade"
+  y2: "2nd Grade"
+  y3: "3rd Grade"
+  y4: "4th Grade"
+
+# ---- classes -------------------------------------------------
+# level:  basic (GLF) or high (SPF) — selects which PDFs are linked
+# slug:   the URL segment.  Make it unguessable; it is never linked
+#         from any public page.
+# ref:    git ref to build this class's materials from.
+#         "main" = always current, a tag = frozen snapshot.
+# protect: which pages get password-encrypted with StatiCrypt.
+#         Allowed values: exams, admin, years.  Omit for none.
+# withhold_solutions: units whose solutions booklet is not published
+#         yet.  The file is deleted from the deploy tree, not merely
+#         unlinked — so there is no guessable URL either.
+# classes:
+#   - id: 4E-glf
+#     name: "4E — Grundlagenfach"
+#     level: basic
+#     slug: 4E-glf-x7k2p
+#     ref: main
+#     protect: [exams]
+#     withhold_solutions: [calculus-integral]
+#     years:
+#       y3: [calculus-differential, vectors, vectors-space]
+#       y4: [calculus-integral, distributions]
+#     exams:
+#       - date: 2026-09-18
+#         title: "Test 1 — Antiderivatives"
+#         topics: "Chapters 1-3, no calculator"
+#       - date: 2026-11-06
+#         title: "Exam 1 — Integral Calculus"
+#         topics: "Whole unit, TI-30X Pro allowed"
+
+#   - id: 3E-spf
+#     name: "3E — Schwerpunktfach"
+#     level: high
+#     slug: 3E-spf-q9m4v
+#     ref: snap/2026-hs
+#     protect: [exams]
+#     years:
+#       y2: [probabilities-combinatorics, descriptive-statistics]
+#       y3: [complex-numbers, conic-sections, calculus-differential]
+#     exams:
+#       - date: 2026-09-25
+#         title: "Exam 1 — Conic Sections"
+#         topics: "Slicing through classification, TI-Nspire CAS allowed"
+
+classes:
+  - id: 4a-glf
+    name: "4a — Grundlagenfach"
+    level: basic
+    slug: 4a-glf-x7k2p
+    ref: main
+    protect: [] # nothing encrypted on run one
+    years:
+      y3: [probabilities-combinatorics]
+    exams:
+      - date: 2026-09-18
+        title: "Test 1"
+        topics: "Chapters 1-3, no calculator"
