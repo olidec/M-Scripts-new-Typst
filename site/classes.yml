@@ -110,7 +110,7 @@ classes:
     name: "4a — Grundlagenfach"
     level: basic
     slug: 4a-glf-x7k2p
-    ref: snap/2026-hs
+    ref: main
     protect: [] # nothing encrypted on run one
     years:
       y3: [probabilities-combinatorics]
