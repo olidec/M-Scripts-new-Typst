@@ -21,6 +21,7 @@ site:
   # domain.  For a project site (user.github.io/REPO) set this to
   # "/REPO" — every generated link is prefixed with it.
   site.base_path: "/M-Scripts-new-Typst"
+  base_path: "/M-Scripts-new-Typst" # e.g. "/M-Scripts-new-Typst"
   footer: "Materials are typeset in Typst. Report errors to your teacher."
 
 # ---- unit display names -------------------------------------
