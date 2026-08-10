@@ -257,31 +257,45 @@
 // by design.
 // NOTE: this reads the main file as plain text and pattern-matches
 // quoted strings — it does NOT evaluate Typst expressions. Each
-// register_chapters entry's filename must therefore still appear as
-// a literal quoted string on its own line (e.g. unit + "ch-basics"
-// written out, or the full literal path) for this parser to see it;
-// see the register_chapters comment above for the exact convention.
+// register_chapters entry's filename must therefore appear as a
+// literal quoted string (the full literal path, not `unit + "ch-x"`)
+// for this parser to see it; see the register_chapters comment above.
+//
+// IT MUST NOT BE PARSED LINE BY LINE. The previous version walked the
+// file a line at a time and only recognized an entry whose trimmed
+// line began with `("` and carried BOTH strings. The source is not
+// free to guarantee that: typstyle reflows any entry past the
+// 80-column limit onto separate lines,
+//
+//     (
+//       "Arithmetic Sequences and Series",
+//       "/src/units/sequences-series/ch-arithmetic",
+//     ),
+//
+// and a line-based parser then cannot see it. Because the reflow
+// depends on the entry's LENGTH, a unit with long chapter titles gets
+// some entries reflowed and some not — sequences-series formats its
+// first entry to 78 columns and the rest to 81–87 — so the chapter
+// list silently truncated after chapter 1. Nothing failed: the
+// exercise sheet and the solutions booklet simply built with one
+// chapter in them.
+//
+// The regex below spans newlines, so formatting is irrelevant. Only
+// whole-line // comments are stripped, not trailing ones: a trailing
+// comment may contain a "//" that belongs to a URL, whereas a
+// commented-OUT entry is always a whole-line comment.
 #let read-chapter-files(from: "main-high.typ") = {
   let src = read(from)
-  let files = ()
-  for line in src.split("\n") {
-    let t = line.trim()
-    if t.starts-with("(\"") {
-      let parts = t.split("\",")
-      if parts.len() >= 2 {
-        let p = parts.at(1)
-        let q1 = p.position("\"")
-        if q1 != none {
-          let after = p.slice(q1 + 1)
-          let q2 = after.position("\"")
-          if q2 != none {
-            files.push(after.slice(0, q2))
-          }
-        }
-      }
-    }
-  }
-  files
+  let cleaned = src
+    .split("\n")
+    .filter(l => not l.trim().starts-with("//"))
+    .join("\n")
+  // Requiring the second string to start with "/" (root-absolute, as
+  // register_chapters demands anyway) means no other parenthesized
+  // pair in a main file can be mistaken for a chapter entry.
+  cleaned
+    .matches(regex("\\(\\s*\"[^\"]*\"\\s*,\\s*\"(/[^\"]*)\""))
+    .map(m => m.captures.at(0))
 }
 
 
