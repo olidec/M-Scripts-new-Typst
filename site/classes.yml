@@ -73,49 +73,42 @@ years:
 # withhold_solutions: units whose solutions booklet is not published
 #         yet.  The file is deleted from the deploy tree, not merely
 #         unlinked — so there is no guessable URL either.
-# classes:
-#   - id: 4E-glf
-#     name: "4E — Grundlagenfach"
-#     level: basic
-#     slug: 4E-glf-x7k2p
-#     ref: main
-#     protect: [exams]
-#     withhold_solutions: [calculus-integral]
-#     years:
-#       y3: [calculus-differential, vectors, vectors-space]
-#       y4: [calculus-integral, distributions]
-#     exams:
-#       - date: 2026-09-18
-#         title: "Test 1 — Antiderivatives"
-#         topics: "Chapters 1-3, no calculator"
-#       - date: 2026-11-06
-#         title: "Exam 1 — Integral Calculus"
-#         topics: "Whole unit, TI-30X Pro allowed"
-
-#   - id: 3E-spf
-#     name: "3E — Schwerpunktfach"
-#     level: high
-#     slug: 3E-spf-q9m4v
-#     ref: snap/2026-hs
-#     protect: [exams]
-#     years:
-#       y2: [probabilities-combinatorics, descriptive-statistics]
-#       y3: [complex-numbers, conic-sections, calculus-differential]
-#     exams:
-#       - date: 2026-09-25
-#         title: "Exam 1 — Conic Sections"
-#         topics: "Slicing through classification, TI-Nspire CAS allowed"
-
 classes:
-  - id: 4a-glf
-    name: "4a — Grundlagenfach"
+  - id: 4E-23-27-glf
+    name: "4E"
     level: basic
-    slug: 4a-glf-x7k2p
+    slug: 4E-23-27-yfnphm9w
     ref: main
-    protect: [] # nothing encrypted on run one
+    # protect: [exams]
+    withhold_solutions: [calculus-integral]
     years:
-      y3: [probabilities-combinatorics]
+      y1: [algebra-functions, trigonometry]
+      y2: [vectors, vectors-space, descriptive-statistics]
+      y3: [calculus-differential, vectors, vectors-space]
+      y4: [sequences-series, calculus-integral, distributions]
     exams:
-      - date: 2026-09-18
-        title: "Test 1"
-        topics: "Chapters 1-3, no calculator"
+      - date: 2026-09-15
+        title: "Exam 1"
+        topics: "Sequences and Series"
+      - date: 2026-11-03
+        title: "Exam 2 — Integral Calculus I"
+        topics: ""
+      - date: 2026-12-10
+        title: "Exam 3 - Integral Calculus II"
+
+  - id: 3E-24-28
+    name: "3E"
+    level: high
+    slug: 3E-24-28-5f7qq7qs
+    ref: snap/2026-hs
+    # protect: [exams]
+    years:
+      y1: [algebra-functions, trigonometry]
+      y2: [probabilities-combinatorics, descriptive-statistics]
+      y3: [complex-sls, conic-sections, calculus-differential]
+    exams:
+      - date: 2026-09-25
+        title: "Exam 1 (oral)"
+        topics: "First 5 chapters"
+      - date: 2026-11-13
+        title: "Exam 2"
