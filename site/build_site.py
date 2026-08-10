@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import secrets
 import re
 import shutil
 import sys
@@ -66,6 +67,17 @@ def warn(msg: str) -> None:
 def ref_slug(ref: str) -> str:
     """URL-safe form of a git ref: snap/2026-hs -> snap-2026-hs."""
     return re.sub(r"[^A-Za-z0-9._-]+", "-", ref).strip("-") or "ref"
+
+
+# Lowercase alphanumerics minus the characters people misread when
+# copying a link off a whiteboard: 0/o, 1/l/i. 31 symbols, so 8 of them
+# is about 8.5e11 combinations — far past guessable, still typable.
+SLUG_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789"
+
+
+def random_slug(prefix: str = "", length: int = 8) -> str:
+    tail = "".join(secrets.choice(SLUG_ALPHABET) for _ in range(length))
+    return f"{prefix}-{tail}" if prefix else tail
 
 
 def human_size(path: Path) -> str:
@@ -361,6 +373,41 @@ def load_manifest(path: Path) -> dict:
     return cfg
 
 
+
+LINK_ATTR = re.compile(r'(?:href|src)="([^"]+)"')
+
+
+def verify_links(site: Path, base: str) -> None:
+    """Check that every internal link resolves to a file that exists.
+
+    Catches the whole family of "the page renders but nothing works"
+    faults in one pass: a wrong base_path, a stylesheet that never got
+    committed, a PDF the build did not produce. Each of those is
+    invisible in the generated HTML and obvious here.
+    """
+    missing: dict[str, list[str]] = {}
+    for page in sorted(site.rglob("*.html")):
+        for href in LINK_ATTR.findall(page.read_text(encoding="utf-8")):
+            if not href.startswith("/"):
+                continue  # external, anchor, or same-directory tab link
+            if base and not href.startswith(base + "/"):
+                missing.setdefault(
+                    f"{href}  (does not start with base_path {base!r})", []
+                ).append(str(page.relative_to(site)))
+                continue
+            rel = href[len(base):].lstrip("/")
+            target = site / (rel + "index.html" if rel.endswith("/") else rel)
+            if not target.exists():
+                missing.setdefault(href, []).append(
+                    str(page.relative_to(site))
+                )
+
+    for href, pages in sorted(missing.items()):
+        warn(f"broken link {href} (on {pages[0]}"
+             + (f" and {len(pages) - 1} more)" if len(pages) > 1 else ")"))
+    if not missing:
+        print("  all internal links resolve")
+
 # ---- rendering ------------------------------------------------------
 
 
@@ -486,6 +533,8 @@ def build(cfg: dict, refs_dir: Path, site: Path, content: Path,
             f"style.css belongs in site/static/, not site/."
         )
 
+    verify_links(site, base)
+
     print(f"\n{len(class_views)} class page set(s), "
           f"{len(encrypt)} page(s) to encrypt, {len(warnings)} warning(s).")
 
@@ -502,11 +551,29 @@ def main() -> int:
         help="exit non-zero if anything was missing (use in CI)",
     )
     ap.add_argument(
+        "--new-slug", metavar="PREFIX", nargs="?", const="",
+        help="print an unguessable slug and exit, optionally prefixed "
+             "(e.g. --new-slug 4a-glf). Checked against the manifest so "
+             "it cannot collide with a class you already published.",
+    )
+    ap.add_argument(
         "--plan", action="store_true",
         help="print 'slug<TAB>ref<TAB>unit,unit,...' per distinct ref "
              "and exit; this is what build-refs.sh consumes",
     )
     a = ap.parse_args()
+
+    if a.new_slug is not None:
+        taken = set()
+        try:
+            raw = yaml.safe_load(a.manifest.read_text(encoding="utf-8"))
+            taken = {c.get("slug") for c in (raw or {}).get("classes") or []}
+        except Exception:
+            pass  # a slug is still useful when the manifest is unwritten
+        while (slug := random_slug(a.new_slug)) in taken:
+            continue
+        print(slug)
+        return 0
 
     try:
         cfg = load_manifest(a.manifest)

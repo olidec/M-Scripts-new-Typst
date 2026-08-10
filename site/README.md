@@ -25,7 +25,7 @@ Add `dist/`, `_site/` and `.refs/` to `.gitignore`.
 
 1. Put a `.typst-version` file at the repo root containing just the
    version you build with, e.g. `0.13.1`. `build-refs.sh` reads it from
-   *each checked-out ref*, so an old snapshot keeps rendering the way it
+   _each checked-out ref_, so an old snapshot keeps rendering the way it
    did when you froze it. Refs without the file fall back to
    `DEFAULT_TYPST_VERSION` in `build-refs.sh` — keep that in sync.
 
@@ -42,7 +42,7 @@ Add `dist/`, `_site/` and `.refs/` to `.gitignore`.
    object keyed by class id:
 
    ```json
-   {"4a-glf": "kepler-2026", "3b-spf": "hyperbola-2026"}
+   { "4a-glf": "kepler-2026", "3b-spf": "hyperbola-2026" }
    ```
 
    The workflow refuses to publish a page listed in `protect:` if this
@@ -50,12 +50,40 @@ Add `dist/`, `_site/` and `.refs/` to `.gitignore`.
 
 ## Running it locally
 
+Install the dependencies once, into the project virtualenv that
+`build.sh` already uses:
+
 ```bash
-pip install jinja2 pyyaml markdown pypdf
-./site/build-refs.sh _site .refs          # compiles every pinned ref
+python3 -m venv .venv                 # only if you don't have one yet
+.venv/bin/python3 -m pip install -r site/requirements.txt
+```
+
+You do not have to activate it. Both shell scripts look for
+`.venv/bin/python3` first and fall back to whatever `python3` is on PATH,
+which is how they work unchanged on the CI runner. They also check the
+imports up front, so a missing dependency is one clear line rather than a
+traceback halfway through a build.
+
+**Quick preview of what you have right now** — builds one unit from your
+working tree, uncommitted edits included, and generates the pages:
+
+```bash
+./site/preview-local.sh probabilities-combinatorics
+python3 -m http.server -d _site 8000
+```
+
+**Full rehearsal of what CI will do** — checks out every pinned ref into
+a git worktree and builds each from committed history:
+
+```bash
+./site/build-refs.sh _site .refs
 python3 site/build_site.py --refs-dir .refs --site _site
 python3 -m http.server -d _site 8000
 ```
+
+The difference matters: `build-refs.sh` sees only what is committed, so
+a page that looks wrong there and right in `preview-local.sh` means you
+forgot to commit something.
 
 Encryption is a workflow step only; locally the protected pages render
 in plain HTML so you can read them.
@@ -65,12 +93,31 @@ once the manifest has settled; noisy while units are still in progress.
 
 ## Everyday operations
 
+**A new class** — generate its slug rather than inventing one:
+
+```bash
+python3 site/build_site.py --new-slug 4a-glf
+# 4a-glf-nkmfed5a
+```
+
+The random tail is drawn from `secrets` over a 31-character alphabet with
+`0/o` and `1/l/i` removed, so it survives being read aloud or copied off a
+whiteboard. Eight characters is roughly 8.5e11 combinations — the slug is
+the only thing standing between an unlisted page and the open web, so
+don't shorten it or hand-pick something memorable. It is checked against
+the manifest, so it cannot collide with a class you already published.
+
+Omit the prefix (`--new-slug` alone) for a bare random slug. The prefix is
+purely for your own convenience when matching links to classes; it leaks
+the class name to anyone who already has the URL, which is nobody who
+wasn't given it.
+
 **A new unit is ready for a class** — add its folder name to that class's
 year list in `classes.yml`. Give it a display title under `units:` if the
 folder name isn't presentable. Push.
 
 **A sheet is due, release the solutions** — remove the unit from that
-class's `withhold_solutions`. A withheld booklet is *deleted* from the
+class's `withhold_solutions`. A withheld booklet is _deleted_ from the
 deploy tree, not merely unlinked, so there's no guessable URL either. If
 two classes share a ref and only one withholds, the file stays and the
 generator warns.
