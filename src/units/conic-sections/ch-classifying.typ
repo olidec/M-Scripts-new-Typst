@@ -177,9 +177,9 @@
   Here $A = 1$ and $C = -1$, so $A C < 0$ -- expect a hyperbola, but
   confirm it. Completing both squares:
   $
-    (x^2 + 3 x) - (y^2 + 2 y) & = 43 \
+                (x^2 + 3 x) - (y^2 + 2 y) & = 43 \
     (x + 3 / 2)^2 - 9 / 4 - (y + 1)^2 + 1 & = 43 \
-    (x + 3 / 2)^2 - (y + 1)^2 & = 177 / 4 .
+                (x + 3 / 2)^2 - (y + 1)^2 & = 177 / 4 .
   $
   The right-hand side is non-zero, so this is a genuine hyperbola.
   Dividing,
@@ -269,7 +269,7 @@
   asymptotes.
 ]
 
-#remark(title: none)[
+#remark[
   Doing this on a *TI-Nspire CAS*: `completeSquare(expr, x)` will
   complete the square in one named variable, so applying it twice --
   once in $x$, once in $y$ -- reproduces the whole computation.
@@ -570,8 +570,8 @@
       asymptotes.],
     [$Delta = 16 - 4 k^2 = 4(4 - k^2) = 4(2-k)(2+k)$. Hence
       $
-        Delta < 0 " (ellipse) " & <==> abs(k) > 2 , \
-        Delta = 0 " (parabola) " & <==> k = plus.minus 2 , \
+          Delta < 0 " (ellipse) " & <==> abs(k) > 2 , \
+         Delta = 0 " (parabola) " & <==> k = plus.minus 2 , \
         Delta > 0 " (hyperbola) " & <==> abs(k) < 2 .
       $
       One caveat worth stating: at $k = plus.minus 2$ the quadratic
