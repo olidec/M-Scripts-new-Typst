@@ -296,6 +296,14 @@ def load_manifest(path: Path) -> dict:
         if not isinstance(cfg[key], dict):
             raise ManifestError(f"{path}: `{key}:` must be a mapping")
 
+    known_site = {"title", "subtitle", "teacher", "base_path", "footer"}
+    for key in sorted(set(cfg["site"]) - known_site):
+        print(
+            f"warning: {path}: unknown key `{key}:` under `site:` — ignored. "
+            f"Known keys: {', '.join(sorted(known_site))}",
+            file=sys.stderr,
+        )
+
     cfg["site"].setdefault("title", "Course materials")
     cfg["site"].setdefault("subtitle", "")
     cfg["site"].setdefault("base_path", "")
@@ -467,6 +475,16 @@ def build(cfg: dict, refs_dir: Path, site: Path, content: Path,
     static_src = HERE / "static"
     if static_src.is_dir():
         shutil.copytree(static_src, site / "static", dirs_exist_ok=True)
+        if not (static_src / "style.css").is_file():
+            warn(
+                f"{static_src} exists but has no style.css — pages will "
+                f"render unstyled"
+            )
+    else:
+        warn(
+            f"no {static_src} directory — pages will render unstyled. "
+            f"style.css belongs in site/static/, not site/."
+        )
 
     print(f"\n{len(class_views)} class page set(s), "
           f"{len(encrypt)} page(s) to encrypt, {len(warnings)} warning(s).")
