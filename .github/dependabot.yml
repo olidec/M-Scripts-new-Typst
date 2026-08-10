@@ -1,0 +1,17 @@
+# Keeps the workflow's action versions current on its own.
+#
+# The Node 20 -> Node 24 runner migration is the kind of churn that costs
+# nothing to follow automatically and real time to chase by hand. Weekly
+# is plenty for a site that publishes course PDFs.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "ci"
+    groups:
+      # One PR for all of them rather than four; these move together.
+      actions:
+        patterns: ["*"]
