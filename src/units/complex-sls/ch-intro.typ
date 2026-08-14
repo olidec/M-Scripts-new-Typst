@@ -5,6 +5,10 @@
 = Introduction
 
 #only-theory[
+  #fig(
+    image("images/CalvinHobbesImaginary.jpg", width: 80%),
+    caption: [source: Bill Watterson (Calvin and Hobbes)],
+  )
   Every number you have ever used was invented. Someone chose a symbol,
   agreed what it should mean, and then checked that the old rules still
   worked with the new object in place. Zero was invented. Negative

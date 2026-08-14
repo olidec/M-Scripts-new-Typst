@@ -34,13 +34,45 @@
 //  rules. Keep the attribution line as the last line of the block.
 // ─────────────────────────────────────────────────────────────
 #quotebox[
-  // >>> PASTE the Bob Wells lyric here, one line per line, ending with:
-  // #v(0.3em) #align(right)[#text(size: 9pt)[— Bob Wells, to the tune
-  //   of Lennon's *Imagine* · #link("http://www.pleacher.com/mp/mpoetry/imagine.html")[pleacher.com]]]
-  #align(center)[#text(
-    fill: luma(130),
-  )[_(chapter song — see source comment above)_]]
-]
+  #align(left)[#text(
+      fill: luma(150),
+    )[\
+      Imaginary Numbers \
+      They're easy if you try\
+      When a negative's under the radical\
+      You just remove the 'i'\
+      Imaginary numbers\
+      Are really no big deal\
+
+      Imaginary Numbers\
+      Both complex and pure\
+      Open a whole new world for\
+      Math geeks for sure\
+      Imagine all the numbers\
+      Making sense to you - ooh-hoo-ooo\
+
+      You may say I'm a dreamer\
+      But I'm not the only one\
+      I hope someday you will join us\
+      Where i squared is negative one\
+
+      Imaginary Numbers\
+      Are a really useful tool\
+      Once you get to know them\
+      They're infinitely cool!\
+      Imagine all the numbers\
+      Making sense to you -ooh-hoo-ooo\
+
+      You may say I'm a dreamer\
+      But I'm not the only one\
+      I hope someday you will join us\
+      where i squared is negative one.
+
+      #v(0.3em) #align(right)[#text(
+        size: 9pt,
+      )[— Bob Wells, to the tune of Lennon's *Imagine* · #link("http://www.pleacher.com/mp/mpoetry/imagine.html")[pleacher.com]]]
+    ]
+  ]]
 
 #only-theory[
   A word of warning about that song, though, because it is a nice
@@ -51,7 +83,7 @@
   because $sqrt(a) dot sqrt(b) = sqrt(a dot b)$ fails for negative
   numbers. Enjoy the song. Trust the definition $i^2 = -1$.
 ]
-
+#pagebreak()
 #objectives(
   [add, subtract, multiply and divide complex numbers written in
     Cartesian form $a + b dot i$],
@@ -314,6 +346,7 @@
   A cube is then one more multiplication, $z^3 = z dot z^2$.
 ]
 
+#pagebreak()
 #example[
   With $z = 2 + 3 dot i$:
   $

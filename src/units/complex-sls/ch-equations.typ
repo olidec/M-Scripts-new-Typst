@@ -5,6 +5,10 @@
 = Equations over the Complex Numbers
 
 #only-theory[
+  #fig(
+    image("images/e_to_the_pi_times_i.png", width: 30%),
+    caption: [source: https://xkcd.com/179/],
+  )
   In the introduction we made a promise. The quadratic formula, you
   were told, came with a rule -- "if the discriminant is negative,
   there is no solution" -- and that rule was never quite true. It was
@@ -119,6 +123,7 @@
   pairs.
 ]
 
+#pagebreak()
 #proof[
   Write $p(x) = a_n dot x^n + dots.c + a_1 dot x + a_0$ with every
   $a_k$ real. Suppose $p(z_0) = 0$. Conjugate the whole expression and
@@ -385,6 +390,7 @@
   ask which one fits.
 ]
 
+#pagebreak()
 #known-techniques(
   [*The quadratic formula* -- now valid over $CC$, because
     $sqrt(Delta)$ makes sense even when $Delta < 0$.],
