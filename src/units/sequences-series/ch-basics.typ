@@ -216,7 +216,11 @@
   )
 ]
 
-#ex(difficulty: 1, time: "12 min", calculator: false)[
+#ex(difficulty: 1, time: "12 min", calculator: false, hints: (
+  [for (c) regard the alternating sequence $(-1)^(n+1)$ and see if you can find a relationship between the two],
+  [for (d) regard only positive values of the sequence first],
+  [for (e) regard numerator and denominator separately],
+))[
   Find a formula $a_n$ describing each sequence.
   #auto-parts(
     2,
