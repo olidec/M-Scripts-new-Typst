@@ -517,7 +517,7 @@
     inset: (left: 14pt, right: 10pt, top: 8pt, bottom: 8pt),
     stroke: (left: 4pt + luma(160)),
   )[
-    #set par(leading: 0.85em)
+    #set par(leading: 0.5em, first-line-indent: 2em, hanging-indent: 2em)
     #set text(style: "italic", fill: luma(70))
     #body
   ]
