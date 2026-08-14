@@ -100,7 +100,7 @@ classes:
     name: "3E"
     level: high
     slug: 3E-24-28-5f7qq7qs
-    ref: snap/2026-hs
+    ref: main
     # protect: [exams]
     years:
       y1: [algebra-functions, trigonometry]
