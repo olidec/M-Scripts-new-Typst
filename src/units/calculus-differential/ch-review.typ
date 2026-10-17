@@ -88,6 +88,7 @@
   converse is false.
 ]
 
+#pagebreak()
 #keybox(title: "The elementary derivatives")[
   #align(center, table(
     columns: 4,
@@ -103,11 +104,13 @@
 ]
 
 #keybox(title: "The four rules")[
-  $ (u + v)' &= u' + v' \
-    (c dot u)' &= c dot u' \
-    (u dot v)' &= u' dot v + u dot v' \
-    (u / v)' &= (u' dot v - u dot v') / v^2 \
-    (u(v(x)))' &= u'(v(x)) dot v'(x) $
+  $
+      (u + v)' & = u' + v' \
+    (c dot u)' & = c dot u' \
+    (u dot v)' & = u' dot v + u dot v' \
+      (u / v)' & = (u' dot v - u dot v') / v^2 \
+    (u(v(x)))' & = u'(v(x)) dot v'(x)
+  $
 ]
 
 #keybox(title: "The tests")[
@@ -141,6 +144,8 @@
   a picture — which is what curve analysis asked.
 ]
 
+#pagebreak()
+
 #keybox(title: "Translating both ways")[
   #align(center, table(
     columns: 3,
@@ -149,29 +154,35 @@
     inset: 6pt,
     [*Algebraically*], [*Geometrically*], [*Where it appeared*],
 
-    [$f(x_0) = 0$], [the graph meets the $x$\u{2011}axis at $x_0$],
+    [$f(x_0) = 0$],
+    [the graph meets the $x$\u{2011}axis at $x_0$],
     [factored form, ch. 1],
 
-    [$f(-x) = f(x)$], [symmetric about the $y$\u{2011}axis],
-    [symmetry, ch. 1],
+    [$f(-x) = f(x)$], [symmetric about the $y$\u{2011}axis], [symmetry, ch. 1],
 
-    [$lim_(x -> oo) f(x) = b$], [the graph flattens towards $y = b$],
+    [$lim_(x -> oo) f(x) = b$],
+    [the graph flattens towards $y = b$],
     [asymptotes, ch. 3],
 
-    [$f'(x_0) = m$], [the tangent at $x_0$ has slope $m$],
+    [$f'(x_0) = m$],
+    [the tangent at $x_0$ has slope $m$],
     [the derivative, ch. 5],
 
     [$f'(x) > 0$], [the graph rises], [monotonicity, ch. 8],
 
-    [$f'(x_0) = 0$], [the tangent at $x_0$ is horizontal],
+    [$f'(x_0) = 0$],
+    [the tangent at $x_0$ is horizontal],
     [stationary points, ch. 8],
 
     [$f''(x) > 0$], [the graph bends upwards], [concavity, ch. 8],
 
-    [$f''$ changes sign at $x_0$], [the graph stops bending one way
-      and starts bending the other], [inflection, ch. 8],
+    [$f''$ changes sign at $x_0$],
+    [the graph stops bending one way
+      and starts bending the other],
+    [inflection, ch. 8],
 
-    [$f'(x_0)$ does not exist], [a corner, a cusp, or a break],
+    [$f'(x_0)$ does not exist],
+    [a corner, a cusp, or a break],
     [differentiability, ch. 4],
   ))
 ]
@@ -273,7 +284,7 @@
     [A closed cylindrical can is to hold $500$ cm#super[3]. What
       radius minimizes the surface area?],
     [Determine all asymptotes of
-      $g(x) = (x^2 + 3 x) slash (x - 1)$, and say whether the graph
+      $g(x) = (x^2 + 3 x)/(x - 1)$, and say whether the graph
       crosses any of them.],
   )
 ][
@@ -430,5 +441,6 @@
   correct ones are the ones you will otherwise repeat.
 ]
 
+#pagebreak()
 #print-hints()
 #print-vocab()
