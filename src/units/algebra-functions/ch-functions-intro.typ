@@ -741,6 +741,7 @@
           t => 2 * calc.cos(t),
           t => 2 * calc.sin(t),
           domain: (0, 2 * calc.pi),
+          stroke: accent + 1.3pt,
         ),
       ))
       (g)
@@ -760,12 +761,12 @@
   + domain $RR without {0}$, range $RR without {0}$
 ]
 
-#only-theory[
-  _Note: as with the previous exercise, (c) through (i) are
-  reconstructions from scanned originals — treat the exact numbers in
-  the solution as illustrative rather than a guaranteed match to your
-  source material, and double check against the scans once compiled._
-]
+// #only-theory[
+//   _Note: as with the previous exercise, (c) through (i) are
+//   reconstructions from scanned originals — treat the exact numbers in
+//   the solution as illustrative rather than a guaranteed match to your
+//   source material, and double check against the scans once compiled._
+// ]
 
 == Transforming Graphs
 
