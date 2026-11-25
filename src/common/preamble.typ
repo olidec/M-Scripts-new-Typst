@@ -3650,3 +3650,173 @@
     }
   })
 })
+
+
+// ════════════════════════════════════════════════════════════
+//  SELF-PACED BOOKLETS — checkpoints, stage checks, routing
+// ════════════════════════════════════════════════════════════
+//
+//  Promoted from fractions/ch-fractions.typ once a second unit
+//  (equations) went self-paced. A self-paced stage looks like:
+//
+//    == Stage title <st-x>
+//    #check("Stage title", (items), (answers),
+//      pass: [Skip to the checkpoint in #goto(<st-y>).],
+//      fail: [Work through this section.])
+//    ... theory, examples, practice ...
+//    #check(kind: "Stage check", "Stage title", (items), (answers),
+//      pass: [Continue with #goto(<st-y>).], fail: [...])
+//
+//  and the chapter ends with #print-check-key() (before
+//  #print-hints()), which prints the self-marking key for every
+//  check since the previous print-check-key() and then clears it.
+//
+//  Routing goes through LABELS: section number and page are
+//  computed, so inserting material never breaks a "go to p. 7".
+//
+//  LEVEL: check(level: "high") behaves like exercise(level:
+//  "high") — on the other track it vanishes completely, including
+//  its route box and its key entry, and consumes no number.
+//
+//  check() takes the unit's exercise function as `ex:` because the
+//  chapter name lives there:  #let check = check.with(ex: ex)
+//  right after  #let ex = exercise.with(chapter: "...").
+// ────────────────────────────────────────────────────────────
+
+// "Section 1.3 (p. 7)" as a clickable link to a labeled heading.
+#let goto(lbl) = context {
+  let sec = numbering("1.1", ..counter(heading).at(lbl))
+  let pg = counter(page).at(lbl).first()
+  link(lbl)[Section #sec (p. #pg)]
+}
+
+// The two-way signpost after every check. Notes only.
+#let route(pass: none, fail: none) = only-theory(block(
+  width: 100%,
+  breakable: false,
+  inset: (left: 10pt, right: 8pt, y: 7pt),
+  stroke: (left: 2pt + task-col),
+)[
+  #set text(size: 10pt)
+  #grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.7em,
+    row-gutter: 0.55em,
+    text(fill: task-col, weight: "bold")[#sym.checkmark],
+    [*All correct?* #pass],
+
+    text(fill: task-col, weight: "bold")[#sym.times],
+    [*Any mistake?* #fail],
+  )
+])
+
+#let _check-key = state("self-paced-check-key", ())
+
+// A checkpoint / stage check: an ordinary numbered exercise (so it
+// lands in the solutions booklet too), plus a key entry, plus a
+// route box.
+#let check(
+  ex: exercise,
+  kind: "Checkpoint",
+  level: "all",
+  name,
+  items,
+  answers,
+  cols: 2,
+  time: "5 min",
+  calculator: false,
+  pass: none,
+  fail: none,
+) = {
+  assert(
+    items.len() == answers.len(),
+    message: kind + " '" + name + "': items and answers differ in count",
+  )
+  ex(level: level, time: time, calculator: calculator)[
+    #text(weight: "bold", fill: task-col)[#kind: #name]
+    #v(0.2em)
+    #auto-parts(cols, ..items)
+  ][
+    #auto-parts(cols, ..answers)
+  ]
+  context {
+    if level != "all" and level != _level.get() { return }
+    only-theory({
+      context {
+        let n = ex-counter.get().first()
+        _check-key.update(k => (
+          k
+            + (
+              (n: n, kind: kind, name: name, answers: answers, cols: cols),
+            )
+        ))
+      }
+      route(pass: pass, fail: fail)
+    })
+  }
+}
+
+// Self-marking key for every check since the last call, then clear.
+#let print-check-key(title: "Answers to the Checks") = only-theory(
+  context {
+    let entries = _check-key.get()
+    if entries.len() == 0 { return }
+    heading(level: 2, numbering: none, outlined: false, title)
+    [Mark your checkpoints and stage checks here. Worked solutions to
+      all exercises are in the solutions booklet.]
+    v(0.5em)
+    for e in entries {
+      block(breakable: false, below: 1em)[
+        #text(weight: "bold", fill: task-col)[Exercise #e.n]
+        #h(0.4em)
+        #text(fill: luma(100))[#e.kind: #e.name]
+        #v(0.1em)
+        #auto-parts(e.cols, ..e.answers, row-gutter: 0.6em)
+      ]
+    }
+    _check-key.update(())
+  },
+)
+
+// Progress table. Each row: (label, topic) or (label, topic, year).
+// With any year given, a "Year" column appears. Rows whose label is
+// not in the document (e.g. a stage gated to the other track) are
+// skipped, so one row list can serve both tracks.
+#let progress-table(..rows) = only-theory(context {
+  let box-tick = box(width: 0.8em, height: 0.8em, stroke: 0.5pt + luma(120))
+  let rs = rows.pos().filter(r => query(r.at(0)).len() > 0)
+  let with-year = rs.any(r => r.len() > 2)
+  let cols = if with-year { (auto, auto, 1fr, auto, auto, auto) } else {
+    (auto, 1fr, auto, auto, auto)
+  }
+  let year-head = if with-year { ([*Year*],) } else { () }
+  let head = (
+    ([*Section*],) + year-head + ([*Topic*], [*Page*], [*Skipped*], [*Done*])
+  )
+  align(center, table(
+    columns: cols,
+    align: (x, _) => if (with-year and x == 2) or (not with-year and x == 1) {
+      left
+    } else { center },
+    stroke: 0.5pt + luma(180),
+    inset: (x: 6pt, y: 5pt),
+    table.header(..head),
+    ..rs
+      .map(r => {
+        let lbl = r.at(0)
+        let sec = numbering("1.1", ..counter(heading).at(lbl))
+        let pg = str(counter(page).at(lbl).first())
+        let year-cell = if with-year { (r.at(2, default: []),) } else { () }
+        // One line on purpose: inside a { } block, a line that starts
+        // with `+` parses as a new statement with unary plus.
+        (sec,) + year-cell + (r.at(1), pg, box-tick, box-tick)
+      })
+      .flatten(),
+  ))
+})
+
+// Placeholder for unwritten material, visible in draft notes only.
+#let todo(body) = only-theory(text(
+  fill: luma(120),
+  style: "italic",
+)[\[To follow: #body\]])
